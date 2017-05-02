@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4837277E1EB8A8DF0060B064 /* DataSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4837277D1EB8A8DF0060B064 /* DataSync.swift */; };
+		483727801EB8AD940060B064 /* Moya.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4837277F1EB8AD940060B064 /* Moya.framework */; };
+		483727821EB8AD9C0060B064 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483727811EB8AD9C0060B064 /* Result.framework */; };
+		483727841EB8ADAE0060B064 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483727831EB8ADAE0060B064 /* Alamofire.framework */; };
 		48C55E7D1EB8A09600F9ECAC /* QMobileDataSync.h in Headers */ = {isa = PBXBuildFile; fileRef = 48C55E7B1EB8A09600F9ECAC /* QMobileDataSync.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		48C55E8F1EB8A48300F9ECAC /* ObjcExceptionBridging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48C55E881EB8A48300F9ECAC /* ObjcExceptionBridging.framework */; };
 		48C55E901EB8A48300F9ECAC /* Prephirences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48C55E891EB8A48300F9ECAC /* Prephirences.framework */; };
@@ -30,6 +34,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4837277D1EB8A8DF0060B064 /* DataSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSync.swift; sourceTree = "<group>"; };
+		4837277F1EB8AD940060B064 /* Moya.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Moya.framework; path = Carthage/Build/iOS/Moya.framework; sourceTree = "<group>"; };
+		483727811EB8AD9C0060B064 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
+		483727831EB8ADAE0060B064 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		48C55E781EB8A09600F9ECAC /* QMobileDataSync.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = QMobileDataSync.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		48C55E7B1EB8A09600F9ECAC /* QMobileDataSync.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QMobileDataSync.h; sourceTree = "<group>"; };
 		48C55E7C1EB8A09600F9ECAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -50,8 +58,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				483727801EB8AD940060B064 /* Moya.framework in Frameworks */,
 				48C55E911EB8A48300F9ECAC /* QMobileAPI.framework in Frameworks */,
 				48C55E901EB8A48300F9ECAC /* Prephirences.framework in Frameworks */,
+				483727841EB8ADAE0060B064 /* Alamofire.framework in Frameworks */,
+				483727821EB8AD9C0060B064 /* Result.framework in Frameworks */,
 				48C55E941EB8A48300F9ECAC /* SwiftyJSON.framework in Frameworks */,
 				48C55E951EB8A48300F9ECAC /* XCGLogger.framework in Frameworks */,
 				48C55E931EB8A48300F9ECAC /* Result.framework in Frameworks */,
@@ -103,6 +114,7 @@
 		48C55E831EB8A19900F9ECAC /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				4837277D1EB8A8DF0060B064 /* DataSync.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -118,6 +130,9 @@
 		48C55E871EB8A43000F9ECAC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				483727831EB8ADAE0060B064 /* Alamofire.framework */,
+				483727811EB8AD9C0060B064 /* Result.framework */,
+				4837277F1EB8AD940060B064 /* Moya.framework */,
 				48C55E881EB8A48300F9ECAC /* ObjcExceptionBridging.framework */,
 				48C55E891EB8A48300F9ECAC /* Prephirences.framework */,
 				48C55E8A1EB8A48300F9ECAC /* QMobileAPI.framework */,
@@ -151,6 +166,23 @@
 		};
 /* End PBXHeadersBuildPhase section */
 
+/* Begin PBXLegacyTarget section */
+		483727851EB8AE4A0060B064 /* swiftlint */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = autocorrect;
+			buildConfigurationList = 483727861EB8AE4A0060B064 /* Build configuration list for PBXLegacyTarget "swiftlint" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/local/bin/swiftlint;
+			buildWorkingDirectory = "";
+			dependencies = (
+			);
+			name = swiftlint;
+			passBuildSettingsInEnvironment = 1;
+			productName = swiftlint;
+		};
+/* End PBXLegacyTarget section */
+
 /* Begin PBXNativeTarget section */
 		48C55E771EB8A09600F9ECAC /* QMobileDataSync */ = {
 			isa = PBXNativeTarget;
@@ -160,6 +192,7 @@
 				48C55E741EB8A09600F9ECAC /* Frameworks */,
 				48C55E751EB8A09600F9ECAC /* Headers */,
 				48C55E761EB8A09600F9ECAC /* Resources */,
+				483727891EB8AE5E0060B064 /* swiftlint */,
 			);
 			buildRules = (
 			);
@@ -177,6 +210,7 @@
 				48C55E961EB8A4A100F9ECAC /* Sources */,
 				48C55E971EB8A4A100F9ECAC /* Frameworks */,
 				48C55E981EB8A4A100F9ECAC /* Resources */,
+				4837278A1EB8AE8D0060B064 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -198,8 +232,13 @@
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Eric Marchand";
 				TargetAttributes = {
+					483727851EB8AE4A0060B064 = {
+						CreatedOnToolsVersion = 8.3.2;
+						ProvisioningStyle = Automatic;
+					};
 					48C55E771EB8A09600F9ECAC = {
 						CreatedOnToolsVersion = 8.3.2;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 					48C55E991EB8A4A100F9ECAC = {
@@ -222,6 +261,7 @@
 			targets = (
 				48C55E771EB8A09600F9ECAC /* QMobileDataSync */,
 				48C55E991EB8A4A100F9ECAC /* Tests */,
+				483727851EB8AE4A0060B064 /* swiftlint */,
 			);
 		};
 /* End PBXProject section */
@@ -243,11 +283,51 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		483727891EB8AE5E0060B064 /* swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = swiftlint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
+		4837278A1EB8AE8D0060B064 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/QMobileDataStore.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/ObjcExceptionBridging.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Prephirences.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Result.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SwiftyJSON.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/XCGLogger.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Moya.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/QMobileAPI.framework",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		48C55E731EB8A09600F9ECAC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4837277E1EB8A8DF0060B064 /* DataSync.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,6 +350,29 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		483727871EB8AE4A0060B064 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUGGING_SYMBOLS = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		483727881EB8AE4A0060B064 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		48C55E7E1EB8A09600F9ECAC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -374,6 +477,7 @@
 		48C55E811EB8A09600F9ECAC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -389,6 +493,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = fr.phimage.QMobileDataSync;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -396,6 +501,7 @@
 		48C55E821EB8A09600F9ECAC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -418,6 +524,7 @@
 		48C55EA31EB8A4A100F9ECAC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = fr.phimage.Tests;
@@ -429,6 +536,7 @@
 		48C55EA41EB8A4A100F9ECAC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = fr.phimage.Tests;
@@ -440,6 +548,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		483727861EB8AE4A0060B064 /* Build configuration list for PBXLegacyTarget "swiftlint" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				483727871EB8AE4A0060B064 /* Debug */,
+				483727881EB8AE4A0060B064 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		48C55E721EB8A09600F9ECAC /* Build configuration list for PBXProject "QMobileDataSync" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -465,6 +581,7 @@
 				48C55EA41EB8A4A100F9ECAC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
