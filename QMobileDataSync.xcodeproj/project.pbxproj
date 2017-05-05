@@ -11,6 +11,12 @@
 		483727801EB8AD940060B064 /* Moya.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4837277F1EB8AD940060B064 /* Moya.framework */; };
 		483727821EB8AD9C0060B064 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483727811EB8AD9C0060B064 /* Result.framework */; };
 		483727841EB8ADAE0060B064 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483727831EB8ADAE0060B064 /* Alamofire.framework */; };
+		484803831EBC768E0094D84C /* DataSync+Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484803821EBC768E0094D84C /* DataSync+Preferences.swift */; };
+		484803851EBC76D70094D84C /* DataSync+Singleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484803841EBC76D70094D84C /* DataSync+Singleton.swift */; };
+		484803871EBC78680094D84C /* Array+Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484803861EBC78680094D84C /* Array+Dictionary.swift */; };
+		484803A01EBCB13B0094D84C /* AttributeStorageType+DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4848039F1EBCB13B0094D84C /* AttributeStorageType+DataStore.swift */; };
+		484803A31EBCB2340094D84C /* DataSync+Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484803A21EBCB2340094D84C /* DataSync+Table.swift */; };
+		484803A51EBCB5C50094D84C /* DataSync+Records.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484803A41EBCB5C50094D84C /* DataSync+Records.swift */; };
 		48C55E7D1EB8A09600F9ECAC /* QMobileDataSync.h in Headers */ = {isa = PBXBuildFile; fileRef = 48C55E7B1EB8A09600F9ECAC /* QMobileDataSync.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		48C55E8F1EB8A48300F9ECAC /* ObjcExceptionBridging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48C55E881EB8A48300F9ECAC /* ObjcExceptionBridging.framework */; };
 		48C55E901EB8A48300F9ECAC /* Prephirences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48C55E891EB8A48300F9ECAC /* Prephirences.framework */; };
@@ -38,6 +44,12 @@
 		4837277F1EB8AD940060B064 /* Moya.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Moya.framework; path = Carthage/Build/iOS/Moya.framework; sourceTree = "<group>"; };
 		483727811EB8AD9C0060B064 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
 		483727831EB8ADAE0060B064 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
+		484803821EBC768E0094D84C /* DataSync+Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Preferences.swift"; sourceTree = "<group>"; };
+		484803841EBC76D70094D84C /* DataSync+Singleton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Singleton.swift"; sourceTree = "<group>"; };
+		484803861EBC78680094D84C /* Array+Dictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Dictionary.swift"; sourceTree = "<group>"; };
+		4848039F1EBCB13B0094D84C /* AttributeStorageType+DataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AttributeStorageType+DataStore.swift"; sourceTree = "<group>"; };
+		484803A21EBCB2340094D84C /* DataSync+Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Table.swift"; sourceTree = "<group>"; };
+		484803A41EBCB5C50094D84C /* DataSync+Records.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Records.swift"; sourceTree = "<group>"; };
 		48C55E781EB8A09600F9ECAC /* QMobileDataSync.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = QMobileDataSync.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		48C55E7B1EB8A09600F9ECAC /* QMobileDataSync.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QMobileDataSync.h; sourceTree = "<group>"; };
 		48C55E7C1EB8A09600F9ECAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -82,6 +94,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		484803A11EBCB1660094D84C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				4848039F1EBCB13B0094D84C /* AttributeStorageType+DataStore.swift */,
+				484803861EBC78680094D84C /* Array+Dictionary.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		48C55E6E1EB8A09600F9ECAC = {
 			isa = PBXGroup;
 			children = (
@@ -115,6 +136,11 @@
 			isa = PBXGroup;
 			children = (
 				4837277D1EB8A8DF0060B064 /* DataSync.swift */,
+				484803821EBC768E0094D84C /* DataSync+Preferences.swift */,
+				484803A21EBCB2340094D84C /* DataSync+Table.swift */,
+				484803A41EBCB5C50094D84C /* DataSync+Records.swift */,
+				484803841EBC76D70094D84C /* DataSync+Singleton.swift */,
+				484803A11EBCB1660094D84C /* Extensions */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -328,6 +354,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				4837277E1EB8A8DF0060B064 /* DataSync.swift in Sources */,
+				484803851EBC76D70094D84C /* DataSync+Singleton.swift in Sources */,
+				484803831EBC768E0094D84C /* DataSync+Preferences.swift in Sources */,
+				484803871EBC78680094D84C /* Array+Dictionary.swift in Sources */,
+				484803A01EBCB13B0094D84C /* AttributeStorageType+DataStore.swift in Sources */,
+				484803A51EBCB5C50094D84C /* DataSync+Records.swift in Sources */,
+				484803A31EBCB2340094D84C /* DataSync+Table.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -555,6 +587,7 @@
 				483727881EB8AE4A0060B064 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		48C55E721EB8A09600F9ECAC /* Build configuration list for PBXProject "QMobileDataSync" */ = {
 			isa = XCConfigurationList;

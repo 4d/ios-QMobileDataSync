@@ -9,168 +9,105 @@
 import Foundation
 import QMobileDataStore
 import QMobileAPI
+import Result
+import Moya
 
-let logger = Logger.forClass(DataSync.self)
-
+let logger = Logger.forClass(DataSync.self) // XXX check if configuration not already done...
 public class DataSync {
 
-    static let kJSONDataExtension = "data.json"
-    static let kJSONTableExtension = "catalog.json"
+    // object to make remote request
+    public let rest: APIManager
+    // mobile data store
+    public let dataStore: DataStore
 
-    public let rest: APIManager = APIManager.instance
-    public let dataStore: DataStore = QMobileDataStore.dataStore
+    public init(rest: APIManager = APIManager(url: Preferences.remoteServerURL), dataStore: DataStore = QMobileDataStore.dataStore) {
+        self.rest = rest
+        self.dataStore = dataStore
+    }
 
-    /// Bundle for files
+    /// Bundle for files (JSON tables and data)
     public var bundle: Bundle = .main
+
     /// List of loaded tables indexed by name
     public var tables: [String: Table] = [:]
 
-    public func loadTable() {
-        // from files, extension = catalog.json
-        logger.debug("Read table structures")
-        var tables = [String: Table]()
-        if let tableStructures = bundle.urls(forResourcesWithExtension: DataSync.kJSONDataExtension, subdirectory: nil) {
-            for tableStructure in tableStructures {
-                if let table = Table(fileURL: tableStructure) {
-                    tables[table.name] = table
-                }
-            }
-        }
-        logger.info("Table strutures read: \(Array(tables.keys))")
+}
 
-        // from remote store?
-        _ = rest.loadTables { result in
-            switch result {
-            case .success(_):
-                // Could check if all table accessible on remote target
-                break
-            case .failure(let error):
-                logger.warning("Failed to retrieve \(error)")
-            }
-        }
-    }
+// MARK: Sync
+extension DataSync {
 
-    typealias RecordInitializer = (String, JSON) -> Record?
-    func recordInitializer(table: Table, context: DataStoreContext) -> RecordInitializer {
-        let recordInitializer: RecordInitializer = { tableName, json in
-            if let predicate = table.predicate(for: json) {
-                 do {
-                 return try context.getOrCreate(in: tableName, matching: predicate)
-                 } catch {
-                 logger.warning("Failed to import into '\(tableName)': \(error)")
-                 }
-            } else {
-                logger.warning("Cannot insert record: Cannot create predicate for table '\(tableName)'")
-            }
-            return nil
-        }
-        return recordInitializer
-    }
+    /*
+     public func cancel() {
+     // TODO cancel all requests, or return a cancellable object in sync function
+    }*/
 
-    public func cancel() {
-        // TODO cancel all requests, or return a cancellable object in sync function
-    }
-
-    public func sync() {
+    public typealias SyncCompletionHander = (Result<Void, APIError>) -> Void
+    public func sync(completitonHandler: SyncCompletionHander) -> Cancellable? {
         // TODO add an handler for completion and maybe progress
         // TODO If there is already a sync stop it, maybe add a bool force and only if force=true, or do nothing
 
         // TODO get last stamp from dataStore metadata
 
-        let perform = dataStore.perform(.background) { context, save in
+        if self.tables.isEmpty { // no request to do if no table
+            return nil
+        }
+        // return value, a cancellable
+        var cancellable = CancellableComposite()
 
+        // perform a data store task in background
+        let perform = dataStore.perform(.background) { [unowned self] context, save in
+
+            if Preferences.firstSync {
+                if Preferences.dataFromFile {
+                    self.loadRecordsFromFile(context: context, save: save)
+                }
+                Preferences.firstSync = false
+            }
             // TODO for each table get data from last global stamp
             // If no stamp and dataStore empty get from files?
             // If no stamp get all
             for (tableName, table) in self.tables {
+                logger.debug("Load records for \(tableName)")
 
                 // from remote
-                _ = self.rest.loadRecords(table: table, initializer: self.recordInitializer(table: table, context: context)) { result in
+
+                let configure: ((RecordsRequest) -> Void) = { request in
+                    request.limit(Preferences.requestLimit)
+                    let filter = ""
+                    request.filter(filter)
+                }
+
+                let requestCancellable = self.rest.loadRecords(table: table, configure: configure, initializer: self.recordInitializer(table: table, context: context)) { result in
                     switch result {
-                    case .success(let (records, page)):
+                    case .success(let (_, page)):
 
-                        // TODO if last page, save? or save each for each page(option)
+                        // (a save publish information to UI)
                         if page.isLast {
+                           // NOTIFY table end
 
-                            self.dataStore.save { _ in
-                                
-                            }
+                            logger.info("Last page loaded for table \(tableName)")
                         }
+                        self.trySave(save)
                         // TODO check/save global stamp and current one
-                        // TODO save in data store records?
+
+                        logger.debug("Page \(page) for table \(tableName)")
 
                         break
                     case .failure(let error):
-                        logger.warning("Failed to get records: \(error)")
+                        logger.warning("Failed to get records for table \(tableName): \(error)")
+                        // NOTIFY table end
                     }
                 }
+                cancellable.list.append(requestCancellable)
 
-                // from files
-                if let url = self.bundle.url(forResource: tableName, withExtension: DataSync.kJSONDataExtension, subdirectory: nil) {
-                    let json = JSON(fileURL: url)
-                    assert(ImportableParser.tableName(for: json) == tableName)
-                }
             }
         }
-
+        // return no task if dataStore not ready
         if !perform {
             logger.warning("Cannot get data: context cannot be created on data store")
+            return nil
         }
-
-        /*
-         if let tableData = Bundle.main.urls(forResourcesWithExtension: "data.json", subdirectory: nil) {
-         for tableDatum in tableData {
-         let json = JSON(fileURL: tableDatum)
-         if let tableName = ImportableParser.tableName(for: json) {
-                    
-                    if let table = tables[tableName] {
-                        
-                        let perform = dataStore.perform(.background, { context, save in
-                            
-                            let records = table.parser.parse(json: json, with: { tableName, json in
-         
-                                
-                                if let predicate = table.predicate(for: json) {
-                                    do {
-                                        return try context.getOrCreate(in: tableName, matching: predicate)
-                                    } catch {
-                                        logger.warning("Failed to import into '\(tableName)': \(error)")
-                                    }
-                                }
-                                return nil
-                            })
-                            
-                            logger.info("\(records.count) records imported from '\(tableName)' data")
-                            
-                            do {
-                                let count = try dataStore.fetchRequest(tableName: tableName).count(context: context)
-                                logger.info("\(count) records into table '\(tableName)'")
-                            } catch {
-                                logger.warning("Failed to count total records into table '\(tableName)': \(error)")
-                            }
-                            
-                            do {
-                                try save()
-                                logger.info("Mobile database has been saved after importing '\(tableName)'")
-                            } catch {
-                                alert(title: "Failed to save mobile database after importing '\(tableName)'", error: error)
-                            }
-                        })
-                        
-                        if !perform {
-                            logger.warning("Cannot enqueue task to import table '\(tableName)' data")
-                        }
-                        
-                    } else {
-                        logger.warning("There is no table structure definition for table \(tableName). Could not load associated data")
-                    }
-                    
-                } else {
-                    logger.warning("There is no table name into table data file '\(tableDatum)'.")
-                }
-            }
-        }*/
-
+        return cancellable
     }
 
 }
