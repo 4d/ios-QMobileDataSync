@@ -38,7 +38,7 @@ extension DataSync {
     /// Load records from files, need to be done in data store context
     func loadRecordsFromFile(saveByTable: Bool = true, context: DataStoreContext, save: @escaping () throws -> Swift.Void) {
         // Optionaly load data from files
-        for (tableName, table) in self.tables {
+        for (tableName, table) in self.tablesByName {
             if let url = self.bundle.url(forResource: tableName, withExtension: Preferences.jsonDataExtension, subdirectory: nil) {
                 let json = JSON(fileURL: url)
                 assert(ImportableParser.tableName(for: json) == tableName)
@@ -58,6 +58,7 @@ extension DataSync {
         }
     }
 
+    // (a save publish information to UI)
     func trySave(_ save: @escaping () throws -> Swift.Void) {
         do {
             try save()

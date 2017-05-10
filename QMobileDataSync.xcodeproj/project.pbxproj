@@ -17,6 +17,8 @@
 		484803A01EBCB13B0094D84C /* AttributeStorageType+DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4848039F1EBCB13B0094D84C /* AttributeStorageType+DataStore.swift */; };
 		484803A31EBCB2340094D84C /* DataSync+Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484803A21EBCB2340094D84C /* DataSync+Table.swift */; };
 		484803A51EBCB5C50094D84C /* DataSync+Records.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484803A41EBCB5C50094D84C /* DataSync+Records.swift */; };
+		4865B1AB1EC1BA3100085634 /* BrightFutures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4865B1AA1EC1BA3100085634 /* BrightFutures.framework */; };
+		4865B1AC1EC1BA3100085634 /* BrightFutures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4865B1AA1EC1BA3100085634 /* BrightFutures.framework */; };
 		48C55E7D1EB8A09600F9ECAC /* QMobileDataSync.h in Headers */ = {isa = PBXBuildFile; fileRef = 48C55E7B1EB8A09600F9ECAC /* QMobileDataSync.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		48C55E8F1EB8A48300F9ECAC /* ObjcExceptionBridging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48C55E881EB8A48300F9ECAC /* ObjcExceptionBridging.framework */; };
 		48C55E901EB8A48300F9ECAC /* Prephirences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48C55E891EB8A48300F9ECAC /* Prephirences.framework */; };
@@ -50,6 +52,8 @@
 		4848039F1EBCB13B0094D84C /* AttributeStorageType+DataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AttributeStorageType+DataStore.swift"; sourceTree = "<group>"; };
 		484803A21EBCB2340094D84C /* DataSync+Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Table.swift"; sourceTree = "<group>"; };
 		484803A41EBCB5C50094D84C /* DataSync+Records.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Records.swift"; sourceTree = "<group>"; };
+		4865B1A91EC1B7BF00085634 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
+		4865B1AA1EC1BA3100085634 /* BrightFutures.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BrightFutures.framework; path = Carthage/Build/iOS/BrightFutures.framework; sourceTree = "<group>"; };
 		48C55E781EB8A09600F9ECAC /* QMobileDataSync.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = QMobileDataSync.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		48C55E7B1EB8A09600F9ECAC /* QMobileDataSync.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QMobileDataSync.h; sourceTree = "<group>"; };
 		48C55E7C1EB8A09600F9ECAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -78,6 +82,7 @@
 				48C55E941EB8A48300F9ECAC /* SwiftyJSON.framework in Frameworks */,
 				48C55E951EB8A48300F9ECAC /* XCGLogger.framework in Frameworks */,
 				48C55E931EB8A48300F9ECAC /* Result.framework in Frameworks */,
+				4865B1AB1EC1BA3100085634 /* BrightFutures.framework in Frameworks */,
 				48C55E921EB8A48300F9ECAC /* QMobileDataStore.framework in Frameworks */,
 				48C55E8F1EB8A48300F9ECAC /* ObjcExceptionBridging.framework in Frameworks */,
 			);
@@ -88,6 +93,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				48C55E9F1EB8A4A100F9ECAC /* QMobileDataSync.framework in Frameworks */,
+				4865B1AC1EC1BA3100085634 /* BrightFutures.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,6 +162,8 @@
 		48C55E871EB8A43000F9ECAC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4865B1A91EC1B7BF00085634 /* Cartfile */,
+				4865B1AA1EC1BA3100085634 /* BrightFutures.framework */,
 				483727831EB8ADAE0060B064 /* Alamofire.framework */,
 				483727811EB8AD9C0060B064 /* Result.framework */,
 				4837277F1EB8AD940060B064 /* Moya.framework */,
@@ -339,6 +347,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/Moya.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/QMobileAPI.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/BrightFutures.framework",
 			);
 			outputPaths = (
 			);
@@ -557,6 +566,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = fr.phimage.Tests;
@@ -569,6 +582,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = fr.phimage.Tests;
