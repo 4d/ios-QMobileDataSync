@@ -1,0 +1,559 @@
+{
+    "dataClasses": [
+        {
+            "attributes": [
+                {
+                    "identifying": true,
+                    "indexed": true,
+                    "kind": "storage",
+                    "name": "id",
+                    "scope": "public",
+                    "type": "uuid"
+                },
+                {
+                    "indexed": true,
+                    "kind": "storage",
+                    "name": "Client_ID",
+                    "scope": "public",
+                    "type": "long"
+                },
+                {
+                    "indexed": true,
+                    "kind": "storage",
+                    "name": "Product_ID",
+                    "scope": "public",
+                    "type": "long"
+                },
+                {
+                    "kind": "storage",
+                    "name": "SumQuantity",
+                    "scope": "public",
+                    "type": "long"
+                },
+                {
+                    "kind": "storage",
+                    "name": "Product_Name",
+                    "scope": "public",
+                    "type": "string"
+                },
+                {
+                    "kind": "storage",
+                    "name": "AverageQuantity",
+                    "scope": "public",
+                    "type": "long"
+                },
+                {
+                    "kind": "storage",
+                    "name": "MinQuantity",
+                    "scope": "public",
+                    "type": "long"
+                },
+                {
+                    "kind": "storage",
+                    "name": "MaxQuantity",
+                    "scope": "public",
+                    "type": "long"
+                },
+                {
+                    "kind": "relatedEntity",
+                    "name": "Link_8",
+                    "path": "PRODUCTS",
+                    "scope": "public",
+                    "type": "PRODUCTS"
+                },
+                {
+                    "kind": "relatedEntity",
+                    "name": "4DMobileSumProducts_CLIENTS",
+                    "path": "CLIENTS",
+                    "scope": "public",
+                    "type": "CLIENTS"
+                }
+            ],
+            "className": "AGGREG_4DMOBILE_PRODUCT",
+            "collectionName": "AGGREG_4DMOBILE_PRODUCTCollection",
+            "dataURI": "/rest/AGGREG_4DMOBILE_PRODUCT",
+            "key": [
+                {
+                    "name": "id"
+                }
+            ],
+            "methods": [
+                {
+                    "allowedOnHTTPGET": false,
+                    "applyTo": "entityCollection",
+                    "from": "remoteServer",
+                    "name": "4DMobile_AggregProducts",
+                    "scope": "public"
+                }
+            ],
+            "name": "AGGREG_4DMOBILE_PRODUCT",
+            "scope": "public"
+        },
+        {
+            "attributes": [
+                {
+                    "identifying": true,
+                    "indexed": true,
+                    "kind": "storage",
+                    "name": "id",
+                    "scope": "public",
+                    "type": "long"
+                },
+                {
+                    "kind": "storage",
+                    "name": "Name",
+                    "scope": "public",
+                    "type": "string"
+                },
+                {
+                    "kind": "storage",
+                    "name": "Address1",
+                    "scope": "public",
+                    "type": "string"
+                },
+                {
+                    "kind": "storage",
+                    "name": "Address2",
+                    "scope": "public",
+                    "type": "string"
+                },
+                {
+                    "kind": "storage",
+                    "name": "City",
+                    "scope": "public",
+                    "type": "string"
+                },
+                {
+                    "kind": "storage",
+                    "name": "State",
+                    "scope": "public",
+                    "type": "string"
+                },
+                {
+                    "kind": "storage",
+                    "name": "ZipCode",
+                    "scope": "public",
+                    "type": "string"
+                },
+                {
+                    "kind": "storage",
+                    "name": "Phone",
+                    "scope": "public",
+                    "type": "string"
+                },
+                {
+                    "kind": "storage",
+                    "name": "Mobile",
+                    "scope": "public",
+                    "type": "string"
+                },
+                {
+                    "kind": "storage",
+                    "name": "Fax",
+                    "scope": "public",
+                    "type": "string"
+                },
+                {
+                    "kind": "storage",
+                    "name": "Email",
+                    "scope": "public",
+                    "type": "string"
+                },
+                {
+                    "kind": "storage",
+                    "name": "WebSite",
+                    "scope": "public",
+                    "type": "string"
+                },
+                {
+                    "kind": "storage",
+                    "name": "Logo",
+                    "scope": "public",
+                    "type": "image"
+                },
+                {
+                    "kind": "storage",
+                    "name": "Contact",
+                    "scope": "public",
+                    "type": "string"
+                },
+                {
+                    "kind": "storage",
+                    "name": "Comments",
+                    "scope": "public",
+                    "type": "string"
+                },
+                {
+                    "kind": "storage",
+                    "name": "TotalSales",
+                    "scope": "public",
+                    "type": "number"
+                },
+                {
+                    "kind": "storage",
+                    "name": "Country",
+                    "scope": "public",
+                    "type": "string"
+                },
+                {
+                    "kind": "storage",
+                    "name": "DiscountRate",
+                    "scope": "public",
+                    "type": "number"
+                },
+                {
+                    "kind": "storage",
+                    "name": "Lat",
+                    "scope": "public",
+                    "type": "number"
+                },
+                {
+                    "kind": "storage",
+                    "name": "Lon",
+                    "scope": "public",
+                    "type": "number"
+                },
+                {
+                    "kind": "relatedEntities",
+                    "name": "Link_4_return",
+                    "path": "Link_4",
+                    "reversePath": true,
+                    "scope": "public",
+                    "type": "INVOICESCollection"
+                },
+                {
+                    "kind": "relatedEntities",
+                    "name": "Link_7_return",
+                    "path": "4DMobileSumProducts_CLIENTS",
+                    "reversePath": true,
+                    "scope": "public",
+                    "type": "AGGREG_4DMOBILE_PRODUCTCollection"
+                }
+            ],
+            "className": "CLIENTS",
+            "collectionName": "CLIENTSCollection",
+            "dataURI": "/rest/CLIENTS",
+            "key": [
+                {
+                    "name": "id"
+                }
+            ],
+            "name": "CLIENTS",
+            "scope": "public"
+        },
+        {
+            "attributes": [
+                {
+                    "identifying": true,
+                    "indexed": true,
+                    "kind": "storage",
+                    "name": "id",
+                    "scope": "public",
+                    "type": "long"
+                },
+                {
+                    "indexed": true,
+                    "kind": "storage",
+                    "name": "Invoice_ID",
+                    "scope": "public",
+                    "type": "long"
+                },
+                {
+                    "indexed": true,
+                    "kind": "storage",
+                    "name": "Product_ID",
+                    "scope": "public",
+                    "type": "long"
+                },
+                {
+                    "kind": "storage",
+                    "name": "ProductReference",
+                    "scope": "public",
+                    "type": "string"
+                },
+                {
+                    "kind": "storage",
+                    "name": "ProductName",
+                    "scope": "public",
+                    "type": "string"
+                },
+                {
+                    "kind": "storage",
+                    "name": "Quantity",
+                    "scope": "public",
+                    "type": "number"
+                },
+                {
+                    "kind": "storage",
+                    "name": "ProductUnitPrice",
+                    "scope": "public",
+                    "type": "number"
+                },
+                {
+                    "kind": "storage",
+                    "name": "DiscountRate",
+                    "scope": "public",
+                    "type": "number"
+                },
+                {
+                    "kind": "storage",
+                    "name": "ProductTaxRate",
+                    "scope": "public",
+                    "type": "number"
+                },
+                {
+                    "kind": "storage",
+                    "name": "Total",
+                    "scope": "public",
+                    "type": "number"
+                },
+                {
+                    "kind": "storage",
+                    "name": "TotalTax",
+                    "scope": "public",
+                    "type": "long"
+                },
+                {
+                    "kind": "relatedEntity",
+                    "name": "Link_5",
+                    "path": "INVOICES",
+                    "scope": "public",
+                    "type": "INVOICES"
+                },
+                {
+                    "kind": "relatedEntity",
+                    "name": "Link_6",
+                    "path": "PRODUCTS",
+                    "scope": "public",
+                    "type": "PRODUCTS"
+                }
+            ],
+            "className": "INVOICE_LINES",
+            "collectionName": "INVOICE_LINESCollection",
+            "dataURI": "/rest/INVOICE_LINES",
+            "key": [
+                {
+                    "name": "id"
+                }
+            ],
+            "name": "INVOICE_LINES",
+            "scope": "public"
+        },
+        {
+            "attributes": [
+                {
+                    "identifying": true,
+                    "indexed": true,
+                    "kind": "storage",
+                    "name": "id",
+                    "scope": "public",
+                    "type": "long"
+                },
+                {
+                    "indexed": true,
+                    "kind": "storage",
+                    "name": "InvoiceNumber",
+                    "scope": "public",
+                    "type": "string"
+                },
+                {
+                    "indexed": true,
+                    "kind": "storage",
+                    "name": "Client_ID",
+                    "scope": "public",
+                    "type": "long"
+                },
+                {
+                    "kind": "storage",
+                    "name": "Date",
+                    "scope": "public",
+                    "simpleDate": true,
+                    "type": "date"
+                },
+                {
+                    "kind": "storage",
+                    "name": "Subtotal",
+                    "scope": "public",
+                    "type": "number"
+                },
+                {
+                    "kind": "storage",
+                    "name": "Tax",
+                    "scope": "public",
+                    "type": "number"
+                },
+                {
+                    "kind": "storage",
+                    "name": "Total",
+                    "scope": "public",
+                    "type": "number"
+                },
+                {
+                    "kind": "storage",
+                    "name": "Paid",
+                    "scope": "public",
+                    "type": "bool"
+                },
+                {
+                    "kind": "storage",
+                    "name": "PayementDate",
+                    "scope": "public",
+                    "simpleDate": true,
+                    "type": "date"
+                },
+                {
+                    "kind": "storage",
+                    "name": "PayementMethod",
+                    "scope": "public",
+                    "type": "string"
+                },
+                {
+                    "kind": "storage",
+                    "name": "PayementReference",
+                    "scope": "public",
+                    "type": "string"
+                },
+                {
+                    "kind": "storage",
+                    "name": "ProForma",
+                    "scope": "public",
+                    "type": "bool"
+                },
+                {
+                    "kind": "storage",
+                    "name": "PayementDelay",
+                    "scope": "public",
+                    "type": "word"
+                },
+                {
+                    "indexed": true,
+                    "kind": "storage",
+                    "name": "ProformaNumber",
+                    "scope": "public",
+                    "type": "string"
+                },
+                {
+                    "kind": "relatedEntity",
+                    "name": "Link_4",
+                    "path": "CLIENTS",
+                    "scope": "public",
+                    "type": "CLIENTS"
+                },
+                {
+                    "kind": "relatedEntities",
+                    "name": "Link_5_return",
+                    "path": "Link_5",
+                    "reversePath": true,
+                    "scope": "public",
+                    "type": "INVOICE_LINESCollection"
+                }
+            ],
+            "className": "INVOICES",
+            "collectionName": "INVOICESCollection",
+            "dataURI": "/rest/INVOICES",
+            "key": [
+                {
+                    "name": "id"
+                }
+            ],
+            "name": "INVOICES",
+            "scope": "public"
+        },
+        {
+            "attributes": [
+                {
+                    "identifying": true,
+                    "indexed": true,
+                    "kind": "storage",
+                    "name": "id",
+                    "scope": "public",
+                    "type": "long"
+                },
+                {
+                    "indexed": true,
+                    "kind": "storage",
+                    "name": "Reference",
+                    "scope": "public",
+                    "type": "string"
+                },
+                {
+                    "kind": "storage",
+                    "name": "Name",
+                    "scope": "public",
+                    "type": "string"
+                },
+                {
+                    "kind": "storage",
+                    "name": "Picture",
+                    "scope": "public",
+                    "type": "image"
+                },
+                {
+                    "kind": "storage",
+                    "name": "UnitPrice",
+                    "scope": "public",
+                    "type": "number"
+                },
+                {
+                    "kind": "storage",
+                    "name": "TaxRate",
+                    "scope": "public",
+                    "type": "number"
+                },
+                {
+                    "kind": "storage",
+                    "name": "Quantity",
+                    "scope": "public",
+                    "type": "number"
+                },
+                {
+                    "kind": "relatedEntities",
+                    "name": "Link_8_return",
+                    "path": "Link_8",
+                    "reversePath": true,
+                    "scope": "public",
+                    "type": "AGGREG_4DMOBILE_PRODUCTCollection"
+                },
+                {
+                    "kind": "relatedEntities",
+                    "name": "Link_6_return",
+                    "path": "Link_6",
+                    "reversePath": true,
+                    "scope": "public",
+                    "type": "INVOICE_LINESCollection"
+                }
+            ],
+            "className": "PRODUCTS",
+            "collectionName": "PRODUCTSCollection",
+            "dataURI": "/rest/PRODUCTS",
+            "key": [
+                {
+                    "name": "id"
+                }
+            ],
+            "name": "PRODUCTS",
+            "scope": "public"
+        },
+        {
+            "attributes": [
+                {
+                    "kind": "storage",
+                    "name": "CrtInvoiceNumber",
+                    "scope": "public",
+                    "type": "long"
+                },
+                {
+                    "kind": "storage",
+                    "name": "CrtProformaNumber",
+                    "scope": "public",
+                    "type": "long"
+                }
+            ],
+            "className": "SETTINGS",
+            "collectionName": "SETTINGSCollection",
+            "dataURI": "/rest/SETTINGS",
+            "name": "SETTINGS",
+            "scope": "public"
+        }
+    ]
+}

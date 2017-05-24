@@ -14,15 +14,16 @@ extension DataSync {
     private static var preferences = Prephirences.sharedMutableInstance!
 
     private struct PrefKey {
-        static let remoteServerURL = "com.4d.server.host"
+        static let prefixKey = "com.4d"
+        static let remoteServerURL = "\(prefixKey).server.host"
 
-        static let jsonDataExtension = "com.4d.json.data.ext"
-        static let jsonTableExtension = "com.4d.json.table.ext"
+        static let jsonDataExtension = "\(prefixKey).json.data.ext"
+        static let jsonTableExtension = "\(prefixKey).json.table.ext"
 
-        static let requestLimit = "com.4d.server.request.limit"
+        static let requestLimit = "\(prefixKey).server.request.limit"
 
-        static let firstSync = "com.4d.sync.first"
-        static let dataFromFile = "com.4d.sync.fromFiles"
+        static let firstSync = "\(prefixKey).sync.first"
+        static let dataFromFile = "\(prefixKey).sync.fromFiles"
     }
 
     struct Preferences {

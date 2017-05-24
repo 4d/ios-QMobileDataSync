@@ -19,5 +19,5 @@ line_length:
 - 250
 
 function_body_length:
-- 50
+- 70
 - 100

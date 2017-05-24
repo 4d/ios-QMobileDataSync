@@ -59,11 +59,14 @@ extension DataSync {
     }
 
     // (a save publish information to UI)
-    func trySave(_ save: @escaping () throws -> Swift.Void) {
+    @discardableResult
+    func trySave(_ save: @escaping () throws -> Swift.Void) -> Bool {
         do {
             try save()
+            return true
         } catch {
             logger.warning("Failed to save some records: \(error)")
+            return false
         }
     }
 

@@ -14,63 +14,6 @@ import Moya
 import QMobileAPI
 import QMobileDataStore
 
-
-let kGlobalStamp = "__globalStamp"
-let kTableStamp = "stamp"
-let defaultStamp: TableStampStorage.Stamp = 0
-
-
-protocol TableStampStorage {
-    typealias Stamp = Int
-    func stamp(for table: Table) -> Stamp
-    mutating func set(stamp: Stamp, for table: Table)
-    var globalStamp: Stamp { get set}
-    
-}
-
-// Cannot extends protocol, use an intermediate struct
-extension DataStoreMetadata {
-    var stampStorage: TableStampStorage {
-        return DataStoreTableStampStorage(dataStore: self)
-    }
-}
-struct DataStoreTableStampStorage: TableStampStorage {
-    var dataStore: DataStoreMetadata
-    
-    func stamp(for table: Table) -> TableStampStorage.Stamp {
-        return dataStore.stamp(for: table)
-    }
-    mutating func set(stamp: TableStampStorage.Stamp, for table: Table)  {
-       dataStore.set(stamp: stamp, for: table)
-    }
-    var globalStamp: TableStampStorage.Stamp {
-        get {
-            return dataStore.globalStamp
-        }
-        set {
-            dataStore.globalStamp = newValue
-        }
-    }
-}
-
-extension DataStoreMetadata {
-    func stamp(for table: Table) -> TableStampStorage.Stamp {
-        return self["\(table.name).\(kTableStamp)"] as? TableStampStorage.Stamp ?? defaultStamp
-    }
-    mutating func set(stamp: TableStampStorage.Stamp, for table: Table)  {
-        self["\(table.name).\(kTableStamp)"] = stamp
-    }
-    var globalStamp: TableStampStorage.Stamp {
-        get {
-            return self[kGlobalStamp] as? TableStampStorage.Stamp ?? defaultStamp
-        }
-        set {
-            assert(newValue > 0)
-            self[kGlobalStamp] = newValue
-        }
-    }
-}
-
 extension DataSync {
 
     // Load database structures from

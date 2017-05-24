@@ -24,3 +24,13 @@ extension Array {
     }
 
 }
+
+extension Array where Element: Hashable {
+
+    var hashDictionary: [Int: Element] {
+        var result: [Int: Element] = [:]
+        self.forEach({ result[$0.hashValue] = $0 })
+        return result
+    }
+
+}
