@@ -14,9 +14,9 @@ import QMobileAPI
 
 extension DataSync {
 
-    public func loadTable() -> Future<[Table], APIError> {
+    public func loadTable() -> Future<[Table], DataSyncError> {
         if !self.tablesByName.isEmpty {
-            return Future<[Table], APIError>(result: .success(self.tables))
+            return Future<[Table], DataSyncError>(result: .success(self.tables))
         }
         return Future { _ = self.loadTable($0) }
     }

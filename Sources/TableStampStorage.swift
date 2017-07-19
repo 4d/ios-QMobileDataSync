@@ -67,7 +67,7 @@ extension DataStoreMetadata {
             return self[kGlobalStamp] as? TableStampStorage.Stamp ?? defaultStamp
         }
         set {
-            assert(newValue > 0)
+            //assert(newValue > 0)
             self[kGlobalStamp] = newValue
         }
     }
@@ -95,4 +95,12 @@ struct PrephirencesTableStampStorage: TableStampStorage {
             preferences[kGlobalStamp] = newValue
         }
     }
+}
+
+extension RecordBase {
+
+    open var __stamp: Int {
+        return getPrivateAttribute(key: ImportKey.stamp) as? Int ?? 0
+    }
+
 }

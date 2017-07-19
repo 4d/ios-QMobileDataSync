@@ -11,17 +11,18 @@ import Foundation
 import QMobileAPI
 import Moya
 import Result
+import Prephirences
 
 // MARK: Sync
 extension DataSync {
 
     struct Process {
-        
+
         public typealias ProcessError = AnyError
 
         public typealias TableStatus = (Table, TableStampStorage.Stamp)
         public typealias TableResult = Result<TableStatus, ProcessError>
-        public typealias TablePageResult = Result<Page, ProcessError>
+        public typealias TablePageResult = Result<PageInfo, ProcessError>
         public typealias CompletionHandler = (Result<TableStampStorage.Stamp, ProcessError>) -> Void
 
         // list of table to sync
@@ -56,8 +57,6 @@ extension DataSync.Process {
             // Do a retry immediately? or wait all table process end?_
             // tablesResults[table.name] = nil
         }
-
-        checkCompleted()
     }
 
     var isCompleted: Bool {
@@ -66,35 +65,38 @@ extension DataSync.Process {
         return tablesResults.count == tablesByName.count
     }
 
-    mutating func checkCompleted() {
-        // TODO synchronize method to not have false result
+    mutating func checkCompleted() -> [TableStatus]? {
+
         // maybe Future?Promize or a Lock
-        if isCompleted {
-            let result: Result<[TableStatus], ProcessError> = tablesResults.values.sequence()
-            do {
-                let tableStatus = try result.dematerialize()
+        logger.debug("There is \(tablesResults.count)/\(tablesByName.count) tables sync")
+        guard isCompleted else {
+            return nil
+        }
 
-                // If all tableStatus are complete with same globalStamp
-                let stamps = tableStatus.map { $0.1 }
-                let maxStamp = stamps.max() ?? startStamp
-                let sameStamp = stamps.min() == maxStamp
-                if sameStamp {
-                    self.completionHandler(.success(maxStamp))
-                } else {
-                    // TODO ELSE some table stamps are outdated
-                    // ask a loadRecords starting at the specified stamp
-                    // maybe with also a maximum stamp, the wanted global one (or let the process start to sync )
-                    for (table, stamp) in tableStatus where stamp < maxStamp {
-                        tablesResults[table.name] = nil
-                    }
+        let result: Result<[TableStatus], ProcessError> = tablesResults.values.sequence()
+        do {
+            let tableStatus = try result.dematerialize()
+
+            // If all tableStatus are complete with same globalStamp
+            let stamps = tableStatus.map { $0.1 }
+            let maxStamp = stamps.max() ?? startStamp
+            let sameStamp = stamps.min() == maxStamp
+            if sameStamp {
+                self.completionHandler(.success(maxStamp))
+                return nil
+            } else {
+                // else some table stamps are outdated
+                for (table, stamp) in tableStatus where stamp < maxStamp {
+                    tablesResults[table.name] = nil
                 }
+                // ask to sync table starting at the current table stamp
+                return tableStatus.filter { $0.1 < maxStamp}
             }
-            catch {
-                // TODO according to errors, remove all adding objects, or return an error for incomplete sync
-                // String(data: (((error as! AnyError).error as! APIError).error as! MoyaError).response!.data, encoding: .utf8)
-                self.completionHandler(.failureMappable(error))
-            }
-
+        } catch {
+            // TODO according to errors, remove all adding objects, or return an error for incomplete sync
+            // String(data: (((error as! AnyError).error as! APIError).error as! MoyaError).response!.data, encoding: .utf8)
+            self.completionHandler(.failureMappable(error))
+            return nil
         }
     }
 }

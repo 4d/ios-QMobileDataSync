@@ -1,1 +1,1 @@
-{"dataClasses":[{"name":"Event","uri":"/rest/$catalog/Event","dataURI":"/rest/Event"}]}
+{"dataClasses":[{"name":"CLIENTS","uri":"/rest/$catalog/CLIENTS","dataURI":"/rest/CLIENTS"}, {"name":"INVOICES","uri":"/rest/$catalog/INVOICES","dataURI":"/rest/INVOICES"}, {"name":"PRODUCTS","uri":"/rest/$catalog/PRODUCTS","dataURI":"/rest/PRODUCTS"}]}

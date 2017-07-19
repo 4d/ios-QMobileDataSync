@@ -55,6 +55,9 @@ public class DataSync {
 }
 
 extension DataSync: Cancellable {
-    public func cancel() { process?.cancel() }
+    public func cancel() {
+        process?.cancel()
+        process = nil
+    }
     public var isCancelled: Bool { return process?.isCancelled ?? true }
 }

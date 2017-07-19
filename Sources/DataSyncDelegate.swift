@@ -20,10 +20,10 @@ public protocol DataSyncDelegate: NSObjectProtocol {
     func willDataSyncBegin(for table: Table)
 
     // each page is published
-    func dataSync(for table: Table, page: Page)
+    func dataSync(for table: Table, page: PageInfo)
 
     // table sync end with success
-    func didDataSyncEnd(for table: Table, page: Page)
+    func didDataSyncEnd(for table: Table, page: PageInfo)
     // table sync end with error
     func didDataSyncFailed(for table: Table, error: Swift.Error)
 
@@ -31,4 +31,5 @@ public protocol DataSyncDelegate: NSObjectProtocol {
     func didDataSyncEnd(tables: [Table])
     // notify sync failed
     func didDataSyncFailed(error: Swift.Error)
+
 }

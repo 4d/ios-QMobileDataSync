@@ -17,7 +17,7 @@ import QMobileDataStore
 extension DataSync {
 
     // Load database structures from
-    public typealias TablesCompletionHander = (Result<[Table], APIError>) -> Void
+    public typealias TablesCompletionHander = (Result<[Table], DataSyncError>) -> Void
     public func loadTable(_ completionHander: @escaping TablesCompletionHander) -> Cancellable {
         // from files
         logger.info("Read table structures from files")
@@ -66,21 +66,25 @@ extension DataSync {
                     }
                 #endif
                 var indexedRemoteTables = remoteTables.dictionary { $0.name }
+                var missingTables = [Table]()
                 for (name, table) in tables {
                     if let remoteTable = indexedRemoteTables[name] {
                         assert(table.name == remoteTable.name)
                         // TODO check remoteTable and table equals? or compatible ie. all field in table are in remoteTable
                     } else {
+                        missingTables.append(table)
                         logger.warning("Table \(name) not accessible on remote 4D Server. Check if you app is up to date")
-                        // TODO UPDATE notifify app not up to date with data structure
                     }
+                }
+                if !missingTables.isEmpty {
+                    // notifify app not up to date with data structure
+                    completionHander(.failure(.missingRemoteTables(missingTables)))
                 }
 
                 completionHander(.success(Array(tables.values)))
             case .failure(let error):
                 logger.warning("Failed to retrieve tables from remote 4D server \(error)")
-                // TODO maybe retry later, when network is back
-                completionHander(result)
+                completionHander(.failure(.apiError(error)))
             }
         }
     }

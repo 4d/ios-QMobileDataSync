@@ -11,7 +11,7 @@ import QMobileDataStore
 import QMobileAPI
 
 extension AttributeStorageType {
-    var coreData: String {
+    /*var coreData: String {
         switch self {
         case .bool: return "Boolean"
         case .string: return "String"
@@ -28,11 +28,11 @@ extension AttributeStorageType {
         case .blob: return "Binary"
         case .float: return "Float"
         }
-    }
-    var usesScalarValueType: Bool {
+    }*/
+    /*var usesScalarValueType: Bool {
         switch self {
         case .string, .image: return false
         default: return true
         }
-    }
+    }*/
 }

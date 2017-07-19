@@ -14,7 +14,7 @@ struct RemoteConfig {
     static let stub = true // TODO parametrize , maybe if ip not set
     
     static var tableName: String {
-        return RemoteConfig.stub ? "Event" : "CLIENTS"
+        return "CLIENTS"
     }
 
 }

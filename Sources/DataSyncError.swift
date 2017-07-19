@@ -11,7 +11,7 @@ import QMobileAPI
 import QMobileDataStore
 
 public enum DataSyncError: Swift.Error {
-    /// Data sync object is no more retain in memory
+    /// Data sync object is no more retained in memory
     case retain
 
     /// Sync delegate request stop of process before starting it
@@ -26,10 +26,12 @@ public enum DataSyncError: Swift.Error {
     case apiError(Error)
     /// Loading tables failed, check your tables structures
     case noTables
+    /// Missing tables on remote server to synchronize. App not up to date?
+    case missingRemoteTables([Table])
 }
 
 extension DataSyncError {
-    
+
     var error: Swift.Error? {
         switch self {
         case .dataStoreError(let error):

@@ -10,7 +10,7 @@ import XCTest
 @testable import QMobileDataSync
 
 import QMobileDataStore
-@testable import QMobileAPI  // TODO remove testabble when public
+import QMobileAPI
 import Result
 
 class DataSyncTests: XCTestCase {
@@ -19,16 +19,19 @@ class DataSyncTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
+        let bundle = Bundle(for: DataSyncTests.self)
 
-        Bundle.dataStore = Bundle(for: DataSyncTests.self)
+        Bundle.dataStore = bundle
         Bundle.dataStoreKey = "CoreDataModel"
+        
+        Bundle.qMobileApiStub = bundle
 
         let apiManager = APIManager(url: DataSync.Preferences.remoteServerURL)
         apiManager.stub = RemoteConfig.stub
         let dataStore = QMobileDataStore.dataStore
 
         dataSync = DataSync(rest: apiManager, dataStore: dataStore)
-        dataSync.bundle = Bundle(for: DataSyncTests.self)
+        dataSync.bundle = bundle
     }
     
     override func tearDown() {
@@ -65,7 +68,7 @@ class DataSyncTests: XCTestCase {
             }
         }
         XCTAssertNotNil(cancellable)
-        XCTAssertFalse(cancellable?.isCancelled ?? true)
+        XCTAssertFalse(cancellable?.isCancelled ?? false)
         waitExpectation()
     }
     

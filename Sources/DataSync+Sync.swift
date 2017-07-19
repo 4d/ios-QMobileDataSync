@@ -28,10 +28,10 @@ extension DataSync {
         if !isCancelled {
             cancel()
         }
-        var cancellable = CancellableComposite() // return value, a cancellable
+        let cancellable = CancellableComposite() // return value, a cancellable
 
-        var future: SyncFuture = initFuture()
-           .onFailure { error in
+        initFuture()
+            .onFailure { error in
                 completionHandler(.failure(error))
             }
             .onSuccess {
@@ -42,19 +42,21 @@ extension DataSync {
                     return
                 }
 
+                // Get data from this global stamp
                 let startStamp = metadata.stampStorage.globalStamp
+                let tablesByName = self.tablesByName
 
+                // Ask delegate if there is any reason to stop process
                 let stop = self.delegate?.willDataSyncBegin(tables: self.tables) ?? false
                 if stop {
                     completionHandler(.failure(.delegateRequestStop))
                     return
                 }
 
-                let tablesByName = self.tablesByName
-
                 // perform a data store task in background
                 let perform = self.dataStore.perform(.background) { [weak self] context, save in
                     guard let this = self else {
+                        // memory issue, must retain the dataSync object somewhere
                         completionHandler(.failure(.retain))
                         return
                     }
@@ -71,19 +73,14 @@ extension DataSync {
                     let processCompletion = this.processCompletionCallBack(completionHandler, context: context, save: save)
                     let process = Process(tables: tablesByName, startStamp: startStamp, cancellable: cancellable, completionHandler: processCompletion)
 
-                    assert(this.process == nil)
+                   // assert(this.process == nil)
                     this.process = process
 
                     // For each table get data from last global stamp
-                    let configureRequest: ((RecordsRequest) -> Void) = { request in
-                        request.limit(Preferences.requestLimit)
-                        // stamp filter
-                        let filter = "\(kStampFilter)=\(startStamp)"
-                        request.filter(filter)
-                    }
+                    let configureRequest = this.configureRequest(stamp: startStamp)
                     for table in this.tables {
                         let requestCancellable = this.syncTable(table, configureRequest: configureRequest, context: context, save: save)
-                        cancellable.list.append(requestCancellable)
+                        cancellable.append(requestCancellable)
                     }
                 }
                 // return no task if dataStore not ready
@@ -142,9 +139,17 @@ extension DataSync {
                 if case .onCompletion = self.saveMode {
                     context.rollback()
                 }
-                // TODO check error type, maybe could cast to APIError
                 completionHandler(.failure(DataSyncError.apiError(error)))
             }
+        }
+    }
+
+    func configureRequest(stamp: TableStampStorage.Stamp) -> ((RecordsRequest) -> Void) {
+        return { request in
+            request.limit(Preferences.requestLimit)
+            // stamp filter
+            let filter = "\(kStampFilter)=\(stamp)"
+            request.filter(filter)
         }
     }
 
@@ -154,10 +159,17 @@ extension DataSync {
         self.delegate?.willDataSyncBegin(for: table)
 
         let initializer = self.recordInitializer(table: table, context: context)
-        return  self.rest.loadRecords(table: table, configure: configureRequest, initializer: initializer) { result in
+        var cancellable = CancellableComposite()
+        let cancellableRecords = self.rest.loadRecords(table: table, configure: configureRequest, initializer: initializer) { result in
             switch result {
-            case .success(let (_, page)):
+            case .success(let (records, page)):
                 logger.debug("Receive page '\(page)' for table '\(tableName)'")
+                #if DEBUG
+                    let stamps = records.map { $0.__stamp }
+                    if let max = stamps.max(), max > page.globalStamp {
+                        logger.warning("GlobalStamp(\(page.globalStamp)) is not updated. Receive a record with stamp \(max)'")
+                    }
+                #endif
 
                 // TODO check/save global stamp and current one
                 // TODO If a table have more recent stamp resync this table
@@ -175,25 +187,53 @@ extension DataSync {
                     self.trySave(save)
                 }
                 if page.isLast {
-                    self.process?.completed(for: table, with: .success(page))
+
+                    if var process = self.process {
+                        objc_sync_enter(process)
+                        defer {
+                            objc_sync_exit(process)
+                        }
+
+                        self.process?.completed(for: table, with: .success(page))
+
+                        if let tableStatus = self.process?.checkCompleted() {
+                            // There is some table to relaunch sync
+                            for (table, stamp) in tableStatus {
+                                let configureRequest = self.configureRequest(stamp: stamp)
+                                let c = self.syncTable(table, configureRequest: configureRequest, context: context, save: save)
+                                cancellable.append(c)
+                            }
+                        }
+                    }
                 }
             case .failure(let error):
-                
                 var errorMessage = "\(error)"
                 if let requestCase = error.requestCase {
                     errorMessage = "\(requestCase) (\(error.localizedDescription))"
                 }
-                
+
                 logger.warning("Failed to get records for table \(tableName): \(errorMessage)")
-                
+
                 self.delegate?.didDataSyncFailed(for: table, error: error)
-                self.process?.completed(for: table, with: .failureMappable(error))
+
+                if var process = self.process {
+                    objc_sync_enter(process)
+                    defer {
+                        objc_sync_exit(process)
+                    }
+
+                    self.process?.completed(for: table, with: .failureMappable(error))
+
+                    _ = self.process?.checkCompleted()
+                }
             }
         }
+        cancellable.append(cancellableRecords)
+
+        return cancellable
     }
 
 }
-
 
 /*
 extension MoyaError: CustomDebugStringConvertible {
