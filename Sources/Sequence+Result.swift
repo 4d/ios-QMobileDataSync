@@ -10,8 +10,11 @@ import Foundation
 import Result
 
 extension Sequence where Iterator.Element: ResultProtocol {
-    public func sequence() -> Result<[Iterator.Element.Value], Iterator.Element.Error> {
-        return reduce(Result(value: [])) { (res, elem) -> Result<[Iterator.Element.Value], Iterator.Element.Error> in
+
+    public typealias ResultSequence = Result<[Iterator.Element.Value], Iterator.Element.Error>
+
+    public var result: ResultSequence {
+        return reduce(Result(value: [])) { (res, elem) -> ResultSequence in
             switch res {
             case .success(let resultSequence):
                 return elem.analysis(ifSuccess: {
@@ -25,4 +28,33 @@ extension Sequence where Iterator.Element: ResultProtocol {
             }
         }
     }
+
+    public var errors: [Iterator.Element.Error]? {
+        var errors: [Iterator.Element.Error] = []
+        for result in self {
+            if let error = result.error {
+                errors.append(error)
+            }
+        }
+        return errors.isEmpty ? nil : errors
+    }
+
+    public var values: [Iterator.Element.Value]? {
+        var values: [Iterator.Element.Value] = []
+        for result in self {
+            if let value = result.value {
+                values.append(value)
+            }
+        }
+        return values.isEmpty ? nil : values
+    }
+
+    public func dematerialize() throws -> [Iterator.Element.Value] {
+        return try self.result.dematerialize()
+    }
+
+    public func analysis(ifSuccess: ([Iterator.Element.Value]) -> ResultSequence, ifFailure: (Iterator.Element.Error) -> ResultSequence) -> ResultSequence {
+        return self.result.analysis(ifSuccess: ifSuccess, ifFailure: ifFailure)
+    }
+
 }

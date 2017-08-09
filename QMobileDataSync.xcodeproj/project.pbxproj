@@ -11,6 +11,7 @@
 		483727801EB8AD940060B064 /* Moya.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4837277F1EB8AD940060B064 /* Moya.framework */; };
 		483727821EB8AD9C0060B064 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483727811EB8AD9C0060B064 /* Result.framework */; };
 		483727841EB8ADAE0060B064 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483727831EB8ADAE0060B064 /* Alamofire.framework */; };
+		483D549E1F3320790061D1FE /* SequenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483D549D1F3320790061D1FE /* SequenceTests.swift */; };
 		483EF60F1EF925BB00C11B5E /* DataStoreIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483EF60E1EF925BB00C11B5E /* DataStoreIntegrationTests.swift */; };
 		484428F51EC99766008658B8 /* TableStampStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484428F41EC99766008658B8 /* TableStampStorage.swift */; };
 		484428F71EC998D0008658B8 /* DataSyncDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484428F61EC998D0008658B8 /* DataSyncDelegate.swift */; };
@@ -75,6 +76,7 @@
 		4837277F1EB8AD940060B064 /* Moya.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Moya.framework; path = Carthage/Build/iOS/Moya.framework; sourceTree = "<group>"; };
 		483727811EB8AD9C0060B064 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
 		483727831EB8ADAE0060B064 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
+		483D549D1F3320790061D1FE /* SequenceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequenceTests.swift; sourceTree = "<group>"; };
 		483EF60E1EF925BB00C11B5E /* DataStoreIntegrationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStoreIntegrationTests.swift; sourceTree = "<group>"; };
 		483EF6121EF9401E00C11B5E /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/Mac/Alamofire.framework; sourceTree = "<group>"; };
 		483EF6131EF9401E00C11B5E /* BrightFutures.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BrightFutures.framework; path = Carthage/Build/Mac/BrightFutures.framework; sourceTree = "<group>"; };
@@ -163,6 +165,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		483D549F1F33208C0061D1FE /* Simple */ = {
+			isa = PBXGroup;
+			children = (
+				4855548F1ECAEC85001EE365 /* TableStampStorageTests.swift */,
+				483D549D1F3320790061D1FE /* SequenceTests.swift */,
+			);
+			name = Simple;
+			sourceTree = "<group>";
+		};
+		483D54A01F3320980061D1FE /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				485554911ECAEF40001EE365 /* Utils.swift */,
+				485554EB1ECAF2E5001EE365 /* RemoteConfig.swift */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
+		483D54A11F3320A70061D1FE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				485554E81ECAF04A001EE365 /* Invoices.xcdatamodeld */,
+				485554B41ECAEF68001EE365 /* Stubbed Responses */,
+				4855549C1ECAEF68001EE365 /* Data */,
+				485554951ECAEF68001EE365 /* Catalog */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		483EF6101EF93FB900C11B5E /* iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -334,16 +365,12 @@
 		48C55E9B1EB8A4A100F9ECAC /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				485554E81ECAF04A001EE365 /* Invoices.xcdatamodeld */,
-				485554B41ECAEF68001EE365 /* Stubbed Responses */,
-				4855549C1ECAEF68001EE365 /* Data */,
-				485554951ECAEF68001EE365 /* Catalog */,
-				485554911ECAEF40001EE365 /* Utils.swift */,
-				485554EB1ECAF2E5001EE365 /* RemoteConfig.swift */,
+				483D54A11F3320A70061D1FE /* Resources */,
+				483D54A01F3320980061D1FE /* Utils */,
 				48C55E9C1EB8A4A100F9ECAC /* DataSyncTests.swift */,
 				483EF60E1EF925BB00C11B5E /* DataStoreIntegrationTests.swift */,
-				4855548F1ECAEC85001EE365 /* TableStampStorageTests.swift */,
 				485554F41ECB2B71001EE365 /* DataStoreTableStampStorageTests.swift */,
+				483D549F1F33208C0061D1FE /* Simple */,
 				48C55E9E1EB8A4A100F9ECAC /* Info.plist */,
 			);
 			path = Tests;
@@ -564,6 +591,7 @@
 			files = (
 				485554901ECAEC85001EE365 /* TableStampStorageTests.swift in Sources */,
 				485554EC1ECAF2E5001EE365 /* RemoteConfig.swift in Sources */,
+				483D549E1F3320790061D1FE /* SequenceTests.swift in Sources */,
 				485554F51ECB2B71001EE365 /* DataStoreTableStampStorageTests.swift in Sources */,
 				485554EA1ECAF04A001EE365 /* Invoices.xcdatamodeld in Sources */,
 				483EF60F1EF925BB00C11B5E /* DataStoreIntegrationTests.swift in Sources */,
