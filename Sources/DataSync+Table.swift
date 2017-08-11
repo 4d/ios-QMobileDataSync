@@ -18,7 +18,7 @@ extension DataSync {
 
     // Load database structures from
     public typealias TablesCompletionHander = (Result<[Table], DataSyncError>) -> Void
-    public func loadTable(_ completionHander: @escaping TablesCompletionHander) -> Cancellable {
+    public func loadTable(queue: DispatchQueue? = nil, _ completionHander: @escaping TablesCompletionHander) -> Cancellable {
         // from files
         logger.info("Read table structures from files")
         var tables = [String: Table]()
@@ -54,7 +54,7 @@ extension DataSync {
         self.tablesByName = tables
 
         // from remote store?
-        return rest.loadTables { result in
+        return rest.loadTables(queue: queue) { result in
             switch result {
             case .success(let remoteTables):
                 // Check if all tables accessible on remote target

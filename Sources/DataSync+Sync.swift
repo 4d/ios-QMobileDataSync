@@ -8,6 +8,7 @@
 
 import Foundation
 import Result
+import Prephirences
 import BrightFutures
 import Moya
 
@@ -28,6 +29,7 @@ extension DataSync {
         if !isCancelled {
             cancel()
         }
+
         let cancellable = CancellableComposite() // return value, a cancellable
 
         initFuture()
@@ -78,8 +80,9 @@ extension DataSync {
 
                     // For each table get data from last global stamp
                     let configureRequest = this.configureRequest(stamp: startStamp)
+                    let currentDispatch = OperationQueue.current?.underlyingQueue
                     for table in this.tables {
-                        let requestCancellable = this.syncTable(table, configureRequest: configureRequest, context: context, save: save)
+                        let requestCancellable = this.syncTable(table, queue: currentDispatch, configureRequest: configureRequest, context: context, save: save)
                         cancellable.append(requestCancellable)
                     }
                 }
@@ -95,18 +98,36 @@ extension DataSync {
     }
 
     /// check data store loaded, and tables structures loaded
-    private func initFuture() -> SyncFuture {
+    private func initFuture(queue: DispatchQueue? = nil) -> SyncFuture {
         var sequence: [SyncFuture] = []
 
         // Load data store if necessary
-        let dsLoad: SyncFuture = dataStore.load().mapError { dataStoreError in
-            logger.warning("Could not load data store \(dataStoreError)")
-            return .dataStoreError(dataStoreError)
+        /*dataStore.drop {
+         dataStore.load {
+         
+         }*/
+        
+        
+        if Prephirences.sharedInstance.bool(forKey: "dataSync.dataStoreDrop") {
+            
+            let dsLoad: SyncFuture = dataStore.drop().flatMap {
+                return self.dataStore.load()
+                }.mapError { dataStoreError in
+                    logger.warning("Could not drop or load data store \(dataStoreError)")
+                    return .dataStoreError(dataStoreError)
+            }
+            sequence.append(dsLoad)
+            
+        } else {
+            let dsLoad: SyncFuture = dataStore.load().mapError { dataStoreError in
+                logger.warning("Could not load data store \(dataStoreError)")
+                return .dataStoreError(dataStoreError)
+            }
+            sequence.append(dsLoad)
         }
-        sequence.append(dsLoad)
-
+        
         // Load table if needed
-        let loadTable: Future<[Table], DataSyncError> = self.loadTable().mapError { apiError in
+        let loadTable: Future<[Table], DataSyncError> = self.loadTable(queue: queue).mapError { apiError in
             logger.warning("Could not load table \(apiError)")
             return .apiError(apiError)
         }
@@ -118,10 +139,38 @@ extension DataSync {
             return .success()
         }
         sequence.append(checkTable)
-
+        
+        if Prephirences.sharedInstance.bool(forKey: "dataSync.deleteRecords") {
+            // if must removes all the data by tables
+            let removeTableRecords: SyncFuture = loadTable.flatMap { (tables: [Table]) -> SyncFuture in
+                
+                return self.dataStore.perform(.background).flatMap { (dataStoreContext: DataStoreContext, save: () throws -> Void) -> Result<Void, DataStoreError> in
+                    // delete all table data
+                    do {
+                        for table in self.tables {
+                            let bool = try dataStoreContext.delete(in: table)
+                            logger.debug("Data of table \(table.name) deleted: \(bool)")
+                        }
+                        try save()
+                        return .success()
+                    } catch let dataStoreError as DataStoreError {
+                        return .failure(dataStoreError)
+                    } catch {
+                        return .failure(DataStoreError(error))
+                    }
+                    
+                    }.mapError { dataStoreError in
+                        logger.warning("Could not delete records from data store \(dataStoreError)")
+                        return DataSyncError.dataStoreError(dataStoreError)
+                }
+            }
+            sequence.append(removeTableRecords)
+        }
+        
+        
         return sequence.sequence().asVoid()
     }
-
+    
     private func processCompletionCallBack(_ completionHandler: @escaping SyncCompletionHander, context: DataStoreContext, save: @escaping DataStore.SaveClosure) -> Process.CompletionHandler {
         return { result in
             switch result {
@@ -153,14 +202,14 @@ extension DataSync {
         }
     }
 
-    func syncTable(_ table: Table, configureRequest: @escaping ((RecordsRequest) -> Void), context: DataStoreContext, save: @escaping DataStore.SaveClosure) -> Cancellable {
+    func syncTable(_ table: Table, queue: DispatchQueue? = nil, configureRequest: @escaping ((RecordsRequest) -> Void), context: DataStoreContext, save: @escaping DataStore.SaveClosure) -> Cancellable {
         let tableName = table.name
         logger.debug("Load records for \(tableName)")
         self.delegate?.willDataSyncBegin(for: table)
 
         let initializer = self.recordInitializer(table: table, context: context)
         var cancellable = CancellableComposite()
-        let cancellableRecords = self.rest.loadRecords(table: table, configure: configureRequest, initializer: initializer) { result in
+        let cancellableRecords = self.rest.loadRecords(table: table, configure: configureRequest, initializer: initializer, queue: queue) { result in
             switch result {
             case .success(let (records, page)):
                 logger.debug("Receive page '\(page)' for table '\(tableName)'")

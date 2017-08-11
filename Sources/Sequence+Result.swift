@@ -23,7 +23,7 @@ extension Sequence where Iterator.Element: ResultProtocol {
                 }, ifFailure: {
                     return Result(error: $0)
                 })
-            case .failure(_):
+            case .failure:
                 return res
             }
         }

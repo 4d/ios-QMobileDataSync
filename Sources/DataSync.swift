@@ -12,7 +12,6 @@ import QMobileDataStore
 import QMobileAPI
 
 import Result
-import Moya // Cancellable
 
 let logger = Logger.forClass(DataSync.self) // XXX check if configuration not already done...
 
@@ -52,12 +51,4 @@ public class DataSync {
         case byTable
         case onCompletion
     }
-}
-
-extension DataSync: Cancellable {
-    public func cancel() {
-        process?.cancel()
-        process = nil
-    }
-    public var isCancelled: Bool { return process?.isCancelled ?? true }
 }

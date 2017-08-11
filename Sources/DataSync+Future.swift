@@ -14,11 +14,11 @@ import QMobileAPI
 
 extension DataSync {
 
-    public func loadTable() -> Future<[Table], DataSyncError> {
+    public func loadTable(queue: DispatchQueue? = nil) -> Future<[Table], DataSyncError> {
         if !self.tablesByName.isEmpty {
             return Future<[Table], DataSyncError>(result: .success(self.tables))
         }
-        return Future { _ = self.loadTable($0) }
+        return Future { _ = self.loadTable(queue: queue, $0) }
     }
 
 }

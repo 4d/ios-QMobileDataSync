@@ -22,7 +22,6 @@
 		484803831EBC768E0094D84C /* DataSync+Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484803821EBC768E0094D84C /* DataSync+Preferences.swift */; };
 		484803851EBC76D70094D84C /* DataSync+Singleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484803841EBC76D70094D84C /* DataSync+Singleton.swift */; };
 		484803871EBC78680094D84C /* Array+Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484803861EBC78680094D84C /* Array+Dictionary.swift */; };
-		484803A01EBCB13B0094D84C /* AttributeStorageType+DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4848039F1EBCB13B0094D84C /* AttributeStorageType+DataStore.swift */; };
 		484803A31EBCB2340094D84C /* DataSync+Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484803A21EBCB2340094D84C /* DataSync+Table.swift */; };
 		484803A51EBCB5C50094D84C /* DataSync+Records.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484803A41EBCB5C50094D84C /* DataSync+Records.swift */; };
 		485554901ECAEC85001EE365 /* TableStampStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4855548F1ECAEC85001EE365 /* TableStampStorageTests.swift */; };
@@ -50,6 +49,8 @@
 		485554F51ECB2B71001EE365 /* DataStoreTableStampStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485554F41ECB2B71001EE365 /* DataStoreTableStampStorageTests.swift */; };
 		4865B1AB1EC1BA3100085634 /* BrightFutures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4865B1AA1EC1BA3100085634 /* BrightFutures.framework */; };
 		4865B1AC1EC1BA3100085634 /* BrightFutures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4865B1AA1EC1BA3100085634 /* BrightFutures.framework */; };
+		48934E6D1F3DCB9C003B7DB4 /* DataStore+API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48934E6C1F3DCB9C003B7DB4 /* DataStore+API.swift */; };
+		489C15DA1F3B42A5004844F3 /* DataSync+Cancellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489C15D91F3B42A5004844F3 /* DataSync+Cancellable.swift */; };
 		48C55E7D1EB8A09600F9ECAC /* QMobileDataSync.h in Headers */ = {isa = PBXBuildFile; fileRef = 48C55E7B1EB8A09600F9ECAC /* QMobileDataSync.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		48C55E8F1EB8A48300F9ECAC /* ObjcExceptionBridging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48C55E881EB8A48300F9ECAC /* ObjcExceptionBridging.framework */; };
 		48C55E901EB8A48300F9ECAC /* Prephirences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48C55E891EB8A48300F9ECAC /* Prephirences.framework */; };
@@ -93,7 +94,6 @@
 		484803821EBC768E0094D84C /* DataSync+Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Preferences.swift"; sourceTree = "<group>"; };
 		484803841EBC76D70094D84C /* DataSync+Singleton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Singleton.swift"; sourceTree = "<group>"; };
 		484803861EBC78680094D84C /* Array+Dictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Dictionary.swift"; sourceTree = "<group>"; };
-		4848039F1EBCB13B0094D84C /* AttributeStorageType+DataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AttributeStorageType+DataStore.swift"; sourceTree = "<group>"; };
 		484803A21EBCB2340094D84C /* DataSync+Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Table.swift"; sourceTree = "<group>"; };
 		484803A41EBCB5C50094D84C /* DataSync+Records.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Records.swift"; sourceTree = "<group>"; };
 		4855548F1ECAEC85001EE365 /* TableStampStorageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableStampStorageTests.swift; sourceTree = "<group>"; };
@@ -121,6 +121,8 @@
 		485554F41ECB2B71001EE365 /* DataStoreTableStampStorageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStoreTableStampStorageTests.swift; sourceTree = "<group>"; };
 		4865B1A91EC1B7BF00085634 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		4865B1AA1EC1BA3100085634 /* BrightFutures.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BrightFutures.framework; path = Carthage/Build/iOS/BrightFutures.framework; sourceTree = "<group>"; };
+		48934E6C1F3DCB9C003B7DB4 /* DataStore+API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataStore+API.swift"; sourceTree = "<group>"; };
+		489C15D91F3B42A5004844F3 /* DataSync+Cancellable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Cancellable.swift"; sourceTree = "<group>"; };
 		48C55E781EB8A09600F9ECAC /* QMobileDataSync.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = QMobileDataSync.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		48C55E7B1EB8A09600F9ECAC /* QMobileDataSync.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QMobileDataSync.h; sourceTree = "<group>"; };
 		48C55E7C1EB8A09600F9ECAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -228,7 +230,6 @@
 			isa = PBXGroup;
 			children = (
 				484803821EBC768E0094D84C /* DataSync+Preferences.swift */,
-				484803841EBC76D70094D84C /* DataSync+Singleton.swift */,
 			);
 			name = Configuration;
 			sourceTree = "<group>";
@@ -246,9 +247,9 @@
 		484803A11EBCB1660094D84C /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				4848039F1EBCB13B0094D84C /* AttributeStorageType+DataStore.swift */,
 				484803861EBC78680094D84C /* Array+Dictionary.swift */,
 				484428FA1EC99922008658B8 /* Sequence+Result.swift */,
+				48934E6C1F3DCB9C003B7DB4 /* DataStore+API.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -332,10 +333,12 @@
 			isa = PBXGroup;
 			children = (
 				4837277D1EB8A8DF0060B064 /* DataSync.swift */,
-				484428F61EC998D0008658B8 /* DataSyncDelegate.swift */,
-				484428F81EC998F0008658B8 /* DataSyncError.swift */,
 				484429001EC999A6008658B8 /* DataSync+Sync.swift */,
 				484428FC1EC9995E008658B8 /* DataSync+Process.swift */,
+				489C15D91F3B42A5004844F3 /* DataSync+Cancellable.swift */,
+				484803841EBC76D70094D84C /* DataSync+Singleton.swift */,
+				484428F81EC998F0008658B8 /* DataSyncError.swift */,
+				484428F61EC998D0008658B8 /* DataSyncDelegate.swift */,
 				484428FF1EC99973008658B8 /* API */,
 				484428FE1EC99969008658B8 /* Configuration */,
 				484803A11EBCB1660094D84C /* Extensions */,
@@ -404,6 +407,20 @@
 			passBuildSettingsInEnvironment = 1;
 			productName = swiftlint;
 		};
+		48934E6E1F3DD3FA003B7DB4 /* carthage update */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "update --platform ios";
+			buildConfigurationList = 48934E6F1F3DD3FA003B7DB4 /* Build configuration list for PBXLegacyTarget "carthage update" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/local/bin/carthage;
+			buildWorkingDirectory = "";
+			dependencies = (
+			);
+			name = "carthage update";
+			passBuildSettingsInEnvironment = 1;
+			productName = "carthage update";
+		};
 /* End PBXLegacyTarget section */
 
 /* Begin PBXNativeTarget section */
@@ -459,6 +476,11 @@
 						CreatedOnToolsVersion = 8.3.2;
 						ProvisioningStyle = Automatic;
 					};
+					48934E6E1F3DD3FA003B7DB4 = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 37UG5W39Z2;
+						ProvisioningStyle = Automatic;
+					};
 					48C55E771EB8A09600F9ECAC = {
 						CreatedOnToolsVersion = 8.3.2;
 						LastSwiftMigration = 0830;
@@ -485,6 +507,7 @@
 				48C55E771EB8A09600F9ECAC /* QMobileDataSync */,
 				48C55E991EB8A4A100F9ECAC /* Tests */,
 				483727851EB8AE4A0060B064 /* swiftlint */,
+				48934E6E1F3DD3FA003B7DB4 /* carthage update */,
 			);
 		};
 /* End PBXProject section */
@@ -576,10 +599,11 @@
 				484803871EBC78680094D84C /* Array+Dictionary.swift in Sources */,
 				484428F51EC99766008658B8 /* TableStampStorage.swift in Sources */,
 				484428FB1EC99922008658B8 /* Sequence+Result.swift in Sources */,
-				484803A01EBCB13B0094D84C /* AttributeStorageType+DataStore.swift in Sources */,
 				484428F91EC998F0008658B8 /* DataSyncError.swift in Sources */,
+				48934E6D1F3DCB9C003B7DB4 /* DataStore+API.swift in Sources */,
 				484803A51EBCB5C50094D84C /* DataSync+Records.swift in Sources */,
 				485554F31ECB00D4001EE365 /* DataSync+Future.swift in Sources */,
+				489C15DA1F3B42A5004844F3 /* DataSync+Cancellable.swift in Sources */,
 				484428FD1EC9995E008658B8 /* DataSync+Process.swift in Sources */,
 				484803A31EBCB2340094D84C /* DataSync+Table.swift in Sources */,
 			);
@@ -628,6 +652,31 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		48934E701F3DD3FA003B7DB4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUGGING_SYMBOLS = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 37UG5W39Z2;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		48934E711F3DD3FA003B7DB4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 37UG5W39Z2;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -825,6 +874,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		48934E6F1F3DD3FA003B7DB4 /* Build configuration list for PBXLegacyTarget "carthage update" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				48934E701F3DD3FA003B7DB4 /* Debug */,
+				48934E711F3DD3FA003B7DB4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		48C55E721EB8A09600F9ECAC /* Build configuration list for PBXProject "QMobileDataSync" */ = {
 			isa = XCConfigurationList;
