@@ -11,6 +11,7 @@ import Foundation
 import QMobileAPI
 
 let kGlobalStamp = "__globalStamp"
+let kLastSync = "lastSync"
 let kTableStamp = "stamp"
 let defaultStamp: TableStampStorage.Stamp = 0
 
@@ -26,6 +27,9 @@ protocol TableStampStorage {
 
     /// Global stamp for all tables
     var globalStamp: Stamp { get set }
+
+    /// last successful synchronisation date
+    var lastSync: Date? { get set }
 }
 
 /// MARK: DataStore
@@ -53,6 +57,16 @@ struct DataStoreTableStampStorage: TableStampStorage {
             dataStore.globalStamp = newValue
         }
     }
+
+    var lastSync: Date? {
+        get {
+            return dataStore.lastSync
+        }
+        set {
+            dataStore.lastSync = newValue
+        }
+    }
+
 }
 
 extension DataStoreMetadata {
@@ -69,6 +83,15 @@ extension DataStoreMetadata {
         set {
             //assert(newValue > 0)
             self[kGlobalStamp] = newValue
+        }
+    }
+
+    var lastSync: Date? {
+        get {
+            return self[kLastSync] as? Date
+        }
+        set {
+            self[kLastSync] = newValue
         }
     }
 }
@@ -93,6 +116,14 @@ struct PrephirencesTableStampStorage: TableStampStorage {
         set {
             assert(newValue > 0)
             preferences[kGlobalStamp] = newValue
+        }
+    }
+    var lastSync: Date? {
+        get {
+            return preferences[kLastSync] as? Date
+        }
+        set {
+            preferences[kLastSync] = newValue
         }
     }
 }

@@ -13,6 +13,7 @@ import QMobileDataStore
 import QMobileAPI
 import Result
 
+
 class DataSyncTests: XCTestCase {
     
     var dataSync: DataSync!
@@ -28,6 +29,7 @@ class DataSyncTests: XCTestCase {
 
         let apiManager = APIManager(url: DataSync.Preferences.remoteServerURL)
         apiManager.stub = RemoteConfig.stub
+        apiManager.stubDelegate = RemoteConfig.instance
         let dataStore = QMobileDataStore.dataStore
 
         dataSync = DataSync(rest: apiManager, dataStore: dataStore)
@@ -41,10 +43,15 @@ class DataSyncTests: XCTestCase {
 
     func testLoadTable() {
         let expectation = self.expectation()
+        
         let cancellable = dataSync.loadTable { result in
             do {
                 let tables = try result.dematerialize()
                 XCTAssertFalse(tables.isEmpty)
+                
+                if Bundle.dataStore[Bundle.dataStoreKey] as? String == "Invoices" {
+                    XCTAssertEqual(tables.count, 3)
+                }
                 expectation.fulfill()
             }
             catch {
@@ -57,19 +64,93 @@ class DataSyncTests: XCTestCase {
     }
     
     func testDataSync() {
+        let lastSync = dataSync.dataStore.metadata?.lastSync ?? Date()
         let expectation = self.expectation()
         let cancellable = dataSync.sync { result in
             do {
                 try result.dematerialize()
+                
+                let date = self.dataSync.dataStore.metadata?.lastSync
+                XCTAssertNotNil(date, "no lastSync date")
+
+                XCTAssertTrue(lastSync < date!)
+
                 expectation.fulfill()
             }
             catch {
+                if case .apiError(let apiError) = error as? DataSyncError ?? .noTables {
+                    if case .recordsDecodingFailed(let json, let parserError) = apiError as? APIError ?? .dummy {
+                        print("Not decodable \(json) \(parserError)")
+                    }
+                }
                 XCTFail("\(error)")
             }
         }
         XCTAssertNotNil(cancellable)
-        XCTAssertFalse(cancellable?.isCancelled ?? false)
-        waitExpectation()
-    }
+        XCTAssertFalse(cancellable?.isCancelled ?? true)
+ 
     
+        waitForExpectations(timeout: 30) { e in
+            if let error = e {
+                XCTFail(error.localizedDescription)
+            }
+            print("\(String(describing: cancellable))")
+        }
+    }
+
+    func testDataSyncCancel() {
+        let expectation = self.expectation()
+        let cancellable = dataSync.sync { result in
+            do {
+                try result.dematerialize()
+                if RemoteConfig.stub {
+                    expectation.fulfill() // not testable if stub
+                } else {
+                    XCTFail("Must have an exception")
+                }
+            }
+            catch {
+                if case .apiError(/*let */_ /*apiError*/) = error as? DataSyncError ?? .noTables {
+                    if !RemoteConfig.stub {
+                        //XCTAssertTrue(apiError.isCancelled)
+                    } else {
+                        XCTFail("\(error)")   // else stub ? or recursive exception in place. Check instead apiError.isCancelled
+                    }
+                } else {
+                    XCTFail("\(error)")
+                }
+            }
+        }
+        XCTAssertNotNil(cancellable)
+        cancellable?.cancel()
+        XCTAssertTrue(cancellable?.isCancelled ?? false)
+ 
+        waitForExpectations(timeout: 10) { e in
+            if let error = e {
+                XCTFail(error.localizedDescription)
+            }
+            print("\(String(describing: cancellable))")
+        }
+    }
+
+    
+}
+
+extension NSError {
+    static let dummy: NSError = NSError(domain: "dummy", code: 0)
+    var isDummy: Bool {
+        return domain == "dummy"
+    }
+}
+
+extension APIError {
+    static let dummy: APIError = .request(NSError.dummy)
+    var isDummy: Bool {
+        switch self {
+        case .request(let error):
+            return (error as NSError).isDummy
+        default:
+            return false
+        }
+    }
 }

@@ -25,9 +25,9 @@ extension DataSync {
     public typealias SyncFuture = Future<Void, DataSyncError>
     public func sync(_ completionHandler: @escaping SyncCompletionHander) -> Cancellable? {
 
-        // TODO If there is already a sync stop it, maybe add a bool force and only if force=true, or do nothing
         if !isCancelled {
             cancel()
+            // XXX maybe wait...
         }
 
         let cancellable = CancellableComposite() // return value, a cancellable
@@ -106,10 +106,9 @@ extension DataSync {
          dataStore.load {
          
          }*/
-        
-        
+
         if Prephirences.sharedInstance.bool(forKey: "dataSync.dataStoreDrop") {
-            
+
             let dsLoad: SyncFuture = dataStore.drop().flatMap {
                 return self.dataStore.load()
                 }.mapError { dataStoreError in
@@ -117,7 +116,7 @@ extension DataSync {
                     return .dataStoreError(dataStoreError)
             }
             sequence.append(dsLoad)
-            
+
         } else {
             let dsLoad: SyncFuture = dataStore.load().mapError { dataStoreError in
                 logger.warning("Could not load data store \(dataStoreError)")
@@ -125,7 +124,7 @@ extension DataSync {
             }
             sequence.append(dsLoad)
         }
-        
+
         // Load table if needed
         let loadTable: Future<[Table], DataSyncError> = self.loadTable(queue: queue).mapError { apiError in
             logger.warning("Could not load table \(apiError)")
@@ -139,11 +138,11 @@ extension DataSync {
             return .success()
         }
         sequence.append(checkTable)
-        
+
         if Prephirences.sharedInstance.bool(forKey: "dataSync.deleteRecords") {
             // if must removes all the data by tables
             let removeTableRecords: SyncFuture = loadTable.flatMap { (tables: [Table]) -> SyncFuture in
-                
+
                 return self.dataStore.perform(.background).flatMap { (dataStoreContext: DataStoreContext, save: () throws -> Void) -> Result<Void, DataStoreError> in
                     // delete all table data
                     do {
@@ -158,7 +157,7 @@ extension DataSync {
                     } catch {
                         return .failure(DataStoreError(error))
                     }
-                    
+
                     }.mapError { dataStoreError in
                         logger.warning("Could not delete records from data store \(dataStoreError)")
                         return DataSyncError.dataStoreError(dataStoreError)
@@ -166,11 +165,10 @@ extension DataSync {
             }
             sequence.append(removeTableRecords)
         }
-        
-        
+
         return sequence.sequence().asVoid()
     }
-    
+
     private func processCompletionCallBack(_ completionHandler: @escaping SyncCompletionHander, context: DataStoreContext, save: @escaping DataStore.SaveClosure) -> Process.CompletionHandler {
         return { result in
             switch result {
@@ -178,6 +176,7 @@ extension DataSync {
                 // store new stamp
                 var metadata = self.dataStore.metadata
                 metadata?.globalStamp = stamp
+                metadata?.lastSync = Date()
 
                 // save data store
                 self.trySave(save)
@@ -209,7 +208,7 @@ extension DataSync {
 
         let initializer = self.recordInitializer(table: table, context: context)
         var cancellable = CancellableComposite()
-        let cancellableRecords = self.rest.loadRecords(table: table, configure: configureRequest, initializer: initializer, queue: queue) { result in
+        let cancellableRecords = self.rest.loadRecords(table: table, recursive: true, configure: configureRequest, initializer: initializer, queue: queue) { result in
             switch result {
             case .success(let (records, page)):
                 logger.debug("Receive page '\(page)' for table '\(tableName)'")

@@ -12,10 +12,10 @@ import BrightFutures
 import QMobileDataStore
 
 extension DataStore {
-    
+
     public typealias PerformFuture = Future<(DataStoreContext, () throws -> Swift.Void), DataStoreError>
     public typealias PerformResult = Result<(DataStoreContext, () throws -> Swift.Void), DataStoreError>
-    
+
     /// Load the data store and return a Future
     public func load() -> Future<Void, DataStoreError> {
         if isLoaded {

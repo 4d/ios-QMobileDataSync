@@ -43,12 +43,15 @@ extension DataSync {
                 let json = JSON(fileURL: url)
                 assert(ImportableParser.tableName(for: json) == tableName)
 
-                if let records = table.parser.parseArray(json: json, with: self.recordInitializer(table: table, context: context)) {
+                do {
+                    let records = try table.parser.parseArray(json: json, with: self.recordInitializer(table: table, context: context))
                     logger.info("\(records.count) records imported from '\(tableName)' file")
 
                     if saveByTable {
                         trySave(save)
                     }
+                } catch {
+                    logger.warning("Failed to import records from '\(tableName)' file: \(error)")
                 }
             }
         }

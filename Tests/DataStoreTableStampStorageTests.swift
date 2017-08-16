@@ -60,6 +60,12 @@ class DataStoreTableStampStorageTests: XCTestCase {
         storage.globalStamp = newValue
         XCTAssertEqual(storage.globalStamp, newValue)
     }
-    
-    
+
+    func testGetAndSetLastSync(_ storage: TableStampStorage) {
+        var storage = storage
+
+        let newValue = Date()
+        storage.lastSync = newValue
+        XCTAssertEqual(storage.lastSync, newValue)
+    }
 }

@@ -156,7 +156,7 @@ class DataStoreIntegrationTests: XCTestCase {
 
                 _ = dataStore.perform(.background, { (context, _) in
 
-                    let importables = table.parser.parseArray(json: json, with: { tableName, _ -> Record? in
+                    let importables = try? table.parser.parseArray(json: json, with: { tableName, _ -> Record? in
                         return context.create(in: tableName)
                     })
 
