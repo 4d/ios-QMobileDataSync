@@ -47,7 +47,7 @@ extension DataStoreContext {
 
     /// Delete records, which match the predicate.
     public func delete(in table: Table, matching predicate: NSPredicate? = nil) throws -> Bool {
-        return try delete(in: table.name, matching: predicate ?? NSPredicate.true) // xxx remove predicate when updated
+        return try delete(in: table.name, matching: nil) // xxx remove predicate when updated
     }
 
 }

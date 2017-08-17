@@ -22,11 +22,15 @@ extension DataSync {
         let recordInitializer: RecordInitializer = { tableName, json in
             // Create only if not created
             if let predicate = table.predicate(for: json) {
-                do {
-                    return try context.getOrCreate(in: tableName, matching: predicate)
-                } catch {
-                    logger.warning("Failed to import one data into '\(tableName)': \(error)")
+                var record: Record?
+                context.perform(wait: true) {
+                    do {
+                        record = try context.getOrCreate(in: tableName, matching: predicate)
+                    } catch {
+                        logger.warning("Failed to import one data into '\(tableName)': \(error)")
+                    }
                 }
+                return record
             } else {
                 logger.warning("Cannot insert record: Cannot create predicate for table '\(tableName)'")
             }

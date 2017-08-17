@@ -15,7 +15,6 @@ extension DataSync {
 
     private struct PrefKey {
         static let prefixKey = "com.4d"
-        static let remoteServerURL = "\(prefixKey).server.host"
 
         static let jsonDataExtension = "\(prefixKey).json.data.ext"
         static let jsonTableExtension = "\(prefixKey).json.table.ext"
@@ -27,7 +26,6 @@ extension DataSync {
     }
 
     struct Preferences {
-        static let remoteServerURL = preferences.url(forKey: DataSync.PrefKey.remoteServerURL) ?? URL(string: "http://127.0.0.1")!
 
         static let jsonDataExtension = preferences.string(forKey: DataSync.PrefKey.jsonDataExtension) ?? "data.json"
         static let jsonTableExtension = preferences.string(forKey: DataSync.PrefKey.jsonTableExtension) ?? "catalog.json"

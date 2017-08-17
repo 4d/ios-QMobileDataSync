@@ -22,7 +22,7 @@ public enum DataSyncError: Swift.Error {
     /// Data store error, for instance cannot load it
     case dataStoreError(DataStoreError)
 
-    /// an error occurs when synchronizing
+    /// An error occurs when synchronizing
     case apiError(Error)
     /// Loading tables failed, check your tables structures
     case noTables
@@ -30,8 +30,19 @@ public enum DataSyncError: Swift.Error {
     case missingRemoteTables([Table])
 }
 
-extension DataSyncError {
-
+extension DataSyncError: ResultMappableError {
+    
+    public init(underlying: Swift.Error) {
+        if let apiError = underlying as? APIError {
+            self = .apiError(apiError)
+        } else if let dataStoreError = underlying as? DataStoreError {
+            self = .dataStoreError(dataStoreError)
+        } else {
+            self = .apiError(underlying)
+        }
+    }
+    
+    /// The underlying error if any.
     var error: Swift.Error? {
         switch self {
         case .dataStoreError(let error):
@@ -42,5 +53,63 @@ extension DataSyncError {
             return nil
         }
     }
+}
 
+
+extension String {
+    var localized: String {
+        return localized(with: "")
+    }
+    func localized(with comment: String = "") -> String {
+        return NSLocalizedString(self, bundle: Bundle(for: DataSync.self), comment: comment)
+    }
+}
+
+extension DataSyncError: LocalizedError {
+    
+    public var errorDescription: String? {
+        switch self {
+        case .retain:
+            return "dataSync.retain".localized
+        case .delegateRequestStop:
+            return "dataSync.delegateRequestStop".localized
+        case .dataStoreNotReady:
+            return "dataSync.dataStoreNotReady".localized
+        case .dataStoreError:
+            return "dataSync.dataStoreError".localized
+        case .apiError:
+            return "dataSync.apiError".localized
+        case .noTables:
+            return "dataSync.noTables".localized
+        case .missingRemoteTables:
+            return "dataSync.missingRemoteTables".localized
+        }
+    }
+    
+    public var failureReason: String? {
+        if let error = self.error as? LocalizedError {
+            return error.failureReason ?? error.errorDescription
+        } else if let error = self.error {
+            return error.localizedDescription
+        }
+        return nil
+    }
+
+    public var recoverySuggestion: String? {
+        if let error = self.error as? LocalizedError {
+            return error.recoverySuggestion
+        }
+        switch self {
+        case .noTables:
+            return "dataSync.noTables.recover".localized
+        case .missingRemoteTables:
+            return "dataSync.missingRemoteTables.recovery".localized
+        default:
+            return nil
+        }
+    }
+    
+    public var helpAnchor: String? {
+        return nil
+    }
 }
