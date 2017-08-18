@@ -29,15 +29,17 @@ extension DataSync {
             cancel()
             // XXX maybe wait...
         }
-        
+
         // Manage delegate completion event
         let completionHandler: SyncCompletionHander = { result in
             completionHandler(result)
-            
+
             switch result {
             case .success:
+                Notification(name: .dataSyncSuccess).post()
                 self.delegate?.didDataSyncEnd(tables: self.tables)
             case .failure(let error):
+                Notification(name: .dataSyncFailed, object: error).post()
                 self.delegate?.didDataSyncFailed(error: error)
             }
         }
@@ -61,6 +63,7 @@ extension DataSync {
                 let tablesByName = self.tablesByName
 
                 // Ask delegate if there is any reason to stop process
+                Notification(name: .dataSyncBegin, object: self.tables).post()
                 let stop = self.delegate?.willDataSyncBegin(tables: self.tables) ?? false
                 if stop {
                     logger.info("Data synchronisation stop requested before starting the process")
@@ -87,20 +90,20 @@ extension DataSync {
                     // From remote
                     let processCompletion = this.processCompletionCallBack(completionHandler, context: context, save: save)
                     let process = Process(tables: tablesByName, startStamp: startStamp, cancellable: cancellable, completionHandler: processCompletion)
-                    
+
                     // assert(this.process == nil)
                     this.process = process
-                    
+
                     let queue: DispatchQueue
                     switch context.type {
                     case .background: queue = .background
                     case .foreground: queue = .main
                     }
-                    
+
                     if let currentDispatch = OperationQueue.current?.underlyingQueue {
                         print(currentDispatch)
                     }
-                    
+
                     // For each table get data from last global stamp
                     let configureRequest = this.configureRequest(stamp: startStamp)
                     for table in this.tables {
@@ -165,7 +168,7 @@ extension DataSync {
         if Prephirences.sharedInstance.bool(forKey: "dataSync.deleteRecords") {
             // if must removes all the data by tables
             let removeTableRecords: SyncFuture = loadTable.flatMap { (tables: [Table]) -> SyncFuture in
-                
+
                 return self.dataStore.perform(.foreground).flatMap { (dataStoreContext: DataStoreContext, save: () throws -> Void) -> Result<Void, DataStoreError> in
                     assert(dataStoreContext.type == .foreground)
                     // delete all table data
@@ -229,6 +232,7 @@ extension DataSync {
     func syncTable(_ table: Table, queue: DispatchQueue? = nil, configureRequest: @escaping ((RecordsRequest) -> Void), context: DataStoreContext, save: @escaping DataStore.SaveClosure) -> Cancellable {
         let tableName = table.name
         logger.debug("Load records for \(tableName)")
+        Notification(name: .dataSyncForTableBegin, object: table).post()
         self.delegate?.willDataSyncBegin(for: table)
 
         let initializer = self.recordInitializer(table: table, context: context)
@@ -251,6 +255,7 @@ extension DataSync {
                     logger.info("Last page loaded for table \(tableName)")
 
                     self.delegate?.didDataSyncEnd(for: table, page: page)
+                    Notification(name: .dataSyncForTableSuccess, object: (table, page)).post()
                     if case .byTable = self.saveMode {
                         self.trySave(save)
                         // If save could not manage error
@@ -287,6 +292,7 @@ extension DataSync {
 
                 logger.warning("Failed to get records for table \(tableName): \(errorMessage)")
 
+                Notification(name: .dataSyncForTableFailed, object: (table, error)).post()
                 self.delegate?.didDataSyncFailed(for: table, error: error)
 
                 if var process = self.process {
@@ -324,8 +330,6 @@ public extension DataStore {
     typealias SaveClosure  = () throws -> Swift.Void
 }
 
-
-
 extension DispatchQueue {
 
     private static var currentKey = 0
@@ -334,7 +338,7 @@ extension DispatchQueue {
     static var userInitiated: DispatchQueue { return DispatchQueue.global(qos: .userInitiated) }
     static var utility: DispatchQueue { return DispatchQueue.global(qos: .utility) }
     static var background: DispatchQueue { return DispatchQueue.global(qos: .background) }
-    
+
     func after(_ delay: TimeInterval, execute closure: @escaping () -> Void) {
         asyncAfter(deadline: .now() + delay, execute: closure)
     }

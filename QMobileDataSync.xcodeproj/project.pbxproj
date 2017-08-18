@@ -13,6 +13,7 @@
 		483727841EB8ADAE0060B064 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483727831EB8ADAE0060B064 /* Alamofire.framework */; };
 		483D549E1F3320790061D1FE /* SequenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483D549D1F3320790061D1FE /* SequenceTests.swift */; };
 		483EF60F1EF925BB00C11B5E /* DataStoreIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483EF60E1EF925BB00C11B5E /* DataStoreIntegrationTests.swift */; };
+		4843784D1F471C02004C5101 /* DataSync+Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4843784C1F471C02004C5101 /* DataSync+Notification.swift */; };
 		484428F51EC99766008658B8 /* TableStampStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484428F41EC99766008658B8 /* TableStampStorage.swift */; };
 		484428F71EC998D0008658B8 /* DataSyncDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484428F61EC998D0008658B8 /* DataSyncDelegate.swift */; };
 		484428F91EC998F0008658B8 /* DataSyncError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484428F81EC998F0008658B8 /* DataSyncError.swift */; };
@@ -86,6 +87,7 @@
 		483EF6151EF9401E00C11B5E /* Prephirences.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Prephirences.framework; path = Carthage/Build/Mac/Prephirences.framework; sourceTree = "<group>"; };
 		483EF6161EF9401E00C11B5E /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/Mac/Result.framework; sourceTree = "<group>"; };
 		483EF6171EF940F700C11B5E /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/Mac/SwiftyJSON.framework; sourceTree = "<group>"; };
+		4843784C1F471C02004C5101 /* DataSync+Notification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Notification.swift"; sourceTree = "<group>"; };
 		484428F41EC99766008658B8 /* TableStampStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableStampStorage.swift; sourceTree = "<group>"; };
 		484428F61EC998D0008658B8 /* DataSyncDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSyncDelegate.swift; sourceTree = "<group>"; };
 		484428F81EC998F0008658B8 /* DataSyncError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSyncError.swift; sourceTree = "<group>"; };
@@ -343,6 +345,7 @@
 				484803841EBC76D70094D84C /* DataSync+Singleton.swift */,
 				484428F81EC998F0008658B8 /* DataSyncError.swift */,
 				484428F61EC998D0008658B8 /* DataSyncDelegate.swift */,
+				4843784C1F471C02004C5101 /* DataSync+Notification.swift */,
 				484428FF1EC99973008658B8 /* API */,
 				484428FE1EC99969008658B8 /* Configuration */,
 				484803A11EBCB1660094D84C /* Extensions */,
@@ -622,6 +625,7 @@
 				484428FB1EC99922008658B8 /* Sequence+Result.swift in Sources */,
 				484428F91EC998F0008658B8 /* DataSyncError.swift in Sources */,
 				48934E6D1F3DCB9C003B7DB4 /* DataStore+API.swift in Sources */,
+				4843784D1F471C02004C5101 /* DataSync+Notification.swift in Sources */,
 				484803A51EBCB5C50094D84C /* DataSync+Records.swift in Sources */,
 				485554F31ECB00D4001EE365 /* DataSync+Future.swift in Sources */,
 				489C15DA1F3B42A5004844F3 /* DataSync+Cancellable.swift in Sources */,

@@ -31,7 +31,7 @@ public enum DataSyncError: Swift.Error {
 }
 
 extension DataSyncError: ResultMappableError {
-    
+
     public init(underlying: Swift.Error) {
         if let apiError = underlying as? APIError {
             self = .apiError(apiError)
@@ -41,7 +41,7 @@ extension DataSyncError: ResultMappableError {
             self = .apiError(underlying)
         }
     }
-    
+
     /// The underlying error if any.
     var error: Swift.Error? {
         switch self {
@@ -55,7 +55,6 @@ extension DataSyncError: ResultMappableError {
     }
 }
 
-
 extension String {
     var localized: String {
         return localized(with: "")
@@ -66,7 +65,7 @@ extension String {
 }
 
 extension DataSyncError: LocalizedError {
-    
+
     public var errorDescription: String? {
         switch self {
         case .retain:
@@ -85,7 +84,7 @@ extension DataSyncError: LocalizedError {
             return "dataSync.missingRemoteTables".localized
         }
     }
-    
+
     public var failureReason: String? {
         if let error = self.error as? LocalizedError {
             return error.failureReason ?? error.errorDescription
@@ -108,7 +107,7 @@ extension DataSyncError: LocalizedError {
             return nil
         }
     }
-    
+
     public var helpAnchor: String? {
         return nil
     }

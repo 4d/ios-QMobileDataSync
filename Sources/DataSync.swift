@@ -40,6 +40,7 @@ public class DataSync {
     /// Current process. Support only one process.
     var process: Process?
 
+    /// Delegate used by application service to be notified of events.
     public weak var delegate: DataSyncDelegate?
 
     /// If true save each records page received
