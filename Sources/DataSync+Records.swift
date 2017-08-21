@@ -40,28 +40,25 @@ extension DataSync {
     }
 
     /// Load records from files, need to be done in data store context
-    func loadRecordsFromFile(saveByTable: Bool = true, context: DataStoreContext, save: @escaping () throws -> Swift.Void) {
+    func loadRecordsFromFile(saveByTable: Bool = true, context: DataStoreContext, save: @escaping () throws -> Swift.Void) throws {
         // Optionaly load data from files
         for (tableName, table) in self.tablesByName {
             if let url = self.bundle.url(forResource: tableName, withExtension: Preferences.jsonDataExtension, subdirectory: nil) {
+                // XXX Could add here some decrypt or uncompress on JSON files if data encrypted or compressed
                 let json = JSON(fileURL: url)
                 assert(ImportableParser.tableName(for: json) == tableName)
 
-                do {
-                    let records = try table.parser.parseArray(json: json, with: self.recordInitializer(table: table, context: context))
-                    logger.info("\(records.count) records imported from '\(tableName)' file")
+                let records = try table.parser.parseArray(json: json, with: self.recordInitializer(table: table, context: context))
+                logger.info("\(records.count) records imported from '\(tableName)' file")
 
-                    if saveByTable {
-                        trySave(save)
-                    }
-                } catch {
-                    logger.warning("Failed to import records from '\(tableName)' file: \(error)")
+                if saveByTable {
+                    try save()
                 }
             }
         }
 
         if !saveByTable {
-            trySave(save)
+            try save()
         }
     }
 

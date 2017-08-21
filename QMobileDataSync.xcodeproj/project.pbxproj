@@ -61,6 +61,7 @@
 		48C55E951EB8A48300F9ECAC /* XCGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48C55E8E1EB8A48300F9ECAC /* XCGLogger.framework */; };
 		48C55E9D1EB8A4A100F9ECAC /* DataSyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C55E9C1EB8A4A100F9ECAC /* DataSyncTests.swift */; };
 		48C55E9F1EB8A4A100F9ECAC /* QMobileDataSync.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48C55E781EB8A09600F9ECAC /* QMobileDataSync.framework */; };
+		48ED97E51F4AC899000FF1B9 /* PRODUCTS.data.json in Resources */ = {isa = PBXBuildFile; fileRef = 48ED97E41F4AC899000FF1B9 /* PRODUCTS.data.json */; };
 		48EE8AC61F4492F0002C3F08 /* CLIENTS(2).json in Resources */ = {isa = PBXBuildFile; fileRef = 48EE8AC51F4492F0002C3F08 /* CLIENTS(2).json */; };
 /* End PBXBuildFile section */
 
@@ -139,6 +140,7 @@
 		48C55E9A1EB8A4A100F9ECAC /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		48C55E9C1EB8A4A100F9ECAC /* DataSyncTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSyncTests.swift; sourceTree = "<group>"; };
 		48C55E9E1EB8A4A100F9ECAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		48ED97E41F4AC899000FF1B9 /* PRODUCTS.data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PRODUCTS.data.json; sourceTree = "<group>"; };
 		48EE8AC51F4492F0002C3F08 /* CLIENTS(2).json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "CLIENTS(2).json"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -272,11 +274,8 @@
 		4855549C1ECAEF68001EE365 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				48EE8AC51F4492F0002C3F08 /* CLIENTS(2).json */,
-				4855549D1ECAEF68001EE365 /* CLIENTS_100.json */,
-				4855549E1ECAEF68001EE365 /* CLIENTS.json */,
-				4855549F1ECAEF68001EE365 /* INVOICES.json */,
-				485554A01ECAEF68001EE365 /* PRODUCTS.json */,
+				48ED97E61F4AC89C000FF1B9 /* Stub */,
+				48ED97E41F4AC899000FF1B9 /* PRODUCTS.data.json */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -385,6 +384,18 @@
 				48C55E9E1EB8A4A100F9ECAC /* Info.plist */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		48ED97E61F4AC89C000FF1B9 /* Stub */ = {
+			isa = PBXGroup;
+			children = (
+				48EE8AC51F4492F0002C3F08 /* CLIENTS(2).json */,
+				4855549D1ECAEF68001EE365 /* CLIENTS_100.json */,
+				4855549E1ECAEF68001EE365 /* CLIENTS.json */,
+				4855549F1ECAEF68001EE365 /* INVOICES.json */,
+				485554A01ECAEF68001EE365 /* PRODUCTS.json */,
+			);
+			name = Stub;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -545,6 +556,7 @@
 				485554C31ECAEF68001EE365 /* INVOICES.catalog.json in Resources */,
 				485554C71ECAEF68001EE365 /* CLIENTS_100.json in Resources */,
 				485554E41ECAEF68001EE365 /* restrecords.json in Resources */,
+				48ED97E51F4AC899000FF1B9 /* PRODUCTS.data.json in Resources */,
 				485554C41ECAEF68001EE365 /* PRODUCTS.catalog.json in Resources */,
 				485554C81ECAEF68001EE365 /* CLIENTS.json in Resources */,
 				485554C21ECAEF68001EE365 /* CLIENTS.catalog.json in Resources */,

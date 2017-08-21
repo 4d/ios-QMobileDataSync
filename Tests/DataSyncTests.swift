@@ -27,7 +27,7 @@ class DataSyncTests: XCTestCase {
         
         Bundle.qMobileApiStub = bundle
 
-        let apiManager = APIManager(url: DataSync.Preferences.remoteServerURL)
+        let apiManager = APIManager.instance
         apiManager.stub = RemoteConfig.stub
         apiManager.stubDelegate = RemoteConfig.instance
         let dataStore = QMobileDataStore.dataStore
@@ -74,8 +74,26 @@ class DataSyncTests: XCTestCase {
                 XCTAssertNotNil(date, "no lastSync date")
 
                 XCTAssertTrue(lastSync < date!)
-
-                expectation.fulfill()
+                
+                
+               let result = self.dataSync.dataStore.perform(.background) { context, save in
+                
+                    do {
+                        var count = try context.count(in: RemoteConfig.tableName)
+                        XCTAssertEqual(count, 200, RemoteConfig.tableName)
+                        
+                         count = try context.count(in: "PRODUCTS")
+                        XCTAssertEqual(count, 100, "PRODUCTS")
+                        
+                        expectation.fulfill()
+                        
+                    } catch {
+                        
+                        XCTFail("\(error)")
+                    }
+                    
+                }
+                XCTAssertEqual(result, true, "unable to perform request")
             }
             catch {
                 if case .apiError(let apiError) = error as? DataSyncError ?? .noTables {
@@ -132,6 +150,116 @@ class DataSyncTests: XCTestCase {
             print("\(String(describing: cancellable))")
         }
     }
+
+ 
+    func testTwoSerialDataSync() {
+        let expectation = self.expectation()
+        let cancellable = dataSync.sync { result in
+            do {
+                try result.dematerialize()
+                
+                
+                _ = self.dataSync.sync { result in
+                    
+                    let result = self.dataSync.dataStore.perform(.background) { context, save in
+                        
+                        do {
+                            var count = try context.count(in: RemoteConfig.tableName)
+                            XCTAssertEqual(count, 200, RemoteConfig.tableName)
+                            
+                            count = try context.count(in: "PRODUCTS")
+                            XCTAssertEqual(count, 100, "PRODUCTS")
+                            
+                            expectation.fulfill()
+                            
+                        } catch {
+                            
+                            XCTFail("\(error)")
+                        }
+                        
+                    }
+                    XCTAssertEqual(result, true, "unable to perform request")
+                    
+                }
+            }
+            catch {
+                if case .apiError(let apiError) = error as? DataSyncError ?? .noTables {
+                    if case .recordsDecodingFailed(let json, let parserError) = apiError as? APIError ?? .dummy {
+                        print("Not decodable \(json) \(parserError)")
+                    }
+                }
+                XCTFail("\(error)")
+            }
+        }
+        XCTAssertNotNil(cancellable)
+        XCTAssertFalse(cancellable?.isCancelled ?? true)
+        
+        
+        waitForExpectations(timeout: 30) { e in
+            if let error = e {
+                XCTFail(error.localizedDescription)
+            }
+            print("\(String(describing: cancellable))")
+        }
+    }
+    
+    
+    
+    func testTwoSerialDataSyncWithDeleted() {
+        DataSync.Preferences.deleteRecords = true
+        defer {
+                DataSync.Preferences.deleteRecords = false
+        }
+        let expectation = self.expectation()
+        let cancellable = dataSync.sync { result in
+            do {
+                try result.dematerialize()
+                
+                
+                _ = self.dataSync.sync { result in
+                    
+                    let result = self.dataSync.dataStore.perform(.background) { context, save in
+                        
+                        do {
+                            var count = try context.count(in: RemoteConfig.tableName)
+                            XCTAssertEqual(count, 200, RemoteConfig.tableName)
+                            
+                            count = try context.count(in: "PRODUCTS")
+                            XCTAssertEqual(count, 100, "PRODUCTS")
+                            
+                            expectation.fulfill()
+                            
+                        } catch {
+                            
+                            XCTFail("\(error)")
+                        }
+                        
+                    }
+                    XCTAssertEqual(result, true, "unable to perform request")
+                    
+                }
+            }
+            catch {
+                if case .apiError(let apiError) = error as? DataSyncError ?? .noTables {
+                    if case .recordsDecodingFailed(let json, let parserError) = apiError as? APIError ?? .dummy {
+                        print("Not decodable \(json) \(parserError)")
+                    }
+                }
+                XCTFail("\(error)")
+            }
+        }
+        XCTAssertNotNil(cancellable)
+        XCTAssertFalse(cancellable?.isCancelled ?? true)
+        
+        
+        waitForExpectations(timeout: 30) { e in
+            if let error = e {
+                XCTFail(error.localizedDescription)
+            }
+            print("\(String(describing: cancellable))")
+        }
+    }
+
 
     
 }

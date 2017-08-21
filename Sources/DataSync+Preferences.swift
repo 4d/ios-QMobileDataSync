@@ -14,15 +14,16 @@ extension DataSync {
     private static var preferences = Prephirences.sharedMutableInstance!
 
     private struct PrefKey {
-        static let prefixKey = "com.4d"
+        static let prefixKey = "dataSync"
 
         static let jsonDataExtension = "\(prefixKey).json.data.ext"
         static let jsonTableExtension = "\(prefixKey).json.table.ext"
 
         static let requestLimit = "\(prefixKey).server.request.limit"
 
-        static let firstSync = "\(prefixKey).sync.first"
-        static let dataFromFile = "\(prefixKey).sync.fromFiles"
+        static let firstSync = "\(prefixKey).first"
+        static let dataFromFile = "\(prefixKey).fromFiles"
+        static let deleteRecords = "\(prefixKey).deleteRecords"
     }
 
     struct Preferences {
@@ -41,7 +42,16 @@ extension DataSync {
             }
         }
 
-        static let dataFromFile = preferences[DataSync.PrefKey.dataFromFile] as? Bool ?? false
+        static var deleteRecords: Bool {
+            get {
+                return preferences[DataSync.PrefKey.deleteRecords] as? Bool ?? false
+            }
+            set {
+                preferences[DataSync.PrefKey.deleteRecords] = newValue
+            }
+        }
+
+        static let dataFromFile = preferences[DataSync.PrefKey.dataFromFile] as? Bool ?? true
     }
 
 }

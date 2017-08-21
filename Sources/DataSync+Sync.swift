@@ -23,7 +23,7 @@ extension DataSync {
     public typealias SyncResult = Result<Void, DataSyncError>
     public typealias SyncCompletionHander = (SyncResult) -> Void
     public typealias SyncFuture = Future<Void, DataSyncError>
-    public func sync(_ completionHandler: @escaping SyncCompletionHander) -> Cancellable? {
+    public func sync(dataStoreContextType: DataStoreContextType = .background, queue: DispatchQueue? = nil, _ completionHandler: @escaping SyncCompletionHander) -> Cancellable? {
 
         if !isCancelled {
             cancel()
@@ -46,7 +46,7 @@ extension DataSync {
 
         let cancellable = CancellableComposite() // return value, a cancellable
 
-        initFuture()
+        initFuture(dataStoreContextType: dataStoreContextType, queue: queue)
             .onFailure { error in
                 completionHandler(.failure(error))
             }
@@ -72,19 +72,11 @@ extension DataSync {
                 }
 
                 // perform a data store task in background
-                let perform = self.dataStore.perform(.background) { [weak self] context, save in
+                let perform = self.dataStore.perform(dataStoreContextType) { [weak self] context, save in
                     guard let this = self else {
                         // memory issue, must retain the dataSync object somewhere
                         completionHandler(.failure(.retain))
                         return
-                    }
-
-                    // from file (maybe move this code elsewhere) TODO move code to load from file elsewhere
-                    if Preferences.firstSync {
-                        if Preferences.dataFromFile {
-                            self?.loadRecordsFromFile(context: context, save: save)
-                        }
-                        Preferences.firstSync = false
                     }
 
                     // From remote
@@ -94,10 +86,14 @@ extension DataSync {
                     // assert(this.process == nil)
                     this.process = process
 
-                    let queue: DispatchQueue
-                    switch context.type {
-                    case .background: queue = .background
-                    case .foreground: queue = .main
+                    let tableQueue: DispatchQueue?
+                    if let queue = queue {
+                        tableQueue = queue
+                    } else {
+                        switch context.type {
+                        case .background: tableQueue = .background
+                        case .foreground: tableQueue = .main
+                        }
                     }
 
                     if let currentDispatch = OperationQueue.current?.underlyingQueue {
@@ -108,7 +104,7 @@ extension DataSync {
                     let configureRequest = this.configureRequest(stamp: startStamp)
                     for table in this.tables {
                         logger.debug("Start data synchronisation for table \(table.name)")
-                        let requestCancellable = this.syncTable(table, queue: queue, configureRequest: configureRequest, context: context, save: save)
+                        let requestCancellable = this.syncTable(table, queue: tableQueue, configureRequest: configureRequest, context: context, save: save)
                         cancellable.append(requestCancellable)
                     }
                 }
@@ -124,7 +120,7 @@ extension DataSync {
     }
 
     /// check data store loaded, and tables structures loaded
-    private func initFuture(queue: DispatchQueue? = nil) -> SyncFuture {
+    private func initFuture(dataStoreContextType: DataStoreContextType = .background, queue: DispatchQueue? = nil) -> SyncFuture {
         var sequence: [SyncFuture] = []
 
         // Load data store if necessary
@@ -133,7 +129,7 @@ extension DataSync {
          
          }*/
 
-        if Prephirences.sharedInstance.bool(forKey: "dataSync.dataStoreDrop") {
+        if Preferences.firstSync && Prephirences.sharedInstance.bool(forKey: "dataSync.dataStoreDrop") {
 
             let dsLoad: SyncFuture = dataStore.drop().flatMap {
                 return self.dataStore.load()
@@ -165,33 +161,62 @@ extension DataSync {
         }
         sequence.append(checkTable)
 
-        if Prephirences.sharedInstance.bool(forKey: "dataSync.deleteRecords") {
-            // if must removes all the data by tables
-            let removeTableRecords: SyncFuture = loadTable.flatMap { (tables: [Table]) -> SyncFuture in
+        // from file
+        if Preferences.firstSync {
+            if Preferences.dataFromFile {
 
-                return self.dataStore.perform(.foreground).flatMap { (dataStoreContext: DataStoreContext, save: () throws -> Void) -> Result<Void, DataStoreError> in
-                    assert(dataStoreContext.type == .foreground)
-                    // delete all table data
-                    logger.info("Delete all tables data")
-                    do {
-                        for table in self.tables {
-                            let bool = try dataStoreContext.delete(in: table)
-                            logger.debug("Data of table \(table.name) deleted: \(bool)")
+                let loadFromFiles: SyncFuture = loadTable.flatMap { (_: [Table]) -> SyncFuture in
+
+                    return self.dataStore.perform(dataStoreContextType).flatMap { (dataStoreContext: DataStoreContext, save: @escaping () throws -> Void) -> Result<Void, DataStoreError> in
+                        assert(dataStoreContext.type == dataStoreContextType)
+
+                        logger.info("Load table data from embedded data files")
+                        do {
+                            try self.loadRecordsFromFile(saveByTable: true, context: dataStoreContext, save: save)
+                            return .success()
+                        } catch let dataStoreError as DataStoreError {
+                            return .failure(dataStoreError)
+                        } catch {
+                            return .failure(DataStoreError(error))
                         }
-                        try save()
-                        return .success()
-                    } catch let dataStoreError as DataStoreError {
-                        return .failure(dataStoreError)
-                    } catch {
-                        return .failure(DataStoreError(error))
+                        }.mapError { error in
+                            logger.warning("Could not import records into data store \(error)")
+                            return DataSyncError.dataStoreError(error)
                     }
-
-                    }.mapError { dataStoreError in
-                        logger.warning("Could not delete records from data store \(dataStoreError)")
-                        return DataSyncError.dataStoreError(dataStoreError)
                 }
+                sequence.append(loadFromFiles)
+
             }
-            sequence.append(removeTableRecords)
+            Preferences.firstSync = false
+        } else {
+            if Preferences.deleteRecords {
+                // if must removes all the data by tables
+                let removeTableRecords: SyncFuture = loadTable.flatMap { (tables: [Table]) -> SyncFuture in
+
+                    return self.dataStore.perform(dataStoreContextType).flatMap { (dataStoreContext: DataStoreContext, save: () throws -> Void) -> Result<Void, DataStoreError> in
+                        assert(dataStoreContext.type == dataStoreContextType)
+                        // delete all table data
+                        logger.info("Delete all tables data")
+                        do {
+                            for table in self.tables {
+                                let bool = try dataStoreContext.delete(in: table)
+                                logger.debug("Data of table \(table.name) deleted: \(bool)")
+                            }
+                            try save()
+                            return .success()
+                        } catch let dataStoreError as DataStoreError {
+                            return .failure(dataStoreError)
+                        } catch {
+                            return .failure(DataStoreError(error))
+                        }
+
+                        }.mapError { dataStoreError in
+                            logger.warning("Could not delete records from data store \(dataStoreError)")
+                            return DataSyncError.dataStoreError(dataStoreError)
+                    }
+                }
+                sequence.append(removeTableRecords)
+            }
         }
 
         return sequence.sequence().asVoid()
@@ -267,9 +292,14 @@ extension DataSync {
                 if page.isLast {
 
                     if var process = self.process {
+                        // #FIXME dead lock here????
+                        logger.verbose("will lock process")
                         objc_sync_enter(process)
+                        logger.verbose("did lock process")
                         defer {
+                            logger.verbose("will unlock process")
                             objc_sync_exit(process)
+                            logger.verbose("did unlock process")
                         }
 
                         self.process?.completed(for: table, with: .success(page))

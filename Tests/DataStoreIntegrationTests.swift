@@ -118,7 +118,7 @@ class DataStoreIntegrationTests: XCTestCase {
                         try? save()
 
                         let fetchRequest = dataStore.fetchRequest(tableName: tableName)
-                        let createdCount = try? fetchRequest.count(context: context)
+                        let createdCount = try? context.count(for: fetchRequest)
 
                         XCTAssertEqual(count, createdCount, "Not all records created")
 
@@ -131,7 +131,7 @@ class DataStoreIntegrationTests: XCTestCase {
                     _ = dataStore.perform(.background, { (context, _) in
 
                         let fetchRequest = dataStore.fetchRequest(tableName: tableName)
-                        let createdCount = try? fetchRequest.count(context: context)
+                        let createdCount = try? context.count(for: fetchRequest)
 
                         XCTAssertEqual(count, createdCount, "Not all records created")
 
