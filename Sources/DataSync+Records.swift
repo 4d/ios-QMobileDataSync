@@ -41,11 +41,18 @@ extension DataSync {
 
     /// Load records from files, need to be done in data store context
     func loadRecordsFromFile(saveByTable: Bool = true, context: DataStoreContext, save: @escaping () throws -> Swift.Void) throws {
-        // Optionaly load data from files
+        // load data from files
         for (tableName, table) in self.tablesByName {
             if let url = self.bundle.url(forResource: tableName, withExtension: Preferences.jsonDataExtension, subdirectory: nil) {
-                // XXX Could add here some decrypt or uncompress on JSON files if data encrypted or compressed
-                let json = JSON(fileURL: url)
+
+                let json: JSON
+                let cacheFile = cacheURL?.appendingPathComponent("\(tableName).\(Preferences.jsonDataExtension)")
+                if let cacheFile = cacheFile, cacheFile.fileExists {
+                    json = JSON(fileURL: cacheFile)
+                } else {
+                    // XXX Could add here some decrypt or uncompress on JSON files if data encrypted or compressed
+                    json = JSON(fileURL: url)
+                }
                 assert(ImportableParser.tableName(for: json) == tableName)
 
                 let records = try table.parser.parseArray(json: json, with: self.recordInitializer(table: table, context: context))

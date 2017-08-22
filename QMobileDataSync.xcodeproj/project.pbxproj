@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		481EDC731F4C568F00E97960 /* DataSync+Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481EDC721F4C568F00E97960 /* DataSync+Cache.swift */; };
+		481EDC771F4C724500E97960 /* LocalizableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481EDC761F4C724500E97960 /* LocalizableTests.swift */; };
+		481EDC781F4C72BF00E97960 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 481EDC7A1F4C72BF00E97960 /* Localizable.strings */; };
 		4837277E1EB8A8DF0060B064 /* DataSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4837277D1EB8A8DF0060B064 /* DataSync.swift */; };
 		483727801EB8AD940060B064 /* Moya.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4837277F1EB8AD940060B064 /* Moya.framework */; };
 		483727821EB8AD9C0060B064 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483727811EB8AD9C0060B064 /* Result.framework */; };
@@ -76,6 +79,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		481EDC721F4C568F00E97960 /* DataSync+Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Cache.swift"; sourceTree = "<group>"; };
+		481EDC761F4C724500E97960 /* LocalizableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizableTests.swift; sourceTree = "<group>"; };
+		481EDC791F4C72BF00E97960 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4837277D1EB8A8DF0060B064 /* DataSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSync.swift; sourceTree = "<group>"; };
 		4837277F1EB8AD940060B064 /* Moya.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Moya.framework; path = Carthage/Build/iOS/Moya.framework; sourceTree = "<group>"; };
 		483727811EB8AD9C0060B064 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
@@ -177,6 +183,7 @@
 		483D549F1F33208C0061D1FE /* Simple */ = {
 			isa = PBXGroup;
 			children = (
+				481EDC761F4C724500E97960 /* LocalizableTests.swift */,
 				4855548F1ECAEC85001EE365 /* TableStampStorageTests.swift */,
 				483D549D1F3320790061D1FE /* SequenceTests.swift */,
 			);
@@ -345,10 +352,12 @@
 				484428F81EC998F0008658B8 /* DataSyncError.swift */,
 				484428F61EC998D0008658B8 /* DataSyncDelegate.swift */,
 				4843784C1F471C02004C5101 /* DataSync+Notification.swift */,
+				481EDC721F4C568F00E97960 /* DataSync+Cache.swift */,
 				484428FF1EC99973008658B8 /* API */,
 				484428FE1EC99969008658B8 /* Configuration */,
 				484803A11EBCB1660094D84C /* Extensions */,
 				485554EF1ECAF857001EE365 /* Future */,
+				481EDC7A1F4C72BF00E97960 /* Localizable.strings */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -537,6 +546,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				481EDC781F4C72BF00E97960 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -629,6 +639,7 @@
 				4837277E1EB8A8DF0060B064 /* DataSync.swift in Sources */,
 				484429011EC999A6008658B8 /* DataSync+Sync.swift in Sources */,
 				484428F71EC998D0008658B8 /* DataSyncDelegate.swift in Sources */,
+				481EDC731F4C568F00E97960 /* DataSync+Cache.swift in Sources */,
 				484803851EBC76D70094D84C /* DataSync+Singleton.swift in Sources */,
 				485554F01ECAFE35001EE365 /* DataStore+Future.swift in Sources */,
 				484803831EBC768E0094D84C /* DataSync+Preferences.swift in Sources */,
@@ -654,6 +665,7 @@
 				485554EC1ECAF2E5001EE365 /* RemoteConfig.swift in Sources */,
 				483D549E1F3320790061D1FE /* SequenceTests.swift in Sources */,
 				485554F51ECB2B71001EE365 /* DataStoreTableStampStorageTests.swift in Sources */,
+				481EDC771F4C724500E97960 /* LocalizableTests.swift in Sources */,
 				485554EA1ECAF04A001EE365 /* Invoices.xcdatamodeld in Sources */,
 				483EF60F1EF925BB00C11B5E /* DataStoreIntegrationTests.swift in Sources */,
 				48C55E9D1EB8A4A100F9ECAC /* DataSyncTests.swift in Sources */,
@@ -670,6 +682,17 @@
 			targetProxy = 48C55EA01EB8A4A100F9ECAC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		481EDC7A1F4C72BF00E97960 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				481EDC791F4C72BF00E97960 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		483727871EB8AE4A0060B064 /* Debug */ = {

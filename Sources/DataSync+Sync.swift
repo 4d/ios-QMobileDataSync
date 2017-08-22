@@ -188,7 +188,9 @@ extension DataSync {
 
             }
             Preferences.firstSync = false
-        } else {
+        }
+
+        if !Preferences.firstSync {
             if Preferences.deleteRecords {
                 // if must removes all the data by tables
                 let removeTableRecords: SyncFuture = loadTable.flatMap { (tables: [Table]) -> SyncFuture in
