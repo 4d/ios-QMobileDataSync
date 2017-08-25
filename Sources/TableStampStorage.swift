@@ -128,7 +128,7 @@ struct PrephirencesTableStampStorage: TableStampStorage {
     }
 }
 
-extension RecordBase {
+extension Record {
 
     open var __stamp: Int {
         return getPrivateAttribute(key: ImportKey.stamp) as? Int ?? 0
