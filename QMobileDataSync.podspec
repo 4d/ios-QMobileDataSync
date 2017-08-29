@@ -33,6 +33,7 @@ Pod::Spec.new do |s|
   s.dependency "XCGLogger"
   s.dependency "Prephirences"
   s.dependency "BrightFutures"
+  s.dependency "FileKit"
   s.dependency "QMobileAPI"
   s.dependency "QMobileDataStore"
 

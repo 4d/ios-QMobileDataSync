@@ -27,3 +27,22 @@ public extension Notification.Name {
     public static let dataSyncForTableFailed = Notification.Name("dataSync.table.failed")
 
 }
+
+extension DataSync {
+
+    func wrap(completionHandler: @escaping SyncCompletionHandler) -> SyncCompletionHandler {
+        return { result in
+            completionHandler(result)
+
+            switch result {
+            case .success:
+                Notification(name: .dataSyncSuccess).post()
+                self.delegate?.didDataSyncEnd(tables: self.tables)
+            case .failure(let error):
+                Notification(name: .dataSyncFailed, object: error).post()
+                self.delegate?.didDataSyncFailed(error: error)
+            }
+        }
+
+    }
+}

@@ -102,8 +102,8 @@ class DataStoreIntegrationTests: XCTestCase {
                                 } catch {
                                     XCTFail("Entity not valid to insert \(error) in data store")
                                 }
-                                XCTAssertNotNil(record.managedObjectContext, "Entity not really inserted")
-                                XCTAssertEqual(record.managedObjectContext, context as? NSManagedObjectContext, "Not coherent context")
+                                XCTAssertNotNil(record.store.managedObjectContext, "Entity not really inserted")
+                                XCTAssertEqual(record.store.managedObjectContext, context as? NSManagedObjectContext, "Not coherent context")
 
                                 print("Create record \(record)")
                             } else {

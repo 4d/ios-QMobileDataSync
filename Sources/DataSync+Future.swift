@@ -11,6 +11,7 @@ import Foundation
 import BrightFutures
 import Result
 import QMobileAPI
+import QMobileDataStore
 
 extension DataSync {
 
@@ -21,4 +22,7 @@ extension DataSync {
         return Future { _ = self.loadTable(queue: queue, $0) }
     }
 
+    public func sync(dataStoreContextType: DataStoreContextType = .background, queue: DispatchQueue? = nil) -> Future<Void, DataSyncError> {
+        return Future { _ = self.sync(dataStoreContextType:dataStoreContextType, queue: queue, $0) }
+    }
 }

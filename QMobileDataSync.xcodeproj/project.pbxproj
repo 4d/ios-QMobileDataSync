@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		481BFB781F4F1C1F007B77C8 /* FileKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 481BFB771F4F1C1F007B77C8 /* FileKit.framework */; };
 		481EDC731F4C568F00E97960 /* DataSync+Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481EDC721F4C568F00E97960 /* DataSync+Cache.swift */; };
 		481EDC771F4C724500E97960 /* LocalizableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481EDC761F4C724500E97960 /* LocalizableTests.swift */; };
 		481EDC781F4C72BF00E97960 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 481EDC7A1F4C72BF00E97960 /* Localizable.strings */; };
@@ -53,6 +54,12 @@
 		485554F51ECB2B71001EE365 /* DataStoreTableStampStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485554F41ECB2B71001EE365 /* DataStoreTableStampStorageTests.swift */; };
 		4865B1AB1EC1BA3100085634 /* BrightFutures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4865B1AA1EC1BA3100085634 /* BrightFutures.framework */; };
 		4865B1AC1EC1BA3100085634 /* BrightFutures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4865B1AA1EC1BA3100085634 /* BrightFutures.framework */; };
+		486A22FB1F55B55C00B5A5E6 /* DataStoreContext+Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A22FA1F55B55C00B5A5E6 /* DataStoreContext+Queue.swift */; };
+		486A22FD1F55B68100B5A5E6 /* DataSync+SyncTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A22FC1F55B68100B5A5E6 /* DataSync+SyncTable.swift */; };
+		486A22FF1F55B69400B5A5E6 /* DataSync+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A22FE1F55B69400B5A5E6 /* DataSync+Init.swift */; };
+		486A23011F55B74300B5A5E6 /* DispatchQueue+Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A23001F55B74300B5A5E6 /* DispatchQueue+Sync.swift */; };
+		486A23021F55B98200B5A5E6 /* DataSync+Reload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FBBFA01F5407AE00E920B6 /* DataSync+Reload.swift */; };
+		486A23041F55BF9D00B5A5E6 /* BrightFutures+Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A23031F55BF9D00B5A5E6 /* BrightFutures+Sync.swift */; };
 		48934E6D1F3DCB9C003B7DB4 /* DataStore+API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48934E6C1F3DCB9C003B7DB4 /* DataStore+API.swift */; };
 		489C15DA1F3B42A5004844F3 /* DataSync+Cancellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489C15D91F3B42A5004844F3 /* DataSync+Cancellable.swift */; };
 		48C55E7D1EB8A09600F9ECAC /* QMobileDataSync.h in Headers */ = {isa = PBXBuildFile; fileRef = 48C55E7B1EB8A09600F9ECAC /* QMobileDataSync.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -66,6 +73,8 @@
 		48C55E9F1EB8A4A100F9ECAC /* QMobileDataSync.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48C55E781EB8A09600F9ECAC /* QMobileDataSync.framework */; };
 		48ED97E51F4AC899000FF1B9 /* PRODUCTS.data.json in Resources */ = {isa = PBXBuildFile; fileRef = 48ED97E41F4AC899000FF1B9 /* PRODUCTS.data.json */; };
 		48EE8AC61F4492F0002C3F08 /* CLIENTS(2).json in Resources */ = {isa = PBXBuildFile; fileRef = 48EE8AC51F4492F0002C3F08 /* CLIENTS(2).json */; };
+		48FBBFAE1F554A4000E920B6 /* API+Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FBBFAD1F554A4000E920B6 /* API+Future.swift */; };
+		48FBBFB01F554C2100E920B6 /* ServerStatusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FBBFAF1F554C2100E920B6 /* ServerStatusTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +88,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		481BFB771F4F1C1F007B77C8 /* FileKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FileKit.framework; path = Carthage/Build/iOS/FileKit.framework; sourceTree = "<group>"; };
+		481BFB791F4F27FD007B77C8 /* FileKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FileKit.framework; path = Carthage/Build/Mac/FileKit.framework; sourceTree = "<group>"; };
 		481EDC721F4C568F00E97960 /* DataSync+Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Cache.swift"; sourceTree = "<group>"; };
 		481EDC761F4C724500E97960 /* LocalizableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizableTests.swift; sourceTree = "<group>"; };
 		481EDC791F4C72BF00E97960 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -131,6 +142,11 @@
 		485554F41ECB2B71001EE365 /* DataStoreTableStampStorageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStoreTableStampStorageTests.swift; sourceTree = "<group>"; };
 		4865B1A91EC1B7BF00085634 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		4865B1AA1EC1BA3100085634 /* BrightFutures.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BrightFutures.framework; path = Carthage/Build/iOS/BrightFutures.framework; sourceTree = "<group>"; };
+		486A22FA1F55B55C00B5A5E6 /* DataStoreContext+Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataStoreContext+Queue.swift"; sourceTree = "<group>"; };
+		486A22FC1F55B68100B5A5E6 /* DataSync+SyncTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+SyncTable.swift"; sourceTree = "<group>"; };
+		486A22FE1F55B69400B5A5E6 /* DataSync+Init.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Init.swift"; sourceTree = "<group>"; };
+		486A23001F55B74300B5A5E6 /* DispatchQueue+Sync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DispatchQueue+Sync.swift"; sourceTree = "<group>"; };
+		486A23031F55BF9D00B5A5E6 /* BrightFutures+Sync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BrightFutures+Sync.swift"; sourceTree = "<group>"; };
 		48934E6C1F3DCB9C003B7DB4 /* DataStore+API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataStore+API.swift"; sourceTree = "<group>"; };
 		489C15D91F3B42A5004844F3 /* DataSync+Cancellable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Cancellable.swift"; sourceTree = "<group>"; };
 		48B0B2DF1F444923008F5EB1 /* Cartfile.resolved */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile.resolved; sourceTree = "<group>"; };
@@ -148,6 +164,9 @@
 		48C55E9E1EB8A4A100F9ECAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		48ED97E41F4AC899000FF1B9 /* PRODUCTS.data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PRODUCTS.data.json; sourceTree = "<group>"; };
 		48EE8AC51F4492F0002C3F08 /* CLIENTS(2).json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "CLIENTS(2).json"; sourceTree = "<group>"; };
+		48FBBFA01F5407AE00E920B6 /* DataSync+Reload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Reload.swift"; sourceTree = "<group>"; };
+		48FBBFAD1F554A4000E920B6 /* API+Future.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "API+Future.swift"; sourceTree = "<group>"; };
+		48FBBFAF1F554C2100E920B6 /* ServerStatusTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerStatusTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +178,7 @@
 				48C55E911EB8A48300F9ECAC /* QMobileAPI.framework in Frameworks */,
 				48C55E901EB8A48300F9ECAC /* Prephirences.framework in Frameworks */,
 				483727841EB8ADAE0060B064 /* Alamofire.framework in Frameworks */,
+				481BFB781F4F1C1F007B77C8 /* FileKit.framework in Frameworks */,
 				483727821EB8AD9C0060B064 /* Result.framework in Frameworks */,
 				48C55E941EB8A48300F9ECAC /* SwiftyJSON.framework in Frameworks */,
 				48C55E951EB8A48300F9ECAC /* XCGLogger.framework in Frameworks */,
@@ -213,6 +233,7 @@
 		483EF6101EF93FB900C11B5E /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				481BFB771F4F1C1F007B77C8 /* FileKit.framework */,
 				48C55E8B1EB8A48300F9ECAC /* QMobileDataStore.framework */,
 				48C55E8A1EB8A48300F9ECAC /* QMobileAPI.framework */,
 				4865B1AA1EC1BA3100085634 /* BrightFutures.framework */,
@@ -230,6 +251,7 @@
 		483EF6111EF93FF700C11B5E /* Mac */ = {
 			isa = PBXGroup;
 			children = (
+				481BFB791F4F27FD007B77C8 /* FileKit.framework */,
 				483EF6171EF940F700C11B5E /* SwiftyJSON.framework */,
 				483EF6121EF9401E00C11B5E /* Alamofire.framework */,
 				483EF6131EF9401E00C11B5E /* BrightFutures.framework */,
@@ -264,6 +286,9 @@
 				484803861EBC78680094D84C /* Array+Dictionary.swift */,
 				484428FA1EC99922008658B8 /* Sequence+Result.swift */,
 				48934E6C1F3DCB9C003B7DB4 /* DataStore+API.swift */,
+				486A22FA1F55B55C00B5A5E6 /* DataStoreContext+Queue.swift */,
+				486A23001F55B74300B5A5E6 /* DispatchQueue+Sync.swift */,
+				486A23031F55BF9D00B5A5E6 /* BrightFutures+Sync.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -308,6 +333,7 @@
 			children = (
 				485554ED1ECAF853001EE365 /* DataStore+Future.swift */,
 				485554F11ECB004C001EE365 /* DataSync+Future.swift */,
+				48FBBFAD1F554A4000E920B6 /* API+Future.swift */,
 			);
 			name = Future;
 			sourceTree = "<group>";
@@ -345,7 +371,9 @@
 			isa = PBXGroup;
 			children = (
 				4837277D1EB8A8DF0060B064 /* DataSync.swift */,
+				486A22FE1F55B69400B5A5E6 /* DataSync+Init.swift */,
 				484429001EC999A6008658B8 /* DataSync+Sync.swift */,
+				486A22FC1F55B68100B5A5E6 /* DataSync+SyncTable.swift */,
 				484428FC1EC9995E008658B8 /* DataSync+Process.swift */,
 				489C15D91F3B42A5004844F3 /* DataSync+Cancellable.swift */,
 				484803841EBC76D70094D84C /* DataSync+Singleton.swift */,
@@ -353,6 +381,7 @@
 				484428F61EC998D0008658B8 /* DataSyncDelegate.swift */,
 				4843784C1F471C02004C5101 /* DataSync+Notification.swift */,
 				481EDC721F4C568F00E97960 /* DataSync+Cache.swift */,
+				48FBBFA01F5407AE00E920B6 /* DataSync+Reload.swift */,
 				484428FF1EC99973008658B8 /* API */,
 				484428FE1EC99969008658B8 /* Configuration */,
 				484803A11EBCB1660094D84C /* Extensions */,
@@ -389,6 +418,7 @@
 				48C55E9C1EB8A4A100F9ECAC /* DataSyncTests.swift */,
 				483EF60E1EF925BB00C11B5E /* DataStoreIntegrationTests.swift */,
 				485554F41ECB2B71001EE365 /* DataStoreTableStampStorageTests.swift */,
+				48FBBFAF1F554C2100E920B6 /* ServerStatusTests.swift */,
 				483D549F1F33208C0061D1FE /* Simple */,
 				48C55E9E1EB8A4A100F9ECAC /* Info.plist */,
 			);
@@ -608,6 +638,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/QMobileAPI.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/BrightFutures.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/FileKit.framework",
 			);
 			outputPaths = (
 			);
@@ -636,6 +667,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				486A22FF1F55B69400B5A5E6 /* DataSync+Init.swift in Sources */,
 				4837277E1EB8A8DF0060B064 /* DataSync.swift in Sources */,
 				484429011EC999A6008658B8 /* DataSync+Sync.swift in Sources */,
 				484428F71EC998D0008658B8 /* DataSyncDelegate.swift in Sources */,
@@ -643,15 +675,21 @@
 				484803851EBC76D70094D84C /* DataSync+Singleton.swift in Sources */,
 				485554F01ECAFE35001EE365 /* DataStore+Future.swift in Sources */,
 				484803831EBC768E0094D84C /* DataSync+Preferences.swift in Sources */,
+				486A23011F55B74300B5A5E6 /* DispatchQueue+Sync.swift in Sources */,
+				486A23021F55B98200B5A5E6 /* DataSync+Reload.swift in Sources */,
 				484803871EBC78680094D84C /* Array+Dictionary.swift in Sources */,
 				484428F51EC99766008658B8 /* TableStampStorage.swift in Sources */,
+				486A22FB1F55B55C00B5A5E6 /* DataStoreContext+Queue.swift in Sources */,
+				486A22FD1F55B68100B5A5E6 /* DataSync+SyncTable.swift in Sources */,
 				484428FB1EC99922008658B8 /* Sequence+Result.swift in Sources */,
 				484428F91EC998F0008658B8 /* DataSyncError.swift in Sources */,
 				48934E6D1F3DCB9C003B7DB4 /* DataStore+API.swift in Sources */,
 				4843784D1F471C02004C5101 /* DataSync+Notification.swift in Sources */,
 				484803A51EBCB5C50094D84C /* DataSync+Records.swift in Sources */,
+				48FBBFAE1F554A4000E920B6 /* API+Future.swift in Sources */,
 				485554F31ECB00D4001EE365 /* DataSync+Future.swift in Sources */,
 				489C15DA1F3B42A5004844F3 /* DataSync+Cancellable.swift in Sources */,
+				486A23041F55BF9D00B5A5E6 /* BrightFutures+Sync.swift in Sources */,
 				484428FD1EC9995E008658B8 /* DataSync+Process.swift in Sources */,
 				484803A31EBCB2340094D84C /* DataSync+Table.swift in Sources */,
 			);
@@ -665,6 +703,7 @@
 				485554EC1ECAF2E5001EE365 /* RemoteConfig.swift in Sources */,
 				483D549E1F3320790061D1FE /* SequenceTests.swift in Sources */,
 				485554F51ECB2B71001EE365 /* DataStoreTableStampStorageTests.swift in Sources */,
+				48FBBFB01F554C2100E920B6 /* ServerStatusTests.swift in Sources */,
 				481EDC771F4C724500E97960 /* LocalizableTests.swift in Sources */,
 				485554EA1ECAF04A001EE365 /* Invoices.xcdatamodeld in Sources */,
 				483EF60F1EF925BB00C11B5E /* DataStoreIntegrationTests.swift in Sources */,

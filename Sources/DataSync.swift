@@ -78,3 +78,5 @@ public class DataSync {
         case onCompletion
     }
 }
+
+typealias VoidClosure  = () throws -> Swift.Void

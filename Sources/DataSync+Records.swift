@@ -83,33 +83,31 @@ extension DataSync {
 
 }
 
-
-
 import QMobileDataStore
 extension Record: RecordImportable {
-    
+
     public var tableName: String {
         return store.tableName
     }
-    
+
     public func has(key: String) -> Bool {
         return store.has(key: key)
     }
-    
+
     public func `import`(attribute: Attribute, value: Any?, with mapper: AttributeMapper) {
         return store.import(attribute: attribute, value: value, with: mapper)
     }
-    
+
     public func importPrivateAttribute(key: String, value: Any?) {
         store.importPrivateAttribute(key: key, value: value)
     }
-    
+
     public func get(attribute: Attribute, with mapper: AttributeMapper) -> Any? {
         return store.get(attribute: attribute, with: mapper)
     }
-    
+
     public func getPrivateAttribute(key: String) -> Any? {
         return store.getPrivateAttribute(key:key)
     }
-    
+
 }

@@ -259,6 +259,11 @@ class DataSyncTests: XCTestCase {
             print("\(String(describing: cancellable))")
         }
     }
+    
+    public func testPageInfoDummy() {
+        XCTAssertTrue(PageInfo.dummy.isLast)
+        XCTAssertTrue(PageInfo.dummy.isFirst)
+    }
 
 
     
