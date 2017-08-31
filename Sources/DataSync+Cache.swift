@@ -11,6 +11,7 @@ import Foundation
 import QMobileDataStore
 import QMobileAPI
 import Moya
+import FileKit
 
 protocol CacheTargetType: TargetType {
     var cacheFileName: String? { get }
@@ -47,4 +48,15 @@ extension URL {
         }
         return FileManager.default.fileExists(atPath: self.path)
     }
+}
+
+extension DataSync {
+
+    public func clearFileCache() {
+        let files = self.cachePath.children().filter { $0.pathExtension == DataSync.Preferences.jsonDataExtension }
+        for file in files where file.exists {
+            try? file.deleteFile()
+        }
+    }
+
 }

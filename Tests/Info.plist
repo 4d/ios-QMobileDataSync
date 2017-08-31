@@ -20,5 +20,7 @@
 	<string>1</string>
 	<key>CoreDataModel</key>
 	<string>Invoices</string>
+	<key>api.request.timeout</key>
+	<integer>5</integer>
 </dict>
 </plist>

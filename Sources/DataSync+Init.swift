@@ -70,7 +70,7 @@ extension DataSync {
 
                         logger.info("Load table data from embedded data files")
                         do {
-                            try self.loadRecordsFromFile(saveByTable: true, context: dataStoreContext, save: save)
+                            try self.loadRecordsFromFile(context: dataStoreContext, save: save)
                             return .success()
                         } catch let dataStoreError as DataStoreError {
                             return .failure(dataStoreError)

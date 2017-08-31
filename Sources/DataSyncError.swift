@@ -9,6 +9,7 @@
 import Foundation
 import QMobileAPI
 import QMobileDataStore
+import Result
 
 public enum DataSyncError: Swift.Error {
     /// Data sync object is no more retained in memory
@@ -30,15 +31,15 @@ public enum DataSyncError: Swift.Error {
     case missingRemoteTables([Table])
 }
 
-extension DataSyncError: ResultMappableError {
+extension DataSyncError: ErrorConvertible {
 
-    public init(underlying: Swift.Error) {
+    public static func error(from underlying: Swift.Error) -> DataSyncError {
         if let apiError = underlying as? APIError {
-            self = .apiError(apiError)
+            return .apiError(apiError)
         } else if let dataStoreError = underlying as? DataStoreError {
-            self = .dataStoreError(dataStoreError)
+            return .dataStoreError(dataStoreError)
         } else {
-            self = .apiError(underlying)
+            return .apiError(underlying)
         }
     }
 

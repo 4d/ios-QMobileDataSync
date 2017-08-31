@@ -29,143 +29,175 @@ extension DataSync {
             .onFailure { error in
                 completionHandler(.failure(error))
             }
-            .onSuccess {
-                logger.info("Start data synchronisation")
-                // Check if metadata could be read
-                guard let metadata = self.dataStore.metadata else {
-                    logger.warning("Could not read metadata from datastore")
-                    completionHandler(.failure(.dataStoreNotReady))
+            .onSuccess { [weak self] in
+                guard let this = self else {
+                    // memory issue, must retain the dataSync object somewhere
+                    completionHandler(.failure(.retain))
                     return
                 }
-                // Get data from this global stamp
-                let startStamp = metadata.stampStorage.globalStamp
-                let tablesByName = self.tablesByName
+
+                logger.info("Start data reloading")
 
                 // Ask delegate if there is any reason to stop process
-                Notification(name: .dataSyncBegin, object: self.tables).post()
-                let stop = self.delegate?.willDataSyncBegin(tables: self.tables) ?? false
+                let stop = this.dataSyncBegin()
                 if stop {
-                    logger.info("Data synchronisation stop requested before starting the process")
+                    logger.info("Data reloading stop requested before starting the process")
                     completionHandler(.failure(.delegateRequestStop))
                     return
                 }
 
                 // perform a data store task in background
-                let perform = self.dataStore.perform(dataStoreContextType) { [weak self] context, save in
-                    guard let this = self else {
-                        // memory issue, must retain the dataSync object somewhere
-                        completionHandler(.failure(.retain))
-                        return
+                //let perform = this.dataStore.perform(dataStoreContextType) { [weak self] context, save in
+                /*guard let this = self else {
+                 // memory issue, must retain the dataSync object somewhere
+                 completionHandler(.failure(.retain))
+                 return
+                 }*/
+
+                let startStamp = 0
+                let tablesByName = this.tablesByName
+
+                // From remote
+                let tempPath: Path = .userTemporary
+
+                let processCompletion = this.reloadProcessCompletionCallBack(tempPath: tempPath, completionHandler)
+                let process = Process(tables: tablesByName, startStamp: startStamp, cancellable: cancellable, completionHandler: processCompletion)
+
+                // assert(this.process == nil)
+                this.process = process
+
+                //let queue: DispatchQueue = queue ?? context.queue
+
+                // For each table get data from last global stamp
+                //let configureRequest = this.configureRequest(stamp: startStamp)
+                for table in this.tables {
+                    logger.debug("Start data reloading for table \(table.name)")
+
+                    let progress: APIManager.ProgressHandler = { progress in
+
                     }
 
-                    // From remote
-                    let processCompletion = this.processCompletionCallBack(completionHandler, context: context, save: save)
-                    let process = Process(tables: tablesByName, startStamp: startStamp, cancellable: cancellable, completionHandler: processCompletion)
-
-                    // assert(this.process == nil)
-                    this.process = process
-
-                    let tableQueue: DispatchQueue?
-                    if let queue = queue {
-                        tableQueue = queue
-                    } else {
-                        switch context.type {
-                        case .background: tableQueue = .background
-                        case .foreground: tableQueue = .main
-                        }
-                    }
-
-                    if let currentDispatch = OperationQueue.current?.underlyingQueue {
-                        print(currentDispatch)
-                    }
-
-                    // For each table get data from last global stamp
-                    //let configureRequest = this.configureRequest(stamp: startStamp)
-                    for table in this.tables {
-                        logger.debug("Start data synchronisation for table \(table.name)")
-                        let requestCancellable = this.reloadTableR(table, queue: tableQueue, context: context, save: save)
-                        cancellable.append(requestCancellable)
-                    }
+                    let requestCancellable = this.reloadTable(table, in: tempPath, queue: queue, progress: progress)
+                    cancellable.append(requestCancellable)
                 }
+                /*}*/
                 // return no task if dataStore not ready
-                if !perform {
+               /* if !perform {
                     logger.warning("Cannot get data: context cannot be created on data store")
                     completionHandler(.failure(.dataStoreNotReady))
                     return
 
-                }
+                }*/
         }
         return cancellable
     }
 
-    func reloadTableR(_ table: Table, queue: DispatchQueue? = nil, context: DataStoreContext, save: @escaping VoidClosure) -> Cancellable {
-       let tableName = table.name
-        logger.debug("Load records for \(tableName)")
-        Notification(name: .dataSyncForTableBegin, object: table).post()
-        self.delegate?.willDataSyncBegin(for: table)
-
-        var target = rest.rest.records(from: table.name, attributes: [])
-        target.limit(Preferences.requestLimit)
-
-        let progress: APIManager.ProgressHandler = { progress in
-
-        }
-
-        let completion: APIManager.Completion = { result in
+    func reloadProcessCompletionCallBack(tempPath: Path, _ completionHandler: @escaping SyncCompletionHandler) -> Process.CompletionHandler {
+        return { result in
             switch result {
-            case .success(let reponse):
+            case .success(let stamp):
+                // store new stamp
+                var metadata = self.dataStore.metadata
+                metadata?.globalStamp = stamp
+                metadata?.lastSync = Date()
 
-                logger.debug("Receive record for table '\(tableName)'")
+                let files = tempPath.children().filter { $0.pathExtension == DataSync.Preferences.jsonDataExtension }
 
-                print("response \(reponse)")
-                let pageInfo = PageInfo.dummy
-                self.delegate?.didDataSyncEnd(for: table, page: pageInfo)
-                Notification(name: .dataSyncForTableSuccess, object: (table, pageInfo)).post()
+                self.clearFileCache()
 
-                if var process = self.process {
-                    // #FIXME dead lock here????
-                    logger.verbose("will lock process")
-                    objc_sync_enter(process)
-                    logger.verbose("did lock process")
-                    defer {
-                        logger.verbose("will unlock process")
-                        objc_sync_exit(process)
-                        logger.verbose("did unlock process")
+                for file in files {
+                    let destination: Path = self.cachePath + file.fileName
+                    try? file.copyFile(to: destination) // TODO check copy cache file error
+                }
+
+                let result = self.dataStore.perform(.background) { context, save in
+
+                    logger.info("Load table data from embedded data files")
+                    do {
+                        try self.loadRecordsFromFile(context: context, save: save)
+                        completionHandler(.success())
+                    } catch let dataStoreError as DataSyncError {
+                        completionHandler(.failure(DataSyncError.error(from: dataStoreError)))
+                    } catch {
+                        completionHandler(.failure(DataSyncError.error(from: DataStoreError(error))))
                     }
-
-                    self.process?.completed(for: table, with: .success(pageInfo))
-
-                    if let tableStatus = self.process?.checkCompleted() {
-
-                    }
+                }
+                if !result {
+                    completionHandler(.failure(DataSyncError.error(from: DataStoreError(DataStoreStateError.dataStoreNotReady))))
                 }
 
             case .failure(let error):
-                var errorMessage = "\(error)"
-                if let requestCase = APIError(underlying: error).requestCase {
-                    errorMessage = "\(requestCase) (\(error.localizedDescription))"
+                if case .onCompletion = self.saveMode {
+                    // context.rollback()
+                }
+                completionHandler(.failure(DataSyncError.apiError(error)))
+            }
+        }
+    }
+
+    func reloadTable(_ table: Table, in path: Path, queue: DispatchQueue? = nil, progress: APIManager.ProgressHandler? = nil) -> Cancellable {
+        dataSyncBegin(for: table)
+
+        let cancellable = CancellableComposite()
+        var target = rest.rest.records(from: table.name, attributes: [])
+        target.limit(Preferences.requestLimit)
+
+        let completion: APIManager.Completion = { result in
+            switch result {
+            case .success(let response):
+
+                let path: Path = path + "\(table.name).\(DataSync.Preferences.jsonDataExtension)"
+                let data = response.data
+
+                if path.exists {
+                    try? path.deleteFile()
+                }
+                do {
+                    try DataFile(path: path).write(response.data)
+                } catch {
+                    logger.warning("failed to write to \(path)")
                 }
 
-                logger.warning("Failed to get records for table \(tableName): \(errorMessage)")
+                let pageInfo = PageInfo.dummy
+                assert(pageInfo.isLast)
+                self.dataSyncEnd(for: table, with: pageInfo)
 
-                Notification(name: .dataSyncForTableFailed, object: (table, error)).post()
-                self.delegate?.didDataSyncFailed(for: table, error: error)
-
-                if var process = self.process {
-                    objc_sync_enter(process)
+                if pageInfo.isLast, let process = self.process {
+                    process.lock()
                     defer {
-                        objc_sync_exit(process)
+                        process.unlock()
                     }
 
-                    self.process?.completed(for: table, with: .failureMappable(error))
+                    // Set current table completed
+                    process.completed(for: table, with: .success(pageInfo))
+                    // Check if we must relaunch some request due to stamp
+                    if let tableStatus = process.checkCompleted() {
 
+                        // There is some table to relaunch sync because stamp are not equal
+                        for (table, _) in tableStatus {
+                            let c = self.reloadTable(table, in: path, queue: queue, progress: progress)
+                            cancellable.append(c)
+                        }
+                    }
+                }
+            case .failure(let error):
+                self.dataSyncFailed(for: table, with: APIError.error(from: error))
+
+                if var process = self.process {
+                    process.lock()
+                    defer {
+                        process.unlock()
+                    }
+                    self.process?.completed(for: table, with: .failureMappable(error))
                     _ = self.process?.checkCompleted()
                 }
             }
         }
 
-        return rest.request(target, queue: queue, progress: progress, completion: completion)
+        let cancellableRecords = rest.request(target, queue: queue, progress: progress, completion: completion)
+        cancellable.append(cancellableRecords)
 
+        return cancellable
     }
 }
 

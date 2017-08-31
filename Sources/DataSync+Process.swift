@@ -16,7 +16,7 @@ import Prephirences
 // MARK: Sync
 extension DataSync {
 
-    struct Process {
+    class Process {
 
         public typealias ProcessError = AnyError
 
@@ -41,6 +41,19 @@ extension DataSync {
             self.cancellable = cancellable
             self.completionHandler = completionHandler
         }
+
+        func lock() {
+            logger.verbose("will lock process")
+            objc_sync_enter(self)
+            logger.verbose("did lock process")
+        }
+
+        func unlock() {
+            logger.verbose("will unlock process")
+            objc_sync_exit(self)
+            logger.verbose("did unlock process")
+        }
+
     }
 
 }
@@ -48,7 +61,7 @@ extension DataSync {
 extension DataSync.Process {
 
     // A table has been synchornized with a specific result
-    mutating func completed(for table: Table, with tableResult: TablePageResult) {
+    func completed(for table: Table, with tableResult: TablePageResult) {
         tablesResults[table.name] = tableResult.map { return (table, $0.globalStamp) }
 
         if case .failure = tableResult {
@@ -65,7 +78,7 @@ extension DataSync.Process {
         return tablesResults.count == tablesByName.count
     }
 
-    mutating func checkCompleted() -> [TableStatus]? {
+    func checkCompleted() -> [TableStatus]? {
 
         // maybe Future?Promize or a Lock
         logger.debug("There is \(tablesResults.count)/\(tablesByName.count) tables sync")

@@ -60,6 +60,8 @@
 		486A23011F55B74300B5A5E6 /* DispatchQueue+Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A23001F55B74300B5A5E6 /* DispatchQueue+Sync.swift */; };
 		486A23021F55B98200B5A5E6 /* DataSync+Reload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FBBFA01F5407AE00E920B6 /* DataSync+Reload.swift */; };
 		486A23041F55BF9D00B5A5E6 /* BrightFutures+Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A23031F55BF9D00B5A5E6 /* BrightFutures+Sync.swift */; };
+		486B24791F56B23700706B92 /* FutureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486B24781F56B23700706B92 /* FutureTests.swift */; };
+		487F7FEA1F570C7D0064AF4B /* DataReloadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487F7FE91F570C7D0064AF4B /* DataReloadTests.swift */; };
 		48934E6D1F3DCB9C003B7DB4 /* DataStore+API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48934E6C1F3DCB9C003B7DB4 /* DataStore+API.swift */; };
 		489C15DA1F3B42A5004844F3 /* DataSync+Cancellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489C15D91F3B42A5004844F3 /* DataSync+Cancellable.swift */; };
 		48C55E7D1EB8A09600F9ECAC /* QMobileDataSync.h in Headers */ = {isa = PBXBuildFile; fileRef = 48C55E7B1EB8A09600F9ECAC /* QMobileDataSync.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -147,6 +149,8 @@
 		486A22FE1F55B69400B5A5E6 /* DataSync+Init.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Init.swift"; sourceTree = "<group>"; };
 		486A23001F55B74300B5A5E6 /* DispatchQueue+Sync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DispatchQueue+Sync.swift"; sourceTree = "<group>"; };
 		486A23031F55BF9D00B5A5E6 /* BrightFutures+Sync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BrightFutures+Sync.swift"; sourceTree = "<group>"; };
+		486B24781F56B23700706B92 /* FutureTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FutureTests.swift; sourceTree = "<group>"; };
+		487F7FE91F570C7D0064AF4B /* DataReloadTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataReloadTests.swift; sourceTree = "<group>"; };
 		48934E6C1F3DCB9C003B7DB4 /* DataStore+API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataStore+API.swift"; sourceTree = "<group>"; };
 		489C15D91F3B42A5004844F3 /* DataSync+Cancellable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Cancellable.swift"; sourceTree = "<group>"; };
 		48B0B2DF1F444923008F5EB1 /* Cartfile.resolved */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile.resolved; sourceTree = "<group>"; };
@@ -206,6 +210,7 @@
 				481EDC761F4C724500E97960 /* LocalizableTests.swift */,
 				4855548F1ECAEC85001EE365 /* TableStampStorageTests.swift */,
 				483D549D1F3320790061D1FE /* SequenceTests.swift */,
+				486B24781F56B23700706B92 /* FutureTests.swift */,
 			);
 			name = Simple;
 			sourceTree = "<group>";
@@ -416,6 +421,7 @@
 				483D54A11F3320A70061D1FE /* Resources */,
 				483D54A01F3320980061D1FE /* Utils */,
 				48C55E9C1EB8A4A100F9ECAC /* DataSyncTests.swift */,
+				487F7FE91F570C7D0064AF4B /* DataReloadTests.swift */,
 				483EF60E1EF925BB00C11B5E /* DataStoreIntegrationTests.swift */,
 				485554F41ECB2B71001EE365 /* DataStoreTableStampStorageTests.swift */,
 				48FBBFAF1F554C2100E920B6 /* ServerStatusTests.swift */,
@@ -699,7 +705,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				487F7FEA1F570C7D0064AF4B /* DataReloadTests.swift in Sources */,
 				485554901ECAEC85001EE365 /* TableStampStorageTests.swift in Sources */,
+				486B24791F56B23700706B92 /* FutureTests.swift in Sources */,
 				485554EC1ECAF2E5001EE365 /* RemoteConfig.swift in Sources */,
 				483D549E1F3320790061D1FE /* SequenceTests.swift in Sources */,
 				485554F51ECB2B71001EE365 /* DataStoreTableStampStorageTests.swift in Sources */,

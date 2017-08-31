@@ -10,7 +10,10 @@ import Foundation
 import QMobileAPI
 import Result
 import BrightFutures
+import Moya
 
+// Extension to use Future
+// CLEAN, make request cancellable, maybe using FutureContainer or ask BrightFutures to remove final keyword info Future
 public extension APIManager {
 
     /// Get server status
@@ -68,14 +71,65 @@ public extension APIManager {
 public extension APIManager {
 
     public static func status(for urls: [URL], queue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<[URL: Result<Status, APIError>], NoError> {
+        if urls.isEmpty {
+            return Future(value: [:])
+        }
+
         typealias FutureTuple = Future<(URL, Result<Status, APIError>), NoError>
         var sequence: [FutureTuple] = []
         for url in urls {
-            let resultified: Future<(Result<Status, APIError>), NoError> = APIManager(url: url).loadStatus().resultify()
+            let resultified: Future<(Result<Status, APIError>), NoError> = APIManager(url: url).loadStatus(queue: queue, progress: progress).resultify()
             let future: FutureTuple = resultified.map { (url, $0) }
             sequence.append(future)
         }
+
         return sequence.sequence().map { dict($0) }
+    }
+
+    public static func firstStatus(for urls: [URL], queue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<(URL, Status), APIError> {
+        if urls.isEmpty {
+            assertionFailure("no url provided")
+            return Future(error: APIError.error(from: NSError(domain: "qmobile", code: 700))) // CLEAN, use a real APIError
+        }
+
+        typealias FutureFirst = Future<(URL, Status), APIError>
+        var sequence: [FutureFirst] = []
+        for url in urls {
+            let statusFuture: Future<Status, APIError> = APIManager(url: url).loadStatus(queue: queue, progress: progress)
+            let future: FutureFirst = statusFuture.map { (url, $0) }
+            sequence.append(future)
+        }
+        return sequence.firstCompleted()
+    }
+
+    public static func firstStatusSuccess(for urls: [URL], queue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<(URL, Status), APIError> {
+        var urls = urls[urls.indices]
+
+        guard let firstURL: URL = urls.popFirst() else {
+            assertionFailure("no url provided")
+            return Future(error: APIError.error(from: NSError(domain: "qmobile", code: 700))) // CLEAN, use a real APIError
+        }
+
+        typealias FutureFirst = Future<(URL, Status), APIError>
+        let future: FutureFirst = APIManager(url: firstURL).loadStatus(queue: queue, progress: progress).map { (firstURL, $0) }
+        // this is sequential with recoverWith, we could do better //
+        var current = future
+        var currentURL: URL? = urls.popFirst()
+        while currentURL != nil {
+            if let url  = currentURL {
+                if let queue = queue {
+                    current = current.recoverWith(context: queue.context) { _ -> FutureFirst in
+                        return APIManager(url: url).loadStatus(queue: queue, progress: progress).map { (url, $0) }
+                    }
+                } else {
+                    current = current.recoverWith { _ -> FutureFirst in
+                        return APIManager(url: url).loadStatus(queue: queue, progress: progress).map { (url, $0) }
+                    }
+                }
+            }
+            currentURL = urls.popFirst()
+        }
+        return current
     }
 
 }

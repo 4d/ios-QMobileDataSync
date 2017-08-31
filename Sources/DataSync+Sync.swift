@@ -24,7 +24,7 @@ extension DataSync {
     public typealias SyncCompletionHandler = (SyncResult) -> Void
     public typealias SyncFuture = Future<Void, DataSyncError>
 
-    public func sync(dataStoreContextType: DataStoreContextType = .background, queue: DispatchQueue? = nil, _ completionHandler: @escaping SyncCompletionHandler) -> Cancellable? {
+    public func sync(dataStoreContextType: DataStoreContextType = .background, queue: DispatchQueue? = nil, _ completionHandler: @escaping SyncCompletionHandler) -> Cancellable {
 
         cancel()
         // TOTEST maybe wait process cancel...
@@ -38,21 +38,23 @@ extension DataSync {
         future.onFailure { error in
             completionHandler(.failure(error))
         }
-        future.onSuccess {
+        future.onSuccess { [weak self] in
+            guard let this = self else {
+                // memory issue, must retain the dataSync object somewhere
+                completionHandler(.failure(.retain))
+                return
+            }
             logger.info("Start data synchronisation")
+
             // Check if metadata could be read
-            guard let metadata = self.dataStore.metadata else {
+            guard let metadata = this.dataStore.metadata else {
                 logger.warning("Could not read metadata from datastore")
                 completionHandler(.failure(.dataStoreNotReady))
                 return
             }
-            // Get data from this global stamp
-            let startStamp = metadata.stampStorage.globalStamp
-            let tablesByName = self.tablesByName
 
             // Ask delegate if there is any reason to stop process
-            Notification(name: .dataSyncBegin, object: self.tables).post()
-            let stop = self.delegate?.willDataSyncBegin(tables: self.tables) ?? false
+            let stop = this.dataSyncBegin()
             if stop {
                 logger.info("Data synchronisation stop requested before starting the process")
                 completionHandler(.failure(.delegateRequestStop))
@@ -60,7 +62,7 @@ extension DataSync {
             }
 
             // perform a data store task in background
-            let perform = self.dataStore.perform(dataStoreContextType) { [weak self] context, save in
+            let perform = this.dataStore.perform(dataStoreContextType) { [weak self] context, save in
                 guard let this = self else {
                     // memory issue, must retain the dataSync object somewhere
                     completionHandler(.failure(.retain))
@@ -68,8 +70,12 @@ extension DataSync {
                 }
                 let queue: DispatchQueue = queue ?? context.queue
 
+                // Get data from this global stamp
+                let startStamp = metadata.stampStorage.globalStamp
+                let tablesByName = this.tablesByName
+
                 // From remote
-                let processCompletion = this.processCompletionCallBack(completionHandler, context: context, save: save)
+                let processCompletion = this.syncProcessCompletionCallBack(completionHandler, context: context, save: save)
                 let process = Process(tables: tablesByName, startStamp: startStamp, cancellable: cancellable, completionHandler: processCompletion)
 
                 // assert(this.process == nil)
@@ -91,7 +97,7 @@ extension DataSync {
         return cancellable
     }
 
-    func processCompletionCallBack(_ completionHandler: @escaping SyncCompletionHandler, context: DataStoreContext, save: @escaping VoidClosure) -> Process.CompletionHandler {
+    func syncProcessCompletionCallBack(_ completionHandler: @escaping SyncCompletionHandler, context: DataStoreContext, save: @escaping VoidClosure) -> Process.CompletionHandler {
         return { result in
             switch result {
             case .success(let stamp):
@@ -114,25 +120,4 @@ extension DataSync {
         }
     }
 
-    func configureRequest(stamp: TableStampStorage.Stamp) -> ((RecordsRequest) -> Void) {
-        return { request in
-            request.limit(Preferences.requestPageLimit)
-            // stamp filter
-            let filter = "\(kStampFilter)=\(stamp)"
-            request.filter(filter)
-        }
-    }
-
 }
-
-/*
-extension MoyaError: CustomDebugStringConvertible {
-    
-    var debugDescription: String {
-        
-        return self.localizedDescription
-        
-    }
- 
-    
-}*/

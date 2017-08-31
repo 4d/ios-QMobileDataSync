@@ -28,6 +28,8 @@ public extension Notification.Name {
 
 }
 
+import QMobileAPI
+
 extension DataSync {
 
     func wrap(completionHandler: @escaping SyncCompletionHandler) -> SyncCompletionHandler {
@@ -44,5 +46,34 @@ extension DataSync {
             }
         }
 
+    }
+
+    func dataSyncBegin() -> Bool {
+        Notification(name: .dataSyncBegin, object: self.tables).post()
+        return self.delegate?.willDataSyncBegin(tables: self.tables) ?? false
+    }
+
+    func dataSyncBegin(for table: Table) {
+        logger.debug("Load records for \(table.name)")
+        Notification(name: .dataSyncForTableBegin, object: table).post()
+        self.delegate?.willDataSyncBegin(for: table)
+    }
+
+    func dataSyncEnd(for table: Table, with pageInfo: PageInfo) {
+        logger.debug("Receive page '\(pageInfo)' for table '\(table.name)'")
+        self.delegate?.didDataSyncEnd(for: table, page: pageInfo)
+        Notification(name: .dataSyncForTableSuccess, object: (table, pageInfo)).post()
+    }
+
+    func dataSyncFailed(for table: Table, with error: APIError) {
+        var errorMessage = "\(error)"
+        if let requestCase = error.requestCase {
+            errorMessage = "\(requestCase) (\(error.localizedDescription))"
+        }
+        logger.warning("Failed to get records for table \(table.name): \(errorMessage)")
+
+        let dataSyncError: DataSyncError = .apiError(error)
+        Notification(name: .dataSyncForTableFailed, object: (table, dataSyncError)).post()
+        self.delegate?.didDataSyncFailed(for: table, error: dataSyncError)
     }
 }

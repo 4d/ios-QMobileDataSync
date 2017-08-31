@@ -12,6 +12,7 @@ import QMobileDataStore
 import QMobileAPI
 
 import Result
+import FileKit
 
 let logger = Logger.forClass(DataSync.self) // XXX check if configuration not already done...
 
@@ -25,32 +26,10 @@ public class DataSync {
     public init(rest: APIManager = APIManager.instance, dataStore: DataStore = QMobileDataStore.dataStore) {
         self.rest = rest
         self.dataStore = dataStore
-
-        self.rest.plugins.append(ReceivePlugin { [weak self] result, target in
-            if case .success(let response) = result {
-                let data = response.data
-
-                if let cacheTarget = target as? CacheTargetType, let fileName = cacheTarget.cacheFileName {
-
-                    /*let url = response.request?.url, let routeTarget = self?.rest.target(for: url) {
-                        
-                    }*/
-
-                    logger.debug("Save request into \(fileName)")
-                    if let fileURL = self?.cacheURL?.appendingPathComponent(fileName) {
-                        do {
-                            try data.write(to:fileURL)
-                        } catch {
-                            logger.warning("Failed to write to cache file \(fileURL)")
-                        }
-                    }
-                }
-            }
-        })
     }
 
-            /// URL for caching data
-    public var cacheURL: URL? = FileManager.SearchPathDirectory.cachesDirectory.url
+    /// URL for caching data
+    public var cachePath: Path = .userCaches
 
     /// Bundle for files (JSON tables and data)
     public var bundle: Bundle = .main
@@ -79,4 +58,4 @@ public class DataSync {
     }
 }
 
-typealias VoidClosure  = () throws -> Swift.Void
+typealias VoidClosure  = () throws -> Swift.Void // TODO replace by DataStore.SaveClosure

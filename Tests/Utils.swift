@@ -11,11 +11,19 @@ import QMobileAPI
 
 import Foundation
 import SwiftyJSON
+import Prephirences
 
 let tablesNames = ["CLIENTS", "INVOICES", "PRODUCTS"]
 
-private class Utils {
+class Utils {
     
+    static func initialize() {
+        Prephirences.sharedInstance = MutableCompositePreferences([UserDefaults.standard, Bundle.test])
+    }
+}
+
+extension Bundle {
+    static let test = Bundle(for: Utils.self)
 }
 
 // MARK: Files
@@ -88,4 +96,24 @@ extension XCTestCase {
         }
     }
     
+}
+
+
+extension NSError {
+    static let dummy: NSError = NSError(domain: "dummy", code: 0)
+    var isDummy: Bool {
+        return domain == "dummy"
+    }
+}
+
+extension APIError {
+    static let dummy: APIError = .request(NSError.dummy)
+    var isDummy: Bool {
+        switch self {
+        case .request(let error):
+            return (error as NSError).isDummy
+        default:
+            return false
+        }
+    }
 }
