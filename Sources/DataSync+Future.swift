@@ -15,14 +15,14 @@ import QMobileDataStore
 
 extension DataSync {
 
-    public func loadTable(queue: DispatchQueue? = nil) -> Future<[Table], DataSyncError> {
+    public func loadTable(callbackQueue: DispatchQueue? = nil) -> Future<[Table], DataSyncError> {
         if !self.tablesByName.isEmpty {
             return Future<[Table], DataSyncError>(result: .success(self.tables))
         }
-        return Future { _ = self.loadTable(queue: queue, $0) }
+        return Future { _ = self.loadTable(callbackQueue: callbackQueue, $0) }
     }
 
-    public func sync(dataStoreContextType: DataStoreContextType = .background, queue: DispatchQueue? = nil) -> Future<Void, DataSyncError> {
-        return Future { _ = self.sync(dataStoreContextType:dataStoreContextType, queue: queue, $0) }
+    public func sync(dataStoreContextType: DataStoreContextType = .background, callbackQueue: DispatchQueue? = nil) -> Future<Void, DataSyncError> {
+        return Future { _ = self.sync(dataStoreContextType:dataStoreContextType, callbackQueue: callbackQueue, $0) }
     }
 }

@@ -11,6 +11,7 @@
 		481EDC731F4C568F00E97960 /* DataSync+Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481EDC721F4C568F00E97960 /* DataSync+Cache.swift */; };
 		481EDC771F4C724500E97960 /* LocalizableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481EDC761F4C724500E97960 /* LocalizableTests.swift */; };
 		481EDC781F4C72BF00E97960 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 481EDC7A1F4C72BF00E97960 /* Localizable.strings */; };
+		482259CE1F5EA3CD00BB2A87 /* DeviceKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 482259CD1F5EA3CD00BB2A87 /* DeviceKit.framework */; };
 		4837277E1EB8A8DF0060B064 /* DataSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4837277D1EB8A8DF0060B064 /* DataSync.swift */; };
 		483727801EB8AD940060B064 /* Moya.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4837277F1EB8AD940060B064 /* Moya.framework */; };
 		483727821EB8AD9C0060B064 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483727811EB8AD9C0060B064 /* Result.framework */; };
@@ -26,7 +27,7 @@
 		484429011EC999A6008658B8 /* DataSync+Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484429001EC999A6008658B8 /* DataSync+Sync.swift */; };
 		484803831EBC768E0094D84C /* DataSync+Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484803821EBC768E0094D84C /* DataSync+Preferences.swift */; };
 		484803851EBC76D70094D84C /* DataSync+Singleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484803841EBC76D70094D84C /* DataSync+Singleton.swift */; };
-		484803871EBC78680094D84C /* Array+Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484803861EBC78680094D84C /* Array+Dictionary.swift */; };
+		484803871EBC78680094D84C /* Array+Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484803861EBC78680094D84C /* Array+Sync.swift */; };
 		484803A31EBCB2340094D84C /* DataSync+Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484803A21EBCB2340094D84C /* DataSync+Table.swift */; };
 		484803A51EBCB5C50094D84C /* DataSync+Records.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484803A41EBCB5C50094D84C /* DataSync+Records.swift */; };
 		485554901ECAEC85001EE365 /* TableStampStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4855548F1ECAEC85001EE365 /* TableStampStorageTests.swift */; };
@@ -95,6 +96,10 @@
 		481EDC721F4C568F00E97960 /* DataSync+Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Cache.swift"; sourceTree = "<group>"; };
 		481EDC761F4C724500E97960 /* LocalizableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizableTests.swift; sourceTree = "<group>"; };
 		481EDC791F4C72BF00E97960 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		482259CD1F5EA3CD00BB2A87 /* DeviceKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DeviceKit.framework; path = Carthage/Build/iOS/DeviceKit.framework; sourceTree = "<group>"; };
+		482259D21F5EC4D600BB2A87 /* XCGLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCGLogger.framework; path = Carthage/Build/Mac/XCGLogger.framework; sourceTree = "<group>"; };
+		482259D31F5EC4DF00BB2A87 /* ObjcExceptionBridging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjcExceptionBridging.framework; path = Carthage/Build/Mac/ObjcExceptionBridging.framework; sourceTree = "<group>"; };
+		482259D51F5EC50300BB2A87 /* FileKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FileKit.framework; path = Carthage/Build/Mac/FileKit.framework; sourceTree = "<group>"; };
 		4837277D1EB8A8DF0060B064 /* DataSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSync.swift; sourceTree = "<group>"; };
 		4837277F1EB8AD940060B064 /* Moya.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Moya.framework; path = Carthage/Build/iOS/Moya.framework; sourceTree = "<group>"; };
 		483727811EB8AD9C0060B064 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
@@ -116,7 +121,7 @@
 		484429001EC999A6008658B8 /* DataSync+Sync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Sync.swift"; sourceTree = "<group>"; };
 		484803821EBC768E0094D84C /* DataSync+Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Preferences.swift"; sourceTree = "<group>"; };
 		484803841EBC76D70094D84C /* DataSync+Singleton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Singleton.swift"; sourceTree = "<group>"; };
-		484803861EBC78680094D84C /* Array+Dictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Dictionary.swift"; sourceTree = "<group>"; };
+		484803861EBC78680094D84C /* Array+Sync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Sync.swift"; sourceTree = "<group>"; };
 		484803A21EBCB2340094D84C /* DataSync+Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Table.swift"; sourceTree = "<group>"; };
 		484803A41EBCB5C50094D84C /* DataSync+Records.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Records.swift"; sourceTree = "<group>"; };
 		4855548F1ECAEC85001EE365 /* TableStampStorageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableStampStorageTests.swift; sourceTree = "<group>"; };
@@ -189,6 +194,7 @@
 				4865B1AB1EC1BA3100085634 /* BrightFutures.framework in Frameworks */,
 				48C55E921EB8A48300F9ECAC /* QMobileDataStore.framework in Frameworks */,
 				48C55E8F1EB8A48300F9ECAC /* ObjcExceptionBridging.framework in Frameworks */,
+				482259CE1F5EA3CD00BB2A87 /* DeviceKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,6 +244,7 @@
 		483EF6101EF93FB900C11B5E /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				482259CD1F5EA3CD00BB2A87 /* DeviceKit.framework */,
 				481BFB771F4F1C1F007B77C8 /* FileKit.framework */,
 				48C55E8B1EB8A48300F9ECAC /* QMobileDataStore.framework */,
 				48C55E8A1EB8A48300F9ECAC /* QMobileAPI.framework */,
@@ -256,6 +263,9 @@
 		483EF6111EF93FF700C11B5E /* Mac */ = {
 			isa = PBXGroup;
 			children = (
+				482259D51F5EC50300BB2A87 /* FileKit.framework */,
+				482259D31F5EC4DF00BB2A87 /* ObjcExceptionBridging.framework */,
+				482259D21F5EC4D600BB2A87 /* XCGLogger.framework */,
 				481BFB791F4F27FD007B77C8 /* FileKit.framework */,
 				483EF6171EF940F700C11B5E /* SwiftyJSON.framework */,
 				483EF6121EF9401E00C11B5E /* Alamofire.framework */,
@@ -288,7 +298,7 @@
 		484803A11EBCB1660094D84C /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				484803861EBC78680094D84C /* Array+Dictionary.swift */,
+				484803861EBC78680094D84C /* Array+Sync.swift */,
 				484428FA1EC99922008658B8 /* Sequence+Result.swift */,
 				48934E6C1F3DCB9C003B7DB4 /* DataStore+API.swift */,
 				486A22FA1F55B55C00B5A5E6 /* DataStoreContext+Queue.swift */,
@@ -645,6 +655,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/QMobileAPI.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/BrightFutures.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/FileKit.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/DeviceKit.framework",
 			);
 			outputPaths = (
 			);
@@ -683,7 +694,7 @@
 				484803831EBC768E0094D84C /* DataSync+Preferences.swift in Sources */,
 				486A23011F55B74300B5A5E6 /* DispatchQueue+Sync.swift in Sources */,
 				486A23021F55B98200B5A5E6 /* DataSync+Reload.swift in Sources */,
-				484803871EBC78680094D84C /* Array+Dictionary.swift in Sources */,
+				484803871EBC78680094D84C /* Array+Sync.swift in Sources */,
 				484428F51EC99766008658B8 /* TableStampStorage.swift in Sources */,
 				486A22FB1F55B55C00B5A5E6 /* DataStoreContext+Queue.swift in Sources */,
 				486A22FD1F55B68100B5A5E6 /* DataSync+SyncTable.swift in Sources */,
@@ -903,6 +914,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				INFOPLIST_FILE = Xcode/iOS/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -927,6 +939,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				INFOPLIST_FILE = Xcode/iOS/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";

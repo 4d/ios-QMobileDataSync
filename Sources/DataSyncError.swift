@@ -18,17 +18,30 @@ public enum DataSyncError: Swift.Error {
     /// Sync delegate request stop of process before starting it
     case delegateRequestStop
 
+    /// Cancel requested
+    case cancel
+
     /// Data store is not ready to perform operation
     case dataStoreNotReady
+
     /// Data store error, for instance cannot load it
     case dataStoreError(DataStoreError)
 
     /// An error occurs when synchronizing
-    case apiError(Error)
+    case apiError(APIError)
+
     /// Loading tables failed, check your tables structures
     case noTables
+
     /// Missing tables on remote server to synchronize. App not up to date?
     case missingRemoteTables([Table])
+
+    /// Error with file data cache
+    case dataCache(Error)
+
+    /// Unknown error
+    case underlying(Error)
+
 }
 
 extension DataSyncError: ErrorConvertible {
@@ -39,7 +52,7 @@ extension DataSyncError: ErrorConvertible {
         } else if let dataStoreError = underlying as? DataStoreError {
             return .dataStoreError(dataStoreError)
         } else {
-            return .apiError(underlying)
+            return .underlying(underlying)
         }
     }
 
@@ -83,6 +96,12 @@ extension DataSyncError: LocalizedError {
             return "dataSync.noTables".localized
         case .missingRemoteTables:
             return "dataSync.missingRemoteTables".localized
+        case .cancel:
+            return "dataSync.cancel".localized
+        case .dataCache:
+            return "dataSync.cacheError".localized
+        case .underlying:
+            return "dataSync.underlying".localized
         }
     }
 

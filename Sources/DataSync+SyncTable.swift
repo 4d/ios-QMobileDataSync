@@ -28,7 +28,7 @@ extension DataSync {
         }
     }
 
-    func syncTable(_ table: Table, queue: DispatchQueue? = nil, configureRequest: @escaping ((RecordsRequest) -> Void), context: DataStoreContext, save: @escaping VoidClosure) -> Cancellable {
+    func syncTable(_ table: Table, callbackQueue: DispatchQueue? = nil, configureRequest: @escaping ((RecordsRequest) -> Void), context: DataStoreContext, save: @escaping DataStore.SaveClosure) -> Cancellable {
         dataSyncBegin(for: table)
 
         let initializer = self.recordInitializer(table: table, context: context)
@@ -83,13 +83,13 @@ extension DataSync {
                     defer {
                         process.unlock()
                     }
-                    self.process?.completed(for: table, with: .failureMappable(error))
+                    self.process?.completed(for: table, with: .mapOtherError(error))
                     _ = self.process?.checkCompleted()
                 }
             }
     }
 
-    let cancellableRecords = self.rest.loadRecords(table: table, recursive: true, configure: configureRequest, initializer: initializer, queue: queue, completionHandler: completion)
+    let cancellableRecords = self.rest.loadRecords(table: table, recursive: true, configure: configureRequest, initializer: initializer, queue: callbackQueue, completionHandler: completion)
 
     cancellable.append(cancellableRecords)
 

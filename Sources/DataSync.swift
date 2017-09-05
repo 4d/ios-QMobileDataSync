@@ -19,7 +19,7 @@ let logger = Logger.forClass(DataSync.self) // XXX check if configuration not al
 public class DataSync {
 
     /// Object to make remote request
-    public let rest: APIManager
+    public var rest: APIManager
     /// Mobile data store
     public let dataStore: DataStore
 
@@ -57,5 +57,3 @@ public class DataSync {
         case onCompletion
     }
 }
-
-typealias VoidClosure  = () throws -> Swift.Void // TODO replace by DataStore.SaveClosure

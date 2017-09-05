@@ -42,6 +42,14 @@ extension RemoteConfig: StubDelegate {
                 return try? Moya.EndpointSampleResponse.url(url)
             }
         }
+        if let statusTarget = target as? StatusTarget {
+             /*
+            if let url = RemoteConfig.bundle.url(forResource: fileName, withExtension: "json", subdirectory: nil) {
+                return try? Moya.EndpointSampleResponse.url(url)
+            }
+ statusTarget
+ */
+        }
 
         return nil
     }

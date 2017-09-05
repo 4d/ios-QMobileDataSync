@@ -16,9 +16,9 @@ import Prephirences
 // MARK: Sync
 extension DataSync {
 
-    class Process {
+    class Process: LockableBySync {
 
-        public typealias ProcessError = AnyError
+        public typealias ProcessError = APIError
 
         public typealias TableStatus = (Table, TableStampStorage.Stamp)
         public typealias TableResult = Result<TableStatus, ProcessError>
@@ -40,18 +40,6 @@ extension DataSync {
             self.startStamp = startStamp
             self.cancellable = cancellable
             self.completionHandler = completionHandler
-        }
-
-        func lock() {
-            logger.verbose("will lock process")
-            objc_sync_enter(self)
-            logger.verbose("did lock process")
-        }
-
-        func unlock() {
-            logger.verbose("will unlock process")
-            objc_sync_exit(self)
-            logger.verbose("did unlock process")
         }
 
     }
@@ -108,7 +96,7 @@ extension DataSync.Process {
         } catch {
             // TODO according to errors, remove all adding objects, or return an error for incomplete sync
             // String(data: (((error as! AnyError).error as! APIError).error as! MoyaError).response!.data, encoding: .utf8)
-            self.completionHandler(.failureMappable(error))
+            self.completionHandler(.mapOtherError(error))
             return nil
         }
     }

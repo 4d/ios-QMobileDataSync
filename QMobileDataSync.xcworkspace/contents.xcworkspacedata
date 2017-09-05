@@ -18,6 +18,9 @@
       location = "container:"
       name = "ThirdParty">
       <FileRef
+         location = "group:Carthage/Checkouts/DeviceKit/DeviceKit.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:Carthage/Checkouts/XCGLogger/XCGLogger.xcodeproj">
       </FileRef>
       <FileRef

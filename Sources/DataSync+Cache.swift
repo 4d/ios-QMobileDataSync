@@ -53,10 +53,31 @@ extension URL {
 extension DataSync {
 
     public func clearFileCache() {
-        let files = self.cachePath.children().filter { $0.pathExtension == DataSync.Preferences.jsonDataExtension }
+        let files = self.cachePath.children().filter { $0.pathFullExtension == DataSync.Preferences.jsonDataExtension }
         for file in files where file.exists {
             try? file.deleteFile()
         }
+    }
+
+}
+
+extension JSON {
+
+    init(path: Path) {
+        self.init(fileURL: path.url)
+    }
+
+}
+
+extension Path {
+
+    public var pathFullExtension: String? {
+        var components = self.rawValue.components(separatedBy: ".")
+        guard components.count > 1 else {
+            return nil
+        }
+        components.removeFirst()
+       return components.joined(separator: ".")
     }
 
 }

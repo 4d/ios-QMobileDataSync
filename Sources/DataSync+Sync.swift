@@ -17,6 +17,21 @@ import QMobileAPI
 
 let kStampFilter = "__stamp"
 
+extension Lockable {
+
+    public func perform(lockedTask task: () -> Void) -> Bool {
+        if lock() {
+            defer {
+                _ = unlock()
+            }
+            task()
+            return true
+        }
+        return false
+    }
+
+}
+
 // MARK: Sync
 extension DataSync {
 
@@ -24,7 +39,7 @@ extension DataSync {
     public typealias SyncCompletionHandler = (SyncResult) -> Void
     public typealias SyncFuture = Future<Void, DataSyncError>
 
-    public func sync(dataStoreContextType: DataStoreContextType = .background, queue: DispatchQueue? = nil, _ completionHandler: @escaping SyncCompletionHandler) -> Cancellable {
+    public func sync(dataStoreContextType: DataStoreContextType = .background, callbackQueue: DispatchQueue? = nil, _ completionHandler: @escaping SyncCompletionHandler) -> Cancellable {
 
         cancel()
         // TOTEST maybe wait process cancel...
@@ -34,7 +49,7 @@ extension DataSync {
 
         let cancellable = CancellableComposite() // return value, a cancellable
 
-        let future = initFuture(dataStoreContextType: dataStoreContextType, queue: queue)
+        let future = initFuture(dataStoreContextType: dataStoreContextType, callbackQueue: callbackQueue)
         future.onFailure { error in
             completionHandler(.failure(error))
         }
@@ -68,7 +83,7 @@ extension DataSync {
                     completionHandler(.failure(.retain))
                     return
                 }
-                let queue: DispatchQueue = queue ?? context.queue
+                let callbackQueue: DispatchQueue = callbackQueue ?? context.queue
 
                 // Get data from this global stamp
                 let startStamp = metadata.stampStorage.globalStamp
@@ -83,10 +98,20 @@ extension DataSync {
 
                 // For each table get data from last global stamp
                 let configureRequest = this.configureRequest(stamp: startStamp)
-                for table in this.tables {
-                    logger.debug("Start data synchronisation for table \(table.name)")
-                    let requestCancellable = this.syncTable(table, queue: queue, configureRequest: configureRequest, context: context, save: save)
-                    cancellable.append(requestCancellable)
+                let locked = cancellable.perform {
+                    if cancellable.isCancelledUnlocked { // XXX no reentrance for lock
+                        completionHandler(.failure(.cancel))
+                    } else {
+
+                        for table in this.tables {
+                            logger.debug("Start data synchronisation for table \(table.name)")
+                            let requestCancellable = this.syncTable(table, callbackQueue: callbackQueue, configureRequest: configureRequest, context: context, save: save)
+                            _ = cancellable.appendUnlocked(requestCancellable)  // XXX no reentrance for lock
+                        }
+                    }
+                }
+                if !locked {
+                    logger.warning("Failed to aquire lock on cancellable object before adding new task to sync table")
                 }
             }
             if !perform {
@@ -97,7 +122,7 @@ extension DataSync {
         return cancellable
     }
 
-    func syncProcessCompletionCallBack(_ completionHandler: @escaping SyncCompletionHandler, context: DataStoreContext, save: @escaping VoidClosure) -> Process.CompletionHandler {
+    func syncProcessCompletionCallBack(_ completionHandler: @escaping SyncCompletionHandler, context: DataStoreContext, save: @escaping DataStore.SaveClosure) -> Process.CompletionHandler {
         return { result in
             switch result {
             case .success(let stamp):

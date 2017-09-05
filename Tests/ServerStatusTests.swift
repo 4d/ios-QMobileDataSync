@@ -70,7 +70,7 @@ class ServerStatusTest: XCTestCase {
         let strings = ["http://localhost", "http://127.0.0.1"]
         let urls = strings.flatMap { URL(string: $0) }
         
-        let future = APIManager.status(for: urls, queue: .background) { progress in
+        let future = APIManager.status(for: urls, callbackQueue: .background) { progress in
             print("\(progress)")
         }
         future.onComplete(DispatchQueue.background.context) { result in
@@ -93,7 +93,7 @@ class ServerStatusTest: XCTestCase {
         let strings = ["http://test", "http://127.0.0.1"]
         let urls = strings.flatMap { URL(string: $0) }
         
-        let future = APIManager.firstStatus(for: urls, queue: .background) { progress in
+        let future = APIManager.firstStatus(for: urls, callbackQueue: .background) { progress in
             print("\(progress)")
         }
         future.onComplete(DispatchQueue.background.context) { result in
@@ -110,15 +110,19 @@ class ServerStatusTest: XCTestCase {
         let strings = ["http://test", "http://127.0.0.1"]
         let urls = strings.flatMap { URL(string: $0) }
 
-        let future = APIManager.firstStatusSuccess(for: urls, queue: .background) { progress in
+        let future = APIManager.firstStatusSuccess(for: urls, callbackQueue: .background) { progress in
             print("\(progress)")
         }
         future.onComplete(DispatchQueue.background.context) { result in
             switch result {
             case .success(let res):
+                let url: URL = res.0
+                let status: Status = res.1
+                XCTAssertEqual(url, URL(string: "http://127.0.0.1")!)
+                XCTAssertTrue(status.ok)
                 print("\(res)")
             case .failure(let error):
-                XCTFail("Not error expected \(error)")
+                XCTFail("\(error)")
             }
             expectation.fulfill()
         }

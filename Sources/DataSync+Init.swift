@@ -18,7 +18,7 @@ import QMobileAPI
 extension DataSync {
 
     /// check data store loaded, and tables structures loaded
-    func initFuture(dataStoreContextType: DataStoreContextType = .background, queue: DispatchQueue? = nil) -> SyncFuture {
+    func initFuture(dataStoreContextType: DataStoreContextType = .background, callbackQueue: DispatchQueue? = nil) -> SyncFuture {
         var sequence: [SyncFuture] = []
 
         // Load data store if necessary
@@ -46,10 +46,7 @@ extension DataSync {
         }
 
         // Load table if needed
-        let loadTable: Future<[Table], DataSyncError> = self.loadTable(queue: queue).mapError { apiError in
-            logger.warning("Could not load table \(apiError)")
-            return .apiError(apiError)
-        }
+        let loadTable: Future<[Table], DataSyncError> = self.loadTable(callbackQueue: callbackQueue)
         /// check if there is table
         let checkTable: SyncFuture = loadTable.flatMap { (tables: [Table]) -> SyncResult in
             if self.tables.isEmpty {

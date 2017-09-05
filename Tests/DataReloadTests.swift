@@ -53,13 +53,11 @@ class DataReloadTests: XCTestCase {
                 XCTAssertNotNil(date, "no lastSync date")
                 
                 XCTAssertTrue(lastSync < date!)
-                
-                
+
                 let result = self.dataSync.dataStore.perform(.background) { context, save in
-                    
                     do {
                         var count = try context.count(in: RemoteConfig.tableName)
-                        XCTAssertEqual(count, 200, RemoteConfig.tableName)
+                        XCTAssertEqual(count, 100, RemoteConfig.tableName)
                         
                         count = try context.count(in: "PRODUCTS")
                         XCTAssertEqual(count, 100, "PRODUCTS")
@@ -76,7 +74,7 @@ class DataReloadTests: XCTestCase {
             }
             catch {
                 if case .apiError(let apiError) = error as? DataSyncError ?? .noTables {
-                    if case .recordsDecodingFailed(let json, let parserError) = apiError as? APIError ?? .dummy {
+                    if case .recordsDecodingFailed(let json, let parserError) = apiError {
                         print("Not decodable \(json) \(parserError)")
                     }
                 }
@@ -93,25 +91,18 @@ class DataReloadTests: XCTestCase {
             print("\(String(describing: cancellable))")
         }
     }
-    
-    func testDataReloadCancel() {
+
+    func testDataReloadCancelImmediately() {
         let expectation = self.expectation()
         let cancellable = dataSync.reload { result in
             do {
                 try result.dematerialize()
-                if RemoteConfig.stub {
-                    expectation.fulfill() // not testable if stub
-                } else {
-                    XCTFail("Must have an exception")
-                }
+                
+                XCTFail("Must have an exception")
             }
             catch {
-                if case .apiError(/*let */_ /*apiError*/) = error as? DataSyncError ?? .noTables {
-                    if !RemoteConfig.stub {
-                        //XCTAssertTrue(apiError.isCancelled)
-                    } else {
-                        XCTFail("\(error)")   // else stub ? or recursive exception in place. Check instead apiError.isCancelled
-                    }
+                if case DataSyncError.cancel = error {
+                    expectation.fulfill()
                 } else {
                     XCTFail("\(error)")
                 }
@@ -128,6 +119,37 @@ class DataReloadTests: XCTestCase {
         }
     }
     
+    func testDataReloadCancelInQueue() {
+        let expectation = self.expectation()
+        let cancellable = dataSync.reload { result in
+            do {
+                try result.dematerialize()
+                
+                // XCTFail("Must have an exception")
+                expectation.fulfill() // difficult to test with stub
+            }
+            catch {
+                if case DataSyncError.cancel = error {
+                    expectation.fulfill()
+                } else {
+                    XCTFail("\(error)")
+                }
+            }
+        }
+        DispatchQueue.background.after(3) {
+            cancellable.cancel()
+            XCTAssertTrue(cancellable.isCancelled)
+            
+        }
+        waitForExpectations(timeout: 10) { e in
+            if let error = e {
+                XCTFail(error.localizedDescription)
+            }
+            print("\(String(describing: cancellable))")
+        }
+    }
+    
+    
     
     func testTwoSerialDataReload() {
         let expectation = self.expectation()
@@ -142,7 +164,7 @@ class DataReloadTests: XCTestCase {
                         
                         do {
                             var count = try context.count(in: RemoteConfig.tableName)
-                            XCTAssertEqual(count, 200, RemoteConfig.tableName)
+                            XCTAssertEqual(count, 100, RemoteConfig.tableName)
                             
                             count = try context.count(in: "PRODUCTS")
                             XCTAssertEqual(count, 100, "PRODUCTS")
@@ -161,7 +183,7 @@ class DataReloadTests: XCTestCase {
             }
             catch {
                 if case .apiError(let apiError) = error as? DataSyncError ?? .noTables {
-                    if case .recordsDecodingFailed(let json, let parserError) = apiError as? APIError ?? .dummy {
+                    if case .recordsDecodingFailed(let json, let parserError) = apiError {
                         print("Not decodable \(json) \(parserError)")
                     }
                 }

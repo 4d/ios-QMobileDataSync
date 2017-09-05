@@ -14,7 +14,7 @@ import Moya
 
 extension DataSync {
 
-    func reload(dataStoreContextType: DataStoreContextType = .background, queue: DispatchQueue? = nil, _ completionHandler: @escaping SyncCompletionHandler) -> Cancellable {
+    func reload(dataStoreContextType: DataStoreContextType = .background, callbackQueue: DispatchQueue? = nil, _ completionHandler: @escaping SyncCompletionHandler) -> Cancellable {
         if !isCancelled {
             cancel()
             // XXX maybe wait...
@@ -25,7 +25,7 @@ extension DataSync {
 
         let cancellable = CancellableComposite() // return value, a cancellable
 
-        initFuture(dataStoreContextType: dataStoreContextType, queue: queue)
+        initFuture(dataStoreContextType: dataStoreContextType, callbackQueue: callbackQueue)
             .onFailure { error in
                 completionHandler(.failure(error))
             }
@@ -60,29 +60,38 @@ extension DataSync {
                 // From remote
                 let tempPath: Path = .userTemporary
 
-                let processCompletion = this.reloadProcessCompletionCallBack(tempPath: tempPath, completionHandler)
+                let processCompletion = this.reloadProcessCompletionCallBack(dataStoreContextType: dataStoreContextType, tempPath: tempPath, completionHandler)
                 let process = Process(tables: tablesByName, startStamp: startStamp, cancellable: cancellable, completionHandler: processCompletion)
 
                 // assert(this.process == nil)
                 this.process = process
 
-                //let queue: DispatchQueue = queue ?? context.queue
+                let locked = cancellable.perform {
+                    if cancellable.isCancelledUnlocked {
+                        completionHandler(.failure(.cancel))
+                    } else {
+                       let callbackQueue: DispatchQueue = callbackQueue ?? dataStoreContextType.queue
 
-                // For each table get data from last global stamp
-                //let configureRequest = this.configureRequest(stamp: startStamp)
-                for table in this.tables {
-                    logger.debug("Start data reloading for table \(table.name)")
+                        // For each table get data from last global stamp
+                        //let configureRequest = this.configureRequest(stamp: startStamp)
+                        for table in this.tables {
+                            logger.debug("Start data reloading for table \(table.name)")
 
-                    let progress: APIManager.ProgressHandler = { progress in
+                            let progress: APIManager.ProgressHandler = { progress in
 
+                            }
+
+                            let requestCancellable = this.reloadTable(table, in: tempPath, callbackQueue: callbackQueue, progress: progress)
+                            _ = cancellable.appendUnlocked(requestCancellable)
+                        }
                     }
-
-                    let requestCancellable = this.reloadTable(table, in: tempPath, queue: queue, progress: progress)
-                    cancellable.append(requestCancellable)
+                }
+                if !locked {
+                    logger.warning("Failed to aquire lock on cancellable object before adding new task to reload tables data")
                 }
                 /*}*/
                 // return no task if dataStore not ready
-               /* if !perform {
+                /* if !perform {
                     logger.warning("Cannot get data: context cannot be created on data store")
                     completionHandler(.failure(.dataStoreNotReady))
                     return
@@ -92,7 +101,7 @@ extension DataSync {
         return cancellable
     }
 
-    func reloadProcessCompletionCallBack(tempPath: Path, _ completionHandler: @escaping SyncCompletionHandler) -> Process.CompletionHandler {
+    func reloadProcessCompletionCallBack(dataStoreContextType: DataStoreContextType, tempPath: Path, _ completionHandler: @escaping SyncCompletionHandler) -> Process.CompletionHandler {
         return { result in
             switch result {
             case .success(let stamp):
@@ -101,25 +110,41 @@ extension DataSync {
                 metadata?.globalStamp = stamp
                 metadata?.lastSync = Date()
 
-                let files = tempPath.children().filter { $0.pathExtension == DataSync.Preferences.jsonDataExtension }
+                let files = tempPath.children().filter { $0.pathFullExtension == DataSync.Preferences.jsonDataExtension }
 
                 self.clearFileCache()
 
                 for file in files {
                     let destination: Path = self.cachePath + file.fileName
-                    try? file.copyFile(to: destination) // TODO check copy cache file error
+                    do {
+                        try file.copyFile(to: destination)
+                    } catch {
+                        completionHandler(.failure(DataSyncError.dataCache(error)))
+                        return
+                    }
                 }
 
-                let result = self.dataStore.perform(.background) { context, save in
+                let result = self.dataStore.perform(dataStoreContextType) { context, save in
+
+                    logger.info("Delete all tables data")
+                    do {
+                        for table in self.tables {
+                            let bool = try context.delete(in: table)
+                            logger.debug("Data of table \(table.name) deleted: \(bool)")
+                        }
+                    } catch {
+                        completionHandler(.failure(DataSyncError.error(from: DataStoreError.error(from: error))))
+                    }
 
                     logger.info("Load table data from embedded data files")
                     do {
-                        try self.loadRecordsFromFile(context: context, save: save)
+                        try self.loadRecordsFromCache(context: context, save: save)
+
                         completionHandler(.success())
                     } catch let dataStoreError as DataSyncError {
                         completionHandler(.failure(DataSyncError.error(from: dataStoreError)))
                     } catch {
-                        completionHandler(.failure(DataSyncError.error(from: DataStoreError(error))))
+                        completionHandler(.failure(DataSyncError.error(from: DataStoreError.error(from: error))))
                     }
                 }
                 if !result {
@@ -135,7 +160,7 @@ extension DataSync {
         }
     }
 
-    func reloadTable(_ table: Table, in path: Path, queue: DispatchQueue? = nil, progress: APIManager.ProgressHandler? = nil) -> Cancellable {
+    func reloadTable(_ table: Table, in path: Path, callbackQueue: DispatchQueue? = nil, progress: APIManager.ProgressHandler? = nil) -> Cancellable {
         dataSyncBegin(for: table)
 
         let cancellable = CancellableComposite()
@@ -163,20 +188,20 @@ extension DataSync {
                 self.dataSyncEnd(for: table, with: pageInfo)
 
                 if pageInfo.isLast, let process = self.process {
-                    process.lock()
-                    defer {
-                        process.unlock()
-                    }
+                    if process.lock() {
+                        defer {
+                           _ = process.unlock()
+                        }
 
-                    // Set current table completed
-                    process.completed(for: table, with: .success(pageInfo))
-                    // Check if we must relaunch some request due to stamp
-                    if let tableStatus = process.checkCompleted() {
-
-                        // There is some table to relaunch sync because stamp are not equal
-                        for (table, _) in tableStatus {
-                            let c = self.reloadTable(table, in: path, queue: queue, progress: progress)
-                            cancellable.append(c)
+                        // Set current table completed
+                        process.completed(for: table, with: .success(pageInfo))
+                        // Check if we must relaunch some request due to stamp
+                        if let tableStatus = process.checkCompleted() {
+                            // There is some table to relaunch sync because stamp are not equal
+                            for (table, _) in tableStatus {
+                                let c = self.reloadTable(table, in: path, callbackQueue: callbackQueue, progress: progress)
+                                _ = cancellable.append(c)
+                            }
                         }
                     }
                 }
@@ -184,18 +209,19 @@ extension DataSync {
                 self.dataSyncFailed(for: table, with: APIError.error(from: error))
 
                 if var process = self.process {
-                    process.lock()
-                    defer {
-                        process.unlock()
+                    if process.lock() {
+                        defer {
+                            _ = process.unlock()
+                        }
+                        self.process?.completed(for: table, with: .mapOtherError(error))
+                        _ = self.process?.checkCompleted()
                     }
-                    self.process?.completed(for: table, with: .failureMappable(error))
-                    _ = self.process?.checkCompleted()
                 }
             }
         }
 
-        let cancellableRecords = rest.request(target, queue: queue, progress: progress, completion: completion)
-        cancellable.append(cancellableRecords)
+        let cancellableRecords = rest.request(target, callbackQueue: callbackQueue, progress: progress, completion: completion)
+        _ = cancellable.append(cancellableRecords)
 
         return cancellable
     }

@@ -28,3 +28,12 @@
 
 /* store for data is not yet ready to */
 "dataStore.notReady" = "Data store not ready.";
+
+/* data sync cancelled */
+"dataSync.cancel" = "Data update cancelled.";
+
+/* file cache error */
+"dataSync.cacheError" = "Issue when storing data.";
+
+/* unknown error*/
+"dataSync.underlying" = "An issue occurs.";

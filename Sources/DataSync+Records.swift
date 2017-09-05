@@ -44,22 +44,31 @@ extension DataSync {
     func loadRecordsFromFile(context: DataStoreContext, save: @escaping () throws -> Swift.Void) throws {
         // load data from files
         for (tableName, table) in self.tablesByName {
+
             if let url = self.bundle.url(forResource: tableName, withExtension: Preferences.jsonDataExtension, subdirectory: nil) {
 
-                let json: JSON
+                let json = JSON(fileURL: url)
+                assert(ImportableParser.tableName(for: json) == tableName)
 
-                let cacheFile = self.cachePath + "\(tableName).\(Preferences.jsonDataExtension)"
-                if cacheFile.exists {
-                    let jsonCache = JSON(path: cacheFile)
-                    if jsonCache.isEmpty {
-                          json = JSON(fileURL: url)
-                    } else {
-                        json = jsonCache
-                    }
-                } else {
-                    // XXX Could add here some decrypt or uncompress on JSON files if data encrypted or compressed
-                    json = JSON(fileURL: url)
+                let records = try table.parser.parseArray(json: json, with: self.recordInitializer(table: table, context: context))
+                logger.info("\(records.count) records imported from '\(tableName)' file")
+            }
+        }
+
+        try save()
+    }
+
+    func loadRecordsFromCache(context: DataStoreContext, save: @escaping () throws -> Swift.Void) throws {
+        // load data from files
+        for (tableName, table) in self.tablesByName {
+
+            let cacheFile: Path = self.cachePath + "\(tableName).\(Preferences.jsonDataExtension)"
+            if cacheFile.exists {
+                let json = JSON(path: cacheFile)
+                if let error = json.error {
+                    logger.warning("Failed to parse \(cacheFile): \(error)")
                 }
+
                 assert(ImportableParser.tableName(for: json) == tableName)
 
                 let records = try table.parser.parseArray(json: json, with: self.recordInitializer(table: table, context: context))

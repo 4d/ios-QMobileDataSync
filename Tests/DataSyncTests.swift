@@ -115,24 +115,17 @@ class DataSyncTests: XCTestCase {
         }
     }
 
-    func testDataSyncCancel() {
+    func testDataSyncCancelImmediately() {
         let expectation = self.expectation()
         let cancellable = dataSync.sync { result in
             do {
                 try result.dematerialize()
-                if RemoteConfig.stub {
-                    expectation.fulfill() // not testable if stub
-                } else {
-                    XCTFail("Must have an exception")
-                }
+                
+                XCTFail("Must have an exception")
             }
             catch {
-                if case .apiError(/*let */_ /*apiError*/) = error as? DataSyncError ?? .noTables {
-                    if !RemoteConfig.stub {
-                        //XCTAssertTrue(apiError.isCancelled)
-                    } else {
-                        XCTFail("\(error)")   // else stub ? or recursive exception in place. Check instead apiError.isCancelled
-                    }
+                if case DataSyncError.cancel = error {
+                    expectation.fulfill()
                 } else {
                     XCTFail("\(error)")
                 }
@@ -148,8 +141,37 @@ class DataSyncTests: XCTestCase {
             print("\(String(describing: cancellable))")
         }
     }
-
  
+    func testDataSyncCancelInQueue() {
+        let expectation = self.expectation()
+        let cancellable = dataSync.sync { result in
+            do {
+                try result.dematerialize()
+                
+                // XCTFail("Must have an exception")
+                expectation.fulfill() // difficult to test with stub
+            }
+            catch {
+                if case DataSyncError.cancel = error {
+                    expectation.fulfill()
+                } else {
+                    XCTFail("\(error)")
+                }
+            }
+        }
+        DispatchQueue.background.after(3) {
+            cancellable.cancel()
+            XCTAssertTrue(cancellable.isCancelled)
+            
+        }
+        waitForExpectations(timeout: 10) { e in
+            if let error = e {
+                XCTFail(error.localizedDescription)
+            }
+            print("\(String(describing: cancellable))")
+        }
+    }
+
     func testTwoSerialDataSync() {
         let expectation = self.expectation()
         let cancellable = dataSync.sync { result in
