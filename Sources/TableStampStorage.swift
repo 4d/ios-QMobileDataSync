@@ -16,7 +16,7 @@ let kTableStamp = "stamp"
 let defaultStamp: TableStampStorage.Stamp = 0
 
 /// Store the table stamps
-protocol TableStampStorage {
+public protocol TableStampStorage {
 
     typealias Stamp = Int
 
@@ -39,6 +39,7 @@ extension DataStoreMetadata {
         return DataStoreTableStampStorage(dataStore: self)
     }
 }
+
 // Cannot extends protocol, use an intermediate struct
 struct DataStoreTableStampStorage: TableStampStorage {
     var dataStore: DataStoreMetadata
@@ -49,7 +50,7 @@ struct DataStoreTableStampStorage: TableStampStorage {
     mutating func set(stamp: TableStampStorage.Stamp, for table: Table) {
         dataStore.set(stamp: stamp, for: table)
     }
-    var globalStamp: TableStampStorage.Stamp {
+    public var globalStamp: TableStampStorage.Stamp {
         get {
             return dataStore.globalStamp
         }
@@ -58,7 +59,7 @@ struct DataStoreTableStampStorage: TableStampStorage {
         }
     }
 
-    var lastSync: Date? {
+    public var lastSync: Date? {
         get {
             return dataStore.lastSync
         }
@@ -76,7 +77,7 @@ extension DataStoreMetadata {
     mutating func set(stamp: TableStampStorage.Stamp, for table: Table) {
         self["\(table.name).\(kTableStamp)"] = stamp
     }
-    var globalStamp: TableStampStorage.Stamp {
+    public var globalStamp: TableStampStorage.Stamp {
         get {
             return self[kGlobalStamp] as? TableStampStorage.Stamp ?? defaultStamp
         }
@@ -86,7 +87,7 @@ extension DataStoreMetadata {
         }
     }
 
-    var lastSync: Date? {
+   public var lastSync: Date? {
         get {
             return self[kLastSync] as? Date
         }
@@ -109,7 +110,7 @@ struct PrephirencesTableStampStorage: TableStampStorage {
     mutating func set(stamp: TableStampStorage.Stamp, for table: Table) {
         preferences["\(table.name).\(kTableStamp)"] = stamp
     }
-    var globalStamp: TableStampStorage.Stamp {
+    public var globalStamp: TableStampStorage.Stamp {
         get {
             return preferences[kGlobalStamp] as? TableStampStorage.Stamp ?? defaultStamp
         }
@@ -118,7 +119,7 @@ struct PrephirencesTableStampStorage: TableStampStorage {
             preferences[kGlobalStamp] = newValue
         }
     }
-    var lastSync: Date? {
+    public var lastSync: Date? {
         get {
             return preferences[kLastSync] as? Date
         }

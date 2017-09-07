@@ -25,4 +25,8 @@ extension DataSync {
     public func sync(dataStoreContextType: DataStoreContextType = .background, callbackQueue: DispatchQueue? = nil) -> Future<Void, DataSyncError> {
         return Future { _ = self.sync(dataStoreContextType:dataStoreContextType, callbackQueue: callbackQueue, $0) }
     }
+
+    public func reload(dataStoreContextType: DataStoreContextType = .background, callbackQueue: DispatchQueue? = nil) -> Future<Void, DataSyncError> {
+        return Future { _ = self.reload(dataStoreContextType:dataStoreContextType, callbackQueue: callbackQueue, $0) }
+    }
 }

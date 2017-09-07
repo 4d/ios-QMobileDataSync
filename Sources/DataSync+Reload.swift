@@ -14,7 +14,7 @@ import Moya
 
 extension DataSync {
 
-    func reload(dataStoreContextType: DataStoreContextType = .background, callbackQueue: DispatchQueue? = nil, _ completionHandler: @escaping SyncCompletionHandler) -> Cancellable {
+    public func reload(dataStoreContextType: DataStoreContextType = .background, callbackQueue: DispatchQueue? = nil, _ completionHandler: @escaping SyncCompletionHandler) -> Cancellable {
         if !isCancelled {
             cancel()
             // XXX maybe wait...
