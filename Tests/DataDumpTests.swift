@@ -1,0 +1,80 @@
+//
+//  DataDumpTests.swift
+//  QMobileDataSync
+//
+//  Created by Eric Marchand on 12/09/2017.
+//  Copyright © 2017 Eric Marchand. All rights reserved.
+//
+
+import Foundation
+
+
+import XCTest
+@testable import QMobileDataSync
+
+import QMobileDataStore
+import QMobileAPI
+import Result
+import FileKit
+
+class DataDumpTests: XCTestCase {
+    
+    var dataSync: DataSync!
+    
+    override func setUp() {
+        super.setUp()
+        let bundle = Bundle(for: DataSyncTests.self)
+        
+        Bundle.dataStore = bundle
+        Bundle.dataStoreKey = "CoreDataModel"
+        
+        Bundle.qMobileApiStub = bundle
+        
+        let apiManager = APIManager.instance
+        apiManager.stub = RemoteConfig.stub
+        apiManager.stubDelegate = RemoteConfig.instance
+        let dataStore = QMobileDataStore.dataStore
+        
+        dataSync = DataSync(rest: apiManager, dataStore: dataStore)
+        dataSync.bundle = bundle
+    }
+    
+    override func tearDown() {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        super.tearDown()
+    }
+    
+    func testDataDump() {
+        let expectation = self.expectation()
+
+        let directory = Path.userTemporary + UUID().uuidString
+        if !directory.exists {
+           try? directory.createDirectory()
+        }
+        
+        let test: () -> Void = {
+            self.dataSync.dump(to: directory, with: .background) {
+                let children = directory.children()
+                XCTAssertFalse(children.isEmpty)
+                expectation.fulfill()
+            }
+        }
+        if dataSync.dataStore.isLoaded {
+            test()
+        } else {
+            dataSync.dataStore.load { result in
+                test()
+            }
+        }
+        
+        waitForExpectations(timeout: 10) { e in
+            if let error = e {
+                XCTFail(error.localizedDescription)
+            }
+        }
+    }
+    
+    
+
+    
+}

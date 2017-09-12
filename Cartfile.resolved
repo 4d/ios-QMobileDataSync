@@ -1,5 +1,5 @@
 git "https://gitfusion.wakanda.io/qmobile/QMobileAPI.git" "8a1f1984cf03a8318be455a0461bc53fae1bd6f6"
-git "https://gitfusion.wakanda.io/qmobile/QMobileDataStore.git" "e4d09387367c41eddf3a4becec7190b422b28b22"
+git "https://gitfusion.wakanda.io/qmobile/QMobileDataStore.git" "205a68f6bf53ad7b8fd4fe5d418207d28ac7bb4d"
 github "Alamofire/Alamofire" "4.5.1"
 github "DaveWoodCom/XCGLogger" "5.0.1"
 github "Moya/Moya" "9.0.0"
