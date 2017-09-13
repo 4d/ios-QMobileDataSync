@@ -79,9 +79,10 @@ extension DataSync {
                 if !missingTables.isEmpty {
                     // notifify app not up to date with data structure
                     completionHander(.failure(.missingRemoteTables(missingTables)))
+                } else {
+                    completionHander(.success(Array(tables.values)))
                 }
 
-                completionHander(.success(Array(tables.values)))
             case .failure(let error):
                 logger.warning("Failed to retrieve tables from remote 4D server \(error)")
                 completionHander(.failure(.apiError(error)))
