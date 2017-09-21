@@ -58,9 +58,9 @@ extension DataSync {
                     self.trySave(save)
                 }
                 if pageInfo.isLast, let process = self.process {
-                    process.lock() // #FIXME dead lock here????
+                    _ = process.lock() // #FIXME dead lock here????
                     defer {
-                        process.unlock()
+                         _ = process.unlock()
                     }
                     // Set current table completed
                     process.completed(for: table, with: .success(pageInfo))
@@ -79,9 +79,9 @@ extension DataSync {
                 self.dataSyncFailed(for: table, with: error)
 
                 if var process = self.process {
-                    process.lock()
+                     _ = process.lock()
                     defer {
-                        process.unlock()
+                         _ = process.unlock()
                     }
                     self.process?.completed(for: table, with: .mapOtherError(error))
                     _ = self.process?.checkCompleted()

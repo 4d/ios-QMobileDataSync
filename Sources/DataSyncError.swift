@@ -10,6 +10,7 @@ import Foundation
 import QMobileAPI
 import QMobileDataStore
 import Result
+import Moya
 
 public enum DataSyncError: Swift.Error {
     /// Data sync object is no more retained in memory
@@ -57,12 +58,31 @@ extension DataSyncError: ErrorConvertible {
     }
 
     /// The underlying error if any.
-    var error: Swift.Error? {
+    public var error: Swift.Error? {
         switch self {
         case .dataStoreError(let error):
             return error
         case .apiError(let error):
             return error
+        default:
+            return nil
+        }
+    }
+}
+
+extension DataSyncError {
+    public var response: Response? {
+        switch self {
+        case .apiError(let error):
+            return error.response
+        default:
+            return nil
+        }
+    }
+    public var responseString: String? {
+        switch self {
+        case .apiError(let error):
+            return error.responseString
         default:
             return nil
         }

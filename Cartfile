@@ -1,9 +1,7 @@
 git "https://gitfusion.wakanda.io/qmobile/QMobileDataStore.git" "HEAD"
 git "https://gitfusion.wakanda.io/qmobile/QMobileAPI.git" "HEAD"
 
-#github "DaveWoodCom/XCGLogger" # logger
-#github "phimage/Prephirences" # settings
-
-
 github "Thomvis/BrightFutures" # future/promize for task management
 github "nvzqz/FileKit" # file management
+
+github "dennisweissmann/DeviceKit" "1.2.3"
