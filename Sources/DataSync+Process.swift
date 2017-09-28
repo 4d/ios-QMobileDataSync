@@ -67,9 +67,9 @@ extension DataSync.Process {
     }
 
     func checkCompleted() -> [TableStatus]? {
-
         // maybe Future?Promize or a Lock
         logger.debug("There is \(tablesResults.count)/\(tablesByName.count) tables sync")
+
         guard isCompleted else {
             return nil
         }

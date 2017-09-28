@@ -125,8 +125,7 @@ extension DataSync {
             do {
                 try self.loadRecordsFromFile(context: dataStoreContext, save: save)
                 completionHandler(.success())
-                
-                
+
             } catch let dataStoreError as DataStoreError {
                 completionHandler( .failure(dataStoreError))
             } catch {

@@ -41,23 +41,9 @@ extension DataStore {
                 complete(.success(val))
             }
             if !value {
-                complete(.failure(DataStoreError(DataStoreStateError.dataStoreNotReady)))
+                complete(.failure(DataStoreError(DataSyncError.dataStoreNotReady)))
             }
         }
     }
 
-}
-
-/// Error about data store state
-public enum DataStoreStateError: Error {
-    case dataStoreNotReady
-}
-
-extension DataStoreStateError: LocalizedError {
-    public var errorDescription: String? {
-        switch self {
-        case .dataStoreNotReady:
-            return "dataStore.notReady".localized
-        }
-    }
 }

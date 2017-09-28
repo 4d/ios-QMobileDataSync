@@ -95,3 +95,17 @@ extension FutureContainer where V == Cancellable {
     }
 
 }
+
+extension AsyncType where Self.Value : ResultProtocol {
+
+    @discardableResult
+    public func onSuccess(_ queue: DispatchQueue, callback: @escaping (Self.Value.Value) -> Swift.Void) -> Self {
+        return self.onSuccess(queue.context, callback: callback)
+    }
+
+    @discardableResult
+    public func onFailure(_ queue: DispatchQueue, callback: @escaping (Self.Value.Error) -> Swift.Void) -> Self {
+        return self.onFailure(queue.context, callback: callback)
+    }
+
+}

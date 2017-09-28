@@ -103,6 +103,12 @@ extension DataSync {
 
     func reloadProcessCompletionCallBack(dataStoreContextType: DataStoreContextType, tempPath: Path, _ completionHandler: @escaping SyncCompletionHandler) -> Process.CompletionHandler {
         return { result in
+
+            if self.isCancelled {
+                completionHandler(.failure(.cancel))
+                return
+            }
+
             switch result {
             case .success(let stamp):
                 // store new stamp
@@ -113,6 +119,10 @@ extension DataSync {
                 let files = tempPath.children().filter { $0.pathFullExtension == DataSync.Preferences.jsonDataExtension }
 
                 self.clearFileCache()
+                if self.isCancelled {
+                    completionHandler(.failure(.cancel))
+                    return
+                }
 
                 for file in files {
                     let destination: Path = self.cachePath + file.fileName
@@ -123,9 +133,16 @@ extension DataSync {
                         return
                     }
                 }
+                if self.isCancelled {
+                    completionHandler(.failure(.cancel))
+                    return
+                }
 
                 let result = self.dataStore.perform(dataStoreContextType) { context, save in
-
+                    if self.isCancelled {
+                        completionHandler(.failure(.cancel))
+                        return
+                    }
                     logger.info("Delete all tables data")
                     do {
                         for table in self.tables {
@@ -148,13 +165,10 @@ extension DataSync {
                     }
                 }
                 if !result {
-                    completionHandler(.failure(DataSyncError.error(from: DataStoreError(DataStoreStateError.dataStoreNotReady))))
+                    completionHandler(.failure(DataSyncError.dataStoreNotReady))
                 }
 
             case .failure(let error):
-                if case .onCompletion = self.saveMode {
-                    // context.rollback()
-                }
                 completionHandler(.failure(DataSyncError.apiError(error)))
             }
         }

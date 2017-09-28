@@ -16,19 +16,19 @@ extension DataSync {
 
     public func dump(to path: Path, with contextType: DataStoreContextType = .background, wait: Bool = false, completion: @escaping () -> Void) {
         assert(path.isWritable)
-        
-        _ = self.dataStore.perform(contextType, wait: wait) { context, save in
-            
+
+        _ = self.dataStore.perform(contextType, wait: wait) { context, _ in
+
             context.dump { table, result in
-                
+
                 let file = path + "\(table.name).json"
-                
+
                 var dico = [String: Any]()
                 switch result {
                 case .success(let records):
                     dico["success"] = true
                     dico["table"] = table.dictionary
-                    dico["records"] = records.map { $0.dictionaryWithValues(forKeys: table.fields.map { $0.name} ) }
+                    dico["records"] = records.map { $0.dictionaryWithValues(forKeys: table.fields.map { $0.name}) }
                 case .failure(let error):
                     dico["success"] = false
                     dico["errors"] = error.errors
@@ -46,7 +46,7 @@ extension DataSync {
             }
             completion()
         }
-        
+
     }
 }
 
@@ -63,7 +63,7 @@ extension DataStoreError {
         }
         return stack
     }
-    
+
     public var errors: [[String: Any]] {
         var errors = [[String: Any]]()
         for error in errorStack {
@@ -74,7 +74,7 @@ extension DataStoreError {
 }
 // CLEAN: remove folloing code, use one from API framewoek
 extension Swift.Error {
-    
+
     var userInfoUnderlyingError: Swift.Error? {
         if let error = self as? CustomNSError {
             return error.errorUserInfo[NSUnderlyingErrorKey] as? Swift.Error
@@ -86,11 +86,10 @@ extension Swift.Error {
     }
 }
 
-
 extension DataStoreTableInfo {
-    
+
     public var dictionary: [String: Any] {
-        var dico = [String:Any]()
+        var dico = [String: Any]()
         dico["name"] = self.name
         dico["fields"] = self.fields.map { $0.dictionary }
          return dico
@@ -100,11 +99,10 @@ extension DataStoreTableInfo {
     }
 }
 
-
 extension DataStoreFieldInfo {
 
     public var dictionary: [String: Any] {
-        var dico = [String:Any]()
+        var dico = [String: Any]()
         dico["name"] = self.name
         dico["localizedName"] = self.localizedName
         dico["isOptional"] = self.isOptional
@@ -112,7 +110,7 @@ extension DataStoreFieldInfo {
             dico["userInfo"] = userInfo
         }
         dico["type"] = self.type
-        
+
         return dico
     }
     public var json: JSON {

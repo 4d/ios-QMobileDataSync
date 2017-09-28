@@ -51,6 +51,9 @@ extension DataSyncError: ErrorConvertible {
         if let apiError = underlying as? APIError {
             return .apiError(apiError)
         } else if let dataStoreError = underlying as? DataStoreError {
+            if let error = dataStoreError.error as? DataSyncError {
+                return error // could be dataStoreNotReady, cyclic error
+            }
             return .dataStoreError(dataStoreError)
         } else {
             return .underlying(underlying)
@@ -108,7 +111,10 @@ extension DataSyncError: LocalizedError {
             return "dataSync.delegateRequestStop".localized
         case .dataStoreNotReady:
             return "dataSync.dataStoreNotReady".localized
-        case .dataStoreError:
+        case .dataStoreError(let dataStoreError):
+            if let error = dataStoreError.error as? DataSyncError {
+                return error.errorDescription
+            }
             return "dataSync.dataStoreError".localized
         case .apiError:
             return "dataSync.apiError".localized
