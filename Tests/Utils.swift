@@ -97,7 +97,7 @@ extension XCTestCase {
     }
     
 }
-
+/*
 
 extension NSError {
     static let dummy: NSError = NSError(domain: "dummy", code: 0)
@@ -107,7 +107,7 @@ extension NSError {
 }
 
 extension APIError {
-    static let dummy: APIError = .request(NSError.dummy)
+    //static let dummy: APIError = .request(NSError.dummy)
     var isDummy: Bool {
         switch self {
         case .request(let error):
@@ -116,4 +116,4 @@ extension APIError {
             return false
         }
     }
-}
+}*/

@@ -17,8 +17,8 @@ extension DataSync {
 extension DataSync {
 
     /// load table on default data sync instance
-    public static func loadTable(_ completionHander: @escaping TablesCompletionHander) -> Cancellable {
-        return self.instance.loadTable(completionHander)
+    public static func loadTable(_ completionHander: @escaping TablesCompletionHander) /*-> Cancellable */{
+        /*return*/ self.instance.loadTable(completionHander)
     }
 
     public static func sync(_ completionHander: @escaping SyncCompletionHandler) -> Cancellable? {

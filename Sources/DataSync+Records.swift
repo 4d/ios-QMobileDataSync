@@ -117,7 +117,7 @@ extension Record: RecordImportable {
     }
 
     public func getPrivateAttribute(key: String) -> Any? {
-        return store.getPrivateAttribute(key:key)
+        return store.getPrivateAttribute(key: key)
     }
 
 }

@@ -46,7 +46,7 @@ extension AsyncType where Self.Value : ResultProtocol {
 
 }
 
-public class FutureContainer<V, T, E>: Async<Result<T, E>> where E : Swift.Error {
+public class FutureContainer<V, T, E>: Async<Result<T, E>> where E: Swift.Error {
 
     public  var value: V?
     public var future: Future<T, E>?
@@ -63,7 +63,7 @@ public class FutureContainer<V, T, E>: Async<Result<T, E>> where E : Swift.Error
         future = Future(resolver: resolver)
     }
 
-    public required init<A>(other: A) where A : AsyncType, A.Value == Value {
+    public required init<A>(other: A) where A: AsyncType, A.Value == Value {
         super.init()
         future = Future(other: other)
     }

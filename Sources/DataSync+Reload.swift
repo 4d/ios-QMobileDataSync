@@ -98,7 +98,7 @@ extension DataSync {
 
                 }*/
         }
-        return cancellable
+        return self
     }
 
     func reloadProcessCompletionCallBack(dataStoreContextType: DataStoreContextType, tempPath: Path, _ completionHandler: @escaping SyncCompletionHandler) -> Process.CompletionHandler {
@@ -242,6 +242,5 @@ extension DataSync {
 }
 
 extension PageInfo {
-
-    public static let dummy = PageInfo(globalStamp: 0, sent: 10000, first: 0, count: 10000)
+    static let dummy = PageInfo(globalStamp: 0, sent: DataSync.Preferences.requestLimit, first: 0, count: DataSync.Preferences.requestLimit)
 }

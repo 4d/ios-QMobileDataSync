@@ -94,7 +94,7 @@ extension DataSync.Process {
                 return tableStatus.filter { $0.1 < maxStamp}
             }
         } catch {
-            // TODO according to errors, remove all adding objects, or return an error for incomplete sync
+            // TODO according to errors, remove all added objects, or return an error for incomplete sync
             // String(data: (((error as! AnyError).error as! APIError).error as! MoyaError).response!.data, encoding: .utf8)
             self.completionHandler(.mapOtherError(error))
             return nil

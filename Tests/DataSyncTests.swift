@@ -40,11 +40,23 @@ class DataSyncTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-
+    
     func testLoadTable() {
+        dataSync.loadTable { result in
+            do {
+                let tables = try result.dematerialize()
+                XCTAssertFalse(tables.isEmpty)
+            }
+            catch {
+                XCTFail("\(error)")
+            }
+        }
+    }
+
+    func testLoadRemoteTable() {
         let expectation = self.expectation()
         
-        let cancellable = dataSync.loadTable { result in
+        let cancellable = dataSync.loadRemoteTable { result in
             do {
                 let tables = try result.dematerialize()
                 XCTAssertFalse(tables.isEmpty)
@@ -97,7 +109,7 @@ class DataSyncTests: XCTestCase {
             }
             catch {
                 if case .apiError(let apiError) = error as? DataSyncError ?? .noTables {
-                    if case .recordsDecodingFailed(let json, let parserError) = apiError as? APIError ?? .dummy {
+                    if case .recordsDecodingFailed(let json, let parserError) = apiError {
                         print("Not decodable \(json) \(parserError)")
                     }
                 }
@@ -204,7 +216,7 @@ class DataSyncTests: XCTestCase {
             }
             catch {
                 if case .apiError(let apiError) = error as? DataSyncError ?? .noTables {
-                    if case .recordsDecodingFailed(let json, let parserError) = apiError as? APIError ?? .dummy {
+                    if case .recordsDecodingFailed(let json, let parserError) = apiError {
                         print("Not decodable \(json) \(parserError)")
                     }
                 }
@@ -259,7 +271,7 @@ class DataSyncTests: XCTestCase {
             }
             catch {
                 if case .apiError(let apiError) = error as? DataSyncError ?? .noTables {
-                    if case .recordsDecodingFailed(let json, let parserError) = apiError as? APIError ?? .dummy {
+                    if case .recordsDecodingFailed(let json, let parserError) = apiError {
                         print("Not decodable \(json) \(parserError)")
                     }
                 }

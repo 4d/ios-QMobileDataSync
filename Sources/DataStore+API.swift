@@ -22,7 +22,7 @@ extension DataStoreContext {
     }
 
     /// Create and updates values
-    public func insert(in table: Table, values: [String : Any]) -> Record? {
+    public func insert(in table: Table, values: [String: Any]) -> Record? {
         return insert(in: table.name, values: values)
     }
 
@@ -37,8 +37,8 @@ extension DataStoreContext {
     }
 
     /// Update the records that match the predicate with the given `values`
-    public func update(in table: Table, matching predicate: NSPredicate, values: [String : Any]) throws -> Bool {
-        return try update(in:  table.name, matching: predicate, values: values)
+    public func update(in table: Table, matching predicate: NSPredicate, values: [String: Any]) throws -> Bool {
+        return try update(in: table.name, matching: predicate, values: values)
     }
 
     /// Check if there is records that match the predicate.

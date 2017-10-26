@@ -41,8 +41,8 @@ extension Array {
     }
 }
 
-func dict<K, V>(_ tuples: [(K, V)])->[K:V] {
-    var dict: [K:V] = [K: V]()
+func dict<K, V>(_ tuples: [(K, V)]) -> [K: V] {
+    var dict: [K: V] = [K: V]()
     tuples.forEach {dict[$0.0] = $0.1}
     return dict
 }
