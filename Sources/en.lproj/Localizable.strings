@@ -1,39 +1,39 @@
 
 /* The application must have a memory issue or shutdown */
-"dataSync.retain" = "Internal application memory error.";
+"dataSync.retain" = "Internal application memory error."; // Must not occurs.
 
 /* The application code want to cancel the data refresh. More common case, the application is shuting down */
 "dataSync.delegateRequestStop" = "Application code request to stop data refresh.";
 
 /* Trying to perform action on mobile phone DB but the DB is not loaded yet.*/
-"dataSync.dataStoreNotReady" = "iOS database not ready to store data.";
+"dataSync.dataStoreNotReady" = "Application not ready to store data yet.";
 
 /* An error when trying to retrieve or store data in mobile database */
-"dataSync.dataStoreError" = "There is an error into iOS database.";
+"dataSync.dataStoreError" = "Issue when managing application data.";
 
 /* network issue or decoding JSON issue */
 "dataSync.apiError" = "Network issue when refreshing data.";
 
 /* there is no table defined in mobile database conf. Big configuration issue */
-"dataSync.noTables" = "There is no 4D table accessible.";
+"dataSync.noTables" = "There is no 4D table accessible. Please notify the application maintainer.";
 
 /* Some table are defined in mobile app but no more in 4D server. Maybe not updated app. */
-"dataSync.missingRemoteTables" = "Some table definition are missing. Maybe update your application.";
+"dataSync.missingRemoteTables" = "You application seems to be not update to date. Please update.";
 
 /* a recover message if not table, just create one, not for the final user, for the dev */
-"dataSync.noTables.recover" = "Admistrator of application must create accessible 4D tables.";
+"dataSync.noTables.recover" = "Admistrator of application must create accessible data.";
 
 /* a recover message the tables defined in mobile app are not in 4D server */
-"dataSync.missingRemoteTables.recovery" = "Maybe the structure change. Release a new application.";
+"dataSync.missingRemoteTables.recovery" = "Maybe the remote database structure change. A new application must be released..";
 
 /* store for data is not yet ready to */
-"dataStore.notReady" = "Data store not ready.";
+"dataStore.notReady" = "Application is not ready.";
 
 /* data sync cancelled */
 "dataSync.cancel" = "Data update cancelled.";
 
 /* file cache error */
-"dataSync.cacheError" = "Issue when storing data.";
+"dataSync.cacheError" = "Issue when storing data into device.";
 
 /* unknown error*/
 "dataSync.underlying" = "An issue occurs.";

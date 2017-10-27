@@ -46,6 +46,10 @@ class DataSyncTests: XCTestCase {
             do {
                 let tables = try result.dematerialize()
                 XCTAssertFalse(tables.isEmpty)
+                
+                if Bundle.dataStore[Bundle.dataStoreKey] as? String == "Invoices" {
+                    XCTAssertEqual(tables.count, 3)
+                }
             }
             catch {
                 XCTFail("\(error)")

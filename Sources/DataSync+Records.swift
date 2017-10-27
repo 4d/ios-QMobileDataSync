@@ -104,7 +104,7 @@ extension Record: RecordImportable {
         return store.has(key: key)
     }
 
-    public func `import`(attribute: Attribute, value: Any?, with mapper: AttributeMapper) {
+    public func `import`(attribute: Attribute, value: Any?, with mapper: AttributeValueMapper) {
         return store.import(attribute: attribute, value: value, with: mapper)
     }
 
@@ -112,7 +112,7 @@ extension Record: RecordImportable {
         store.importPrivateAttribute(key: key, value: value)
     }
 
-    public func get(attribute: Attribute, with mapper: AttributeMapper) -> Any? {
+    public func get(attribute: Attribute, with mapper: AttributeValueMapper) -> Any? {
         return store.get(attribute: attribute, with: mapper)
     }
 

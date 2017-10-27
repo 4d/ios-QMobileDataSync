@@ -76,6 +76,11 @@ extension DataSync {
     }
 
     public func loadRemoteTable(callbackQueue: DispatchQueue? = nil, _ completionHander: @escaping TablesCompletionHander) -> Cancellable {
+        if self.tablesByName.isEmpty {
+            self.loadTable { _ in
+                // no really asynchrone; if asynchone must use Future
+            }
+        }
         // from remote store?
         return rest.loadTables(callbackQueue: callbackQueue) { result in
             switch result {

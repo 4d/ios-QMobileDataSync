@@ -90,7 +90,7 @@ class DataStoreIntegrationTests: XCTestCase {
                                 if let dictionary = entity.dictionary {
                                     for (key, value) in dictionary {
                                         if let attribute = table[key] {
-                                            let transformedValue = AttributeMapper.default.map(value.object, with: attribute)
+                                            let transformedValue = AttributeValueMapper.default.map(value.object, with: attribute)
                                             record[attribute.safeName] = transformedValue
                                         } else {
                                             // skip? log if not internal

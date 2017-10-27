@@ -46,7 +46,7 @@ public extension APIManager {
     }
 
     /// Get server Entity Set
-    public func loadEntitySet(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<[InfoEntitySet], APIError> {
+    public func loadEntitySet(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<InfoEntitySet, APIError> {
         return Future { _ = self.loadEntitySet(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
     }
 

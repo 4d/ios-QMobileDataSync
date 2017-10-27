@@ -98,7 +98,7 @@ extension DataSync {
 
                 }*/
         }
-        return self
+        return cancellable
     }
 
     func reloadProcessCompletionCallBack(dataStoreContextType: DataStoreContextType, tempPath: Path, _ completionHandler: @escaping SyncCompletionHandler) -> Process.CompletionHandler {

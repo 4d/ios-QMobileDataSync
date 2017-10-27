@@ -44,7 +44,7 @@ class DataDumpTests: XCTestCase {
         super.tearDown()
     }
     
-    func testDataDump() {
+    func _testDataDump() {
         let expectation = self.expectation()
 
         let directory = Path.userTemporary + UUID().uuidString
@@ -53,11 +53,12 @@ class DataDumpTests: XCTestCase {
         }
         
         let test: () -> Void = {
-            self.dataSync.dump(to: directory, with: .background) {
+            let ready = self.dataSync.dump(to: directory, with: .background) {
                 let children = directory.children()
                 XCTAssertFalse(children.isEmpty)
                 expectation.fulfill()
             }
+            XCTAssertTrue(ready)
         }
         if dataSync.dataStore.isLoaded {
             test()

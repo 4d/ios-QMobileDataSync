@@ -14,10 +14,10 @@ import FileKit
 
 extension DataSync {
 
-    public func dump(to path: Path, with contextType: DataStoreContextType = .background, wait: Bool = false, completion: @escaping () -> Void) {
+    public func dump(to path: Path, with contextType: DataStoreContextType = .background, wait: Bool = false, completion: @escaping () -> Void) -> Bool {
         assert(path.isWritable)
 
-        _ = self.dataStore.perform(contextType, wait: wait) { context, _ in
+        return self.dataStore.perform(contextType, wait: wait) { context, _ in
 
             context.dump { table, result in
 
@@ -28,7 +28,7 @@ extension DataSync {
                 case .success(let records):
                     dico["success"] = true
                     dico["table"] = table.dictionary
-                    dico["records"] = records.map { $0.dictionaryWithValues(forKeys: table.fields.map { $0.name}) }
+                    dico["records"] = records.map { $0.dictionaryWithValues(forKeys: table.fields.map { $0.name }) }
                 case .failure(let error):
                     dico["success"] = false
                     dico["errors"] = error.errors
@@ -37,6 +37,8 @@ extension DataSync {
                     if file.exists {
                         try file.deleteFile()
                     }
+                    // FIXME: cannot json encode with some value type like optionnal...
+                    // JSONEncoder().encode(dico)
                     let data = try JSON(dico).rawData()
                     try DataFile(path: file).write(data)
                     logger.info("Data of table \(table.name) dumped into \(file)")
