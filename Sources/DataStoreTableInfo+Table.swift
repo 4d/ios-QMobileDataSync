@@ -29,7 +29,22 @@ extension DataStoreTableInfo {
         let fields = self.fields.map { $0.api }
         let relations = self.relationshipsByName.values.map { $0.api }
         table.attributes = (fields + relations).dictionary { $0.name }
-        table.keys = self.fields.flatMap { $0.apiKey }.dictionary { $0.name }
+
+        if let primaryKey = self.userInfo?["primary_key"] as? String {
+            let json = JSON(primaryKey)
+            if let array = json.array {
+                table.keys = [:]
+                for element in array {
+                    if let name = element["field_name"].string {
+                        table.keys[name] = Key(name: name, attribute: table.attributes[name])
+                    }
+                }
+            } else {
+                if let name = json["field_name"].string {
+                    table.keys[name] = Key(name: name, attribute: table.attributes[name])
+                }
+            }
+        }
 
         if let methods = self.userInfo?["methods"] as? [String] {
             table.methods = methods.map { TableMethod(name: $0) }
@@ -59,16 +74,10 @@ extension DataStoreFieldInfo {
         )
         attribute.indexed = self.userInfo?["indexed"] as? Bool ?? false
         attribute.identifying = self.userInfo?["identifying"] as? Bool ?? false
-        attribute.simpleDate = self.userInfo?["simpleDate"] as? Bool ?? false
+        attribute.simpleDate = self.userInfo?["simpleDate"] as? Bool ?? (self.type == .date)
         return attribute
     }
 
-    var apiKey: Key? {
-        if let isKey = self.userInfo?["key"] as? Bool, isKey {
-            return Key(name: self.originalName, attribute: self.api)
-        }
-        return nil
-    }
 }
 
 extension DataStoreFieldType {
