@@ -135,7 +135,7 @@ extension DataSync {
                 self.trySave(save)
 
                 // call success
-                completionHandler(.success())
+                completionHandler(.success(()))
             case .failure(let error):
                 if case .onCompletion = self.saveMode {
                     context.rollback()

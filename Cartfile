@@ -1,10 +1,10 @@
 git "https://gitfusion.wakanda.io/qmobile/QMobileDataStore.git" "HEAD"
 git "https://gitfusion.wakanda.io/qmobile/QMobileAPI.git" "HEAD"
 
-github "Thomvis/BrightFutures" "5.2.0" # future/promize for task management
-github "nvzqz/FileKit" "85999177271043b127f8744259fc432b32e4f177" # file management
-github "DaveWoodCom/XCGLogger" "5.0.5"
+github "Thomvis/BrightFutures" # future/promize for task management
+github "nvzqz/FileKit" # file management
+github "DaveWoodCom/XCGLogger"
 
-#github "antitypical/Result" "3.2.3"
-#github "dennisweissmann/DeviceKit" "1.2.3"
-#github "phimage/Prephirences" "f3d539a07e461921094595ffa9c5ad73ebc34889"
+#github "antitypical/Result"
+#github "dennisweissmann/DeviceKit"
+#github "phimage/Prephirences"

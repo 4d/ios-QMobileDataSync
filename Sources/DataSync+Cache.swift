@@ -63,8 +63,8 @@ extension DataSync {
 
 extension JSON {
 
-    init(path: Path) {
-        self.init(fileURL: path.url)
+    init(path: Path) throws {
+        try self.init(fileURL: path.url)
     }
 
 }

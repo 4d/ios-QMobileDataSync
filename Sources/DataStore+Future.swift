@@ -19,7 +19,7 @@ extension DataStore {
     /// Load the data store and return a Future
     public func load() -> Future<Void, DataStoreError> {
         if isLoaded {
-            return Future<Void, DataStoreError>(result: .success())
+            return Future<Void, DataStoreError>(result: .success(()))
         }
         return Future { self.load(completionHandler: $0) }
     }
@@ -37,8 +37,8 @@ extension DataStore {
     /// Provide a context for performing data store operation
     public func perform(_ type: QMobileDataStore.DataStoreContextType) -> PerformFuture {
         return Future { complete in
-            let value = self.perform(type) { val in
-                complete(.success(val))
+            let value = self.perform(type, wait: false) { (context, saveClosure) in
+                complete(.success((context, saveClosure)))
             }
             if !value {
                 complete(.failure(DataStoreError(DataSyncError.dataStoreNotReady)))

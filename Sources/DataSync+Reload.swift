@@ -157,7 +157,7 @@ extension DataSync {
                     do {
                         try self.loadRecordsFromCache(context: context, save: save)
 
-                        completionHandler(.success())
+                        completionHandler(.success(()))
                     } catch let dataStoreError as DataSyncError {
                         completionHandler(.failure(DataSyncError.error(from: dataStoreError)))
                     } catch {

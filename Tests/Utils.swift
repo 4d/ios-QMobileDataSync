@@ -38,9 +38,8 @@ func table(name: String) -> Table? {
         XCTFail("Failed to read data for table \(name) at url \(url)")
         return nil
     }
-    let json = JSON(data: data)
-    
-    guard let table = Table(json: json) else {
+
+    guard let json = try? JSON(data: data), let table = Table(json: json) else {
         XCTFail("Failed to parse table \(name)")
         return nil
     }
@@ -57,7 +56,7 @@ func json(name: String) -> JSON? {
         XCTFail("Failed to read data for table \(name) at url \(url)")
         return nil
     }
-    return JSON(data: data)
+    return try? JSON(data: data)
 }
 
 func json(name: String, id: String) -> JSON? {
@@ -70,7 +69,7 @@ func json(name: String, id: String) -> JSON? {
         XCTFail("Failed to read data for table \(name) at url \(url)")
         return nil
     }
-    return JSON(data: data)
+    return try? JSON(data: data)
 }
 
 

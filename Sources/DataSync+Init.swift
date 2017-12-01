@@ -52,7 +52,7 @@ extension DataSync {
             if self.tables.isEmpty {
                 return .failure(.noTables)
             }
-            return .success()
+            return .success(())
         }
         sequence.append(checkTable)
 
@@ -68,7 +68,7 @@ extension DataSync {
                         logger.info("Load table data from embedded data files")
                         do {
                             try self.loadRecordsFromFile(context: dataStoreContext, save: save)
-                            return .success()
+                            return .success(())
                         } catch let dataStoreError as DataStoreError {
                             return .failure(dataStoreError)
                         } catch {
@@ -100,7 +100,7 @@ extension DataSync {
                                 logger.debug("Data of table \(table.name) deleted: \(bool)")
                             }
                             try save()
-                            return .success()
+                            return .success(())
                         } catch let dataStoreError as DataStoreError {
                             return .failure(dataStoreError)
                         } catch {
@@ -124,7 +124,7 @@ extension DataSync {
             logger.info("Load table data from embedded data files")
             do {
                 try self.loadRecordsFromFile(context: dataStoreContext, save: save)
-                completionHandler(.success())
+                completionHandler(.success(()))
 
             } catch let dataStoreError as DataStoreError {
                 completionHandler( .failure(dataStoreError))

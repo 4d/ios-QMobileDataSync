@@ -45,9 +45,9 @@ extension DataSync {
         // load data from files
         for (tableName, table) in self.tablesByName {
 
-            if let url = self.bundle.url(forResource: tableName, withExtension: Preferences.jsonDataExtension, subdirectory: nil) {
+            if let url = self.bundle.url(forResource: tableName, withExtension: Preferences.jsonDataExtension, subdirectory: nil),
+                let json = try? JSON(fileURL: url) {
 
-                let json = JSON(fileURL: url)
                 assert(ImportableParser.tableName(for: json) == tableName)
 
                 let records = try table.parser.parseArray(json: json, with: self.recordInitializer(table: table, context: context))
@@ -64,15 +64,17 @@ extension DataSync {
 
             let cacheFile: Path = self.cachePath + "\(tableName).\(Preferences.jsonDataExtension)"
             if cacheFile.exists {
-                let json = JSON(path: cacheFile)
-                if let error = json.error {
+                do {
+                    let json = try JSON(path: cacheFile)
+
+                    assert(ImportableParser.tableName(for: json) == tableName)
+
+                    let records = try table.parser.parseArray(json: json, with: self.recordInitializer(table: table, context: context))
+                    logger.info("\(records.count) records imported from '\(tableName)' file")
+
+                } catch {
                     logger.warning("Failed to parse \(cacheFile): \(error)")
                 }
-
-                assert(ImportableParser.tableName(for: json) == tableName)
-
-                let records = try table.parser.parseArray(json: json, with: self.recordInitializer(table: table, context: context))
-                logger.info("\(records.count) records imported from '\(tableName)' file")
             }
         }
 
