@@ -145,9 +145,15 @@ extension DataSync {
                     }
                     logger.info("Delete all tables data")
                     do {
+                        let indexedTablesInfo = self.dataStore.tablesInfo.dictionary { $0.originalName }
                         for table in self.tables {
-                            let bool = try context.delete(in: table)
-                            logger.debug("Data of table \(table.name) deleted: \(bool)")
+                            if let tableInfo = indexedTablesInfo[table.name] {
+                                let bool = try context.delete(in: tableInfo)
+                                logger.debug("Data of table \(table.name) deleted: \(bool)")
+                            } else {
+                                logger.warning("Data of table \(table.name) could not be deleted. Could not found in data store")
+                                logger.debug("Dump of table info\(indexedTablesInfo)")
+                            }
                         }
                     } catch {
                         completionHandler(.failure(DataSyncError.error(from: DataStoreError.error(from: error))))

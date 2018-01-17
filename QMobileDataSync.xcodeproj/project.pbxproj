@@ -66,7 +66,6 @@
 		486A23041F55BF9D00B5A5E6 /* BrightFutures+Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A23031F55BF9D00B5A5E6 /* BrightFutures+Sync.swift */; };
 		486B24791F56B23700706B92 /* FutureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486B24781F56B23700706B92 /* FutureTests.swift */; };
 		487F7FEA1F570C7D0064AF4B /* DataReloadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487F7FE91F570C7D0064AF4B /* DataReloadTests.swift */; };
-		48934E6D1F3DCB9C003B7DB4 /* DataStore+API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48934E6C1F3DCB9C003B7DB4 /* DataStore+API.swift */; };
 		489C15DA1F3B42A5004844F3 /* DataSync+Cancellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489C15D91F3B42A5004844F3 /* DataSync+Cancellable.swift */; };
 		48C55E7D1EB8A09600F9ECAC /* QMobileDataSync.h in Headers */ = {isa = PBXBuildFile; fileRef = 48C55E7B1EB8A09600F9ECAC /* QMobileDataSync.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		48C55E8F1EB8A48300F9ECAC /* ObjcExceptionBridging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48C55E881EB8A48300F9ECAC /* ObjcExceptionBridging.framework */; };
@@ -162,7 +161,6 @@
 		486A23031F55BF9D00B5A5E6 /* BrightFutures+Sync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BrightFutures+Sync.swift"; sourceTree = "<group>"; };
 		486B24781F56B23700706B92 /* FutureTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FutureTests.swift; sourceTree = "<group>"; };
 		487F7FE91F570C7D0064AF4B /* DataReloadTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataReloadTests.swift; sourceTree = "<group>"; };
-		48934E6C1F3DCB9C003B7DB4 /* DataStore+API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataStore+API.swift"; sourceTree = "<group>"; };
 		489C15D91F3B42A5004844F3 /* DataSync+Cancellable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Cancellable.swift"; sourceTree = "<group>"; };
 		48B0B2DF1F444923008F5EB1 /* Cartfile.resolved */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile.resolved; sourceTree = "<group>"; };
 		48C55E781EB8A09600F9ECAC /* QMobileDataSync.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = QMobileDataSync.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -307,7 +305,6 @@
 			children = (
 				484803861EBC78680094D84C /* Array+Sync.swift */,
 				484428FA1EC99922008658B8 /* Sequence+Result.swift */,
-				48934E6C1F3DCB9C003B7DB4 /* DataStore+API.swift */,
 				486A22FA1F55B55C00B5A5E6 /* DataStoreContext+Queue.swift */,
 				486A23001F55B74300B5A5E6 /* DispatchQueue+Sync.swift */,
 				486A23031F55BF9D00B5A5E6 /* BrightFutures+Sync.swift */,
@@ -709,7 +706,6 @@
 				486A22FD1F55B68100B5A5E6 /* DataSync+SyncTable.swift in Sources */,
 				484428FB1EC99922008658B8 /* Sequence+Result.swift in Sources */,
 				484428F91EC998F0008658B8 /* DataSyncError.swift in Sources */,
-				48934E6D1F3DCB9C003B7DB4 /* DataStore+API.swift in Sources */,
 				4843784D1F471C02004C5101 /* DataSync+Notification.swift in Sources */,
 				484803A51EBCB5C50094D84C /* DataSync+Records.swift in Sources */,
 				48FBBFAE1F554A4000E920B6 /* API+Future.swift in Sources */,
