@@ -72,6 +72,10 @@ extension DataStoreFieldInfo {
             scope: .public,
             type: self.type.api
         )
+        if originalName != self.name {
+            attribute.nameTransformer = AttributeNameTransformer(encoded: originalName, decoded: name)
+        }
+
         attribute.indexed = self.userInfo?["indexed"] as? Bool ?? false
         attribute.identifying = self.userInfo?["identifying"] as? Bool ?? false
         attribute.simpleDate = self.userInfo?["simpleDate"] as? Bool ?? (self.type == .date)

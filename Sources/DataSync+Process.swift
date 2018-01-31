@@ -26,7 +26,7 @@ extension DataSync {
         public typealias CompletionHandler = (Result<TableStampStorage.Stamp, ProcessError>) -> Void
 
         // list of table to sync
-        let tablesByName: [String: Table]
+        let tables: [Table]
         // stamp
         let startStamp: TableStampStorage.Stamp
 
@@ -35,8 +35,8 @@ extension DataSync {
 
         var tablesResults: [String: TableResult] = [:]
 
-        init(tables: [String: Table], startStamp: TableStampStorage.Stamp, cancellable: Cancellable?, completionHandler: @escaping CompletionHandler) {
-            self.tablesByName = tables
+        init(tables: [Table], startStamp: TableStampStorage.Stamp, cancellable: Cancellable?, completionHandler: @escaping CompletionHandler) {
+            self.tables = tables
             self.startStamp = startStamp
             self.cancellable = cancellable
             self.completionHandler = completionHandler
@@ -63,12 +63,12 @@ extension DataSync.Process {
     var isCompleted: Bool {
         // there is all status filled, so all task end
         // /!\ be careful to remove status when relaunching a task on specific table
-        return tablesResults.count == tablesByName.count
+        return tablesResults.count == tables.count
     }
 
     func checkCompleted() -> [TableStatus]? {
         // maybe Future?Promize or a Lock
-        logger.debug("There is \(tablesResults.count)/\(tablesByName.count) tables sync")
+        logger.debug("There is \(tablesResults.count)/\(tables.count) tables sync")
 
         guard isCompleted else {
             return nil

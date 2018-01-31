@@ -31,8 +31,14 @@ extension DataSync {
     func syncTable(_ table: Table, callbackQueue: DispatchQueue? = nil, configureRequest: @escaping ((RecordsRequest) -> Void), context: DataStoreContext, save: @escaping DataStore.SaveClosure) -> Cancellable {
         dataSyncBegin(for: table)
 
-        let initializer = self.recordInitializer(table: table, context: context)
         var cancellable = CancellableComposite()
+
+        guard let tableInfo = self.tablesInfoByTable[table] else {
+            assertionFailure("No table storage info for table \(table)")
+            return cancellable
+        }
+
+        let initializer = self.recordInitializer(table: table, tableInfo: tableInfo, context: context)
 
         let completion: ((Result<([Record], PageInfo), APIError>) -> Void) = { result in
             switch result {

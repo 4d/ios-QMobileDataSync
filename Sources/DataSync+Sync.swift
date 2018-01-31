@@ -87,11 +87,11 @@ extension DataSync {
 
                 // Get data from this global stamp
                 let startStamp = metadata.stampStorage.globalStamp
-                let tablesByName = this.tablesByName
+                let tables = this.tables
 
                 // From remote
                 let processCompletion = this.syncProcessCompletionCallBack(completionHandler, context: context, save: save)
-                let process = Process(tables: tablesByName, startStamp: startStamp, cancellable: cancellable, completionHandler: processCompletion)
+                let process = Process(tables: tables, startStamp: startStamp, cancellable: cancellable, completionHandler: processCompletion)
 
                 // assert(this.process == nil)
                 this.process = process

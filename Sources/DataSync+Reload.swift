@@ -55,13 +55,13 @@ extension DataSync {
                  }*/
 
                 let startStamp = 0
-                let tablesByName = this.tablesByName
+                let tables = this.tables
 
                 // From remote
                 let tempPath: Path = .userTemporary
 
                 let processCompletion = this.reloadProcessCompletionCallBack(dataStoreContextType: dataStoreContextType, tempPath: tempPath, completionHandler)
-                let process = Process(tables: tablesByName, startStamp: startStamp, cancellable: cancellable, completionHandler: processCompletion)
+                let process = Process(tables: tables, startStamp: startStamp, cancellable: cancellable, completionHandler: processCompletion)
 
                 // assert(this.process == nil)
                 this.process = process

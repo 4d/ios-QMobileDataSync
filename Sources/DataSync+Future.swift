@@ -16,7 +16,7 @@ import QMobileDataStore
 extension DataSync {
 
     public func loadTable(callbackQueue: DispatchQueue? = nil) -> Future<[Table], DataSyncError> {
-        if !self.tablesByName.isEmpty {
+        if !self.tables.isEmpty {
             return Future<[Table], DataSyncError>(result: .success(self.tables))
         }
         return Future { _ = self.loadTable(callbackQueue: callbackQueue, $0) }

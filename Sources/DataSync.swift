@@ -34,11 +34,10 @@ public class DataSync {
     /// Bundle for files (JSON tables and data)
     public var bundle: Bundle = .main
 
-    /// List of loaded tables indexed by name
-    public var tablesByName: [String: Table] = [:]
-    // shorcut to get only tables
-    var tables: [Table] {
-        return Array(self.tablesByName.values)
+    /// List of loaded tables
+    public var tablesInfoByTable: [Table: DataStoreTableInfo] = [:]
+    public var tables: [Table] {
+        return Array(tablesInfoByTable.keys)
     }
 
     /// Current process. Support only one process.
@@ -55,5 +54,11 @@ public class DataSync {
         case eachPage
         case byTable
         case onCompletion
+    }
+}
+
+extension Table: Hashable {
+    public var hashValue: Int {
+        return self.name.hashValue
     }
 }

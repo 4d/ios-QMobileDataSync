@@ -53,30 +53,27 @@ extension DataSync {
         return tables
     }
 
-    private func createTableFromDataStore() -> [Table] {
-        return self.dataStore.tablesInfo.map { $0.api }
-    }
-
     // Load database structures from
     public typealias TablesCompletionHander = (Result<[Table], DataSyncError>) -> Void
     public func loadTable(callbackQueue: DispatchQueue? = nil, _ completionHander: @escaping TablesCompletionHander) {
+        let tableInfo = self.dataStore.tablesInfo
 
-        var tables = loadTableFromEmbeddedFiles().dictionary { $0.name }
-        tables = stripTablesNotInDataStore(tables)
-        /// XXX could be replaced by createTableFromDataStore() if method has been implemented
+        let infos: [(Table, DataStoreTableInfo)] = tableInfo.map { ($0.api, $0) }
+        self.tablesInfoByTable = Dictionary(infos)
 
-        self.tablesByName = tables
+        logger.info("Table strutures from data store: \(Array(self.tables.map { $0.name }))")
+
         if let callbackQueue = callbackQueue {
             callbackQueue.async {
-                completionHander(.success(Array(tables.values)))
+                completionHander(.success(self.tables))
             }
         } else {
-            completionHander(.success(Array(tables.values)))
+            completionHander(.success(self.tables))
         }
     }
 
     public func loadRemoteTable(callbackQueue: DispatchQueue? = nil, _ completionHander: @escaping TablesCompletionHander) -> Cancellable {
-        if self.tablesByName.isEmpty {
+        if self.tables.isEmpty {
             self.loadTable { _ in
                 // no really asynchrone; if asynchone must use Future
             }
@@ -88,27 +85,28 @@ extension DataSync {
                 // Check if all tables accessible on remote target
 
                 #if DEBUG
-                    for remoteTable in remoteTables where self.tablesByName[remoteTable.name] == nil {
+                    let managedNames = self.tables.map { $0.name }
+                    for remoteTable in remoteTables where !managedNames.contains(remoteTable.name) {
                         // normal, not all table displayed in mobile project
                         logger.verbose("Table '\(remoteTable.name) not managed by this mobile project.")
                     }
                 #endif
                 var indexedRemoteTables = remoteTables.dictionary { $0.name }
                 var missingTables = [Table]()
-                for (name, table) in self.tablesByName {
-                    if let remoteTable = indexedRemoteTables[name] {
+                for table in self.tables {
+                    if let remoteTable = indexedRemoteTables[table.name] {
                         assert(table.name == remoteTable.name)
                         // TODO check remoteTable and table equals? or compatible ie. all field in table are in remoteTable
                     } else {
                         missingTables.append(table)
-                        logger.warning("Table \(name) not accessible on remote 4D Server. Check if you app is up to date")
+                        logger.warning("Table \(table.name) not accessible on remote 4D Server. Check if you app is up to date")
                     }
                 }
                 if !missingTables.isEmpty {
                     // notifify app not up to date with data structure
                     completionHander(.failure(.missingRemoteTables(missingTables)))
                 } else {
-                    completionHander(.success(Array(self.tablesByName.values)))
+                    completionHander(.success(self.tables))
                 }
 
             case .failure(let error):
@@ -118,4 +116,13 @@ extension DataSync {
         }
     }
 
+}
+
+extension Dictionary { // factorize
+    init(_ pairs: [Element]) {
+        self.init()
+        for (k, v) in pairs {
+            self[k] = v
+        }
+    }
 }
