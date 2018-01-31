@@ -10,10 +10,11 @@ import Foundation
 import QMobileAPI
 import QMobileDataStore
 
+let kkeyMapping = "keyMapping"
 extension DataStoreTableInfo {
 
     var originalName: String {
-        if let name = self.userInfo?["keyMapping"] as? String {
+        if let name = self.userInfo?[kkeyMapping] as? String {
             return name
         }
         return self.name

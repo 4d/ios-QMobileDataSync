@@ -58,6 +58,7 @@
 		486081071F8CBAF500591942 /* DataStoreTableInfo+Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486081061F8CBAF500591942 /* DataStoreTableInfo+Table.swift */; };
 		4865B1AB1EC1BA3100085634 /* BrightFutures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4865B1AA1EC1BA3100085634 /* BrightFutures.framework */; };
 		4865B1AC1EC1BA3100085634 /* BrightFutures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4865B1AA1EC1BA3100085634 /* BrightFutures.framework */; };
+		486745002021B8050029924D /* NSManagedObject+Importable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486744FF2021B8050029924D /* NSManagedObject+Importable.swift */; };
 		486A22FB1F55B55C00B5A5E6 /* DataStoreContext+Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A22FA1F55B55C00B5A5E6 /* DataStoreContext+Queue.swift */; };
 		486A22FD1F55B68100B5A5E6 /* DataSync+SyncTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A22FC1F55B68100B5A5E6 /* DataSync+SyncTable.swift */; };
 		486A22FF1F55B69400B5A5E6 /* DataSync+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A22FE1F55B69400B5A5E6 /* DataSync+Init.swift */; };
@@ -154,6 +155,7 @@
 		486081061F8CBAF500591942 /* DataStoreTableInfo+Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataStoreTableInfo+Table.swift"; sourceTree = "<group>"; };
 		4865B1A91EC1B7BF00085634 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		4865B1AA1EC1BA3100085634 /* BrightFutures.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BrightFutures.framework; path = Carthage/Build/iOS/BrightFutures.framework; sourceTree = "<group>"; };
+		486744FF2021B8050029924D /* NSManagedObject+Importable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+Importable.swift"; sourceTree = "<group>"; };
 		486A22FA1F55B55C00B5A5E6 /* DataStoreContext+Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataStoreContext+Queue.swift"; sourceTree = "<group>"; };
 		486A22FC1F55B68100B5A5E6 /* DataSync+SyncTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+SyncTable.swift"; sourceTree = "<group>"; };
 		486A22FE1F55B69400B5A5E6 /* DataSync+Init.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Init.swift"; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 		484803A11EBCB1660094D84C /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				486744FF2021B8050029924D /* NSManagedObject+Importable.swift */,
 				484803861EBC78680094D84C /* Array+Sync.swift */,
 				484428FA1EC99922008658B8 /* Sequence+Result.swift */,
 				486A22FA1F55B55C00B5A5E6 /* DataStoreContext+Queue.swift */,
@@ -700,6 +703,7 @@
 				484803831EBC768E0094D84C /* DataSync+Preferences.swift in Sources */,
 				486A23011F55B74300B5A5E6 /* DispatchQueue+Sync.swift in Sources */,
 				486A23021F55B98200B5A5E6 /* DataSync+Reload.swift in Sources */,
+				486745002021B8050029924D /* NSManagedObject+Importable.swift in Sources */,
 				484803871EBC78680094D84C /* Array+Sync.swift in Sources */,
 				484428F51EC99766008658B8 /* TableStampStorage.swift in Sources */,
 				486A22FB1F55B55C00B5A5E6 /* DataStoreContext+Queue.swift in Sources */,
