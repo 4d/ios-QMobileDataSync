@@ -145,27 +145,21 @@ extension DataSync {
                     }
                     logger.info("Delete all tables data")
                     do {
-                        let indexedTablesInfo = self.dataStore.tablesInfo.dictionary { $0.originalName }
-                        for table in self.tables {
-                            if let tableInfo = indexedTablesInfo[table.name] {
-                                let bool = try context.delete(in: tableInfo)
-                                logger.debug("Data of table \(table.name) deleted: \(bool)")
-                            } else {
-                                logger.warning("Data of table \(table.name) could not be deleted. Could not found in data store")
-                                logger.debug("Dump of table info\(indexedTablesInfo)")
-                            }
+                        for (table, tableInfo) in self.tablesInfoByTable {
+                            logger.verbose("Data of table \(table.name) will be deleted")
+                            let deletedCount = try context.delete(in: tableInfo)
+                            logger.debug("Data of table \(table.name) deleted: \(deletedCount)")
                         }
                     } catch {
                         completionHandler(.failure(DataSyncError.error(from: DataStoreError.error(from: error))))
                     }
 
-                    logger.info("Load table data from embedded data files")
+                    logger.info("Load table data from cache data files")
                     do {
                         try self.loadRecordsFromCache(context: context, save: save)
 
+                        logger.debug("Load table data from cache data files success")
                         completionHandler(.success(()))
-                    } catch let dataStoreError as DataSyncError {
-                        completionHandler(.failure(DataSyncError.error(from: dataStoreError)))
                     } catch {
                         completionHandler(.failure(DataSyncError.error(from: DataStoreError.error(from: error))))
                     }

@@ -125,7 +125,7 @@ extension DataSync {
         return sequence.sequence().asVoid()
     }
 
-    public func loadTableDataFronmBundleFiles(dataStoreContextType: DataStoreContextType = .background, completionHandler:  @escaping (Result<Void, DataStoreError>) -> Void) -> Bool {
+    /*public func loadTableDataFronmBundleFiles(dataStoreContextType: DataStoreContextType = .background, completionHandler:  @escaping (Result<Void, DataStoreError>) -> Void) -> Bool {
        return self.dataStore.perform(dataStoreContextType) { dataStoreContext, save in
             logger.info("Load table data from embedded data files")
             do {
@@ -138,6 +138,6 @@ extension DataSync {
                 completionHandler(.failure(DataStoreError(error)))
             }
         }
-    }
+    }*/
 
 }

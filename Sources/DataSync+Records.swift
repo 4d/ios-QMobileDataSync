@@ -65,7 +65,7 @@ extension DataSync {
     func loadRecordsFromCache(context: DataStoreContext, save: @escaping () throws -> Swift.Void) throws {
         // load data from files
         for (table, tableInfo) in self.tablesInfoByTable {
-            let tableName = tableInfo.name
+            let tableName = table.name
             let cacheFile: Path = self.cachePath + "\(tableName).\(Preferences.jsonDataExtension)"
             if cacheFile.exists {
                 do {
@@ -79,6 +79,8 @@ extension DataSync {
                 } catch {
                     logger.warning("Failed to parse \(cacheFile): \(error)")
                 }
+            } else {
+                logger.warning("No cache file \(cacheFile)")
             }
         }
 
