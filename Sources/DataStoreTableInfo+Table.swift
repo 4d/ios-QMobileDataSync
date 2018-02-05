@@ -71,7 +71,7 @@ extension DataStoreFieldInfo {
             name: self.originalName,
             kind: .storage,
             scope: .public,
-            type: self.type.api
+            type: self.type.api(self.userInfo)
         )
         if originalName != self.name {
             attribute.nameTransformer = AttributeNameTransformer(encoded: originalName, decoded: name)
@@ -86,7 +86,44 @@ extension DataStoreFieldInfo {
 }
 
 extension DataStoreFieldType {
-    var api: AttributeStorageType {
+    func api(userInfo: [AnyHashable: Any]?) -> AttributeStorageType {
+        switch self {
+        case .boolean:
+            return .bool
+        case .string:
+            return .string
+        case .date:
+            return .date
+        case .float:
+            return .float
+        case .double:
+            return .number
+        case .binary:
+            return .blob
+        case .integer32:
+            if let isType = userInfo?["integer"] as? Bool, isType {
+                return .word
+            }
+            return .long
+        case .integer64:
+            if let isType = userInfo?["duration"] as? Bool, isType {
+                return .duration
+            }
+            return .long64
+        case .transformable:
+            if let isType = userInfo?["image"] as? Bool, isType {
+                return .image
+            }
+            return .object
+        case .undefined:
+            return .string
+        case .objectID:
+            return .string
+        case .decimal:
+            return .float // not used
+        case .integer16:
+            return .long // not used
+        }
         return .string
     }
 }
