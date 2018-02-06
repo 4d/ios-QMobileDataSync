@@ -71,7 +71,7 @@ extension DataStoreFieldInfo {
             name: self.originalName,
             kind: .storage,
             scope: .public,
-            type: self.type.api(self.userInfo)
+            type: self.type.api(userInfo: self.userInfo)
         )
         if originalName != self.name {
             attribute.nameTransformer = AttributeNameTransformer(encoded: originalName, decoded: name)
