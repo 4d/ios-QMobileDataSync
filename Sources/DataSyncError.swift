@@ -37,6 +37,9 @@ public enum DataSyncError: Swift.Error {
     /// Missing tables on remote server to synchronize. App not up to date?
     case missingRemoteTables([Table])
 
+    /// Missing tables attributes on remote server to synchronize. App not up to date?
+    case missingRemoteTableAttributes([Table: [Attribute]])
+
     /// Error with file data cache
     case dataCache(Error)
 
@@ -122,6 +125,8 @@ extension DataSyncError: LocalizedError {
             return "dataSync.noTables".localized
         case .missingRemoteTables:
             return "dataSync.missingRemoteTables".localized
+        case .missingRemoteTableAttributes:
+            return "dataSync.missingRemoteTableAttributes".localized
         case .cancel:
             return "dataSync.cancel".localized
         case .dataCache:
@@ -149,6 +154,8 @@ extension DataSyncError: LocalizedError {
             return "dataSync.noTables.recover".localized
         case .missingRemoteTables:
             return "dataSync.missingRemoteTables.recovery".localized
+        case .missingRemoteTableAttributes:
+                return "dataSync.missingRemoteTableAttributes.recovery".localized
         default:
             return nil
         }

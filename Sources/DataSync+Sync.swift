@@ -77,7 +77,7 @@ extension DataSync {
             }
 
             // perform a data store task in background
-            let perform = this.dataStore.perform(dataStoreContextType) { [weak self] context, save in
+            let perform = this.dataStore.perform(dataStoreContextType, blockName: "sync") { [weak self] context, save in
                 guard let this = self else {
                     // memory issue, must retain the dataSync object somewhere
                     completionHandler(.failure(.retain))

@@ -91,12 +91,25 @@ extension DataSync {
                         logger.verbose("Table '\(remoteTable.name) not managed by this mobile project.")
                     }
                 #endif
-                var indexedRemoteTables = remoteTables.dictionary { $0.name }
+                var removeTablesByName = remoteTables.dictionary { $0.name }
                 var missingTables = [Table]()
+                var missingAttributes = [Table: [Attribute]]()
                 for table in self.tables {
-                    if let remoteTable = indexedRemoteTables[table.name] {
+                    if let remoteTable = removeTablesByName[table.name] {
                         assert(table.name == remoteTable.name)
-                        // TODO check remoteTable and table equals? or compatible ie. all field in table are in remoteTable
+
+                        let remoteAttributesByName = remoteTable.attributes
+                        // check remoteTable and table equals? or compatible ie. all field in table are in remoteTable
+                        for (name, attribute) in table.attributes {
+                            if remoteAttributesByName[name] == nil {
+                                if missingAttributes[table] == nil {
+                                    missingAttributes[table] = [attribute]
+                                } else {
+                                    missingAttributes[table]?.append(attribute)
+                                }
+                            }
+                        }
+
                     } else {
                         missingTables.append(table)
                         logger.warning("Table \(table.name) not accessible on remote 4D Server. Check if you app is up to date")
@@ -105,6 +118,9 @@ extension DataSync {
                 if !missingTables.isEmpty {
                     // notifify app not up to date with data structure
                     completionHander(.failure(.missingRemoteTables(missingTables)))
+                } else if !missingAttributes.isEmpty {
+                    // notifify app not up to date with data structure
+                    completionHander(.failure(.missingRemoteTableAttributes(missingAttributes)))
                 } else {
                     completionHander(.success(self.tables))
                 }

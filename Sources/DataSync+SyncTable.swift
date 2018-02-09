@@ -66,7 +66,7 @@ extension DataSync {
                 if pageInfo.isLast, let process = self.process {
                     _ = process.lock() // #FIXME dead lock here????
                     defer {
-                         _ = process.unlock()
+                        _ = process.unlock()
                     }
                     // Set current table completed
                     process.completed(for: table, with: .success(pageInfo))
@@ -85,20 +85,25 @@ extension DataSync {
                 self.dataSyncFailed(for: table, with: error)
 
                 if var process = self.process {
-                     _ = process.lock()
+                    _ = process.lock()
                     defer {
-                         _ = process.unlock()
+                        _ = process.unlock()
                     }
                     self.process?.completed(for: table, with: .mapOtherError(error))
                     _ = self.process?.checkCompleted()
                 }
             }
-    }
+        }
+        let attributes: [String]
+        if let no = Prephirences.sharedInstance["dataSync.noAttributeFilter"] as? Bool, no {
+            attributes = []
+        } else {
+            attributes = table.attributes.map { $0.0 }
+        }
+        let cancellableRecords = self.rest.loadRecords(table: table, attributes: attributes, recursive: true, configure: configureRequest, initializer: initializer, queue: callbackQueue, completionHandler: completion)
 
-    let cancellableRecords = self.rest.loadRecords(table: table, recursive: true, configure: configureRequest, initializer: initializer, queue: callbackQueue, completionHandler: completion)
+        cancellable.append(cancellableRecords)
 
-    cancellable.append(cancellableRecords)
-
-    return cancellable
+        return cancellable
     }
 }

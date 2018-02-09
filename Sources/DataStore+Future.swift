@@ -35,9 +35,9 @@ extension DataStore {
     }
 
     /// Provide a context for performing data store operation
-    public func perform(_ type: QMobileDataStore.DataStoreContextType) -> PerformFuture {
+    public func perform(_ type: QMobileDataStore.DataStoreContextType, blockName: String? = nil) -> PerformFuture {
         return Future { complete in
-            let value = self.perform(type, wait: false) { (context, saveClosure) in
+            let value = self.perform(type, wait: false, blockName: blockName) { (context, saveClosure) in
                 complete(.success((context, saveClosure)))
             }
             if !value {

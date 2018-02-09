@@ -11,6 +11,7 @@ import QMobileDataStore
 import QMobileAPI
 import FileKit
 import Moya
+import Prephirences
 
 extension DataSync {
 
@@ -138,12 +139,13 @@ extension DataSync {
                     return
                 }
 
-                let result = self.dataStore.perform(dataStoreContextType) { context, save in
+                let result = self.dataStore.perform(dataStoreContextType, blockName: "LoadCacheDataAfterRealoading") { context, save in
                     if self.isCancelled {
                         completionHandler(.failure(.cancel))
                         return
                     }
-                    logger.info("Delete all tables data")
+
+                    logger.info("Delete all tables data before loading from files")
                     do {
                         for (table, tableInfo) in self.tablesInfoByTable {
                             logger.verbose("Data of table \(table.name) will be deleted")
@@ -157,7 +159,6 @@ extension DataSync {
                     logger.info("Load table data from cache data files")
                     do {
                         try self.loadRecordsFromCache(context: context, save: save)
-
                         logger.debug("Load table data from cache data files success")
                         completionHandler(.success(()))
                     } catch {
@@ -178,7 +179,14 @@ extension DataSync {
         dataSyncBegin(for: table)
 
         let cancellable = CancellableComposite()
-        var target = rest.rest.records(from: table.name, attributes: [])
+        let attributes: [String]
+        if let no = Prephirences.sharedInstance["dataSync.noAttributeFilter"] as? Bool, no {
+            attributes = []
+        } else {
+            attributes = table.attributes.map { $0.0 }
+        }
+
+        var target = rest.rest.records(from: table.name, attributes: attributes)
         target.limit(Preferences.requestLimit)
 
         let completion: APIManager.Completion = { result in

@@ -124,7 +124,6 @@ extension DataStoreFieldType {
         case .integer16:
             return .long // not used
         }
-        return .string
     }
 }
 

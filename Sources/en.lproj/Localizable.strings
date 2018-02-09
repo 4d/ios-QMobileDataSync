@@ -20,11 +20,17 @@
 /* Some table are defined in mobile app but no more in 4D server. Maybe not updated app. */
 "dataSync.missingRemoteTables" = "You application seems to be not update to date. Please update.";
 
+/* Some table fields are defined in mobile app but no more in 4D server. Maybe not updated app. */
+"dataSync.missingRemoteTableAttributes" = "You application seems to be not update to date. Please update.";
+
 /* a recover message if not table, just create one, not for the final user, for the dev */
 "dataSync.noTables.recover" = "Admistrator of application must create accessible data.";
 
 /* a recover message the tables defined in mobile app are not in 4D server */
-"dataSync.missingRemoteTables.recovery" = "Maybe the remote database structure change. A new application must be released..";
+"dataSync.missingRemoteTables.recovery" = "Maybe the remote database structure change. A new application must be released.";
+
+/* a recover message the tables defined in mobile app are not in 4D server */
+"dataSync.missingRemoteTableAttributes.recovery" = "Maybe the remote database structure change. A new application must be released..";
 
 /* store for data is not yet ready to */
 "dataStore.notReady" = "Application is not ready.";

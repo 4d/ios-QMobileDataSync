@@ -17,7 +17,7 @@ extension DataSync {
     public func dump(to path: Path, with contextType: DataStoreContextType = .background, wait: Bool = false, completion: @escaping () -> Void) -> Bool {
         assert(path.isWritable)
 
-        return self.dataStore.perform(contextType, wait: wait) { context, _ in
+        return self.dataStore.perform(contextType, wait: wait, blockName: "dump") { context, _ in
 
             context.dump { table, result in
 

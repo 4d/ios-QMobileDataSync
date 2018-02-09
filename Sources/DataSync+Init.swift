@@ -62,7 +62,7 @@ extension DataSync {
 
                 let loadFromFiles: SyncFuture = loadTable.flatMap { (_: [Table]) -> SyncFuture in
 
-                    return self.dataStore.perform(dataStoreContextType).flatMap { (dataStoreContext: DataStoreContext, save: @escaping () throws -> Void) -> Result<Void, DataStoreError> in
+                    return self.dataStore.perform(dataStoreContextType, blockName: "LoadEmbeddedData").flatMap { (dataStoreContext: DataStoreContext, save: @escaping () throws -> Void) -> Result<Void, DataStoreError> in
                         assert(dataStoreContext.type == dataStoreContextType)
 
                         logger.info("Load table data from embedded data files")
