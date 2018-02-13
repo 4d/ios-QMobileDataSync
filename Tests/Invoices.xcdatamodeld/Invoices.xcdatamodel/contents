@@ -1,55 +1,207 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16E195" minimumToolsVersion="Xcode 8.0" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="17D47" minimumToolsVersion="Xcode 8.0" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="CLIENTS" representedClassName="CLIENTS" syncable="YES" codeGenerationType="class">
-        <attribute name="address1" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="address2" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="comments" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="contact" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="country" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="discountRate" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="fax" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="address1" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="Address1"/>
+            </userInfo>
+        </attribute>
+        <attribute name="address2" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="Address2"/>
+            </userInfo>
+        </attribute>
+        <attribute name="city" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="City"/>
+            </userInfo>
+        </attribute>
+        <attribute name="comments" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="Comments"/>
+            </userInfo>
+        </attribute>
+        <attribute name="contact" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="Contact"/>
+            </userInfo>
+        </attribute>
+        <attribute name="country" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="Country"/>
+            </userInfo>
+        </attribute>
+        <attribute name="discountRate" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="DiscountRate"/>
+            </userInfo>
+        </attribute>
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="Email"/>
+            </userInfo>
+        </attribute>
+        <attribute name="fax" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="Fax"/>
+            </userInfo>
+        </attribute>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" indexed="YES" syncable="YES"/>
-        <attribute name="lat" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="logo" optional="YES" attributeType="Transformable" syncable="YES"/>
-        <attribute name="lon" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="mobile" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
-        <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lat" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="Lat"/>
+            </userInfo>
+        </attribute>
+        <attribute name="logo" optional="YES" attributeType="Transformable" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="Logo"/>
+            </userInfo>
+        </attribute>
+        <attribute name="lon" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="Lon"/>
+            </userInfo>
+        </attribute>
+        <attribute name="mobile" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="Mobile"/>
+            </userInfo>
+        </attribute>
+        <attribute name="name" optional="YES" attributeType="String" indexed="YES" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="Name"/>
+            </userInfo>
+        </attribute>
+        <attribute name="phone" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="Phone"/>
+            </userInfo>
+        </attribute>
         <attribute name="qmobile__KEY" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="qmobile__STAMP" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="qmobile__TIMESTAMP" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="state" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="totalSales" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="webSite" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="zipCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="state" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="State"/>
+            </userInfo>
+        </attribute>
+        <attribute name="totalSales" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="TotalSales"/>
+            </userInfo>
+        </attribute>
+        <attribute name="webSite" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="WebSite"/>
+            </userInfo>
+        </attribute>
+        <attribute name="zipCode" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="ZipCode"/>
+            </userInfo>
+        </attribute>
     </entity>
     <entity name="INVOICES" representedClassName="INVOICES" syncable="YES" codeGenerationType="class">
-        <attribute name="client_ID" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="client_ID" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="Client_ID"/>
+            </userInfo>
+        </attribute>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="Date"/>
+            </userInfo>
+        </attribute>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" indexed="YES" syncable="YES"/>
-        <attribute name="invoiceNumber" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="paid" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="payementDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="payementDelay" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="payementMethod" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="payementReference" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="proForma" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="proformaNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="invoiceNumber" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="InvoiceNumber"/>
+            </userInfo>
+        </attribute>
+        <attribute name="paid" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="Paid"/>
+            </userInfo>
+        </attribute>
+        <attribute name="payementDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="PayementDate"/>
+            </userInfo>
+        </attribute>
+        <attribute name="payementDelay" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="PayementDelay"/>
+            </userInfo>
+        </attribute>
+        <attribute name="payementMethod" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="PayementMethod"/>
+            </userInfo>
+        </attribute>
+        <attribute name="payementReference" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="PayementReference"/>
+            </userInfo>
+        </attribute>
+        <attribute name="proForma" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="ProForma"/>
+            </userInfo>
+        </attribute>
+        <attribute name="proformaNumber" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="ProformaNumber"/>
+            </userInfo>
+        </attribute>
         <attribute name="qmobile__TIMESTAMP" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="subtotal" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="tax" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="total" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="subtotal" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="Subtotal"/>
+            </userInfo>
+        </attribute>
+        <attribute name="tax" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="Tax"/>
+            </userInfo>
+        </attribute>
+        <attribute name="total" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="Total"/>
+            </userInfo>
+        </attribute>
     </entity>
     <entity name="PRODUCTS" representedClassName="PRODUCTS" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" indexed="YES" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="picture" optional="YES" attributeType="Transformable" syncable="YES"/>
-        <attribute name="quantity" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="reference" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="taxRate" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="unitPrice" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="Name"/>
+            </userInfo>
+        </attribute>
+        <attribute name="picture" optional="YES" attributeType="Transformable" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="Picture"/>
+            </userInfo>
+        </attribute>
+        <attribute name="quantity" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="Quantity"/>
+            </userInfo>
+        </attribute>
+        <attribute name="reference" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="Reference"/>
+            </userInfo>
+        </attribute>
+        <attribute name="taxRate" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="TaxRate"/>
+            </userInfo>
+        </attribute>
+        <attribute name="unitPrice" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="UnitPrice"/>
+            </userInfo>
+        </attribute>
     </entity>
     <elements>
         <element name="CLIENTS" positionX="-785" positionY="-870" width="128" height="390"/>

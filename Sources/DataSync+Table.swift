@@ -100,13 +100,11 @@ extension DataSync {
 
                         let remoteAttributesByName = remoteTable.attributes
                         // check remoteTable and table equals? or compatible ie. all field in table are in remoteTable
-                        for (name, attribute) in table.attributes {
-                            if remoteAttributesByName[name] == nil {
-                                if missingAttributes[table] == nil {
-                                    missingAttributes[table] = [attribute]
-                                } else {
-                                    missingAttributes[table]?.append(attribute)
-                                }
+                        for (name, attribute) in table.attributes where remoteAttributesByName[name] == nil {
+                            if missingAttributes[table] == nil {
+                                missingAttributes[table] = [attribute]
+                            } else {
+                                missingAttributes[table]?.append(attribute)
                             }
                         }
 

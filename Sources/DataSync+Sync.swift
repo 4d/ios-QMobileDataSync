@@ -77,7 +77,7 @@ extension DataSync {
             }
 
             // perform a data store task in background
-            let perform = this.dataStore.perform(dataStoreContextType, blockName: "sync") { [weak self] context, save in
+            let perform = this.dataStore.perform(dataStoreContextType, blockName: "sync") { [weak self] context in
                 guard let this = self else {
                     // memory issue, must retain the dataSync object somewhere
                     completionHandler(.failure(.retain))
@@ -90,7 +90,7 @@ extension DataSync {
                 let tables = this.tables
 
                 // From remote
-                let processCompletion = this.syncProcessCompletionCallBack(completionHandler, context: context, save: save)
+                let processCompletion = this.syncProcessCompletionCallBack(completionHandler, context: context)
                 let process = Process(tables: tables, startStamp: startStamp, cancellable: cancellable, completionHandler: processCompletion)
 
                 // assert(this.process == nil)
@@ -105,7 +105,7 @@ extension DataSync {
 
                         for table in this.tables {
                             logger.debug("Start data synchronisation for table \(table.name)")
-                            let requestCancellable = this.syncTable(table, callbackQueue: callbackQueue, configureRequest: configureRequest, context: context, save: save)
+                            let requestCancellable = this.syncTable(table, callbackQueue: callbackQueue, configureRequest: configureRequest, context: context)
                             _ = cancellable.appendUnlocked(requestCancellable)  // XXX no reentrance for lock
                         }
                     }
@@ -122,7 +122,7 @@ extension DataSync {
         return cancellable
     }
 
-    func syncProcessCompletionCallBack(_ completionHandler: @escaping SyncCompletionHandler, context: DataStoreContext, save: @escaping DataStore.SaveClosure) -> Process.CompletionHandler {
+    func syncProcessCompletionCallBack(_ completionHandler: @escaping SyncCompletionHandler, context: DataStoreContext) -> Process.CompletionHandler {
         return { result in
             switch result {
             case .success(let stamp):
@@ -132,10 +132,14 @@ extension DataSync {
                 metadata?.lastSync = Date()
 
                 // save data store
-                self.trySave(save)
+                do {
+                    try context.commit()
 
-                // call success
-                completionHandler(.success(()))
+                    // call success
+                    completionHandler(.success(()))
+                } catch {
+                    completionHandler(.failure(DataSyncError.error(from: error)))
+                }
             case .failure(let error):
                 if case .onCompletion = self.saveMode {
                     context.rollback()

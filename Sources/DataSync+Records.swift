@@ -45,7 +45,7 @@ extension DataSync {
     }
 
     /// Load records from files, need to be done in data store context
-    func loadRecordsFromFile(context: DataStoreContext, save: @escaping () throws -> Swift.Void) throws {
+    func loadRecordsFromFile(context: DataStoreContext) throws {
         // load data from files
         for (table, tableInfo) in self.tablesInfoByTable {
             let tableName = tableInfo.name
@@ -59,10 +59,10 @@ extension DataSync {
             }
         }
 
-        try save()
+        try context.commit()
     }
 
-    func loadRecordsFromCache(context: DataStoreContext, save: @escaping () throws -> Swift.Void) throws {
+    func loadRecordsFromCache(context: DataStoreContext) throws {
         // load data from files
         for (table, tableInfo) in self.tablesInfoByTable {
             let tableName = table.name
@@ -84,14 +84,14 @@ extension DataSync {
             }
         }
 
-        try save()
+        try context.commit()
     }
 
     // (a save publish information to UI)
     @discardableResult
-    func trySave(_ save: @escaping () throws -> Swift.Void) -> Bool {
+    func tryCommit(_ context: DataStoreContext) -> Bool {
         do {
-            try save()
+            try context.commit()
             return true
         } catch {
             logger.warning("Failed to save some records: \(error)")

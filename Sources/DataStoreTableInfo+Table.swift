@@ -27,8 +27,8 @@ extension DataStoreTableInfo {
         table.scope = "public"
         table.dataURI = "/rest/\(self.originalName)"
 
-        let fields = self.fields.map { $0.api }
-        let relations = self.relationshipsByName.values.map { $0.api }
+        let fields = self.fields.flatMap { $0.api }
+        let relations = self.relationshipsByName.values.flatMap { $0.api }
         table.attributes = (fields + relations).dictionary { $0.name }
 
         if let primaryKey = self.userInfo?["primary_key"] as? String {
@@ -64,7 +64,10 @@ extension DataStoreFieldInfo {
         }
         return self.name
     }
-    var api: Attribute {
+    var api: Attribute? {
+        if self.name.contains(keyPrivateCoreDataField+"__") {
+            return nil
+        }
 
         // if storage
         var attribute = Attribute(

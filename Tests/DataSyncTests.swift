@@ -92,7 +92,7 @@ class DataSyncTests: XCTestCase {
                 XCTAssertTrue(lastSync < date!)
                 
                 
-               let result = self.dataSync.dataStore.perform(.background) { context, save in
+               let result = self.dataSync.dataStore.perform(.background) { context in
                 
                     do {
                         var count = try context.count(in: RemoteConfig.tableName)
@@ -197,7 +197,7 @@ class DataSyncTests: XCTestCase {
                 
                 _ = self.dataSync.sync { result in
                     
-                    let result = self.dataSync.dataStore.perform(.background) { context, save in
+                    let result = self.dataSync.dataStore.perform(.background) { context in
                         
                         do {
                             var count = try context.count(in: RemoteConfig.tableName)
@@ -252,7 +252,7 @@ class DataSyncTests: XCTestCase {
                 
                 _ = self.dataSync.sync { result in
                     
-                    let result = self.dataSync.dataStore.perform(.background) { context, save in
+                    let result = self.dataSync.dataStore.perform(.background) { context in
                         
                         do {
                             var count = try context.count(in: RemoteConfig.tableName)

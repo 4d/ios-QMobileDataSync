@@ -62,17 +62,15 @@ extension DataSync {
 
                 let loadFromFiles: SyncFuture = loadTable.flatMap { (_: [Table]) -> SyncFuture in
 
-                    return self.dataStore.perform(dataStoreContextType, blockName: "LoadEmbeddedData").flatMap { (dataStoreContext: DataStoreContext, save: @escaping () throws -> Void) -> Result<Void, DataStoreError> in
+                    return self.dataStore.perform(dataStoreContextType, blockName: "LoadEmbeddedData").flatMap { (dataStoreContext: DataStoreContext) -> Result<Void, DataStoreError> in
                         assert(dataStoreContext.type == dataStoreContextType)
 
                         logger.info("Load table data from embedded data files")
                         do {
-                            try self.loadRecordsFromFile(context: dataStoreContext, save: save)
+                            try self.loadRecordsFromFile(context: dataStoreContext)
                             return .success(())
-                        } catch let dataStoreError as DataStoreError {
-                            return .failure(dataStoreError)
                         } catch {
-                            return .failure(DataStoreError(error))
+                            return .failure(DataStoreError.error(from: error))
                         }
                         }.mapError { error in
                             logger.warning("Could not import records into data store \(error)")
@@ -90,7 +88,7 @@ extension DataSync {
                 // if must removes all the data by tables
                 let removeTableRecords: SyncFuture = loadTable.flatMap { (tables: [Table]) -> SyncFuture in
 
-                    return self.dataStore.perform(dataStoreContextType).flatMap { (dataStoreContext: DataStoreContext, save: () throws -> Void) -> Result<Void, DataStoreError> in
+                    return self.dataStore.perform(dataStoreContextType).flatMap { (dataStoreContext: DataStoreContext) -> Result<Void, DataStoreError> in
                         assert(dataStoreContext.type == dataStoreContextType)
                         // delete all table data
                         logger.info("Delete all tables data")
@@ -105,12 +103,10 @@ extension DataSync {
                                     logger.debug("Dump of table info\(indexedTablesInfo)")
                                 }
                             }
-                            try save()
+                            try dataStoreContext.commit()
                             return .success(())
-                        } catch let dataStoreError as DataStoreError {
-                            return .failure(dataStoreError)
                         } catch {
-                            return .failure(DataStoreError(error))
+                            return .failure(DataStoreError.error(from: error))
                         }
 
                         }.mapError { dataStoreError in
@@ -126,10 +122,10 @@ extension DataSync {
     }
 
     /*public func loadTableDataFronmBundleFiles(dataStoreContextType: DataStoreContextType = .background, completionHandler:  @escaping (Result<Void, DataStoreError>) -> Void) -> Bool {
-       return self.dataStore.perform(dataStoreContextType) { dataStoreContext, save in
+       return self.dataStore.perform(dataStoreContextType) { dataStoreContext in
             logger.info("Load table data from embedded data files")
             do {
-                try self.loadRecordsFromFile(context: dataStoreContext, save: save)
+                try self.loadRecordsFromFile(context: dataStoreContext)
                 completionHandler(.success(()))
 
             } catch let dataStoreError as DataStoreError {

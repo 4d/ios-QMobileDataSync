@@ -54,7 +54,7 @@ class DataReloadTests: XCTestCase {
                 
                 XCTAssertTrue(lastSync < date!)
 
-                let result = self.dataSync.dataStore.perform(.background) { context, save in
+                let result = self.dataSync.dataStore.perform(.background) { context in
                     do {
                         var count = try context.count(in: RemoteConfig.tableName)
                         XCTAssertEqual(count, 100, RemoteConfig.tableName)
@@ -160,7 +160,7 @@ class DataReloadTests: XCTestCase {
                 
                 _ = self.dataSync.reload { result in
                     
-                    let result = self.dataSync.dataStore.perform(.background) { context, save in
+                    let result = self.dataSync.dataStore.perform(.background) { context in
                         
                         do {
                             var count = try context.count(in: RemoteConfig.tableName)

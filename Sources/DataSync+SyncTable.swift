@@ -28,7 +28,7 @@ extension DataSync {
         }
     }
 
-    func syncTable(_ table: Table, callbackQueue: DispatchQueue? = nil, configureRequest: @escaping ((RecordsRequest) -> Void), context: DataStoreContext, save: @escaping DataStore.SaveClosure) -> Cancellable {
+    func syncTable(_ table: Table, callbackQueue: DispatchQueue? = nil, configureRequest: @escaping ((RecordsRequest) -> Void), context: DataStoreContext) -> Cancellable {
         dataSyncBegin(for: table)
 
         var cancellable = CancellableComposite()
@@ -56,12 +56,12 @@ extension DataSync {
 
                     self.dataSyncEnd(for: table, with: pageInfo)
                     if case .byTable = self.saveMode {
-                        self.trySave(save)
+                        self.tryCommit(context)
                         // If save could not manage error
                     }
                 }
                 if case .eachPage = self.saveMode {
-                    self.trySave(save)
+                    self.tryCommit(context)
                 }
                 if pageInfo.isLast, let process = self.process {
                     _ = process.lock() // #FIXME dead lock here????
@@ -76,7 +76,7 @@ extension DataSync {
                         // There is some table to relaunch sync because stamp are not equal
                         for (table, stamp) in tableStatus {
                             let configureRequest = self.configureRequest(stamp: stamp) // XXX Maybe a max stamp also to not do job eternally
-                            let c = self.syncTable(table, configureRequest: configureRequest, context: context, save: save)
+                            let c = self.syncTable(table, configureRequest: configureRequest, context: context)
                             cancellable.append(c)
                         }
                     }

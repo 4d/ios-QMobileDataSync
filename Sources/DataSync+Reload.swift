@@ -139,7 +139,7 @@ extension DataSync {
                     return
                 }
 
-                let result = self.dataStore.perform(dataStoreContextType, blockName: "LoadCacheDataAfterRealoading") { context, save in
+                let result = self.dataStore.perform(dataStoreContextType, blockName: "LoadCacheDataAfterRealoading") { context in
                     if self.isCancelled {
                         completionHandler(.failure(.cancel))
                         return
@@ -158,7 +158,7 @@ extension DataSync {
 
                     logger.info("Load table data from cache data files")
                     do {
-                        try self.loadRecordsFromCache(context: context, save: save)
+                        try self.loadRecordsFromCache(context: context)
                         logger.debug("Load table data from cache data files success")
                         completionHandler(.success(()))
                     } catch {

@@ -79,7 +79,7 @@ class DataStoreIntegrationTests: XCTestCase {
 
                     print("Create records with name '\(tableName)' and count '\(count)'")
                     var expect = self.expectation(description: "Create entities (name: \(tableName), count: \(count))")
-                    _ = dataStore.perform(.background, { (context, save) in
+                    _ = dataStore.perform(.background) { context in
 
                         for entity in entities {
                             // let key = entity["__KEY"].int
@@ -115,7 +115,7 @@ class DataStoreIntegrationTests: XCTestCase {
                                 }
                             }
                         }
-                        try? save()
+                        try? context.commit()
 
                         let fetchRequest = dataStore.fetchRequest(tableName: tableName)
                         let createdCount = try? context.count(for: fetchRequest)
@@ -123,12 +123,12 @@ class DataStoreIntegrationTests: XCTestCase {
                         XCTAssertEqual(count, createdCount, "Not all records created")
 
                         expect.fulfill()
-                    })
+                    }
                     let timeout: TimeInterval = 20 // could be proportional to TimeInterval(count)
                     wait(for: [expect], timeout: timeout)
 
                     expect = self.expectation(description: "Check created records count in new context")
-                    _ = dataStore.perform(.background, { (context, _) in
+                    _ = dataStore.perform(.background) { context in
 
                         let fetchRequest = dataStore.fetchRequest(tableName: tableName)
                         let createdCount = try? context.count(for: fetchRequest)
@@ -136,7 +136,7 @@ class DataStoreIntegrationTests: XCTestCase {
                         XCTAssertEqual(count, createdCount, "Not all records created")
 
                         expect.fulfill()
-                    })
+                    }
 
                     wait(for: [expect], timeout: 2)
                 } else {
@@ -154,7 +154,7 @@ class DataStoreIntegrationTests: XCTestCase {
             expects.append(expect)
             if let json = json(name: tableName), let table = table(name: tableName) {
 
-                _ = dataStore.perform(.background, { (context, _) in
+                _ = dataStore.perform(.background) { context in
 
                     let importables = try? table.parser.parseArray(json: json, with: { tableName, _ -> Record? in
                         return context.create(in: tableName)
@@ -163,7 +163,7 @@ class DataStoreIntegrationTests: XCTestCase {
                     XCTAssertEqual(importables?.count ?? 0, 100)
 
                     expect.fulfill()
-                })
+                }
 
             }
         }
@@ -177,7 +177,7 @@ class DataStoreIntegrationTests: XCTestCase {
         if let table = table(name: tableName), let json = json(name: tableName, id: "2") {
 
             let expect = self.expectation(description: "Create entities")
-            _ = dataStore.perform(.background, { (context, _) in
+            _ = dataStore.perform(.background) { context in
 
                 if let importable = context.create(in: tableName) {
                     table.parser.parse(json: json, into: importable)
@@ -210,7 +210,7 @@ class DataStoreIntegrationTests: XCTestCase {
                 }
 
                 expect.fulfill()
-            })
+            }
             expects.append(expect)
 
         }

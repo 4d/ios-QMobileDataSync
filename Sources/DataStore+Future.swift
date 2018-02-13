@@ -13,8 +13,8 @@ import QMobileDataStore
 
 extension DataStore {
 
-    public typealias PerformFuture = Future<(DataStoreContext, () throws -> Swift.Void), DataStoreError>
-    public typealias PerformResult = Result<(DataStoreContext, () throws -> Swift.Void), DataStoreError>
+    public typealias PerformFuture = Future<DataStoreContext, DataStoreError>
+    public typealias PerformResult = Result<DataStoreContext, DataStoreError>
 
     /// Load the data store and return a Future
     public func load() -> Future<Void, DataStoreError> {
@@ -37,8 +37,8 @@ extension DataStore {
     /// Provide a context for performing data store operation
     public func perform(_ type: QMobileDataStore.DataStoreContextType, blockName: String? = nil) -> PerformFuture {
         return Future { complete in
-            let value = self.perform(type, wait: false, blockName: blockName) { (context, saveClosure) in
-                complete(.success((context, saveClosure)))
+            let value = self.perform(type, wait: false, blockName: blockName) { context in
+                complete(.success(context))
             }
             if !value {
                 complete(.failure(DataStoreError(DataSyncError.dataStoreNotReady)))
