@@ -56,7 +56,7 @@ extension DataSync {
     // Load database structures from
     public typealias TablesCompletionHander = (Result<[Table], DataSyncError>) -> Void
     public func loadTable(callbackQueue: DispatchQueue? = nil, _ completionHander: @escaping TablesCompletionHander) {
-        let tableInfo = self.dataStore.tablesInfo
+        let tableInfo = self.dataStore.tablesInfo.filter { !$0.isAbstract }
 
         let infos: [(Table, DataStoreTableInfo)] = tableInfo.map { ($0.api, $0) }
         self.tablesInfoByTable = Dictionary(infos)
