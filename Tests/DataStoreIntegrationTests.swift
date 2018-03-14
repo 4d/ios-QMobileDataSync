@@ -20,6 +20,7 @@ class DataStoreIntegrationTests: XCTestCase {
         Bundle.dataStore = Bundle(for: DataStoreIntegrationTests.self)
         Bundle.dataStoreKey = "CoreDataModel"
 
+        let dataStore = DataStoreFactory.dataStore
         if !dataStore.isLoaded { // XXX not thread safe if parallel test
             let exp =  expectation(description: "dataStoreLoaded")
             dataStore.load { result in
@@ -41,13 +42,14 @@ class DataStoreIntegrationTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
 
-       /* if dataStore.isLoaded {*/
-            let exp = expectation(description: "dataStoreLoaded")
-            dataStore.drop { result in
-                switch result {
-                case .failure(let error):
-                    XCTFail("Error \(error)")
-                case .success:
+        /* if dataStore.isLoaded {*/
+        let exp = expectation(description: "dataStoreLoaded")
+        let dataStore = DataStoreFactory.dataStore
+        dataStore.drop { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Error \(error)")
+            case .success:
                     break
                 }
 
@@ -59,6 +61,7 @@ class DataStoreIntegrationTests: XCTestCase {
 
     // function done to make TDD , real dev is in Parser, could be commented if all the parser test work done
     func testJSONRecords() {
+        let dataStore = DataStoreFactory.dataStore
         for tableName in tablesNames {
             if let json = json(name: tableName), let table = table(name: tableName) {
 
@@ -117,7 +120,7 @@ class DataStoreIntegrationTests: XCTestCase {
                         }
                         try? context.commit()
 
-                        let fetchRequest = dataStore.fetchRequest(tableName: tableName)
+                        let fetchRequest = dataStore.fetchRequest(tableName: tableName, sortDescriptors: nil)
                         let createdCount = try? context.count(for: fetchRequest)
 
                         XCTAssertEqual(count, createdCount, "Not all records created")
@@ -130,7 +133,7 @@ class DataStoreIntegrationTests: XCTestCase {
                     expect = self.expectation(description: "Check created records count in new context")
                     _ = dataStore.perform(.background) { context in
 
-                        let fetchRequest = dataStore.fetchRequest(tableName: tableName)
+                        let fetchRequest = dataStore.fetchRequest(tableName: tableName, sortDescriptors: nil)
                         let createdCount = try? context.count(for: fetchRequest)
 
                         XCTAssertEqual(count, createdCount, "Not all records created")
@@ -154,6 +157,7 @@ class DataStoreIntegrationTests: XCTestCase {
             expects.append(expect)
             if let json = json(name: tableName), let table = table(name: tableName) {
 
+                let dataStore = DataStoreFactory.dataStore
                 _ = dataStore.perform(.background) { context in
 
                     let importables = try? table.parser.parseArray(json: json, with: { tableName, _ -> Record? in
@@ -177,6 +181,7 @@ class DataStoreIntegrationTests: XCTestCase {
         if let table = table(name: tableName), let json = json(name: tableName, id: "2") {
 
             let expect = self.expectation(description: "Create entities")
+            let dataStore = DataStoreFactory.dataStore
             _ = dataStore.perform(.background) { context in
 
                 if let importable = context.create(in: tableName) {

@@ -33,7 +33,7 @@ class DataDumpTests: XCTestCase {
         let apiManager = APIManager.instance
         apiManager.stub = RemoteConfig.stub
         apiManager.stubDelegate = RemoteConfig.instance
-        let dataStore = QMobileDataStore.dataStore
+        let dataStore = DataStoreFactory.dataStore
         
         dataSync = DataSync(rest: apiManager, dataStore: dataStore)
         dataSync.bundle = bundle

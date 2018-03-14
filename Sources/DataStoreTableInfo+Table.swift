@@ -40,11 +40,13 @@ extension DataStoreTableInfo {
                         table.keys[name] = Key(name: name, attribute: table.attributes[name])
                     }
                 }
+            } else if let name = json["field_name"].string {
+                table.keys[name] = Key(name: name, attribute: table.attributes[name])
             } else {
-                if let name = json["field_name"].string {
-                    table.keys[name] = Key(name: name, attribute: table.attributes[name])
-                }
+                table.keys[primaryKey] = Key(name: primaryKey, attribute: table.attributes[primaryKey])  // simple string without json
             }
+        } else {
+            assertionFailure("No primary key defined in core data model using key primary_key")
         }
 
         if let methods = self.userInfo?["methods"] as? [String] {

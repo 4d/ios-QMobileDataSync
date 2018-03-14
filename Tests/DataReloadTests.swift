@@ -31,7 +31,7 @@ class DataReloadTests: XCTestCase {
         let apiManager = APIManager.instance
         apiManager.stub = RemoteConfig.stub
         apiManager.stubDelegate = RemoteConfig.instance
-        let dataStore = QMobileDataStore.dataStore
+        let dataStore = DataStoreFactory.dataStore
         
         dataSync = DataSync(rest: apiManager, dataStore: dataStore)
         dataSync.bundle = bundle
@@ -61,11 +61,24 @@ class DataReloadTests: XCTestCase {
                         
                         count = try context.count(in: "PRODUCTS")
                         XCTAssertEqual(count, 100, "PRODUCTS")
-                        
-                        expectation.fulfill()
-                        
+
+                        context.commit { _ in
+                            // Check if synchronized to foreground context
+                            let result = self.dataSync.dataStore.perform(.foreground) { foregroundContext in
+                                    do {
+                                        var count = try foregroundContext.count(in: RemoteConfig.tableName)
+                                        XCTAssertEqual(count, 100, RemoteConfig.tableName)
+
+                                        count = try foregroundContext.count(in: "PRODUCTS")
+                                        XCTAssertEqual(count, 100, "PRODUCTS")
+                                    } catch {
+                                        XCTFail("\(error)")
+                                    }
+                                    expectation.fulfill()
+                            }
+                            XCTAssertEqual(result, true, "unable to perform request")
+                        }
                     } catch {
-                        
                         XCTFail("\(error)")
                     }
                     

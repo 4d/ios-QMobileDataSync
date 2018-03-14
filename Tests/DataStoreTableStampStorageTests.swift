@@ -35,9 +35,9 @@ class DataStoreTableStampStorageTests: XCTestCase {
     func testGetAndSetGlobalStamp() {
         let exp = self.expectation()
 
-        let future = QMobileDataStore.dataStore.load()
+        let future = DataStoreFactory.dataStore.load()
         future.onSuccess {
-            guard let metadata = QMobileDataStore.dataStore.metadata else {
+            guard let metadata = DataStoreFactory.dataStore.metadata else {
                 XCTFail("Metadata not available")
                 return
             }

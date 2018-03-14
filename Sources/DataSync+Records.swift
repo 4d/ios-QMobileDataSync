@@ -26,20 +26,21 @@ extension DataSync {
             assert(tableName == table.name)
 
             // Create only if not created
-            if let predicate = table.predicate(for: json) {
-                var record: Record?
-                context.perform(wait: true) {
-                    do {
+            var record: Record?
+            context.perform(wait: true) {
+                do {
+                    if let predicate = table.predicate(for: json) {
                         record = try context.getOrCreate(in: tableInfo.name, matching: predicate)
-                    } catch {
-                        logger.warning("Failed to import one data into '\(tableName)': \(error)")
+                    } else {
+                        logger.warning("Cannot checking if record already in database, no key for table '\(tableName)'")
+                        record = context.create(in: tableInfo.name)
+                        assertionFailure("Table must have primary key")
                     }
+                } catch {
+                    logger.warning("Failed to import one data into '\(tableName)': \(error)")
                 }
-                return record
-            } else {
-                logger.warning("Cannot insert record: Cannot create predicate for table '\(tableName)'")
             }
-            return nil
+            return record
         }
         return recordInitializer
     }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="17D47" minimumToolsVersion="Xcode 8.0" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="17D102" minimumToolsVersion="Xcode 8.0" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="CLIENTS" representedClassName="CLIENTS" syncable="YES" codeGenerationType="class">
         <attribute name="address1" optional="YES" attributeType="String" syncable="YES">
             <userInfo>
@@ -100,6 +100,9 @@
                 <entry key="keyMapping" value="ZipCode"/>
             </userInfo>
         </attribute>
+        <userInfo>
+            <entry key="primary_key" value="id"/>
+        </userInfo>
     </entity>
     <entity name="INVOICES" representedClassName="INVOICES" syncable="YES" codeGenerationType="class">
         <attribute name="client_ID" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES">
@@ -169,6 +172,9 @@
                 <entry key="keyMapping" value="Total"/>
             </userInfo>
         </attribute>
+        <userInfo>
+            <entry key="primary_key" value="id"/>
+        </userInfo>
     </entity>
     <entity name="PRODUCTS" representedClassName="PRODUCTS" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" indexed="YES" syncable="YES"/>
@@ -202,10 +208,13 @@
                 <entry key="keyMapping" value="UnitPrice"/>
             </userInfo>
         </attribute>
+        <userInfo>
+            <entry key="primary_key" value="id"/>
+        </userInfo>
     </entity>
     <elements>
         <element name="CLIENTS" positionX="-785" positionY="-870" width="128" height="390"/>
-        <element name="INVOICES" positionX="-450" positionY="-873" width="128" height="268"/>
+        <element name="INVOICES" positionX="-450" positionY="-873" width="128" height="270"/>
         <element name="PRODUCTS" positionX="-623" positionY="-873" width="128" height="150"/>
     </elements>
 </model>

@@ -30,7 +30,7 @@ class DataSyncTests: XCTestCase {
         let apiManager = APIManager.instance
         apiManager.stub = RemoteConfig.stub
         apiManager.stubDelegate = RemoteConfig.instance
-        let dataStore = QMobileDataStore.dataStore
+        let dataStore = DataStoreFactory.dataStore
 
         dataSync = DataSync(rest: apiManager, dataStore: dataStore)
         dataSync.bundle = bundle
@@ -193,8 +193,7 @@ class DataSyncTests: XCTestCase {
         let cancellable = dataSync.sync { result in
             do {
                 try result.dematerialize()
-                
-                
+ 
                 _ = self.dataSync.sync { result in
                     
                     let result = self.dataSync.dataStore.perform(.background) { context in

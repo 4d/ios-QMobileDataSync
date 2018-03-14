@@ -23,7 +23,7 @@ public class DataSync {
     /// Mobile data store
     public let dataStore: DataStore
 
-    public init(rest: APIManager = APIManager.instance, dataStore: DataStore = QMobileDataStore.dataStore) {
+    public init(rest: APIManager = APIManager.instance, dataStore: DataStore = DataStoreFactory.dataStore) {
         self.rest = rest
         self.dataStore = dataStore
     }
