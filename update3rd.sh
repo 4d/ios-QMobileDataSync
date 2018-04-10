@@ -28,7 +28,7 @@ echo "- after:"
 cat $file
 
 # checkout
-carthage checkout --no-use-binaries
+carthage checkout
 
 # Remove Reactivate extension from Moya
 
@@ -56,7 +56,8 @@ sed -i '' '/Reactive/d' Carthage/Checkouts/Moya/Cartfile
 sed -i '' '/Rx/d' Carthage/Checkouts/Moya/Cartfile
 
 # build
-carthage build --platform iOS --cache-builds --log-path "build/log"
+mkdir -p "build"
+carthage build  --no-use-binaries --platform iOS --cache-builds --log-path "build/log"
 
 #  https://github.com/Carthage/Carthage/issues/1986?
 

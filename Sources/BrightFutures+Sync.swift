@@ -21,7 +21,7 @@ extension AsyncType {
 
 }
 
-extension AsyncType where Self.Value : ResultProtocol {
+extension AsyncType where Self.Value: ResultProtocol {
 
     public func resultify() -> Future<Self.Value, NoError> {
         let promise = Promise<Self.Value, NoError>()
@@ -96,7 +96,7 @@ extension FutureContainer where V == Cancellable {
 
 }
 
-extension AsyncType where Self.Value : ResultProtocol {
+extension AsyncType where Self.Value: ResultProtocol {
 
     @discardableResult
     public func onSuccess(_ queue: DispatchQueue, callback: @escaping (Self.Value.Value) -> Swift.Void) -> Self {

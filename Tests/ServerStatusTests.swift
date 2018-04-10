@@ -68,7 +68,7 @@ class ServerStatusTest: XCTestCase {
         let expectation = self.expectation()
     
         let strings = ["http://localhost", "http://127.0.0.1"]
-        let urls = strings.flatMap { URL(string: $0) }
+        let urls = strings.compactMap { URL(string: $0) }
         
         let future = APIManager.status(for: urls, callbackQueue: .background) { progress in
             print("\(progress)")
@@ -91,7 +91,7 @@ class ServerStatusTest: XCTestCase {
         let expectation = self.expectation()
         
         let strings = ["http://test", "http://127.0.0.1"]
-        let urls = strings.flatMap { URL(string: $0) }
+        let urls = strings.compactMap { URL(string: $0) }
         
         let future = APIManager.firstStatus(for: urls, callbackQueue: .background) { progress in
             print("\(progress)")
@@ -108,7 +108,7 @@ class ServerStatusTest: XCTestCase {
         let expectation = self.expectation()
         
         let strings = ["http://test", "http://127.0.0.1"]
-        let urls = strings.flatMap { URL(string: $0) }
+        let urls = strings.compactMap { URL(string: $0) }
 
         let future = APIManager.firstStatusSuccess(for: urls, callbackQueue: .background) { progress in
             print("\(progress)")

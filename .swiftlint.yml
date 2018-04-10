@@ -6,6 +6,7 @@ disabled_rules:
     - file_length
     - cyclomatic_complexity
     - identifier_name
+    - nesting
 
 shorthand_operator: warning
 

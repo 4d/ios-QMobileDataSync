@@ -50,12 +50,12 @@ class DataStoreIntegrationTests: XCTestCase {
             case .failure(let error):
                 XCTFail("Error \(error)")
             case .success:
-                    break
-                }
-
-                exp.fulfill()
+                break
             }
-            wait(for: [exp], timeout: 5)
+            
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 5)
        /* }*/
     }
 

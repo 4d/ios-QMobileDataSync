@@ -35,11 +35,41 @@ class DataReloadTests: XCTestCase {
         
         dataSync = DataSync(rest: apiManager, dataStore: dataStore)
         dataSync.bundle = bundle
+
+        if !dataStore.isLoaded { // XXX not thread safe if parallel test
+            let exp =  expectation(description: "dataStoreLoaded")
+            dataStore.load { result in
+                switch result {
+                case .failure(let error):
+                    XCTFail("Error \(error)")
+                case .success:
+                    break
+                }
+
+                exp.fulfill()
+            }
+            wait(for: [exp], timeout: 5)
+            XCTAssertTrue(dataStore.isLoaded)
+        }
     }
     
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
+
+        let exp = expectation(description: "dataStoreLoaded")
+        let dataStore = DataStoreFactory.dataStore
+        dataStore.drop { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Error \(error)")
+            case .success:
+                break
+            }
+
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 5)
     }
     
     func testDataReload() {
