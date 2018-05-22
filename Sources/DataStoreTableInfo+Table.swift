@@ -31,8 +31,9 @@ extension DataStoreTableInfo {
         let relations = self.relationshipsByName.values.compactMap { $0.api }
         table.attributes = (fields + relations).dictionary { $0.name }
 
-        if let primaryKey = self.userInfo?["primary_key"] as? String {
-            let json = JSON(primaryKey)
+        if let primaryKey = self.userInfo?["primaryKey"] as? String ??
+              self.userInfo?["primary_key"] as? String {
+            let json = JSON(parseJSON: primaryKey)
             if let array = json.array {
                 table.keys = [:]
                 for element in array {
