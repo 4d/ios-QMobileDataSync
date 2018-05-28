@@ -186,7 +186,7 @@ extension DataSync {
             attributes = table.attributes.map { $0.0 }
         }
 
-        var target = rest.rest.records(from: table.name, attributes: attributes)
+        var target = rest.base.records(from: table.name, attributes: attributes)
         target.limit(Preferences.requestLimit)
 
         let completion: APIManager.Completion = { result in
@@ -195,6 +195,16 @@ extension DataSync {
 
                 let path: Path = path + "\(table.name).\(DataSync.Preferences.jsonDataExtension)"
                 let data = response.data
+
+                #if DEBUG
+                // Check before writing to file if correct data.
+                // But we must to be here if http code management are correct
+                if let json = try? JSON(data: data) {
+                   assert(ImportableParser.tableName(for: json) != nil)
+                } else {
+                    assertionFailure("Unable to read JSON data")
+                }
+                #endif
 
                 if path.exists {
                     try? path.deleteFile()

@@ -72,7 +72,7 @@ extension DataSync {
                 do {
                     let json = try JSON(path: cacheFile)
 
-                    assert(ImportableParser.tableName(for: json) == tableInfo.originalName)
+                    assert(ImportableParser.tableName(for: json) == tableInfo.originalName) // file with wrong format and an another table, renamed?
 
                     let records = try table.parser.parseArray(json: json, with: self.recordInitializer(table: table, tableInfo: tableInfo, context: context))
                     logger.info("\(records.count) records imported from '\(tableName)' file")
