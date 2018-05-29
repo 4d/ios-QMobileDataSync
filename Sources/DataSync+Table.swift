@@ -79,7 +79,7 @@ extension DataSync {
             }
         }
         // from remote store?
-        return rest.loadTables(callbackQueue: callbackQueue) { result in
+        return rest.tables(callbackQueue: callbackQueue) { result in
             switch result {
             case .success(let remoteTables):
                 // Check if all tables accessible on remote target

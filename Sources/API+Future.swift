@@ -17,53 +17,49 @@ import Moya
 public extension APIManager {
 
     /// Get server status
-    public func loadStatus(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<Status, APIError> {
-        return Future { _ = self.loadStatus(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
-    }
-
-    func status(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Result<Status, APIError> {
-        return loadStatus(callbackQueue: callbackQueue, progress: progress).forced()
+    public func status(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<Status, APIError> {
+        return Future { _ = self.status(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
     }
 
     /// Get server info
-    public func loadInfo(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<Info, APIError> {
-        return Future { _ = self.loadInfo(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
+    public func info(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<Info, APIError> {
+        return Future { _ = self.info(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
     }
 
     /// Get server session info
-    public func loadSessionInfo(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<[SessionInfo], APIError> {
-        return Future { _ = self.loadSessionInfo(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
+    public func sessionInfo(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<[SessionInfo], APIError> {
+        return Future { _ = self.sessionInfo(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
     }
 
     /// Get server Progress Info
-    public func loadProgressInfo(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<[ProgressInfo], APIError> {
-        return Future { _ = self.loadProgressInfo(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
+    public func progressInfo(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<[ProgressInfo], APIError> {
+        return Future { _ = self.progressInfo(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
     }
 
     /// Get server Cache Info
-    public func loadCacheInfo(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<[CacheInfo], APIError> {
-        return Future { _ = self.loadCacheInfo(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
+    public func cacheInfo(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<[CacheInfo], APIError> {
+        return Future { _ = self.cacheInfo(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
     }
 
-    /// Get server Entity Set
-    public func loadEntitySet(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<InfoEntitySet, APIError> {
-        return Future { _ = self.loadEntitySet(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
+    /// Get server Entity Set Info
+    public func entitySetInfo(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<EntitySetInfo, APIError> {
+        return Future { _ = self.entitySetInfo(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
     }
 
     /// Get the catalog, list description of URI for tables and records
-    public func loadCatalog(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<[Catalog], APIError> {
-        return Future { _ = self.loadCatalog(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
+    public func catalog(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<[Catalog], APIError> {
+        return Future { _ = self.catalog(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
     }
 
     /// Get all tables
-    public func loadTables(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<[Table], APIError> {
-        return Future { _ = self.loadTables(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
+    public func tables(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<[Table], APIError> {
+        return Future { _ = self.tables(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
     }
 
     /// Get one table by name
     /// @param table     the wanted table name
-    public func loadTable(name: String, callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<Table, APIError> {
-        return Future { _ = self.loadTable(name: name, callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
+    public func table(name: String, callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<Table, APIError> {
+        return Future { _ = self.table(name: name, callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
     }
 
 }
@@ -78,7 +74,7 @@ public extension APIManager {
         typealias FutureTuple = Future<(URL, Result<Status, APIError>), NoError>
         var sequence: [FutureTuple] = []
         for url in urls {
-            let resultified: Future<(Result<Status, APIError>), NoError> = manager(for: url).loadStatus(callbackQueue: callbackQueue, progress: progress).resultify()
+            let resultified: Future<(Result<Status, APIError>), NoError> = manager(for: url).status(callbackQueue: callbackQueue, progress: progress).resultify()
             let future: FutureTuple = resultified.map { (url, $0) }
             sequence.append(future)
         }
@@ -95,7 +91,7 @@ public extension APIManager {
         typealias FutureFirst = Future<(URL, Status), APIError>
         var sequence: [FutureFirst] = []
         for url in urls {
-            let statusFuture: Future<Status, APIError> = manager(for: url).loadStatus(callbackQueue: callbackQueue, progress: progress)
+            let statusFuture: Future<Status, APIError> = manager(for: url).status(callbackQueue: callbackQueue, progress: progress)
             let future: FutureFirst = statusFuture.map { (url, $0) }
             sequence.append(future)
         }
@@ -111,14 +107,14 @@ public extension APIManager {
         }
 
         typealias FutureFirst = Future<(URL, Status), APIError>
-        let future: FutureFirst = APIManager(url: firstURL).loadStatus(callbackQueue: callbackQueue, progress: progress).map { (firstURL, $0) }
+        let future: FutureFirst = APIManager(url: firstURL).status(callbackQueue: callbackQueue, progress: progress).map { (firstURL, $0) }
         // this is sequential with recoverWith, we could do better //
         var current = future
         var currentURL: URL? = urls.popFirst()
         while currentURL != nil {
             if let url  = currentURL {
                 let recoverTask: ((APIError) -> FutureFirst) = { error -> FutureFirst in
-                    return manager(for: url).loadStatus(callbackQueue: callbackQueue, progress: progress).map { (url, $0) }
+                    return manager(for: url).status(callbackQueue: callbackQueue, progress: progress).map { (url, $0) }
                 }
                 if let callbackQueue = callbackQueue {
                     current = current.recoverWith(context: callbackQueue.context, task: recoverTask)

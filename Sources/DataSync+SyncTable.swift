@@ -100,7 +100,7 @@ extension DataSync {
         } else {
             attributes = table.attributes.map { $0.0 }
         }
-        let cancellableRecords = self.rest.loadRecords(table: table, attributes: attributes, recursive: true, configure: configureRequest, initializer: initializer, queue: callbackQueue, completionHandler: completion)
+        let cancellableRecords = self.rest.records(table: table, attributes: attributes, recursive: true, configure: configureRequest, initializer: initializer, queue: callbackQueue, completionHandler: completion)
 
         cancellable.append(cancellableRecords)
 
