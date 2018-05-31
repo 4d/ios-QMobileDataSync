@@ -12,7 +12,7 @@
 "dataSync.dataStoreError" = "Issue when managing application data.";
 
 /* network issue or decoding JSON issue */
-"dataSync.apiError" = "Issue when refreshing data.";
+"dataSync.apiError" = "Issue when reloading data.";
 
 /* there is no table defined in mobile database conf. Big configuration issue */
 "dataSync.noTables" = "There is no 4D table accessible. Please notify the application maintainer.";
