@@ -1,7 +1,7 @@
 github "Alamofire/Alamofire" "4.7.2"
 github "DaveWoodCom/XCGLogger" "6.0.2"
 github "Moya/Moya" "11.0.2"
-github "SwiftyJSON/SwiftyJSON" "4.0.0"
+github "SwiftyJSON/SwiftyJSON" "4.1.0"
 github "Thomvis/BrightFutures" "6.0.1"
 github "antitypical/Result" "3.2.4"
 github "dennisweissmann/DeviceKit" "1.7.0"
