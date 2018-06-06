@@ -44,9 +44,9 @@ extension DataSync {
             }
         }
 
-        static var deleteRecords: Bool {
+        static var deleteRecordsAtStart: Bool {
             get {
-                return preferences[DataSync.PrefKey.deleteRecords] as? Bool ?? true
+                return preferences[DataSync.PrefKey.deleteRecords] as? Bool ?? false
             }
             set {
                 preferences[DataSync.PrefKey.deleteRecords] = newValue

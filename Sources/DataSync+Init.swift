@@ -56,69 +56,73 @@ extension DataSync {
         }
         sequence.append(checkTable)
 
-        // from file
-        if Preferences.firstSync {
-            if Preferences.dataFromFile {
-
-                let loadFromFiles: SyncFuture = loadTable.flatMap { (_: [Table]) -> SyncFuture in
-
-                    return self.dataStore.perform(dataStoreContextType, blockName: "LoadEmbeddedData").flatMap { (dataStoreContext: DataStoreContext) -> Result<Void, DataStoreError> in
-                        assert(dataStoreContext.type == dataStoreContextType)
-
-                        logger.info("Load table data from embedded data files")
-                        do {
-                            try self.loadRecordsFromFile(context: dataStoreContext)
-                            return .success(())
-                        } catch {
-                            return .failure(DataStoreError.error(from: error))
-                        }
-                        }.mapError { error in
-                            logger.warning("Could not import records into data store \(error)")
-                            return DataSyncError.dataStoreError(error)
-                    }
-                }
-                sequence.append(loadFromFiles)
-
-            }
+        let firstStart = Preferences.firstSync // maybe add other things like no metadata
+        if firstStart {
             Preferences.firstSync = false
-        }
 
-        if !Preferences.firstSync {
-            if Preferences.deleteRecords {
-                // if must removes all the data by tables
-                let removeTableRecords: SyncFuture = loadTable.flatMap { (tables: [Table]) -> SyncFuture in
-
-                    return self.dataStore.perform(dataStoreContextType).flatMap { (dataStoreContext: DataStoreContext) -> Result<Void, DataStoreError> in
-                        assert(dataStoreContext.type == dataStoreContextType)
-                        // delete all table data
-                        logger.info("Delete all tables data")
-                        do {
-                            let indexedTablesInfo = self.dataStore.tablesInfo.dictionary { $0.originalName }
-                            for table in self.tables {
-                                if let tableInfo = indexedTablesInfo[table.name] {
-                                    let bool = try dataStoreContext.delete(in: tableInfo)
-                                    logger.debug("Data of table \(table.name) deleted: \(bool)")
-                                } else {
-                                    logger.warning("Data of table \(table.name) could not be deleted. Could not found in data store")
-                                    logger.debug("Dump of table info\(indexedTablesInfo)")
-                                }
-                            }
-                            try dataStoreContext.commit()
-                            return .success(())
-                        } catch {
-                            return .failure(DataStoreError.error(from: error))
-                        }
-
-                        }.mapError { dataStoreError in
-                            logger.warning("Could not delete records from data store \(dataStoreError)")
-                            return DataSyncError.dataStoreError(dataStoreError)
-                    }
-                }
-                sequence.append(removeTableRecords)
+            // from file
+            if Preferences.dataFromFile {
+                let loadFromFiles = loadRecordsFromFileFuture(dataStoreContextType: dataStoreContextType, previous: loadTable)
+                sequence.append(loadFromFiles)
             }
+
+        } else if Preferences.deleteRecordsAtStart {
+            let removeTableRecords = deleteRecordsFuture(dataStoreContextType: dataStoreContextType, previous: loadTable)
+            sequence.append(removeTableRecords)
         }
 
         return sequence.sequence().asVoid()
+    }
+
+    private func loadRecordsFromFileFuture(dataStoreContextType: DataStoreContextType, previous: Future<[Table], DataSyncError>) -> SyncFuture {
+        return previous.flatMap { (tables: [Table]) -> SyncFuture in
+
+            return self.dataStore.perform(dataStoreContextType, blockName: "LoadEmbeddedData").flatMap { (dataStoreContext: DataStoreContext) -> Result<Void, DataStoreError> in
+                assert(dataStoreContext.type == dataStoreContextType)
+
+                logger.info("Load table data from embedded data files")
+                do {
+                    try self.loadRecordsFromFile(context: dataStoreContext, tables: tables)
+                    return .success(())
+                } catch {
+                    return .failure(DataStoreError.error(from: error))
+                }
+                }.mapError { error in
+                    logger.warning("Could not import records into data store \(error)")
+                    return DataSyncError.dataStoreError(error)
+            }
+        }
+    }
+
+    private func deleteRecordsFuture(dataStoreContextType: DataStoreContextType, previous: Future<[Table], DataSyncError>) -> SyncFuture {
+        return previous.flatMap { (tables: [Table]) -> SyncFuture in
+
+            return self.dataStore.perform(dataStoreContextType).flatMap { (dataStoreContext: DataStoreContext) -> Result<Void, DataStoreError> in
+                assert(dataStoreContext.type == dataStoreContextType)
+                // delete all table data
+                logger.info("Delete all tables data")
+                do {
+                    let indexedTablesInfo = self.dataStore.tablesInfo.dictionary { $0.originalName }
+                    for table in self.tables {
+                        if let tableInfo = indexedTablesInfo[table.name] {
+                            let bool = try dataStoreContext.delete(in: tableInfo)
+                            logger.debug("Data of table \(table.name) deleted: \(bool)")
+                        } else {
+                            logger.warning("Data of table \(table.name) could not be deleted. Could not found in data store")
+                            logger.debug("Dump of table info\(indexedTablesInfo)")
+                        }
+                    }
+                    try dataStoreContext.commit()
+                    return .success(())
+                } catch {
+                    return .failure(DataStoreError.error(from: error))
+                }
+
+                }.mapError { dataStoreError in
+                    logger.warning("Could not delete records from data store \(dataStoreError)")
+                    return DataSyncError.dataStoreError(dataStoreError)
+            }
+        }
     }
 
     /*public func loadTableDataFronmBundleFiles(dataStoreContextType: DataStoreContextType = .background, completionHandler:  @escaping (Result<Void, DataStoreError>) -> Void) -> Bool {

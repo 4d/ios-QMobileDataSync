@@ -46,18 +46,17 @@ extension DataSync {
     }
 
     /// Load records from files, need to be done in data store context
-    func loadRecordsFromFile(context: DataStoreContext) throws {
+    func loadRecordsFromFile(context: DataStoreContext, tables: [Table]? = nil) throws {
         // load data from files
         for (table, tableInfo) in self.tablesInfoByTable {
-            let tableName = tableInfo.name
-            if let url = self.bundle.url(forResource: tableName, withExtension: Preferences.jsonDataExtension, subdirectory: nil),
-                let json = try? JSON(fileURL: url) {
+            guard tables?.contains(table) ?? true else { continue }
+            guard let url = self.bundle.url(forResource: tableInfo.name, withExtension: Preferences.jsonDataExtension, subdirectory: nil),
+                let json = try? JSON(fileURL: url) else { continue }
 
-                assert(ImportableParser.tableName(for: json) == tableInfo.originalName)
+            assert(ImportableParser.tableName(for: json) == tableInfo.originalName)
 
-                let records = try table.parser.parseArray(json: json, with: self.recordInitializer(table: table, tableInfo: tableInfo, context: context))
-                logger.info("\(records.count) records imported from '\(tableName)' file")
-            }
+            let records = try table.parser.parseArray(json: json, with: self.recordInitializer(table: table, tableInfo: tableInfo, context: context))
+            logger.info("\(records.count) records imported from '\(tableInfo.name)' file")
         }
 
         try context.commit()
