@@ -42,7 +42,7 @@
 		485554C81ECAEF68001EE365 /* CLIENTS.json in Resources */ = {isa = PBXBuildFile; fileRef = 4855549E1ECAEF68001EE365 /* CLIENTS.json */; };
 		485554C91ECAEF68001EE365 /* INVOICES.json in Resources */ = {isa = PBXBuildFile; fileRef = 4855549F1ECAEF68001EE365 /* INVOICES.json */; };
 		485554CA1ECAEF68001EE365 /* PRODUCTS.json in Resources */ = {isa = PBXBuildFile; fileRef = 485554A01ECAEF68001EE365 /* PRODUCTS.json */; };
-		485554DD1ECAEF68001EE365 /* rest.json in Resources */ = {isa = PBXBuildFile; fileRef = 485554B51ECAEF68001EE365 /* rest.json */; };
+		485554DD1ECAEF68001EE365 /* status.json in Resources */ = {isa = PBXBuildFile; fileRef = 485554B51ECAEF68001EE365 /* status.json */; };
 		485554DE1ECAEF68001EE365 /* restcatalog.json in Resources */ = {isa = PBXBuildFile; fileRef = 485554B61ECAEF68001EE365 /* restcatalog.json */; };
 		485554E01ECAEF68001EE365 /* restcompute.json in Resources */ = {isa = PBXBuildFile; fileRef = 485554B81ECAEF68001EE365 /* restcompute.json */; };
 		485554E11ECAEF68001EE365 /* restinfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 485554B91ECAEF68001EE365 /* restinfo.json */; };
@@ -139,7 +139,7 @@
 		4855549E1ECAEF68001EE365 /* CLIENTS.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CLIENTS.json; sourceTree = "<group>"; };
 		4855549F1ECAEF68001EE365 /* INVOICES.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = INVOICES.json; sourceTree = "<group>"; };
 		485554A01ECAEF68001EE365 /* PRODUCTS.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PRODUCTS.json; sourceTree = "<group>"; };
-		485554B51ECAEF68001EE365 /* rest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = rest.json; sourceTree = "<group>"; };
+		485554B51ECAEF68001EE365 /* status.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = status.json; sourceTree = "<group>"; };
 		485554B61ECAEF68001EE365 /* restcatalog.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = restcatalog.json; sourceTree = "<group>"; };
 		485554B81ECAEF68001EE365 /* restcompute.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = restcompute.json; sourceTree = "<group>"; };
 		485554B91ECAEF68001EE365 /* restinfo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = restinfo.json; sourceTree = "<group>"; };
@@ -337,7 +337,7 @@
 		485554B41ECAEF68001EE365 /* Stubbed Responses */ = {
 			isa = PBXGroup;
 			children = (
-				485554B51ECAEF68001EE365 /* rest.json */,
+				485554B51ECAEF68001EE365 /* status.json */,
 				485554961ECAEF68001EE365 /* restcatalogall.json */,
 				485554B61ECAEF68001EE365 /* restcatalog.json */,
 				485554B81ECAEF68001EE365 /* restcompute.json */,
@@ -626,7 +626,7 @@
 				485554C81ECAEF68001EE365 /* CLIENTS.json in Resources */,
 				485554C21ECAEF68001EE365 /* CLIENTS.catalog.json in Resources */,
 				485554E01ECAEF68001EE365 /* restcompute.json in Resources */,
-				485554DD1ECAEF68001EE365 /* rest.json in Resources */,
+				485554DD1ECAEF68001EE365 /* status.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

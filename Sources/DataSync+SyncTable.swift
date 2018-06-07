@@ -64,7 +64,7 @@ extension DataSync {
                     self.tryCommit(context)
                 }
                 if pageInfo.isLast, let process = self.process {
-                    _ = process.lock() // #FIXME dead lock here????
+                    _ = process.lock()
                     defer {
                         _ = process.unlock()
                     }

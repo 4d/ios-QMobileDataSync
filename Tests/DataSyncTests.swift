@@ -34,6 +34,22 @@ class DataSyncTests: XCTestCase {
 
         dataSync = DataSync(rest: apiManager, dataStore: dataStore)
         dataSync.bundle = bundle
+
+        if !dataStore.isLoaded { // XXX not thread safe if parallel test
+            let exp =  expectation(description: "dataStoreLoaded")
+            dataStore.load { result in
+                switch result {
+                case .failure(let error):
+                    XCTFail("Error \(error)")
+                case .success:
+                    break
+                }
+
+                exp.fulfill()
+            }
+            wait(for: [exp], timeout: 5)
+            XCTAssertTrue(dataStore.isLoaded)
+        }
     }
     
     override func tearDown() {
@@ -239,9 +255,9 @@ class DataSyncTests: XCTestCase {
     
     
     func testTwoSerialDataSyncWithDeleted() {
-        DataSync.Preferences.deleteRecords = true
+        DataSync.Preferences.deleteRecordsAtStart = true
         defer {
-                DataSync.Preferences.deleteRecords = false
+                DataSync.Preferences.deleteRecordsAtStart = false
         }
         let expectation = self.expectation()
         let cancellable = dataSync.sync { result in
