@@ -30,6 +30,7 @@ extension DataStoreTableInfo {
         let fields = self.fields.compactMap { $0.api }
         let relations = self.relationshipsByName.values.compactMap { $0.api }
         table.attributes = (fields + relations).dictionary { $0.name }
+        /*let attributesKey = table.attributes.keys*/
 
         if let primaryKey = self.userInfo?["primaryKey"] as? String ??
               self.userInfo?["primary_key"] as? String {
@@ -37,13 +38,13 @@ extension DataStoreTableInfo {
             if let array = json.array {
                 table.keys = [:]
                 for element in array {
-                    if let name = element["field_name"].string {
+                    if let name = element["field_name"].string/*, attributesKey.contains(name)*/ {
                         table.keys[name] = Key(name: name, attribute: table.attributes[name])
                     }
                 }
-            } else if let name = json["field_name"].string {
+            } else if let name = json["field_name"].string/*, attributesKey.contains(name)*/ {
                 table.keys[name] = Key(name: name, attribute: table.attributes[name])
-            } else {
+            } else /*if attributesKey.contains(primaryKey)*/ {
                 table.keys[primaryKey] = Key(name: primaryKey, attribute: table.attributes[primaryKey])  // simple string without json
             }
         } else {
