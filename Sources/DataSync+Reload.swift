@@ -15,6 +15,10 @@ import Prephirences
 
 extension DataSync {
 
+    static var noAttributeFilter: Bool = {
+         return Prephirences.sharedInstance["dataSync.noAttributeFilter"] as? Bool ?? false
+    }()
+
     public func reload(dataStoreContextType: DataStoreContextType = .background, callbackQueue: DispatchQueue? = nil, _ completionHandler: @escaping SyncCompletionHandler) -> Cancellable {
         if !isCancelled {
             cancel()
@@ -179,15 +183,15 @@ extension DataSync {
         dataSyncBegin(for: table)
 
         let cancellable = CancellableComposite()
-        let attributes: [String]
-        if let no = Prephirences.sharedInstance["dataSync.noAttributeFilter"] as? Bool, no {
-            attributes = []
-        } else {
-            attributes = table.attributes.map { $0.0 }
-        }
+        let attributes: [String] = DataSync.noAttributeFilter ? [] : table.attributes.map { $0.0 }
 
         var target = rest.base.records(from: table.name, attributes: attributes)
         target.limit(Preferences.requestLimit)
+
+        // If a filter is defined by table in data store, use it
+        if let filter = tablesInfoByTable[table]?.filter {
+            target.filter(filter)
+        }
 
         let completion: APIManager.Completion = { result in
             switch result {

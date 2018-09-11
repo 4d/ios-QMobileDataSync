@@ -11,6 +11,7 @@ import QMobileAPI
 import QMobileDataStore
 
 let kkeyMapping = "keyMapping"
+let kfilter = "filter"
 extension DataStoreTableInfo {
 
     var originalName: String {
@@ -18,6 +19,10 @@ extension DataStoreTableInfo {
             return name
         }
         return self.name
+    }
+
+    var filter: String? {
+        return self.userInfo?[kfilter] as? String
     }
 
     var api: Table {

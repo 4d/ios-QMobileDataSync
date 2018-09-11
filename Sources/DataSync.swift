@@ -14,7 +14,7 @@ import QMobileAPI
 import Result
 import FileKit
 
-let logger = Logger.forClass(DataSync.self) // XXX check if configuration not already done...
+let logger = Logger.forClass(DataSync.self)
 
 public class DataSync {
 
