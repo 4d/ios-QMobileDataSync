@@ -32,7 +32,7 @@ extension DataSync {
                     if let predicate = table.predicate(for: json) {
                         record = try context.getOrCreate(in: tableInfo.name, matching: predicate)
                     } else {
-                        logger.warning("Cannot checking if record already in database, no primary key for table '\(tableName)'. This could result to duplicate records.")
+                        logger.debug("Cannot checking if record already in database, no primary key for table '\(tableName)'. This could result to duplicate records.")
                         record = context.create(in: tableInfo.name)
                         // assertionFailure("Table \(tableInfo.name) must have primary key")
                     }
