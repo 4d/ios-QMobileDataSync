@@ -1,7 +1,7 @@
 git "https://gitfusion.wakanda.io/qmobile/QMobileDataStore.git" "HEAD"
 git "https://gitfusion.wakanda.io/qmobile/QMobileAPI.git" "HEAD"
 
-github "Thomvis/BrightFutures" # future/promize for task management
+github "phimage/BrightFutures" # future/promize for task management
 github "nvzqz/FileKit" # file management
 
 # from dependencies
