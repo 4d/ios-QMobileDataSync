@@ -17,7 +17,7 @@ extension Sequence where Iterator.Element: ResultProtocol {
         return reduce(Result(value: [])) { (res, elem) -> ResultSequence in
             switch res {
             case .success(let resultSequence):
-                return elem.analysis(ifSuccess: {
+                return elem.result.analysis(ifSuccess: {
                     let newSeq = resultSequence + [$0]
                     return Result(value: newSeq)
                 }, ifFailure: {
@@ -32,7 +32,7 @@ extension Sequence where Iterator.Element: ResultProtocol {
     public var errors: [Iterator.Element.Error]? {
         var errors: [Iterator.Element.Error] = []
         for result in self {
-            if let error = result.error {
+            if let error = result.result.error {
                 errors.append(error)
             }
         }
@@ -42,7 +42,7 @@ extension Sequence where Iterator.Element: ResultProtocol {
     public var values: [Iterator.Element.Value]? {
         var values: [Iterator.Element.Value] = []
         for result in self {
-            if let value = result.value {
+            if let value = result.result.value {
                 values.append(value)
             }
         }

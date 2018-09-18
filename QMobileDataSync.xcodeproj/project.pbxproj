@@ -189,18 +189,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				483727801EB8AD940060B064 /* Moya.framework in Frameworks */,
 				48C55E911EB8A48300F9ECAC /* QMobileAPI.framework in Frameworks */,
-				48C55E901EB8A48300F9ECAC /* Prephirences.framework in Frameworks */,
-				483727841EB8ADAE0060B064 /* Alamofire.framework in Frameworks */,
-				481BFB781F4F1C1F007B77C8 /* FileKit.framework in Frameworks */,
-				483727821EB8AD9C0060B064 /* Result.framework in Frameworks */,
-				48C55E941EB8A48300F9ECAC /* SwiftyJSON.framework in Frameworks */,
-				48C55E951EB8A48300F9ECAC /* XCGLogger.framework in Frameworks */,
-				4865B1AB1EC1BA3100085634 /* BrightFutures.framework in Frameworks */,
 				48C55E921EB8A48300F9ECAC /* QMobileDataStore.framework in Frameworks */,
-				48C55E8F1EB8A48300F9ECAC /* ObjcExceptionBridging.framework in Frameworks */,
+				48C55E941EB8A48300F9ECAC /* SwiftyJSON.framework in Frameworks */,
+				483727801EB8AD940060B064 /* Moya.framework in Frameworks */,
+				483727841EB8ADAE0060B064 /* Alamofire.framework in Frameworks */,
 				482259CE1F5EA3CD00BB2A87 /* DeviceKit.framework in Frameworks */,
+				48C55E901EB8A48300F9ECAC /* Prephirences.framework in Frameworks */,
+				481BFB781F4F1C1F007B77C8 /* FileKit.framework in Frameworks */,
+				4865B1AB1EC1BA3100085634 /* BrightFutures.framework in Frameworks */,
+				483727821EB8AD9C0060B064 /* Result.framework in Frameworks */,
+				48C55E951EB8A48300F9ECAC /* XCGLogger.framework in Frameworks */,
+				48C55E8F1EB8A48300F9ECAC /* ObjcExceptionBridging.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -645,7 +645,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		4837278A1EB8AE8D0060B064 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -670,7 +670,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
 		};
 		48F4D39E1F444073007C7CB8 /* swiftlint autocorrect */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -684,7 +684,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\nswiftlint autocorrect\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint autocorrect\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -953,7 +953,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -979,7 +979,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = fr.phimage.QMobileDataSync;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -996,7 +996,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = fr.phimage.Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -1013,7 +1013,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = fr.phimage.Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};

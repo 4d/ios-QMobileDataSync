@@ -3,8 +3,12 @@ git "https://gitfusion.wakanda.io/qmobile/QMobileAPI.git" "HEAD"
 
 github "Thomvis/BrightFutures" # future/promize for task management
 github "nvzqz/FileKit" # file management
-github "DaveWoodCom/XCGLogger"
 
-#github "antitypical/Result"
-#github "dennisweissmann/DeviceKit"
-#github "phimage/Prephirences"
+# from dependencies
+github "DaveWoodCom/XCGLogger"
+github "Moya/Moya"
+github "Alamofire/Alamofire"
+github "antitypical/Result"
+github "dennisweissmann/DeviceKit"
+github "phimage/Prephirences"
+github "SwiftyJSON/SwiftyJSON"

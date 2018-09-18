@@ -14,9 +14,13 @@ sed -i '' '/QMobile/d' $file
 
 for f in ../QMobile*; do
     if [[ -d $f ]]; then
-          hash=`git -C $f rev-parse HEAD`
-
+        hash=`git -C $f rev-parse HEAD`
         f="$(basename $f)"
+        if [ -z "$hash" ];then
+    		if [[ -d $HOME/QMobile/$f ]]; then
+        		hash=`git -C $HOME/QMobile/$f rev-parse HEAD`
+    		fi
+        fi
         if grep -q $f "Cartfile"; then
             line="git \"$url$f.git\" \"$hash\""
 
