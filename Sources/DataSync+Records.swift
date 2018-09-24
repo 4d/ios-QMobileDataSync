@@ -27,7 +27,7 @@ extension DataSync {
 
             // Create only if not created
             var record: Record?
-            context.perform(wait: true) {
+            context.perform(wait: true) { // must wait or result will be nil
                 do {
                     if let predicate = table.predicate(for: json) {
                         record = try context.getOrCreate(in: tableInfo.name, matching: predicate)

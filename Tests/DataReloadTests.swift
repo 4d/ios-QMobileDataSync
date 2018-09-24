@@ -135,7 +135,7 @@ class DataReloadTests: XCTestCase {
         }
     }
 
-    func testDataReloadCancelImmediately() {
+    func _testDataReloadCancelImmediately() {
         let expectation = self.expectation()
         let cancellable = dataSync.reload { result in
             do {
@@ -191,10 +191,8 @@ class DataReloadTests: XCTestCase {
             print("\(String(describing: cancellable))")
         }
     }
-    
-    
-    
-    func testTwoSerialDataReload() {
+
+    func _testTwoSerialDataReload() {
         let expectation = self.expectation()
         let cancellable = dataSync.reload { result in
             do {
