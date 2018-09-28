@@ -50,8 +50,8 @@ extension DataSync {
         // load data from files
         for (table, tableInfo) in self.tablesInfoByTable {
             guard tables?.contains(table) ?? true else { continue }
-            guard let url = self.bundle.url(forResource: tableInfo.name, withExtension: Preferences.jsonDataExtension, subdirectory: nil),
-                let json = try? JSON(fileURL: url) else { continue }
+
+            guard let json = NSDataAsset(name: tableInfo.name)?.json ?? self.bundle.json(forResource: tableInfo.name, withExtension: Preferences.jsonDataExtension) else { continue }
 
             assert(ImportableParser.tableName(for: json) == tableInfo.originalName)
 
@@ -99,6 +99,21 @@ extension DataSync {
         }
     }
 
+}
+
+extension NSDataAsset {
+    var json: JSON? {
+        return try? JSON(data: self.data)
+    }
+}
+
+extension Bundle {
+    func json(forResource resource: String, withExtension ext: String) -> JSON? {
+        if let url = self.url(forResource: resource, withExtension: ext, subdirectory: nil) {
+            return try? JSON(fileURL: url)
+        }
+        return nil
+    }
 }
 
 import QMobileDataStore
