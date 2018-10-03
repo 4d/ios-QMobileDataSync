@@ -15,12 +15,13 @@ import QMobileAPI
 import QMobileDataStore
 
 extension DataSync {
-    /// Load table structures from embedded files
+    /// Load table structures from embedded files (not working if definition in asset)
     private func loadTableFromEmbeddedFiles() -> [Table] {
         // from files
         logger.info("Read table structures from files")
         var tables = [Table]()
         // extension = catalog.json by default
+
         if let tableStructures = bundle.urls(forResourcesWithExtension: Preferences.jsonTableExtension, subdirectory: nil) {
             for tableStructure in tableStructures {
                 /// Parse using QMobileAPI
@@ -31,6 +32,7 @@ extension DataSync {
                 }
             }
         }
+
         logger.info("Table strutures read from files: \(tables.map { $0.name })")
         return tables
     }

@@ -30,6 +30,14 @@ extension Bundle {
 
 func table(name: String) -> Table? {
     let bundle = Bundle(for: Utils.self)
+    if let json = NSDataAsset(name: "\(name).catalog", bundle: bundle)?.json {
+        guard let table = Table(json: json) else {
+            XCTFail("Failed to parse table \(name)")
+            return nil
+        }
+        return table
+    }
+
     guard let url = bundle.url(forResource: "\(name).catalog", withExtension: "json") else {
         XCTFail("File not found to test \(name)")
         return nil

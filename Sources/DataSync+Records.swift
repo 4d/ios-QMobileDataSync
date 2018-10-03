@@ -51,7 +51,7 @@ extension DataSync {
         for (table, tableInfo) in self.tablesInfoByTable {
             guard tables?.contains(table) ?? true else { continue }
 
-            guard let json = NSDataAsset(name: tableInfo.name)?.json ?? self.bundle.json(forResource: tableInfo.name, withExtension: Preferences.jsonDataExtension) else { continue }
+            guard let json = NSDataAsset(name: "\(tableInfo.name).data")?.json ?? self.bundle.json(forResource: tableInfo.name, withExtension: Preferences.jsonDataExtension) else { continue }
 
             assert(ImportableParser.tableName(for: json) == tableInfo.originalName)
 
