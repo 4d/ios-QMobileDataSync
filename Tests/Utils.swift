@@ -53,7 +53,11 @@ func table(name: String) -> Table? {
     }
     return table
 }
-
+extension NSDataAsset {
+    var json: JSON? {
+        return try? JSON(data: self.data)
+    }
+}
 func json(name: String) -> JSON? {
     let bundle = Bundle(for: Utils.self)
     guard let url = bundle.url(forResource: "\(name)", withExtension: "json") else {
