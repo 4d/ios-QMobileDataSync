@@ -191,6 +191,12 @@ extension DataSync {
         // If a filter is defined by table in data store, use it
         if let filter = tablesInfoByTable[table]?.filter {
             target.filter(filter)
+
+            /// Get user info to filter data
+            if let params = APIManager.instance.authToken?.userInfo {
+                // target.params(params)
+                target.params([params]) // need a collection for the moment
+            }
         }
 
         let completion: APIManager.Completion = { result in
