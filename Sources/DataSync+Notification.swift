@@ -71,6 +71,9 @@ extension DataSync {
             errorMessage = "\(requestCase) (\(error.localizedDescription))"
         }
         logger.warning("Failed to get records for table \(table.name): \(errorMessage)")
+        if let response = error.responseString {
+            logger.warning("with response \(response)")
+        }
 
         let dataSyncError: DataSyncError = .apiError(error)
         Notification(name: .dataSyncForTableFailed, object: (table, dataSyncError)).post()
