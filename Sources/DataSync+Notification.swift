@@ -41,28 +41,27 @@ extension DataSync {
                 Notification(name: .dataSyncSuccess).post()
                 self.delegate?.didDataSyncEnd(tables: self.tables)
             case .failure(let error):
-                Notification(name: .dataSyncFailed, object: error).post()
+                Notification(name: .dataSyncFailed, object: self, userInfo: [NSUnderlyingErrorKey: error]).post()
                 self.delegate?.didDataSyncFailed(error: error)
             }
         }
-
     }
 
     func dataSyncBegin() -> Bool {
-        Notification(name: .dataSyncBegin, object: self.tables).post()
+        Notification(name: .dataSyncBegin, object: self, userInfo: ["tables": self.tables]).post()
         return self.delegate?.willDataSyncBegin(tables: self.tables) ?? false
     }
 
     func dataSyncBegin(for table: Table) {
         logger.debug("Load records for \(table.name)")
-        Notification(name: .dataSyncForTableBegin, object: table).post()
+        Notification(name: .dataSyncForTableBegin, object: self, userInfo: ["table": table]).post()
         self.delegate?.willDataSyncBegin(for: table)
     }
 
     func dataSyncEnd(for table: Table, with pageInfo: PageInfo) {
         logger.debug("Receive page '\(pageInfo)' for table '\(table.name)'")
         self.delegate?.didDataSyncEnd(for: table, page: pageInfo)
-        Notification(name: .dataSyncForTableSuccess, object: (table, pageInfo)).post()
+        Notification(name: .dataSyncForTableSuccess, object: self, userInfo: ["table": table, "pageInfo": pageInfo]).post()
     }
 
     func dataSyncFailed(for table: Table, with error: APIError) {
@@ -76,7 +75,7 @@ extension DataSync {
         }
 
         let dataSyncError: DataSyncError = .apiError(error)
-        Notification(name: .dataSyncForTableFailed, object: (table, dataSyncError)).post()
+        Notification(name: .dataSyncForTableFailed, object: self, userInfo: ["table": table, NSUnderlyingErrorKey: dataSyncError]).post()
         self.delegate?.didDataSyncFailed(for: table, error: dataSyncError)
     }
 }
