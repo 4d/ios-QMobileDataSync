@@ -210,7 +210,9 @@ extension DataSync {
                 // Check before writing to file if correct data.
                 // But we must to be here if http code management are correct
                 if let json = try? JSON(data: data) {
-                   assert(ImportableParser.tableName(for: json) != nil)
+                    if json["ok"] != true {
+                        assert(ImportableParser.tableName(for: json) != nil)
+                    }// else bug 4D
                 } else {
                     assertionFailure("Unable to read JSON data")
                 }
