@@ -24,86 +24,92 @@ extension DataSync {
             cancel()
             // XXX maybe wait...
         }
+        self.dataSyncWillBegin(.reload)
 
         // Manage delegate completion event
-        let completionHandler: SyncCompletionHandler = wrap(completionHandler: completionHandler)
+        let completionHandler: SyncCompletionHandler = wrap(.reload, completionHandler: completionHandler)
 
         let cancellable = CancellableComposite() // return value, a cancellable
 
-        initFuture(dataStoreContextType: dataStoreContextType, callbackQueue: callbackQueue)
-            .onFailure { error in
-                completionHandler(.failure(error))
+        let future = initFuture(dataStoreContextType: dataStoreContextType, callbackQueue: callbackQueue)
+        future.onFailure { error in
+            completionHandler(.failure(error))
+        }
+
+        future.onSuccess { [weak self] in
+            guard let this = self else {
+                // memory issue, must retain the dataSync object somewhere
+                completionHandler(.failure(.retain))
+                return
             }
-            .onSuccess { [weak self] in
-                guard let this = self else {
-                    // memory issue, must retain the dataSync object somewhere
-                    completionHandler(.failure(.retain))
-                    return
-                }
+            this.doReload(dataStoreContextType: dataStoreContextType, callbackQueue: callbackQueue, cancellable: cancellable, completionHandler)
 
-                logger.info("Start data reloading")
-
-                // Ask delegate if there is any reason to stop process
-                let stop = this.dataSyncBegin()
-                if stop {
-                    logger.info("Data reloading stop requested before starting the process")
-                    completionHandler(.failure(.delegateRequestStop))
-                    return
-                }
-
-                // perform a data store task in background
-                //let perform = this.dataStore.perform(dataStoreContextType) { [weak self] context, save in
-                /*guard let this = self else {
-                 // memory issue, must retain the dataSync object somewhere
-                 completionHandler(.failure(.retain))
-                 return
-                 }*/
-
-                let startStamp = 0
-                let tables = this.tables
-
-                // From remote
-                let tempPath: Path = .userTemporary
-
-                let processCompletion = this.reloadProcessCompletionCallBack(dataStoreContextType: dataStoreContextType, tempPath: tempPath, completionHandler)
-                let process = Process(tables: tables, startStamp: startStamp, cancellable: cancellable, completionHandler: processCompletion)
-
-                // assert(this.process == nil)
-                this.process = process
-
-                let locked = cancellable.perform {
-                    if cancellable.isCancelledUnlocked {
-                        completionHandler(.failure(.cancel))
-                    } else {
-                       let callbackQueue: DispatchQueue = callbackQueue ?? dataStoreContextType.queue
-
-                        // For each table get data from last global stamp
-                        //let configureRequest = this.configureRequest(stamp: startStamp)
-                        for table in this.tables {
-                            logger.debug("Start data reloading for table \(table.name)")
-
-                            let progress: APIManager.ProgressHandler = { progress in
-
-                            }
-
-                            let requestCancellable = this.reloadTable(table, in: tempPath, callbackQueue: callbackQueue, progress: progress)
-                            _ = cancellable.appendUnlocked(requestCancellable)
-                        }
-                    }
-                }
-                if !locked {
-                    logger.warning("Failed to aquire lock on cancellable object before adding new task to reload tables data")
-                }
-                /*}*/
-                // return no task if dataStore not ready
-                /* if !perform {
-                    logger.warning("Cannot get data: context cannot be created on data store")
-                    completionHandler(.failure(.dataStoreNotReady))
-                    return
-
-                }*/
         }
         return cancellable
+    }
+
+    private func doReload(dataStoreContextType: DataStoreContextType, callbackQueue: DispatchQueue? = nil, cancellable: CancellableComposite, _ completionHandler: @escaping SyncCompletionHandler) {
+        logger.info("Start data reloading")
+
+        // Ask delegate if there is any reason to stop process
+        let stop = self.dataSyncDidBegin(.reload)
+        if stop {
+            logger.info("Data reloading stop requested before starting the process")
+            completionHandler(.failure(.delegateRequestStop))
+            return
+        }
+
+        // perform a data store task in background
+        //let perform = this.dataStore.perform(dataStoreContextType) { [weak self] context, save in
+        /*guard let this = self else {
+         // memory issue, must retain the dataSync object somewhere
+         completionHandler(.failure(.retain))
+         return
+         }*/
+
+        let startStamp = 0
+        let tables = self.tables
+
+        // From remote
+        let tempPath: Path = .userTemporary
+
+        let processCompletion = self.reloadProcessCompletionCallBack(dataStoreContextType: dataStoreContextType, tempPath: tempPath, completionHandler)
+        let process = Process(tables: tables, startStamp: startStamp, cancellable: cancellable, completionHandler: processCompletion)
+
+        // assert(this.process == nil)
+        self.process = process
+
+        let locked = cancellable.perform {
+            if cancellable.isCancelledUnlocked {
+                completionHandler(.failure(.cancel))
+            } else {
+                let callbackQueue: DispatchQueue = callbackQueue ?? dataStoreContextType.queue
+
+                // For each table get data from last global stamp
+                //let configureRequest = this.configureRequest(stamp: startStamp)
+                for table in self.tables {
+                    logger.debug("Start data reloading for table \(table.name)")
+
+                    let progress: APIManager.ProgressHandler = { progress in
+
+                    }
+
+                    let requestCancellable = self.reloadTable(table, in: tempPath, callbackQueue: callbackQueue, progress: progress)
+                    _ = cancellable.appendUnlocked(requestCancellable)
+                }
+            }
+        }
+        if !locked {
+            logger.warning("Failed to aquire lock on cancellable object before adding new task to reload tables data")
+        }
+        /*}*/
+        // return no task if dataStore not ready
+        /* if !perform {
+         logger.warning("Cannot get data: context cannot be created on data store")
+         completionHandler(.failure(.dataStoreNotReady))
+         return
+
+         }*/
     }
 
     func reloadProcessCompletionCallBack(dataStoreContextType: DataStoreContextType, tempPath: Path, _ completionHandler: @escaping SyncCompletionHandler) -> Process.CompletionHandler {
@@ -180,7 +186,7 @@ extension DataSync {
     }
 
     func reloadTable(_ table: Table, in path: Path, callbackQueue: DispatchQueue? = nil, progress: APIManager.ProgressHandler? = nil) -> Cancellable {
-        dataSyncBegin(for: table)
+        dataSyncBegin(for: table, .reload)
 
         let cancellable = CancellableComposite()
         let attributes: [String] = DataSync.noAttributeFilter ? [] : table.attributes.map { $0.0 }
@@ -229,7 +235,7 @@ extension DataSync {
 
                 let pageInfo = PageInfo.dummy
                 assert(pageInfo.isLast)
-                self.dataSyncEnd(for: table, with: pageInfo)
+                self.dataSyncEnd(for: table, with: pageInfo, .reload)
 
                 if pageInfo.isLast, let process = self.process {
                     if process.lock() {
@@ -250,7 +256,7 @@ extension DataSync {
                     }
                 }
             case .failure(let error):
-                self.dataSyncFailed(for: table, with: APIError.error(from: error))
+                self.dataSyncFailed(for: table, with: APIError.error(from: error), .reload)
 
                 if var process = self.process {
                     if process.lock() {

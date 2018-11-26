@@ -77,6 +77,46 @@
 		48C55E951EB8A48300F9ECAC /* XCGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48C55E8E1EB8A48300F9ECAC /* XCGLogger.framework */; };
 		48C55E9D1EB8A4A100F9ECAC /* DataSyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C55E9C1EB8A4A100F9ECAC /* DataSyncTests.swift */; };
 		48C55E9F1EB8A4A100F9ECAC /* QMobileDataSync.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48C55E781EB8A09600F9ECAC /* QMobileDataSync.framework */; };
+		48DB1F5621ABEA6B00B97E26 /* QMobileDataSyncMacOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 48DB1F5421ABEA6B00B97E26 /* QMobileDataSyncMacOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		48DB1F5A21ABEA7B00B97E26 /* DataSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4837277D1EB8A8DF0060B064 /* DataSync.swift */; };
+		48DB1F5B21ABEA7B00B97E26 /* DataSync+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A22FE1F55B69400B5A5E6 /* DataSync+Init.swift */; };
+		48DB1F5C21ABEA7B00B97E26 /* DataSync+Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484429001EC999A6008658B8 /* DataSync+Sync.swift */; };
+		48DB1F5D21ABEA7B00B97E26 /* DataSync+Reload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FBBFA01F5407AE00E920B6 /* DataSync+Reload.swift */; };
+		48DB1F5E21ABEA7B00B97E26 /* DataSync+SyncTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A22FC1F55B68100B5A5E6 /* DataSync+SyncTable.swift */; };
+		48DB1F5F21ABEA7B00B97E26 /* DataSync+Process.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484428FC1EC9995E008658B8 /* DataSync+Process.swift */; };
+		48DB1F6021ABEA7B00B97E26 /* DataSync+Cancellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489C15D91F3B42A5004844F3 /* DataSync+Cancellable.swift */; };
+		48DB1F6121ABEA7B00B97E26 /* DataSync+Singleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484803841EBC76D70094D84C /* DataSync+Singleton.swift */; };
+		48DB1F6221ABEA7B00B97E26 /* DataSyncError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484428F81EC998F0008658B8 /* DataSyncError.swift */; };
+		48DB1F6321ABEA7B00B97E26 /* DataSyncDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484428F61EC998D0008658B8 /* DataSyncDelegate.swift */; };
+		48DB1F6421ABEA7B00B97E26 /* DataSync+Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4843784C1F471C02004C5101 /* DataSync+Notification.swift */; };
+		48DB1F6521ABEA7B00B97E26 /* DataSync+Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481EDC721F4C568F00E97960 /* DataSync+Cache.swift */; };
+		48DB1F6621ABEA7B00B97E26 /* DataSync+Dump.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4811229B1F682001001EE34E /* DataSync+Dump.swift */; };
+		48DB1F6721ABEA7F00B97E26 /* TableStampStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484428F41EC99766008658B8 /* TableStampStorage.swift */; };
+		48DB1F6821ABEA7F00B97E26 /* DataSync+Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484803A21EBCB2340094D84C /* DataSync+Table.swift */; };
+		48DB1F6921ABEA7F00B97E26 /* DataSync+Records.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484803A41EBCB5C50094D84C /* DataSync+Records.swift */; };
+		48DB1F6A21ABEA7F00B97E26 /* DataStoreTableInfo+Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486081061F8CBAF500591942 /* DataStoreTableInfo+Table.swift */; };
+		48DB1F6B21ABEA8300B97E26 /* DataSync+Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484803821EBC768E0094D84C /* DataSync+Preferences.swift */; };
+		48DB1F6C21ABEA8800B97E26 /* NSManagedObject+Importable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486744FF2021B8050029924D /* NSManagedObject+Importable.swift */; };
+		48DB1F6D21ABEA8800B97E26 /* Array+Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484803861EBC78680094D84C /* Array+Sync.swift */; };
+		48DB1F6E21ABEA8800B97E26 /* Sequence+Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484428FA1EC99922008658B8 /* Sequence+Result.swift */; };
+		48DB1F6F21ABEA8800B97E26 /* DataStoreContext+Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A22FA1F55B55C00B5A5E6 /* DataStoreContext+Queue.swift */; };
+		48DB1F7021ABEA8800B97E26 /* DispatchQueue+Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A23001F55B74300B5A5E6 /* DispatchQueue+Sync.swift */; };
+		48DB1F7121ABEA8800B97E26 /* BrightFutures+Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A23031F55BF9D00B5A5E6 /* BrightFutures+Sync.swift */; };
+		48DB1F7221ABEA8D00B97E26 /* DataStore+Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485554ED1ECAF853001EE365 /* DataStore+Future.swift */; };
+		48DB1F7321ABEA8D00B97E26 /* DataSync+Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485554F11ECB004C001EE365 /* DataSync+Future.swift */; };
+		48DB1F7421ABEA8D00B97E26 /* API+Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FBBFAD1F554A4000E920B6 /* API+Future.swift */; };
+		48DB1F7521ABEA9000B97E26 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 481EDC7A1F4C72BF00E97960 /* Localizable.strings */; };
+		48DB1F7721ABEB1000B97E26 /* ObjcExceptionBridging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 482259D31F5EC4DF00BB2A87 /* ObjcExceptionBridging.framework */; };
+		48DB1F7821ABEB1000B97E26 /* XCGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 482259D21F5EC4D600BB2A87 /* XCGLogger.framework */; };
+		48DB1F7A21ABEB1000B97E26 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483EF6171EF940F700C11B5E /* SwiftyJSON.framework */; };
+		48DB1F7B21ABEB1000B97E26 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483EF6121EF9401E00C11B5E /* Alamofire.framework */; };
+		48DB1F7C21ABEB1000B97E26 /* BrightFutures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483EF6131EF9401E00C11B5E /* BrightFutures.framework */; };
+		48DB1F7D21ABEB1000B97E26 /* Moya.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483EF6141EF9401E00C11B5E /* Moya.framework */; };
+		48DB1F7E21ABEB1000B97E26 /* Prephirences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483EF6151EF9401E00C11B5E /* Prephirences.framework */; };
+		48DB1F7F21ABEB1000B97E26 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483EF6161EF9401E00C11B5E /* Result.framework */; };
+		48DB1F8021ABEBE700B97E26 /* FileKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 481BFB791F4F27FD007B77C8 /* FileKit.framework */; };
+		48DB1F8221ABEC3A00B97E26 /* QMobileAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48DB1F8121ABEC3900B97E26 /* QMobileAPI.framework */; };
+		48DB1F8421ABECDE00B97E26 /* QMobileDataStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48DB1F8321ABECDE00B97E26 /* QMobileDataStore.framework */; };
 		48ED97E51F4AC899000FF1B9 /* PRODUCTS.data.json in Resources */ = {isa = PBXBuildFile; fileRef = 48ED97E41F4AC899000FF1B9 /* PRODUCTS.data.json */; };
 		48EE8AC61F4492F0002C3F08 /* CLIENTS(2).json in Resources */ = {isa = PBXBuildFile; fileRef = 48EE8AC51F4492F0002C3F08 /* CLIENTS(2).json */; };
 		48FBBFAE1F554A4000E920B6 /* API+Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FBBFAD1F554A4000E920B6 /* API+Future.swift */; };
@@ -104,7 +144,6 @@
 		482259CD1F5EA3CD00BB2A87 /* DeviceKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DeviceKit.framework; path = Carthage/Build/iOS/DeviceKit.framework; sourceTree = "<group>"; };
 		482259D21F5EC4D600BB2A87 /* XCGLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCGLogger.framework; path = Carthage/Build/Mac/XCGLogger.framework; sourceTree = "<group>"; };
 		482259D31F5EC4DF00BB2A87 /* ObjcExceptionBridging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjcExceptionBridging.framework; path = Carthage/Build/Mac/ObjcExceptionBridging.framework; sourceTree = "<group>"; };
-		482259D51F5EC50300BB2A87 /* FileKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FileKit.framework; path = Carthage/Build/Mac/FileKit.framework; sourceTree = "<group>"; };
 		4837277D1EB8A8DF0060B064 /* DataSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSync.swift; sourceTree = "<group>"; };
 		4837277F1EB8AD940060B064 /* Moya.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Moya.framework; path = Carthage/Build/iOS/Moya.framework; sourceTree = "<group>"; };
 		483727811EB8AD9C0060B064 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
@@ -177,6 +216,11 @@
 		48C55E9A1EB8A4A100F9ECAC /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		48C55E9C1EB8A4A100F9ECAC /* DataSyncTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSyncTests.swift; sourceTree = "<group>"; };
 		48C55E9E1EB8A4A100F9ECAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		48DB1F5221ABEA6B00B97E26 /* QMobileDataSync.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = QMobileDataSync.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		48DB1F5421ABEA6B00B97E26 /* QMobileDataSyncMacOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QMobileDataSyncMacOS.h; sourceTree = "<group>"; };
+		48DB1F5521ABEA6B00B97E26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		48DB1F8121ABEC3900B97E26 /* QMobileAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QMobileAPI.framework; path = Carthage/Build/Mac/QMobileAPI.framework; sourceTree = "<group>"; };
+		48DB1F8321ABECDE00B97E26 /* QMobileDataStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QMobileDataStore.framework; path = Carthage/Build/Mac/QMobileDataStore.framework; sourceTree = "<group>"; };
 		48ED97E41F4AC899000FF1B9 /* PRODUCTS.data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PRODUCTS.data.json; sourceTree = "<group>"; };
 		48EE8AC51F4492F0002C3F08 /* CLIENTS(2).json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "CLIENTS(2).json"; sourceTree = "<group>"; };
 		48FBBFA01F5407AE00E920B6 /* DataSync+Reload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Reload.swift"; sourceTree = "<group>"; };
@@ -210,6 +254,24 @@
 			files = (
 				48C55E9F1EB8A4A100F9ECAC /* QMobileDataSync.framework in Frameworks */,
 				4865B1AC1EC1BA3100085634 /* BrightFutures.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48DB1F4F21ABEA6B00B97E26 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48DB1F7721ABEB1000B97E26 /* ObjcExceptionBridging.framework in Frameworks */,
+				48DB1F7821ABEB1000B97E26 /* XCGLogger.framework in Frameworks */,
+				48DB1F7A21ABEB1000B97E26 /* SwiftyJSON.framework in Frameworks */,
+				48DB1F8021ABEBE700B97E26 /* FileKit.framework in Frameworks */,
+				48DB1F7F21ABEB1000B97E26 /* Result.framework in Frameworks */,
+				48DB1F7B21ABEB1000B97E26 /* Alamofire.framework in Frameworks */,
+				48DB1F7C21ABEB1000B97E26 /* BrightFutures.framework in Frameworks */,
+				48DB1F8421ABECDE00B97E26 /* QMobileDataStore.framework in Frameworks */,
+				48DB1F7E21ABEB1000B97E26 /* Prephirences.framework in Frameworks */,
+				48DB1F7D21ABEB1000B97E26 /* Moya.framework in Frameworks */,
+				48DB1F8221ABEC3A00B97E26 /* QMobileAPI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,7 +331,8 @@
 		483EF6111EF93FF700C11B5E /* Mac */ = {
 			isa = PBXGroup;
 			children = (
-				482259D51F5EC50300BB2A87 /* FileKit.framework */,
+				48DB1F8321ABECDE00B97E26 /* QMobileDataStore.framework */,
+				48DB1F8121ABEC3900B97E26 /* QMobileAPI.framework */,
 				482259D31F5EC4DF00BB2A87 /* ObjcExceptionBridging.framework */,
 				482259D21F5EC4D600BB2A87 /* XCGLogger.framework */,
 				481BFB791F4F27FD007B77C8 /* FileKit.framework */,
@@ -376,6 +439,7 @@
 			children = (
 				48C55E781EB8A09600F9ECAC /* QMobileDataSync.framework */,
 				48C55E9A1EB8A4A100F9ECAC /* Tests.xctest */,
+				48DB1F5221ABEA6B00B97E26 /* QMobileDataSync.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -395,6 +459,7 @@
 				4837277D1EB8A8DF0060B064 /* DataSync.swift */,
 				486A22FE1F55B69400B5A5E6 /* DataSync+Init.swift */,
 				484429001EC999A6008658B8 /* DataSync+Sync.swift */,
+				48FBBFA01F5407AE00E920B6 /* DataSync+Reload.swift */,
 				486A22FC1F55B68100B5A5E6 /* DataSync+SyncTable.swift */,
 				484428FC1EC9995E008658B8 /* DataSync+Process.swift */,
 				489C15D91F3B42A5004844F3 /* DataSync+Cancellable.swift */,
@@ -403,7 +468,6 @@
 				484428F61EC998D0008658B8 /* DataSyncDelegate.swift */,
 				4843784C1F471C02004C5101 /* DataSync+Notification.swift */,
 				481EDC721F4C568F00E97960 /* DataSync+Cache.swift */,
-				48FBBFA01F5407AE00E920B6 /* DataSync+Reload.swift */,
 				4811229B1F682001001EE34E /* DataSync+Dump.swift */,
 				484428FF1EC99973008658B8 /* API */,
 				484428FE1EC99969008658B8 /* Configuration */,
@@ -417,6 +481,7 @@
 		48C55E841EB8A1A000F9ECAC /* Xcode */ = {
 			isa = PBXGroup;
 			children = (
+				48DB1F5321ABEA6B00B97E26 /* macOS */,
 				48C55E7A1EB8A09600F9ECAC /* iOS */,
 			);
 			path = Xcode;
@@ -450,6 +515,15 @@
 			path = Tests;
 			sourceTree = "<group>";
 		};
+		48DB1F5321ABEA6B00B97E26 /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				48DB1F5421ABEA6B00B97E26 /* QMobileDataSyncMacOS.h */,
+				48DB1F5521ABEA6B00B97E26 /* Info.plist */,
+			);
+			path = macOS;
+			sourceTree = "<group>";
+		};
 		48ED97E61F4AC89C000FF1B9 /* Stub */ = {
 			isa = PBXGroup;
 			children = (
@@ -470,6 +544,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				48C55E7D1EB8A09600F9ECAC /* QMobileDataSync.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48DB1F4D21ABEA6B00B97E26 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48DB1F5621ABEA6B00B97E26 /* QMobileDataSyncMacOS.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -546,6 +628,24 @@
 			productReference = 48C55E9A1EB8A4A100F9ECAC /* Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		48DB1F5121ABEA6B00B97E26 /* QMobileDataSyncMacOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 48DB1F5921ABEA6B00B97E26 /* Build configuration list for PBXNativeTarget "QMobileDataSyncMacOS" */;
+			buildPhases = (
+				48DB1F4D21ABEA6B00B97E26 /* Headers */,
+				48DB1F4E21ABEA6B00B97E26 /* Sources */,
+				48DB1F4F21ABEA6B00B97E26 /* Frameworks */,
+				48DB1F5021ABEA6B00B97E26 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = QMobileDataSyncMacOS;
+			productName = QMobileDataSyncMacOS;
+			productReference = 48DB1F5221ABEA6B00B97E26 /* QMobileDataSync.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -574,6 +674,11 @@
 						CreatedOnToolsVersion = 8.3.2;
 						ProvisioningStyle = Automatic;
 					};
+					48DB1F5121ABEA6B00B97E26 = {
+						CreatedOnToolsVersion = 10.1;
+						DevelopmentTeam = 37UG5W39Z2;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 48C55E721EB8A09600F9ECAC /* Build configuration list for PBXProject "QMobileDataSync" */;
@@ -589,6 +694,7 @@
 			projectRoot = "";
 			targets = (
 				48C55E771EB8A09600F9ECAC /* QMobileDataSync */,
+				48DB1F5121ABEA6B00B97E26 /* QMobileDataSyncMacOS */,
 				48C55E991EB8A4A100F9ECAC /* Tests */,
 				483727851EB8AE4A0060B064 /* swiftlint */,
 				48934E6E1F3DD3FA003B7DB4 /* carthage update */,
@@ -627,6 +733,14 @@
 				485554C21ECAEF68001EE365 /* CLIENTS.catalog.json in Resources */,
 				485554E01ECAEF68001EE365 /* restcompute.json in Resources */,
 				485554DD1ECAEF68001EE365 /* status.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48DB1F5021ABEA6B00B97E26 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48DB1F7521ABEA9000B97E26 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -740,6 +854,40 @@
 				483EF60F1EF925BB00C11B5E /* DataStoreIntegrationTests.swift in Sources */,
 				48C55E9D1EB8A4A100F9ECAC /* DataSyncTests.swift in Sources */,
 				485554921ECAEF40001EE365 /* Utils.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48DB1F4E21ABEA6B00B97E26 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48DB1F7421ABEA8D00B97E26 /* API+Future.swift in Sources */,
+				48DB1F6121ABEA7B00B97E26 /* DataSync+Singleton.swift in Sources */,
+				48DB1F7121ABEA8800B97E26 /* BrightFutures+Sync.swift in Sources */,
+				48DB1F6B21ABEA8300B97E26 /* DataSync+Preferences.swift in Sources */,
+				48DB1F5E21ABEA7B00B97E26 /* DataSync+SyncTable.swift in Sources */,
+				48DB1F6A21ABEA7F00B97E26 /* DataStoreTableInfo+Table.swift in Sources */,
+				48DB1F5C21ABEA7B00B97E26 /* DataSync+Sync.swift in Sources */,
+				48DB1F5D21ABEA7B00B97E26 /* DataSync+Reload.swift in Sources */,
+				48DB1F7321ABEA8D00B97E26 /* DataSync+Future.swift in Sources */,
+				48DB1F5B21ABEA7B00B97E26 /* DataSync+Init.swift in Sources */,
+				48DB1F6F21ABEA8800B97E26 /* DataStoreContext+Queue.swift in Sources */,
+				48DB1F6921ABEA7F00B97E26 /* DataSync+Records.swift in Sources */,
+				48DB1F6E21ABEA8800B97E26 /* Sequence+Result.swift in Sources */,
+				48DB1F6221ABEA7B00B97E26 /* DataSyncError.swift in Sources */,
+				48DB1F6721ABEA7F00B97E26 /* TableStampStorage.swift in Sources */,
+				48DB1F6D21ABEA8800B97E26 /* Array+Sync.swift in Sources */,
+				48DB1F6C21ABEA8800B97E26 /* NSManagedObject+Importable.swift in Sources */,
+				48DB1F7021ABEA8800B97E26 /* DispatchQueue+Sync.swift in Sources */,
+				48DB1F5F21ABEA7B00B97E26 /* DataSync+Process.swift in Sources */,
+				48DB1F6321ABEA7B00B97E26 /* DataSyncDelegate.swift in Sources */,
+				48DB1F6021ABEA7B00B97E26 /* DataSync+Cancellable.swift in Sources */,
+				48DB1F6521ABEA7B00B97E26 /* DataSync+Cache.swift in Sources */,
+				48DB1F6821ABEA7F00B97E26 /* DataSync+Table.swift in Sources */,
+				48DB1F7221ABEA8D00B97E26 /* DataStore+Future.swift in Sources */,
+				48DB1F6421ABEA7B00B97E26 /* DataSync+Notification.swift in Sources */,
+				48DB1F5A21ABEA7B00B97E26 /* DataSync.swift in Sources */,
+				48DB1F6621ABEA7B00B97E26 /* DataSync+Dump.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1017,6 +1165,73 @@
 			};
 			name = Release;
 		};
+		48DB1F5721ABEA6B00B97E26 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 37UG5W39Z2;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = Xcode/MacOS/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.phimage.QMobileDataSync;
+				PRODUCT_NAME = QMobileDataSync;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		48DB1F5821ABEA6B00B97E26 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 37UG5W39Z2;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = Xcode/MacOS/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.phimage.QMobileDataSync;
+				PRODUCT_NAME = QMobileDataSync;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1061,6 +1276,15 @@
 			buildConfigurations = (
 				48C55EA31EB8A4A100F9ECAC /* Debug */,
 				48C55EA41EB8A4A100F9ECAC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		48DB1F5921ABEA6B00B97E26 /* Build configuration list for PBXNativeTarget "QMobileDataSyncMacOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				48DB1F5721ABEA6B00B97E26 /* Debug */,
+				48DB1F5821ABEA6B00B97E26 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

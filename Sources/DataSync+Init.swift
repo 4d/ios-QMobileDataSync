@@ -17,6 +17,11 @@ import QMobileAPI
 
 extension DataSync {
 
+    public enum Operation {
+        case sync
+        case reload
+    }
+
     /// check data store loaded, and tables structures loaded
     public func initFuture(dataStoreContextType: DataStoreContextType = .background, callbackQueue: DispatchQueue? = nil) -> SyncFuture {
         var sequence: [SyncFuture] = []

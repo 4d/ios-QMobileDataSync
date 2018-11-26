@@ -29,7 +29,7 @@ extension DataSync {
     }
 
     func syncTable(_ table: Table, callbackQueue: DispatchQueue? = nil, configureRequest: @escaping ((RecordsRequest) -> Void), context: DataStoreContext) -> Cancellable {
-        dataSyncBegin(for: table)
+        dataSyncBegin(for: table, .sync)
 
         var cancellable = CancellableComposite()
 
@@ -54,7 +54,7 @@ extension DataSync {
                 if pageInfo.isLast {
                     logger.info("Last page loaded for table \(table.name)")
 
-                    self.dataSyncEnd(for: table, with: pageInfo)
+                    self.dataSyncEnd(for: table, with: pageInfo, .sync)
                     if case .byTable = self.saveMode {
                         self.tryCommit(context)
                         // If save could not manage error
@@ -82,7 +82,7 @@ extension DataSync {
                     }
                 }
             case .failure(let error):
-                self.dataSyncFailed(for: table, with: error)
+                self.dataSyncFailed(for: table, with: error, .sync)
 
                 if var process = self.process {
                     _ = process.lock()
