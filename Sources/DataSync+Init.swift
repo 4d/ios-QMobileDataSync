@@ -32,7 +32,7 @@ extension DataSync {
          
          }*/
 
-        if Preferences.firstSync && Prephirences.sharedInstance.bool(forKey: "dataSync.dataStoreDrop") {
+        if Prephirences.DataSync.firstSync && Prephirences.DataSync.dataStoreDrop {
 
             let dsLoad: SyncFuture = dataStore.drop().flatMap {
                 return self.dataStore.load()
@@ -61,17 +61,17 @@ extension DataSync {
         }
         sequence.append(checkTable)
 
-        let firstStart = Preferences.firstSync // maybe add other things like no metadata
+        let firstStart = Prephirences.DataSync.firstSync // maybe add other things like no metadata
         if firstStart {
-            Preferences.firstSync = false
+            Prephirences.DataSync.firstSync = false
 
             // from file
-            if Preferences.dataFromFile {
+            if Prephirences.DataSync.dataFromFile {
                 let loadFromFiles = loadRecordsFromFileFuture(dataStoreContextType: dataStoreContextType, previous: loadTable)
                 sequence.append(loadFromFiles)
             }
 
-        } else if Preferences.deleteRecordsAtStart {
+        } else if Prephirences.DataSync.deleteRecordsAtStart {
             let removeTableRecords = deleteRecordsFuture(dataStoreContextType: dataStoreContextType, previous: loadTable)
             sequence.append(removeTableRecords)
         }

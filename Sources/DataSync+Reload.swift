@@ -192,7 +192,7 @@ extension DataSync {
         let attributes: [String] = DataSync.noAttributeFilter ? [] : table.attributes.map { $0.0 }
 
         var target = rest.base.records(from: table.name, attributes: attributes)
-        target.limit(Preferences.requestLimit)
+        target.limit(Prephirences.DataSync.Request.limit)
 
         // If a filter is defined by table in data store, use it
         if let filter = tablesInfoByTable[table]?.filter {
@@ -278,5 +278,5 @@ extension DataSync {
 }
 
 extension PageInfo {
-    static let dummy = PageInfo(globalStamp: 0, sent: DataSync.Preferences.requestLimit, first: 0, count: DataSync.Preferences.requestLimit)
+    static let dummy = PageInfo(globalStamp: 0, sent: Prephirences.DataSync.Request.limit, first: 0, count: Prephirences.DataSync.Request.limit)
 }

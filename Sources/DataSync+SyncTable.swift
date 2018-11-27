@@ -21,7 +21,7 @@ extension DataSync {
 
     func configureRequest(stamp: TableStampStorage.Stamp) -> ((RecordsRequest) -> Void) {
         return { request in
-            request.limit(Preferences.requestPageLimit)
+            request.limit(Prephirences.DataSync.Request.Page.limit)
             // stamp filter
             let filter = "\(kStampFilter)=\(stamp)"
             request.filter(filter)

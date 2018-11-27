@@ -47,25 +47,28 @@ extension DataSync {
 
     /// Load records from files, need to be done in data store context
     func loadRecordsFromFile(context: DataStoreContext, tables: [Table]? = nil) throws {
-        // load data from files
+        // load data from files by table.
         for (table, tableInfo) in self.tablesInfoByTable {
-            guard tables?.contains(table) ?? true else { continue }
+            guard tables?.contains(table) ?? true else { continue } // could filter on some tables.
 
+            // Get json
             guard let json = NSDataAsset(name: table.name)?.json ??
                 NSDataAsset(name: tableInfo.name)?.json ??
                 self.bundle.json(forResource: tableInfo.name, withExtension: Preferences.jsonDataExtension) else { continue }
 
             assert(ImportableParser.tableName(for: json) == tableInfo.originalName)
 
+            /// Parse the records from json and create core data object in passed context.
             let records = try table.parser.parseArray(json: json, with: self.recordInitializer(table: table, tableInfo: tableInfo, context: context))
             logger.info("\(records.count) records imported from '\(tableInfo.name)' file")
         }
 
+        // finally flush the context.
         try context.commit()
     }
 
+    /// We download to a cache folder when reloading. Then we load from this cache.
     func loadRecordsFromCache(context: DataStoreContext) throws {
-        // load data from files
         for (table, tableInfo) in self.tablesInfoByTable {
             let tableName = table.name
             let cacheFile: Path = self.cachePath + "\(tableName).\(Preferences.jsonDataExtension)"
