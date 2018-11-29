@@ -185,6 +185,17 @@ extension DataSync {
         }
     }
 
+    private func parseDate(from value: Any) -> Date? {
+        if let date = value as? Date {
+            return date
+        } else if let string = value as? String, let date = string.dateFromRFC3339 ?? string.simpleDate {
+            return date
+        } else if let json = value as? JSON, let date = json.date {
+            return date
+        }
+        return nil
+    }
+
     func reloadTable(_ table: Table, in path: Path, callbackQueue: DispatchQueue? = nil, progress: APIManager.ProgressHandler? = nil) -> Cancellable {
         dataSyncBegin(for: table, .reload)
 
@@ -199,7 +210,13 @@ extension DataSync {
             target.filter(filter)
 
             /// Get user info to filter data
-            if let params = APIManager.instance.authToken?.userInfo {
+            if var params = APIManager.instance.authToken?.userInfo {
+                for (key, value) in params {
+                    if let date = parseDate(from: value), date.isUTCStartOfDay {
+                        params[key] = "'\(DateFormatter.simpleDate.string(from: date))'" // format for 4d`
+                        // APIManager.instance.authToken?.userInfo = params
+                    }
+                }
                 // target.params(params)
                 target.params([params]) // need a collection for the moment
             }
@@ -279,4 +296,24 @@ extension DataSync {
 
 extension PageInfo {
     static let dummy = PageInfo(globalStamp: 0, sent: Prephirences.DataSync.Request.limit, first: 0, count: Prephirences.DataSync.Request.limit)
+}
+
+extension Date {
+    public var isUTCStartOfDay: Bool {
+        return Calendar.utc.startOfDay(for: self) == self
+    }
+}
+
+extension Calendar {
+    static let utc: Calendar  = {
+        var calendar = Calendar.current
+        // swiftlint:disable:next force_cast
+        calendar.timeZone = TimeZone(identifier: "UTC")!
+        return calendar
+    }()
+    static let localTime: Calendar  = {
+        var calendar = Calendar.current
+        calendar.timeZone = .current
+        return calendar
+    }()
 }
