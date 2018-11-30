@@ -25,6 +25,22 @@ extension DataSync {
             // stamp filter
             let filter = "\(kStampFilter)=\(stamp)"
             request.filter(filter)
+
+            /*if let filter = tablesInfoByTable[table]?.filter {
+                target.filter(filter)
+
+                /// Get user info to filter data
+                if var params = APIManager.instance.authToken?.userInfo {
+                    for (key, value) in params {
+                        if let date = parseDate(from: value), date.isUTCStartOfDay {
+                            params[key] = "'\(DateFormatter.simpleDate.string(from: date))'" // format for 4d`
+                            // APIManager.instance.authToken?.userInfo = params
+                        }
+                    }
+                    // target.params(params)
+                    target.params([params]) // need a collection for the moment
+                }
+            }*/
         }
     }
 

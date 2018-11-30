@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import Moya // Cancellable
+import QMobileAPI
 
 public extension Notification.Name {
 
@@ -27,10 +29,16 @@ public extension Notification.Name {
     public static let dataSyncForTableSuccess = Notification.Name("dataSync.table.success")
     // table sync end with error
     public static let dataSyncForTableFailed = Notification.Name("dataSync.table.failed")
-
 }
 
-import QMobileAPI
+public extension Notification.Name {
+
+    // Notify data sync will begin
+    public static let dataSyncWillLoad = Notification.Name("dataSync.will.load")
+    // Notify data sync did begin
+    public static let dataSyncDidLoad = Notification.Name("dataSync.did.load")
+
+}
 
 extension DataSync {
 
@@ -49,9 +57,19 @@ extension DataSync {
         }
     }
 
-    func dataSyncWillBegin(_ operation: Operation) {
-        Notification(name: .dataSyncWillBegin, object: self, userInfo: ["tables": self.tables, "operation": operation]).post()
-        self.delegate?.willDataSyncWillBegin(tables: self.tables, operation: operation)
+    func dataSyncWillLoad() {
+        Notification(name: .dataSyncWillLoad, object: self, userInfo: ["tables": self.tables]).post()
+        self.delegate?.willDataSyncWillLoad(tables: self.tables)
+    }
+
+    func dataSyncDidLoad      () {
+        Notification(name: .dataSyncDidLoad, object: self, userInfo: ["tables": self.tables]).post()
+        self.delegate?.willDataSyncDidLoad(tables: self.tables)
+    }
+
+    func dataSyncWillBegin(_ operation: Operation, cancellable: Cancellable) {
+        Notification(name: .dataSyncWillBegin, object: self, userInfo: ["tables": self.tables, "operation": operation, "cancellable": cancellable]).post()
+        self.delegate?.willDataSyncWillBegin(tables: self.tables, operation: operation, cancellable: cancellable)
     }
 
     func dataSyncDidBegin(_ operation: Operation) -> Bool {

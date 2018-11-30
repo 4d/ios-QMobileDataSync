@@ -8,12 +8,19 @@
 
 import Foundation
 import QMobileAPI
+import Moya
+
+/// Delegate protocol for DataSync. Follow all data initialization.
+public protocol DataInitDelegate: NSObjectProtocol {
+    func willDataSyncWillLoad(tables: [Table])
+    func willDataSyncDidLoad(tables: [Table])
+}
 
 /// Delegate protocol for DataSync. Follow all sync progression
-public protocol DataSyncDelegate: NSObjectProtocol {
+public protocol DataSyncDelegate: DataInitDelegate {
 
     /// Notify data sync will begin.
-    func willDataSyncWillBegin(tables: [Table], operation: DataSync.Operation)
+    func willDataSyncWillBegin(tables: [Table], operation: DataSync.Operation, cancellable: Cancellable)
 
     /// Notify data sync did begin.
     /// return a bool to stop sync if needed

@@ -17,21 +17,19 @@ import QMobileAPI
 
 extension DataSync {
 
+    /// Type of data sync operation
     public enum Operation {
+        /// Incremental.
         case sync
+        /// Total.
         case reload
     }
 
     /// check data store loaded, and tables structures loaded
     public func initFuture(dataStoreContextType: DataStoreContextType = .background, callbackQueue: DispatchQueue? = nil) -> SyncFuture {
-        var sequence: [SyncFuture] = []
 
         // Load data store if necessary
-        /*dataStore.drop {
-         dataStore.load {
-         
-         }*/
-
+        var sequence: [SyncFuture] = []
         if Prephirences.DataSync.firstSync && Prephirences.DataSync.dataStoreDrop {
 
             let dsLoad: SyncFuture = dataStore.drop().flatMap {
@@ -54,10 +52,7 @@ extension DataSync {
         let loadTable: Future<[Table], DataSyncError> = self.loadTable(callbackQueue: callbackQueue)
         /// check if there is table
         let checkTable: SyncFuture = loadTable.flatMap { (tables: [Table]) -> SyncResult in
-            if self.tables.isEmpty {
-                return .failure(.noTables)
-            }
-            return .success(())
+              return self.tables.isEmpty ? .failure(.noTables) : .success(())
         }
         sequence.append(checkTable)
 
@@ -86,8 +81,10 @@ extension DataSync {
                 assert(dataStoreContext.type == dataStoreContextType)
 
                 logger.info("Load table data from embedded data files")
+                self.dataSyncWillLoad()
                 do {
                     try self.loadRecordsFromFile(context: dataStoreContext, tables: tables)
+                    self.dataSyncDidLoad()
                     return .success(())
                 } catch {
                     return .failure(DataStoreError.error(from: error))

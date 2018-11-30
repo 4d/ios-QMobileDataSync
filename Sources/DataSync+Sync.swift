@@ -45,12 +45,11 @@ extension DataSync {
             // XXX maybe wait...
         }
 
-        self.dataSyncWillBegin(.sync)
+        let cancellable = CancellableComposite() // return value, a cancellable
+        self.dataSyncWillBegin(.sync, cancellable: cancellable)
 
         // Manage delegate completion event
         let completionHandler = wrap(.sync, completionHandler: completionHandler)
-
-        let cancellable = CancellableComposite() // return value, a cancellable
 
         let future = initFuture(dataStoreContextType: dataStoreContextType, callbackQueue: callbackQueue)
         future.onFailure { error in

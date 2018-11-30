@@ -24,12 +24,11 @@ extension DataSync {
             cancel()
             // XXX maybe wait...
         }
-        self.dataSyncWillBegin(.reload)
+        let cancellable = CancellableComposite() // return value, a cancellable
+        self.dataSyncWillBegin(.reload, cancellable: cancellable)
 
         // Manage delegate completion event
         let completionHandler: SyncCompletionHandler = wrap(.reload, completionHandler: completionHandler)
-
-        let cancellable = CancellableComposite() // return value, a cancellable
 
         let future = initFuture(dataStoreContextType: dataStoreContextType, callbackQueue: callbackQueue)
         future.onFailure { error in
@@ -59,14 +58,6 @@ extension DataSync {
             return
         }
 
-        // perform a data store task in background
-        //let perform = this.dataStore.perform(dataStoreContextType) { [weak self] context, save in
-        /*guard let this = self else {
-         // memory issue, must retain the dataSync object somewhere
-         completionHandler(.failure(.retain))
-         return
-         }*/
-
         let startStamp = 0
         let tables = self.tables
 
@@ -76,7 +67,7 @@ extension DataSync {
         let processCompletion = self.reloadProcessCompletionCallBack(dataStoreContextType: dataStoreContextType, tempPath: tempPath, completionHandler)
         let process = Process(tables: tables, startStamp: startStamp, cancellable: cancellable, completionHandler: processCompletion)
 
-        // assert(this.process == nil)
+        // assert(self.process == nil)
         self.process = process
 
         let locked = cancellable.perform {
@@ -91,7 +82,6 @@ extension DataSync {
                     logger.debug("Start data reloading for table \(table.name)")
 
                     let progress: APIManager.ProgressHandler = { progress in
-
                     }
 
                     let requestCancellable = self.reloadTable(table, in: tempPath, callbackQueue: callbackQueue, progress: progress)
