@@ -203,12 +203,13 @@ extension DataSync {
             if var params = APIManager.instance.authToken?.userInfo {
                 for (key, value) in params {
                     if let date = parseDate(from: value), date.isUTCStartOfDay {
-                        params[key] = "'\(DateFormatter.simpleDate.string(from: date))'" // format for 4d`
+                        params[key] = "'\(DateFormatter.simpleDate.string(from: date))'" // format for 4d
                         // APIManager.instance.authToken?.userInfo = params
                     }
                 }
                 // target.params(params)
                 target.params([params]) // need a collection for the moment
+                logger.debug("Filter query params [\(params)] for \(table.name)")
             }
         }
 
@@ -281,6 +282,28 @@ extension DataSync {
         _ = cancellable.append(cancellableRecords)
 
         return cancellable
+    }
+
+    /// Drop all data from tables in data store.
+    public func drop(dataStoreContextType: DataStoreContextType = .background, _ completionHandler: @escaping SyncCompletionHandler) -> Cancellable {
+        let result = self.dataStore.perform(dataStoreContextType, blockName: "DropTable") { context in
+            if self.isCancelled {
+                completionHandler(.failure(.cancel))
+                return
+            }
+
+            logger.info("Delete all tables data")
+            do {
+                for (table, tableInfo) in self.tablesInfoByTable {
+                    logger.verbose("Data of table \(table.name) will be deleted")
+                    let deletedCount = try context.delete(in: tableInfo)
+                    logger.debug("Data of table \(table.name) deleted: \(deletedCount)")
+                }
+            } catch {
+                completionHandler(.failure(DataSyncError.error(from: DataStoreError.error(from: error))))
+            }
+        }
+        return Cancellable
     }
 }
 
