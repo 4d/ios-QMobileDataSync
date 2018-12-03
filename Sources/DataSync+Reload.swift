@@ -285,10 +285,10 @@ extension DataSync {
     }
 
     /// Drop all data from tables in data store.
-    public func drop(dataStoreContextType: DataStoreContextType = .background, _ completionHandler: @escaping SyncCompletionHandler) -> Bool {
+    public func drop(dataStoreContextType: DataStoreContextType = .background, _ completionHandler: SyncCompletionHandler? = nil) -> Bool {
         let result = self.dataStore.perform(dataStoreContextType, blockName: "DropTable") { context in
             if self.isCancelled {
-                completionHandler(.failure(.cancel))
+                completionHandler?(.failure(.cancel))
                 return
             }
 
@@ -300,7 +300,14 @@ extension DataSync {
                     logger.debug("Data of table \(table.name) deleted: \(deletedCount)")
                 }
             } catch {
-                completionHandler(.failure(DataSyncError.error(from: DataStoreError.error(from: error))))
+                completionHandler?(.failure(DataSyncError.error(from: DataStoreError.error(from: error))))
+            }
+            do {
+                try context.commit()
+
+                completionHandler?(.success(()))
+            } catch {
+                completionHandler?(.failure(DataSyncError.error(from: error)))
             }
         }
         return result
