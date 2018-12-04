@@ -19,12 +19,12 @@ let logger = Logger.forClass(DataSync.self)
 public class DataSync {
 
     /// Object to make remote request
-    public var rest: APIManager
+    public var apiManager: APIManager
     /// Mobile data store
     public let dataStore: DataStore
 
-    public init(rest: APIManager = APIManager.instance, dataStore: DataStore = DataStoreFactory.dataStore) {
-        self.rest = rest
+    public init(apiManager: APIManager = APIManager.instance, dataStore: DataStore = DataStoreFactory.dataStore) {
+        self.apiManager = apiManager
         self.dataStore = dataStore
     }
 

@@ -81,7 +81,7 @@ extension DataSync {
             }
         }
         // from remote store?
-        return rest.tables(callbackQueue: callbackQueue) { result in
+        return self.apiManager.tables(callbackQueue: callbackQueue) { result in
             switch result {
             case .success(let remoteTables):
                 // Check if all tables accessible on remote target

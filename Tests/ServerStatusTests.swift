@@ -48,7 +48,7 @@ class ServerStatusTest: XCTestCase {
     func testOneFuturStatus() {
         let expectation = self.expectation()
         
-        let future = dataSync.rest.status()
+        let future = dataSync.apiManager.status()
         future.onComplete { result in
             expectation.fulfill()
         }
@@ -58,7 +58,7 @@ class ServerStatusTest: XCTestCase {
     
     func testOneFutureStatusForced() {
         
-        let future = dataSync.rest.status()
+        let future = dataSync.apiManager.status()
         let resultStatus = future.forced(timeout)
         
         XCTAssertNotNil(resultStatus)

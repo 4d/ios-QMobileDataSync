@@ -192,7 +192,7 @@ extension DataSync {
         let cancellable = CancellableComposite()
         let attributes: [String] = DataSync.noAttributeFilter ? [] : table.attributes.map { $0.0 }
 
-        var target = rest.base.records(from: table.name, attributes: attributes)
+        var target = self.apiManager.base.records(from: table.name, attributes: attributes)
         target.limit(Prephirences.DataSync.Request.limit)
 
         // If a filter is defined by table in data store, use it
@@ -278,7 +278,7 @@ extension DataSync {
             }
         }
 
-        let cancellableRecords = rest.request(target, callbackQueue: callbackQueue, progress: progress, completion: completion)
+        let cancellableRecords = self.apiManager.request(target, callbackQueue: callbackQueue, progress: progress, completion: completion)
         _ = cancellable.append(cancellableRecords)
 
         return cancellable

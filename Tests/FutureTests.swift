@@ -47,7 +47,7 @@ class FutureTest: XCTestCase {
     func _testOneFutureStatus() {
         let expectation = self.expectation()
         
-        let future = dataSync.rest.status()
+        let future = dataSync.apiManager.status()
         future.onComplete { result in
             expectation.fulfill()
         }
@@ -58,7 +58,7 @@ class FutureTest: XCTestCase {
     func testFutureResultify() {
         let expectation = self.expectation()
         
-        let future = dataSync.rest.status().resultify()
+        let future = dataSync.apiManager.status().resultify()
         future.onComplete { result in
             expectation.fulfill()
         }
