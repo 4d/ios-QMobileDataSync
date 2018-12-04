@@ -33,7 +33,7 @@ extension DataStoreTableInfo {
         table.dataURI = "/rest/\(self.originalName)"
 
         let fields = self.fields.compactMap { $0.api }
-        let relations = self.relationshipsByName.values.compactMap { $0.api }
+        let relations = self.relationships.compactMap { $0.api }
         table.attributes = (fields + relations).dictionary { $0.name }
         /*let attributesKey = table.attributes.keys*/
 
