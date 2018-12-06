@@ -10,19 +10,24 @@ import Foundation
 import QMobileAPI
 import QMobileDataStore
 
-let kkeyMapping = "keyMapping"
-let kfilter = "filter"
+private enum UserInfoKey: String {
+    case keyMapping // original name
+    case filter
+    case primaryKey
+}
+
 extension DataStoreTableInfo {
 
+    fileprivate func userInfo(_ key: UserInfoKey) -> Any? {
+        return self.userInfo?[key.rawValue]
+    }
+
     var originalName: String {
-        if let name = self.userInfo?[kkeyMapping] as? String {
-            return name
-        }
-        return self.name
+        return userInfo(.keyMapping) as? String ?? self.name
     }
 
     var filter: String? {
-        return self.userInfo?[kfilter] as? String
+        return userInfo(.filter) as? String
     }
 
     var api: Table {
@@ -37,7 +42,7 @@ extension DataStoreTableInfo {
         table.attributes = (fields + relations).dictionary { $0.name }
         /*let attributesKey = table.attributes.keys*/
 
-        if let primaryKey = self.userInfo?["primaryKey"] as? String ??
+        if let primaryKey = self.userInfo(.primaryKey) as? String ??
               self.userInfo?["primary_key"] as? String {
             let json = JSON(parseJSON: primaryKey)
             if let array = json.array {

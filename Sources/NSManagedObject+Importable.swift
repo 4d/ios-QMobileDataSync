@@ -17,7 +17,7 @@ let keyPrivateCoreDataField = "qmobile"
 extension NSManagedObject: RecordImportable {
 
     public var tableName: String {
-        if let name = self.entity.userInfo?[kkeyMapping] as? String {
+        if let name = self.entity.userInfo?["keyMapping"] as? String {
             return name
         }
         return self.entity.name ?? ""
