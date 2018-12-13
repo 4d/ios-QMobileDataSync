@@ -10,24 +10,64 @@ import Foundation
 import QMobileAPI
 import QMobileDataStore
 
-private enum UserInfoKey: String {
+private enum DataStoreTableInfoUserInfoKey: String {
     case keyMapping // original name
-    case filter
     case primaryKey
+
+    // Rest
+    case limit
+    case methods
+    case filter
 }
 
 extension DataStoreTableInfo {
 
-    fileprivate func userInfo(_ key: UserInfoKey) -> Any? {
-        return self.userInfo?[key.rawValue]
+    fileprivate func userInfo(_ key: DataStoreTableInfoUserInfoKey) -> String? {
+        return self.userInfo?[key.rawValue] as? String
     }
 
     var originalName: String {
-        return userInfo(.keyMapping) as? String ?? self.name
+        return userInfo(.keyMapping) ?? self.name
     }
 
     var filter: String? {
-        return userInfo(.filter) as? String
+        return userInfo(.filter)
+    }
+
+    var limit: String? {
+        return userInfo(.limit)
+    }
+
+    var methods: [TableMethod] {
+        guard let methods = userInfo(.methods) else {
+            return []
+        }
+        return methods.split(separator: ",").map { TableMethod(name: String($0)) }
+    }
+
+    var primaryKey: String? {
+        return self.userInfo(.primaryKey) ?? self.userInfo?["primary_key"] as? String
+    }
+
+    func keys(for table: Table) -> [String: Key] {
+        guard let primaryKey = self.primaryKey else {
+            assertionFailure("No primary key defined in core data model using key primary_key")
+            return [:]
+        }
+        var keys: [String: Key] = [:]
+        let json = JSON(parseJSON: primaryKey)
+        if let array = json.array {
+            for element in array {
+                if let name = element["field_name"].string/*, attributesKey.contains(name)*/ {
+                    keys[name] = Key(name: name, attribute: table.attributes[name])
+                }
+            }
+        } else if let name = json["field_name"].string/*, attributesKey.contains(name)*/ {
+            keys[name] = Key(name: name, attribute: table.attributes[name])
+        } else /*if attributesKey.contains(primaryKey)*/ {
+            keys[primaryKey] = Key(name: primaryKey, attribute: table.attributes[primaryKey])  // simple string without json
+        }
+        return keys
     }
 
     var api: Table {
@@ -35,76 +75,94 @@ extension DataStoreTableInfo {
         table.className = self.originalName
         table.collectionName = "\(self.originalName)Collection"
         table.scope = "public"
-        table.dataURI = "/rest/\(self.originalName)"
+        table.dataURI = "/\(APIManager.instance.base.path)/\(self.originalName)"
 
         let fields = self.fields.compactMap { $0.api }
         let relations = self.relationships.compactMap { $0.api }
         table.attributes = (fields + relations).dictionary { $0.name }
-        /*let attributesKey = table.attributes.keys*/
-
-        if let primaryKey = self.userInfo(.primaryKey) as? String ??
-              self.userInfo?["primary_key"] as? String {
-            let json = JSON(parseJSON: primaryKey)
-            if let array = json.array {
-                table.keys = [:]
-                for element in array {
-                    if let name = element["field_name"].string/*, attributesKey.contains(name)*/ {
-                        table.keys[name] = Key(name: name, attribute: table.attributes[name])
-                    }
-                }
-            } else if let name = json["field_name"].string/*, attributesKey.contains(name)*/ {
-                table.keys[name] = Key(name: name, attribute: table.attributes[name])
-            } else /*if attributesKey.contains(primaryKey)*/ {
-                table.keys[primaryKey] = Key(name: primaryKey, attribute: table.attributes[primaryKey])  // simple string without json
-            }
-        } else {
-            assertionFailure("No primary key defined in core data model using key primary_key")
-        }
-
-        if let methods = self.userInfo?["methods"] as? [String] {
-            table.methods = methods.map { TableMethod(name: $0) }
-        }
+        table.keys = self.keys(for: table)
+        table.methods = self.methods
 
         return table
     }
 
- }
+}
+
+private enum DataStoreFieldInfoUserInfoKey: String {
+    case keyMapping // original name
+
+    case indexed, identifying, simpleDate
+    case integer, duration, image
+
+    case path
+}
 
 extension DataStoreFieldInfo {
 
-    var originalName: String {
-        if let name = self.userInfo?["keyMapping"] as? String {
-            return name
-        }
-        return self.name
+    fileprivate func userInfo(_ key: DataStoreFieldInfoUserInfoKey) -> String? {
+        return self.userInfo?[key.rawValue] as? String
     }
+    fileprivate func userInfoAsBool(_ key: DataStoreFieldInfoUserInfoKey) -> Bool? {
+        guard let string = self.userInfo(key) else {
+            return nil
+        }
+        return Bool(string)
+    }
+
+    var originalName: String {
+        return userInfo(.keyMapping) ?? self.name
+    }
+
+    var path: String? {
+        return userInfo(.path)
+    }
+
     var api: Attribute? {
+        // Excluse private fields
         if self.name.contains(keyPrivateCoreDataField+"__") {
             return nil
         }
 
-        // if storage
-        var attribute = Attribute(
-            name: self.originalName,
-            kind: .storage,
-            scope: .public,
-            type: self.type.api(userInfo: self.userInfo)
-        )
-        if originalName != self.name {
-            attribute.nameTransformer = AttributeNameTransformer(encoded: originalName, decoded: name)
-        }
+        if let path = self.path {
+            // If relation N to 1 used as Transformable
+            assert(self.type == .transformable)
+            // type.many ?
+            var attribute = Attribute(
+                name: self.originalName,
+                kind: .relatedEntity,
+                scope: .public,
+                type: AttributeRelativeType(rawValue: path)
+            )
+            attribute.path = path
+            // foreignKey?
 
-        attribute.indexed = self.userInfo?["indexed"] as? Bool ?? false
-        attribute.identifying = self.userInfo?["identifying"] as? Bool ?? false
-        attribute.simpleDate = self.userInfo?["simpleDate"] as? Bool ?? (self.type == .date)
-        return attribute
+            return attribute
+        } else {
+            // If storage
+            var attribute = Attribute(
+                name: self.originalName,
+                kind: .storage,
+                scope: .public,
+                type: self.storageType
+            )
+            if originalName != self.name {
+                attribute.nameTransformer = AttributeNameTransformer(encoded: originalName, decoded: name)
+            }
+
+            attribute.indexed = self.userInfoAsBool(.indexed) ?? false
+            attribute.identifying = self.userInfoAsBool(.identifying) ?? false
+            attribute.simpleDate = self.userInfoAsBool(.simpleDate) ?? (self.type == .date)
+
+            return attribute
+        }
     }
 
 }
 
-extension DataStoreFieldType {
-    func api(userInfo: [AnyHashable: Any]?) -> AttributeStorageType {
-        switch self {
+extension DataStoreFieldInfo {
+
+    var storageType: AttributeStorageType {
+        switch self.type {
         case .boolean:
             return .bool
         case .string:
@@ -118,20 +176,11 @@ extension DataStoreFieldType {
         case .binary:
             return .blob
         case .integer32:
-            if let isType = userInfo?["integer"] as? Bool, isType {
-                return .word
-            }
-            return .long
+            return self.userInfoAsBool(.integer) ?? false ? .word: .long
         case .integer64:
-            if let isType = userInfo?["duration"] as? Bool, isType {
-                return .duration
-            }
-            return .long64
+            return self.userInfoAsBool(.duration) ?? false ? .duration: .long64
         case .transformable:
-            if let isType = userInfo?["image"] as? Bool, isType {
-                return .image
-            }
-            return .object
+            return self.userInfoAsBool(.image) ?? false ? .image: .object
         case .undefined:
             return .string
         case .objectID:
@@ -144,9 +193,18 @@ extension DataStoreFieldType {
     }
 }
 
+private enum DataStoreRelationInfoUserInfoKey: String {
+    case keyMapping // original name
+}
+
 extension DataStoreRelationInfo {
+
+    fileprivate func userInfo(_ key: DataStoreRelationInfoUserInfoKey) -> String? {
+        return self.userInfo?[key.rawValue] as? String
+    }
+
     var originalName: String {
-        if let name = self.userInfo?["keyMapping"] as? String {
+        if let name = self.userInfo(.keyMapping) {
             return name
         }
         return self.name

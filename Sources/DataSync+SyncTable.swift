@@ -110,12 +110,8 @@ extension DataSync {
                 }
             }
         }
-        let attributes: [String]
-        if let no = Prephirences.sharedInstance["dataSync.noAttributeFilter"] as? Bool, no {
-            attributes = []
-        } else {
-            attributes = table.attributes.map { $0.0 }
-        }
+        let attributes: [String] = Prephirences.DataSync.noAttributeFilter ? [] : table.attributes.map { $0.0 }
+
         let cancellableRecords = self.apiManager.records(table: table, attributes: attributes, recursive: true, configure: configureRequest, initializer: initializer, queue: callbackQueue, completionHandler: completion)
 
         cancellable.append(cancellableRecords)

@@ -15,10 +15,6 @@ import Prephirences
 
 extension DataSync {
 
-    static var noAttributeFilter: Bool = {
-         return Prephirences.sharedInstance["dataSync.noAttributeFilter"] as? Bool ?? false
-    }()
-
     public func reload(dataStoreContextType: DataStoreContextType = .background, callbackQueue: DispatchQueue? = nil, _ completionHandler: @escaping SyncCompletionHandler) -> Cancellable {
         if !isCancelled {
             cancel()
@@ -98,7 +94,7 @@ extension DataSync {
          logger.warning("Cannot get data: context cannot be created on data store")
          completionHandler(.failure(.dataStoreNotReady))
          return
-
+         
          }*/
     }
 
@@ -190,33 +186,44 @@ extension DataSync {
         dataSyncBegin(for: table, .reload)
 
         let cancellable = CancellableComposite()
-        let attributes: [String] = DataSync.noAttributeFilter ? [] : table.attributes.map { $0.0 }
+        let attributes: [String] = Prephirences.DataSync.noAttributeFilter ? [] : table.attributes.map { $0.0 }
 
         var target = self.apiManager.base.records(from: table.name, attributes: attributes)
         target.limit(Prephirences.DataSync.Request.limit)
 
-        // If a filter is defined by table in data store, use it
-        if let filter = tablesInfoByTable[table]?.filter {
-            target.filter(filter)
+        if let tableInfo = tablesInfoByTable[table] {
+            // If a filter is defined by table in data store, use it
+            if let filter = tableInfo.filter {
+                target.filter(filter)
 
-            /// Get user info to filter data
-            if var params = APIManager.instance.authToken?.userInfo {
-                for (key, value) in params {
-                    if let date = parseDate(from: value), date.isUTCStartOfDay {
-                        params[key] = "'\(DateFormatter.simpleDate.string(from: date))'" // format for 4d
-                        // APIManager.instance.authToken?.userInfo = params
+                /// Get user info to filter data
+                if var params = APIManager.instance.authToken?.userInfo {
+                    for (key, value) in params {
+                        if let date = parseDate(from: value), date.isUTCStartOfDay {
+                            params[key] = "'\(DateFormatter.simpleDate.string(from: date))'" // format for 4d
+                            // APIManager.instance.authToken?.userInfo = params
+                        }
                     }
+                    // target.params(params)
+                    target.params([params]) // need a collection for the moment
+                    logger.debug("Filter query params [\(params)] for \(table.name)")
                 }
-                // target.params(params)
-                target.params([params]) // need a collection for the moment
-                logger.debug("Filter query params [\(params)] for \(table.name)")
             }
         }
 
+        // Expand according to relation
+        let relatedEntityAttributes = table.attributes.filter { $0.1.kind == .relatedEntity }
+        if !relatedEntityAttributes.isEmpty {
+            let expand = relatedEntityAttributes.map { $0.0 }.joined(separator: ",")
+            target.expand(expand)
+        }
+
+        // what to do when finishing
         let completion: APIManager.Completion = { result in
             switch result {
             case .success(let response):
 
+                // Write to file
                 let path: Path = path + "\(table.name).\(DataSync.Preferences.jsonDataExtension)"
                 let data = response.data
 
@@ -248,7 +255,7 @@ extension DataSync {
                 if pageInfo.isLast, let process = self.process {
                     if process.lock() {
                         defer {
-                           _ = process.unlock()
+                            _ = process.unlock()
                         }
 
                         // Set current table completed
@@ -264,8 +271,10 @@ extension DataSync {
                     }
                 }
             case .failure(let error):
+                // notify for one table
                 self.dataSyncFailed(for: table, with: APIError.error(from: error), .reload)
 
+                // notify process
                 if var process = self.process {
                     if process.lock() {
                         defer {
@@ -278,6 +287,7 @@ extension DataSync {
             }
         }
 
+        // launch the request
         let cancellableRecords = self.apiManager.request(target, callbackQueue: callbackQueue, progress: progress, completion: completion)
         _ = cancellable.append(cancellableRecords)
 

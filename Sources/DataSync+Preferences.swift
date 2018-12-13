@@ -30,6 +30,9 @@ extension Prephirences {
             }
         }
 
+        /// Use or not attribute filters
+        static let noAttributeFilter = instance["noAttributeFilter"] as? Bool ?? false
+
         /// Is it first synchronisation?.
         static var firstSync: Bool {
             get {
