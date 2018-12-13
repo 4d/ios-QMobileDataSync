@@ -35,7 +35,7 @@ class FutureTest: XCTestCase {
         apiManager.stubDelegate = RemoteConfig.instance
         let dataStore = DataStoreFactory.dataStore
         
-        dataSync = DataSync(rest: apiManager, dataStore: dataStore)
+        dataSync = DataSync(apiManager: apiManager, dataStore: dataStore)
         dataSync.bundle = bundle
     }
     

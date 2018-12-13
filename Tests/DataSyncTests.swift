@@ -12,7 +12,7 @@ import XCTest
 import QMobileDataStore
 import QMobileAPI
 import Result
-
+import Prephirences
 
 class DataSyncTests: XCTestCase {
     
@@ -32,7 +32,7 @@ class DataSyncTests: XCTestCase {
         apiManager.stubDelegate = RemoteConfig.instance
         let dataStore = DataStoreFactory.dataStore
 
-        dataSync = DataSync(rest: apiManager, dataStore: dataStore)
+        dataSync = DataSync(apiManager: apiManager, dataStore: dataStore)
         dataSync.bundle = bundle
 
         if !dataStore.isLoaded { // XXX not thread safe if parallel test
@@ -253,9 +253,9 @@ class DataSyncTests: XCTestCase {
     }
     
     func _testTwoSerialDataSyncWithDeleted() {
-        DataSync.Preferences.deleteRecordsAtStart = true
+        Prephirences.DataSync.deleteRecordsAtStart = true
         defer {
-                DataSync.Preferences.deleteRecordsAtStart = false
+            Prephirences.DataSync.deleteRecordsAtStart = false
         }
         let expectation = self.expectation()
         let cancellable = dataSync.sync { result in

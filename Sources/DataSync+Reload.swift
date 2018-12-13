@@ -209,6 +209,11 @@ extension DataSync {
                     logger.debug("Filter query params [\(params)] for \(table.name)")
                 }
             }
+
+            // custom limit by table
+            if let limitString = tableInfo.limit, let limit = Int(limitString) {
+                  target.limit(limit)
+            }
         }
 
         // Expand according to relation
