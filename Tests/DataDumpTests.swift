@@ -74,8 +74,10 @@ class DataDumpTests: XCTestCase {
             }
         }
     }
-    
-    
 
-    
+    public func testPageInfoDummy() {
+        XCTAssertTrue(PageInfo.dummy.isLast)
+        XCTAssertTrue(PageInfo.dummy.isFirst)
+    }
+
 }
