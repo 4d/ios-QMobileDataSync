@@ -19,7 +19,7 @@ extension DataSync {
 
     typealias RecordInitializer = (String, JSON) -> Record?
     /// Initialize or find an existing record
-    func recordInitializer(table: Table, tableInfo: DataStoreTableInfo, context: DataStoreContext) -> RecordInitializer {
+    static func recordInitializer(table: Table, tableInfo: DataStoreTableInfo, context: DataStoreContext) -> RecordInitializer {
         return { tableName, json in
 
             assert(tableName == tableInfo.originalName)
@@ -58,7 +58,7 @@ extension DataSync {
             assert(ImportableParser.tableName(for: json) == tableInfo.originalName)
 
             /// Parse the records from json and create core data object in passed context.
-            let records = try table.parser.parseArray(json: json, with: self.recordInitializer(table: table, tableInfo: tableInfo, context: context))
+            let records = try table.parser.parseArray(json: json, with: DataSync.recordInitializer(table: table, tableInfo: tableInfo, context: context))
             logger.info("\(records.count) records imported from '\(tableInfo.name)' file")
         }
 
@@ -77,7 +77,7 @@ extension DataSync {
 
                     assert(ImportableParser.tableName(for: json) == tableInfo.originalName) // file with wrong format and an another table, renamed?
 
-                    let records = try table.parser.parseArray(json: json, with: self.recordInitializer(table: table, tableInfo: tableInfo, context: context))
+                    let records = try table.parser.parseArray(json: json, with: DataSync.recordInitializer(table: table, tableInfo: tableInfo, context: context))
                     logger.info("\(records.count) records imported from '\(tableName)' file")
 
                 } catch {
@@ -139,8 +139,8 @@ extension Record: RecordImportable {
         return store.isAttribute(key: key)
     }
 
-    public func `import`(attribute: Attribute, value: Any?, with mapper: AttributeValueMapper, parse: (JSON, RecordImportable, AttributeValueMapper, String?) -> Void) {
-        return store.import(attribute: attribute, value: value, with: mapper, parse: parse)
+    public func `import`(attribute: Attribute, value: Any?, with mapper: AttributeValueMapper) {
+        return store.import(attribute: attribute, value: value, with: mapper)
     }
 
     public func importPrivateAttribute(key: String, value: Any?) {

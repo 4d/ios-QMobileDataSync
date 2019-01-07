@@ -35,36 +35,41 @@ extension NSManagedObject: RecordImportable {
         return self.entity.attributesByName[key] != nil
     }
 
-    public func `import`(attribute: Attribute, value: Any?, with mapper: AttributeValueMapper, parse: (JSON, RecordImportable, AttributeValueMapper, String?) -> Void) {
+    public func `import`(attribute: Attribute, value: Any?, with mapper: AttributeValueMapper) {
         let key = attribute.safeName
+        guard has(key: key) else {
+            logger.debug("Trying to set unknown property \(key) to \(self.tableName) object")
+            return
+        }
         if let type = attribute.type as? AttributeRelativeType, isRelationship(key: key) { // AND destination is related entity on core data!!!
 
             let relationTableName = type.relationTable
-
             //guard let relationTableInfo = context.tableInfo(for: relationTableName) else { return }
             //let relationTable = relationTableInfo.api
+            guard let relationTable = DataSync.instance.table(for: relationTableName) else { return }
+            guard let relationTableInfo = DataSync.instance.tablesInfoByTable[relationTable] else { return }
 
-            let dataSync = DataSync.instance
-            guard let relationTable = dataSync.table(for: relationTableName) else { return }
-            guard let relationTableInfo = dataSync.tablesInfoByTable[relationTable] else { return }
             guard let context = self.managedObjectContext else { return }
-            let initializer = dataSync.recordInitializer(table: relationTable, tableInfo: relationTableInfo, context: context)
+            let initializer = DataSync.recordInitializer(table: relationTable, tableInfo: relationTableInfo, context: context)
 
             if let value = value {
-                let entity = JSON(value)
-                if let importable = initializer(tableName, entity) {
-                    parse(entity, importable, mapper, tableName)
+                let parser = relationTable.parser
+                let json = JSON(value)
+                if type.many {
+                   // parser.parseArray(json: json, using: mapper,with : initializer)
+                } else {
+                    if let importable = initializer(relationTableName, json) {
+                        parser.parse(json: json, into: importable, using: mapper, tableName: relationTableName)
+
+                        self.setValue(importable.store, forKey: key)
+                    }
                 }
             } else {
                 // XXX remove link?
             }
         } else {
-            if has(key: key) {
-                let transformedValue = mapper.map(value, with: attribute)
-                self.setValue(transformedValue, forKey: key)
-            } else {
-                logger.debug("Trying to set unknown property \(key) to \(self.tableName) object")
-            }
+            let transformedValue = mapper.map(value, with: attribute)
+            self.setValue(transformedValue, forKey: key)
         }
     }
 

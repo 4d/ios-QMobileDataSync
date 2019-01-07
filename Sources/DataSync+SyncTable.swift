@@ -54,7 +54,7 @@ extension DataSync {
             return cancellable
         }
 
-        let initializer = self.recordInitializer(table: table, tableInfo: tableInfo, context: context)
+        let initializer = DataSync.recordInitializer(table: table, tableInfo: tableInfo, context: context)
 
         let completion: ((Result<([Record], PageInfo), APIError>) -> Void) = { result in
             switch result {
