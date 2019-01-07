@@ -61,7 +61,7 @@ extension DataSync {
         let tableInfo = self.dataStore.tablesInfo.filter { !$0.isAbstract }
 
         let infos: [(Table, DataStoreTableInfo)] = tableInfo.map { ($0.api, $0) }
-        self.tablesInfoByTable = Dictionary(infos)
+        self.tablesInfoByTable = Dictionary(uniqueKeysWithValues: infos)
 
         logger.info("Table strutures from data store: \(Array(self.tables.map { $0.name }))")
 
@@ -132,13 +132,4 @@ extension DataSync {
         }
     }
 
-}
-
-extension Dictionary { // factorize
-    init(_ pairs: [Element]) {
-        self.init()
-        for (k, v) in pairs {
-            self[k] = v
-        }
-    }
 }

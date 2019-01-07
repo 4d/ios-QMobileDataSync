@@ -126,7 +126,6 @@ extension DataStoreFieldInfo {
         if let path = self.path {
             // If relation N to 1 used as Transformable
             assert(self.type == .transformable)
-            // type.many ?
             var attribute = Attribute(
                 name: self.originalName,
                 kind: .relatedEntity,
@@ -138,7 +137,7 @@ extension DataStoreFieldInfo {
 
             return attribute
         } else {
-            // If storage
+            // If normal storage
             var attribute = Attribute(
                 name: self.originalName,
                 kind: .storage,
@@ -195,31 +194,31 @@ extension DataStoreFieldInfo {
 
 private enum DataStoreRelationInfoUserInfoKey: String {
     case keyMapping // original name
+    case path, reversePath
 }
 
 extension DataStoreRelationInfo {
 
-    fileprivate func userInfo(_ key: DataStoreRelationInfoUserInfoKey) -> String? {
-        return self.userInfo?[key.rawValue] as? String
+    fileprivate func userInfo(_ key: DataStoreRelationInfoUserInfoKey) -> Any? {
+        return self.userInfo?[key.rawValue]
     }
 
     var originalName: String {
-        if let name = self.userInfo(.keyMapping) {
-            return name
-        }
-        return self.name
+        return self.userInfo(.keyMapping) as? String ?? self.name
     }
+
     var api: Attribute {
         let type = AttributeRelativeType(rawValue: self.destinationTable?.name ?? "") // FIX it
-        let kind: AttributeKind = .relatedEntity // FIX it, according to link could be a .relatedEntities
-        // type.many ?
-        let attr = Attribute(
+        let kind: AttributeKind = isToMany ? .relatedEntities: .relatedEntity
+
+        var attr = Attribute(
             name: self.originalName,
             kind: kind,
             scope: .public,
             type: type
         )
-        // attr.path, reversePath ?
+        attr.path = self.userInfo(.path) as? String
+        attr.reversePath = self.userInfo(.reversePath) as? Bool ?? false
         return attr
     }
 }
