@@ -131,11 +131,11 @@ extension Record: RecordImportable {
         return store.has(key: key)
     }
 
-    func isRelationship(key: String) -> Bool {
+    public func isRelationship(key: String) -> Bool {
         return store.isRelationship(key: key)
     }
 
-    func isAttribute(key: String) -> Bool {
+    public func isAttribute(key: String) -> Bool {
         return store.isAttribute(key: key)
     }
 

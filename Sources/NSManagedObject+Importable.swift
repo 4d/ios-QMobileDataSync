@@ -39,13 +39,16 @@ extension NSManagedObject: RecordImportable {
         let key = attribute.safeName
         if let type = attribute.type as? AttributeRelativeType, isRelationship(key: key) { // AND destination is related entity on core data!!!
 
-           /* guard let context = self.managedObjectContext else { return }
             let relationTableName = type.relationTable
-            guard let relationTable = DataSync.instance.table(for: relationTableName) else { return }
-            guard let relationTableInfo = DataSync.instance.tablesInfoByTable[relationTable] else { return }
-            //guard let relationTableInfo = context.tableInfo(for: tableName) else { return }
 
-            let initializer = DataSync.instance.recordInitializer(table: relationTable, tableInfo: relationTableInfo, context: context)
+            //guard let relationTableInfo = context.tableInfo(for: relationTableName) else { return }
+            //let relationTable = relationTableInfo.api
+
+            let dataSync = DataSync.instance
+            guard let relationTable = dataSync.table(for: relationTableName) else { return }
+            guard let relationTableInfo = dataSync.tablesInfoByTable[relationTable] else { return }
+            guard let context = self.managedObjectContext else { return }
+            let initializer = dataSync.recordInitializer(table: relationTable, tableInfo: relationTableInfo, context: context)
 
             if let value = value {
                 let entity = JSON(value)
@@ -54,7 +57,7 @@ extension NSManagedObject: RecordImportable {
                 }
             } else {
                 // XXX remove link?
-            }*/
+            }
         } else {
             if has(key: key) {
                 let transformedValue = mapper.map(value, with: attribute)
