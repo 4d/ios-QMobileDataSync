@@ -20,7 +20,7 @@ extension DataSync {
     typealias RecordInitializer = (String, JSON) -> Record?
     /// Initialize or find an existing record
     func recordInitializer(table: Table, tableInfo: DataStoreTableInfo, context: DataStoreContext) -> RecordInitializer {
-        let recordInitializer: RecordInitializer = { tableName, json in
+        return { tableName, json in
 
             assert(tableName == tableInfo.originalName)
             assert(tableName == table.name)
@@ -42,7 +42,6 @@ extension DataSync {
             }
             return record
         }
-        return recordInitializer
     }
 
     /// Load records from files, need to be done in data store context
@@ -132,8 +131,16 @@ extension Record: RecordImportable {
         return store.has(key: key)
     }
 
-    public func `import`(attribute: Attribute, value: Any?, with mapper: AttributeValueMapper) {
-        return store.import(attribute: attribute, value: value, with: mapper)
+    func isRelationship(key: String) -> Bool {
+        return store.isRelationship(key: key)
+    }
+
+    func isAttribute(key: String) -> Bool {
+        return store.isAttribute(key: key)
+    }
+
+    public func `import`(attribute: Attribute, value: Any?, with mapper: AttributeValueMapper, parse: (JSON, RecordImportable, AttributeValueMapper, String?) -> Void) {
+        return store.import(attribute: attribute, value: value, with: mapper, parse: parse)
     }
 
     public func importPrivateAttribute(key: String, value: Any?) {

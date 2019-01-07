@@ -27,16 +27,41 @@ extension NSManagedObject: RecordImportable {
         return self.entity.propertiesByName[key] != nil
     }
 
-    public func `import`(attribute: Attribute, value: Any?, with mapper: AttributeValueMapper) {
-        guard attribute.storageType != nil else {
-            return
-        }
+    public func isRelationship(key: String) -> Bool {
+        return self.entity.relationshipsByName[key] != nil
+    }
+
+    public func isAttribute(key: String) -> Bool {
+        return self.entity.attributesByName[key] != nil
+    }
+
+    public func `import`(attribute: Attribute, value: Any?, with mapper: AttributeValueMapper, parse: (JSON, RecordImportable, AttributeValueMapper, String?) -> Void) {
         let key = attribute.safeName
-        if has(key: key) {
-            let transformedValue = mapper.map(value, with: attribute)
-            self.setValue(transformedValue, forKey: key)
+        if let type = attribute.type as? AttributeRelativeType, isRelationship(key: key) { // AND destination is related entity on core data!!!
+
+           /* guard let context = self.managedObjectContext else { return }
+            let relationTableName = type.relationTable
+            guard let relationTable = DataSync.instance.table(for: relationTableName) else { return }
+            guard let relationTableInfo = DataSync.instance.tablesInfoByTable[relationTable] else { return }
+            //guard let relationTableInfo = context.tableInfo(for: tableName) else { return }
+
+            let initializer = DataSync.instance.recordInitializer(table: relationTable, tableInfo: relationTableInfo, context: context)
+
+            if let value = value {
+                let entity = JSON(value)
+                if let importable = initializer(tableName, entity) {
+                    parse(entity, importable, mapper, tableName)
+                }
+            } else {
+                // XXX remove link?
+            }*/
         } else {
-            logger.debug("Trying to set unknown property \(key) to \(self.tableName) object")
+            if has(key: key) {
+                let transformedValue = mapper.map(value, with: attribute)
+                self.setValue(transformedValue, forKey: key)
+            } else {
+                logger.debug("Trying to set unknown property \(key) to \(self.tableName) object")
+            }
         }
     }
 

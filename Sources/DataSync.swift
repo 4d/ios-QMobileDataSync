@@ -55,10 +55,11 @@ public class DataSync {
         case byTable
         case onCompletion
     }
+
 }
 
-extension Table: Hashable {
-    public var hashValue: Int {
-        return self.name.hashValue
+extension DataSync {
+    func table(for name: String) -> Table? {
+        return tablesInfoByTable.keys.filter({ $0.name == name }).first
     }
 }
