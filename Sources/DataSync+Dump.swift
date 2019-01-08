@@ -37,7 +37,7 @@ extension DataSync {
                     if file.exists {
                         try file.deleteFile()
                     }
-                    // FIXME: cannot json encode with some value type like optionnal...
+                    // ENHANCE: cannot json encode with some value type like optionnal...
                     // JSONEncoder().encode(dico)
                     let data = try JSON(dico).rawData()
                     try DataFile(path: file).write(data)

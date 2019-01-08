@@ -80,6 +80,7 @@ extension DataSync {
                     let records = try table.parser.parseArray(json: json, with: DataSync.recordInitializer(table: table, tableInfo: tableInfo, context: context))
                     logger.info("\(records.count) records imported from '\(tableName)' file")
 
+                    try? cacheFile.deleteFile()
                 } catch {
                     logger.warning("Failed to parse \(cacheFile): \(error)")
                 }
@@ -89,6 +90,16 @@ extension DataSync {
         }
 
         try context.commit()
+    }
+
+    func deleteRecordsCacheFile() throws {
+        for (table, _) in self.tablesInfoByTable {
+            let tableName = table.name
+            let cacheFile: Path = self.cachePath + "\(tableName).\(Preferences.jsonDataExtension)"
+            if cacheFile.exists {
+                try? cacheFile.deleteFile()
+            }
+        }
     }
 
     // (a save publish information to UI)
@@ -131,20 +142,20 @@ extension Record: RecordImportable {
         return store.has(key: key)
     }
 
-    public func isRelationship(key: String) -> Bool {
-        return store.isRelationship(key: key)
+    public func isRelation(key: String) -> Bool {
+        return store.isRelation(key: key)
     }
 
-    public func isAttribute(key: String) -> Bool {
-        return store.isAttribute(key: key)
+    public func isField(key: String) -> Bool {
+        return store.isField(key: key)
     }
 
-    public func `import`(attribute: Attribute, value: Any?, with mapper: AttributeValueMapper) {
-        return store.import(attribute: attribute, value: value, with: mapper)
+    public func set(attribute: Attribute, value: Any?, with mapper: AttributeValueMapper) {
+        return store.set(attribute: attribute, value: value, with: mapper)
     }
 
-    public func importPrivateAttribute(key: String, value: Any?) {
-        store.importPrivateAttribute(key: key, value: value)
+    public func setPrivateAttribute(key: String, value: Any?) {
+        store.setPrivateAttribute(key: key, value: value)
     }
 
     public func get(attribute: Attribute, with mapper: AttributeValueMapper) -> Any? {

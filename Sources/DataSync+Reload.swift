@@ -60,6 +60,7 @@ extension DataSync {
         // From remote
         let tempPath: Path = .userTemporary
 
+        try? self.deleteRecordsCacheFile()
         let processCompletion = self.reloadProcessCompletionCallBack(dataStoreContextType: dataStoreContextType, tempPath: tempPath, completionHandler)
         let process = Process(tables: tables, startStamp: startStamp, cancellable: cancellable, completionHandler: processCompletion)
 
@@ -192,6 +193,15 @@ extension DataSync {
         target.limit(Prephirences.DataSync.Request.limit)
 
         if let tableInfo = tablesInfoByTable[table] {
+
+            // Maybe do not synchronize the table
+            if tableInfo.slave != nil {
+                let pageInfo: PageInfo = .dummy
+                self.dataSyncEnd(for: table, with: pageInfo, .reload)
+                self.process?.completed(for: table, with: .success(pageInfo))
+                return cancellable
+            }
+
             // If a filter is defined by table in data store, use it
             if let filter = tableInfo.filter {
                 target.filter(filter)
@@ -231,6 +241,14 @@ extension DataSync {
                 // Write to file
                 let path: Path = path + "\(table.name).\(DataSync.Preferences.jsonDataExtension)"
                 let data = response.data
+                if path.exists {
+                    try? path.deleteFile()
+                }
+                do {
+                    try DataFile(path: path).write(response.data)
+                } catch {
+                    logger.warning("failed to write to \(path)")
+                }
 
                 #if DEBUG
                 // Check before writing to file if correct data.
@@ -244,27 +262,16 @@ extension DataSync {
                 }
                 #endif
 
-                if path.exists {
-                    try? path.deleteFile()
-                }
-                do {
-                    try DataFile(path: path).write(response.data)
-                } catch {
-                    logger.warning("failed to write to \(path)")
-                }
-
-                let pageInfo = PageInfo.dummy
-                assert(pageInfo.isLast)
+                let pageInfo: PageInfo = .dummy // here multipage is deactivated
                 self.dataSyncEnd(for: table, with: pageInfo, .reload)
 
                 if pageInfo.isLast, let process = self.process {
                     if process.lock() {
-                        defer {
-                            _ = process.unlock()
-                        }
+                        defer { _ = process.unlock() }
 
                         // Set current table completed
                         process.completed(for: table, with: .success(pageInfo))
+
                         // Check if we must relaunch some request due to stamp
                         if let tableStatus = process.checkCompleted() {
                             // There is some table to relaunch sync because stamp are not equal
@@ -282,11 +289,9 @@ extension DataSync {
                 // notify process
                 if var process = self.process {
                     if process.lock() {
-                        defer {
-                            _ = process.unlock()
-                        }
-                        self.process?.completed(for: table, with: .mapOtherError(error))
-                        _ = self.process?.checkCompleted()
+                        defer { _ = process.unlock() }
+                        process.completed(for: table, with: .mapOtherError(error))
+                        _ = process.checkCompleted()
                     }
                 }
             }
@@ -342,8 +347,7 @@ extension Date {
 extension Calendar {
     static let utc: Calendar  = {
         var calendar = Calendar.current
-        // swiftlint:disable:next force_cast
-        calendar.timeZone = TimeZone(identifier: "UTC")!
+        calendar.timeZone = TimeZone(identifier: "UTC")! // swiftlint:disable:this superfluous_disable_command force_cast
         return calendar
     }()
     static let localTime: Calendar  = {

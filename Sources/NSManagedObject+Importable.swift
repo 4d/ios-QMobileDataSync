@@ -9,9 +9,9 @@
 import Foundation
 import QMobileAPI
 
-// CLEAN move else where ???
 import CoreData
 
+// key to previx private fields (start with __ on rest 4d api)
 let keyPrivateCoreDataField = "qmobile"
 
 extension NSManagedObject: RecordImportable {
@@ -27,21 +27,21 @@ extension NSManagedObject: RecordImportable {
         return self.entity.propertiesByName[key] != nil
     }
 
-    public func isRelationship(key: String) -> Bool {
+    public func isRelation(key: String) -> Bool {
         return self.entity.relationshipsByName[key] != nil
     }
 
-    public func isAttribute(key: String) -> Bool {
+    public func isField(key: String) -> Bool {
         return self.entity.attributesByName[key] != nil
     }
 
-    public func `import`(attribute: Attribute, value: Any?, with mapper: AttributeValueMapper) {
+    public func set(attribute: Attribute, value: Any?, with mapper: AttributeValueMapper) {
         let key = attribute.safeName
         guard has(key: key) else {
             logger.debug("Trying to set unknown property \(key) to \(self.tableName) object")
             return
         }
-        if let type = attribute.type as? AttributeRelativeType, isRelationship(key: key) { // AND destination is related entity on core data!!!
+        if let type = attribute.type as? AttributeRelativeType, isRelation(key: key) { // AND destination is related entity on core data!!!
 
             let relationTableName = type.relationTable
             //guard let relationTableInfo = context.tableInfo(for: relationTableName) else { return }
@@ -60,7 +60,6 @@ extension NSManagedObject: RecordImportable {
                 } else {
                     if let importable = initializer(relationTableName, json) {
                         parser.parse(json: json, into: importable, using: mapper, tableName: relationTableName)
-
                         self.setValue(importable.store, forKey: key)
                     }
                 }
@@ -73,11 +72,12 @@ extension NSManagedObject: RecordImportable {
         }
     }
 
-    public func importPrivateAttribute(key: String, value: Any?) {
+    public func setPrivateAttribute(key: String, value: Any?) {
+        /// prefix private key with a constant. could not start with __
         let newKey = keyPrivateCoreDataField + key
-        if self.entity.propertiesByName[newKey] != nil {
+        if has(key: newKey) {
             self.setValue(value, forKey: newKey)
-        } else if !key.hasPrefix("__") {
+        } else if !key.hasPrefix(RestKey.reserved) {
             logger.verbose {"Skipped property \(key) for \(self.tableName) object. Not defined in model. You can add it" }
         }
     }
@@ -95,7 +95,7 @@ extension NSManagedObject: RecordImportable {
 
     public func getPrivateAttribute(key: String) -> Any? {
         let newKey = keyPrivateCoreDataField + key
-        if self.entity.propertiesByName[newKey] != nil {
+        if has(key: newKey) {
             return self.value(forKey: newKey)
         }
         return nil

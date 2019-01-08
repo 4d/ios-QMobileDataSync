@@ -11,13 +11,24 @@ import QMobileAPI
 import QMobileDataStore
 
 private enum DataStoreTableInfoUserInfoKey: String {
-    case keyMapping // original name
-    case primaryKey
+    // - Sync
 
-    // Rest
+    ///Original name
+    case keyMapping
+    /// Information about primary key
+    case primaryKey
+    /// If defined, only slave table (ie. used with relation only)
+    case slave
+
+    // - Rest
+
+    /// Limit request
     case limit
+    /// Methods of table
     case methods
+    /// Filter for table data
     case filter
+
 }
 
 extension DataStoreTableInfo {
@@ -47,6 +58,10 @@ extension DataStoreTableInfo {
 
     var primaryKey: String? {
         return self.userInfo(.primaryKey) ?? self.userInfo?["primary_key"] as? String
+    }
+
+    var slave: String? {
+        return self.userInfo(.slave)
     }
 
     func keys(for table: Table) -> [String: Key] {

@@ -13,7 +13,7 @@ extension Prephirences {
 
     struct DataSync {
 
-        static let instance = MutableProxyPreferences(preferences: sharedMutableInstance!, key: "dataSync.") // swiftlint:disable:this force_cast
+        static let instance = MutableProxyPreferences(preferences: sharedMutableInstance!, key: "dataSync.") // swiftlint:disable:this superfluous_disable_command force_cast
 
         /// Load data from embedded files. Default true.
         static let dataFromFile = instance["fromFiles"] as? Bool ?? true
