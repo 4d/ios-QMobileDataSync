@@ -57,7 +57,7 @@ extension DataStoreTableInfo {
     }
 
     var primaryKey: String? {
-        return self.userInfo(.primaryKey) ?? self.userInfo?["primary_key"] as? String
+        return self.userInfo(.primaryKey)
     }
 
     var slave: String? {
@@ -210,6 +210,7 @@ extension DataStoreFieldInfo {
 private enum DataStoreRelationInfoUserInfoKey: String {
     case keyMapping // original name
     case path, reversePath
+    case expand
 }
 
 extension DataStoreRelationInfo {
@@ -224,7 +225,8 @@ extension DataStoreRelationInfo {
 
     var api: Attribute {
         var type = AttributeRelativeType(rawValue: self.destinationTable?.name ?? "") // FIX it
-        type.many = isToMany
+        type.isToMany = self.isToMany
+        type.expand = self.userInfo(.expand) as? String
         let kind: AttributeKind = isToMany ? .relatedEntities: .relatedEntity
 
         var attr = Attribute(
@@ -235,6 +237,7 @@ extension DataStoreRelationInfo {
         )
         attr.path = self.userInfo(.path) as? String
         attr.reversePath = self.userInfo(.reversePath) as? Bool ?? false
+
         return attr
     }
 }

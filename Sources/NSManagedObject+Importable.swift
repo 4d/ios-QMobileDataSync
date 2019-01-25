@@ -55,7 +55,7 @@ extension NSManagedObject: RecordImportable {
             if let value = value {
                 let parser = relationTable.parser
                 let json = JSON(value)
-                if type.many {
+                if type.isToMany {
                    // parser.parseArray(json: json, using: mapper,with : initializer)
                 } else {
                     if let importable = initializer(relationTableName, json) {

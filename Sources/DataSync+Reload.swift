@@ -187,7 +187,25 @@ extension DataSync {
         dataSyncBegin(for: table, .reload)
 
         let cancellable = CancellableComposite()
-        let attributes: [String] = Prephirences.DataSync.noAttributeFilter ? [] : table.attributes.map { $0.0 }
+        let attributes: [String]
+
+        if Prephirences.DataSync.noAttributeFilter {
+            attributes = []
+        } else if Prephirences.DataSync.expandAttribute {
+            attributes = table.attributes.filter { !$0.1.type.isRelative }.map { $0.0 }
+        } else {
+            attributes = table.attributes.compactMap { (name, attribute) in
+                if let relationType = attribute.relativeType {
+                    if let expand = relationType.expand {
+                        let expands = expand.split(separator: ",")
+                        return expands.map { "\(name).\($0)"}.joined(separator: ",")
+                    }
+                    return nil
+                } else {
+                    return name
+                }
+            }
+        }
 
         var target = self.apiManager.base.records(from: table.name, attributes: attributes)
         target.limit(Prephirences.DataSync.Request.limit)
@@ -227,10 +245,13 @@ extension DataSync {
         }
 
         // Expand according to relation
-        let relatedEntityAttributes = table.attributes.filter { $0.1.kind == .relatedEntity }
-        if !relatedEntityAttributes.isEmpty {
-            let expand = relatedEntityAttributes.map { $0.0 }.joined(separator: ",")
-            target.expand(expand)
+
+        if Prephirences.DataSync.expandAttribute { // will expend related entity will all fields
+            let relatedEntityAttributes = table.attributes.filter { $0.1.kind == .relatedEntity }
+            if !relatedEntityAttributes.isEmpty {
+                let expand = relatedEntityAttributes.map { $0.0 }.joined(separator: ",")
+                target.expand(expand)
+            }
         }
 
         // what to do when finishing
