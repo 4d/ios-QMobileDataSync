@@ -148,6 +148,9 @@ extension DataStoreFieldInfo {
                 type: AttributeRelativeType(rawValue: path)
             )
             attribute.path = path
+            if originalName != self.name {
+                attribute.nameTransformer = AttributeNameTransformer(encoded: originalName, decoded: name)
+            }
             // foreignKey?
 
             return attribute
@@ -229,15 +232,18 @@ extension DataStoreRelationInfo {
         type.expand = self.userInfo(.expand) as? String
         let kind: AttributeKind = isToMany ? .relatedEntities: .relatedEntity
 
-        var attr = Attribute(
+        var attribute = Attribute(
             name: self.originalName,
             kind: kind,
             scope: .public,
             type: type
         )
-        attr.path = self.userInfo(.path) as? String
-        attr.reversePath = self.userInfo(.reversePath) as? Bool ?? false
+        attribute.path = self.userInfo(.path) as? String
+        attribute.reversePath = self.userInfo(.reversePath) as? Bool ?? false
+        if originalName != self.name {
+            attribute.nameTransformer = AttributeNameTransformer(encoded: originalName, decoded: name)
+        }
 
-        return attr
+        return attribute
     }
 }

@@ -38,7 +38,7 @@ extension NSManagedObject: RecordImportable {
     public func set(attribute: Attribute, value: Any?, with mapper: AttributeValueMapper) {
         let key = attribute.safeName
         guard has(key: key) else {
-            logger.debug("Trying to set unknown property \(key) to \(self.tableName) object")
+            logger.warning("Trying to set unknown property \(key) to \(self.tableName) object")
             return
         }
         if let type = attribute.type as? AttributeRelativeType, isRelation(key: key) { // AND destination is related entity on core data!!!
