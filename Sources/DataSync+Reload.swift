@@ -232,9 +232,9 @@ extension DataSync {
                             // APIManager.instance.authToken?.userInfo = params
                         }
                     }
-                    // target.params(params)
-                    target.params([params]) // need a collection for the moment
-                    logger.debug("Filter query params [\(params)] for \(table.name)")
+                    target.params(params)
+                    // target.params([params])
+                    logger.debug("Filter query params \(params) for \(table.name)")
                 }
             }
 
