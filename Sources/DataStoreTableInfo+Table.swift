@@ -86,11 +86,12 @@ extension DataStoreTableInfo {
     }
 
     var api: Table {
-        var table = Table(name: self.originalName)
-        table.className = self.originalName
-        table.collectionName = "\(self.originalName)Collection"
+        let originalName = self.originalName
+        var table = Table(name: originalName)
+        table.className = originalName
+        table.collectionName = "\(originalName)Collection"
         table.scope = "public"
-        table.dataURI = "/\(APIManager.instance.base.path)/\(self.originalName)"
+        table.dataURI = "/\(APIManager.instance.base.path)/\(originalName)"
 
         let fields = self.fields.compactMap { $0.api }
         let relations = self.relationships.compactMap { $0.api }
@@ -141,8 +142,9 @@ extension DataStoreFieldInfo {
         if let path = self.path {
             // If relation N to 1 used as Transformable
             assert(self.type == .transformable)
+            let originalName = self.originalName
             var attribute = Attribute(
-                name: self.originalName,
+                name: originalName,
                 kind: .relatedEntity,
                 scope: .public,
                 type: AttributeRelativeType(rawValue: path)
@@ -156,8 +158,9 @@ extension DataStoreFieldInfo {
             return attribute
         } else {
             // If normal storage
+            let originalName = self.originalName
             var attribute = Attribute(
-                name: self.originalName,
+                name: originalName,
                 kind: .storage,
                 scope: .public,
                 type: self.storageType
@@ -232,8 +235,9 @@ extension DataStoreRelationInfo {
         type.expand = self.userInfo(.expand) as? String
         let kind: AttributeKind = isToMany ? .relatedEntities: .relatedEntity
 
+        let originalName = self.originalName
         var attribute = Attribute(
-            name: self.originalName,
+            name: originalName,
             kind: kind,
             scope: .public,
             type: type
