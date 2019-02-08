@@ -46,8 +46,14 @@ extension NSManagedObject: RecordImportable {
             let relationTableName = type.relationTable
             //guard let relationTableInfo = context.tableInfo(for: relationTableName) else { return }
             //let relationTable = relationTableInfo.api
-            guard let relationTable = DataSync.instance.table(for: relationTableName) else { return }
-            guard let relationTableInfo = DataSync.instance.tablesInfoByTable[relationTable] else { return }
+            guard let relationTable = DataSync.instance.table(for: relationTableName) else {
+                logger.warning("Could not find related table \(relationTableName) in structure")
+                return
+            }
+            guard let relationTableInfo = DataSync.instance.tablesInfoByTable[relationTable] else {
+                logger.warning("Could not find related table information \(relationTableName) in structure")
+                return
+            }
 
             guard let context = self.managedObjectContext else { return }
             let initializer = DataSync.recordInitializer(table: relationTable, tableInfo: relationTableInfo, context: context)
