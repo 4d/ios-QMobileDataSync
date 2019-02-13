@@ -15,6 +15,7 @@ import QMobileAPI
 import QMobileDataStore
 
 extension DataSync {
+
     /// Load table structures from embedded files (not working if definition in asset)
     private func loadTableFromEmbeddedFiles() -> [Table] {
         // from files

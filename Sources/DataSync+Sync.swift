@@ -7,66 +7,61 @@
 //
 
 import Foundation
-import Result
+
 import Prephirences
-import BrightFutures
+import Result
 import Moya
 
-import QMobileDataStore
 import QMobileAPI
-
-let kStampFilter = "__stamp"
-
-extension Lockable {
-
-    public func perform(lockedTask task: () -> Void) -> Bool {
-        if lock() {
-            defer {
-                _ = unlock()
-            }
-            task()
-            return true
-        }
-        return false
-    }
-
-}
+import QMobileDataStore
 
 // MARK: Sync
 extension DataSync {
 
-    public typealias SyncResult = Result<Void, DataSyncError>
-    public typealias SyncCompletionHandler = (SyncResult) -> Void
-    public typealias SyncFuture = Future<Void, DataSyncError>
-
-    public func sync(dataStoreContextType: DataStoreContextType = .background, callbackQueue: DispatchQueue? = nil, _ completionHandler: @escaping SyncCompletionHandler) -> Cancellable {
+    /// Synchronize the data.
+    public func sync(operation: DataSync.Operation = .sync,
+                     dataStoreContextType: DataStoreContextType = .background,
+                     callbackQueue: DispatchQueue? = nil,
+                     _ completionHandler: @escaping SyncCompletionHandler) -> Cancellable {
         if !isCancelled {
-            cancel()
-            // XXX maybe wait...
+            cancel()  // XXX maybe wait...
         }
 
         let cancellable = CancellableComposite() // return value, a cancellable
-        self.dataSyncWillBegin(.sync, cancellable: cancellable)
+        self.dataSyncWillBegin(operation, cancellable: cancellable)
 
         // Manage delegate completion event
-        let completionHandler = wrap(.sync, completionHandler: completionHandler)
+        let completionHandler: SyncCompletionHandler = wrap(operation, completionHandler: completionHandler)
 
         let future = initFuture(dataStoreContextType: dataStoreContextType, callbackQueue: callbackQueue)
         future.onFailure { error in
             completionHandler(.failure(error))
         }
         future.onSuccess { [weak self] in
-            guard let this = self else {
-                // memory issue, must retain the dataSync object somewhere
+            guard let this = self else { // memory issue, must retain the dataSync object somewhere
                 completionHandler(.failure(.retain))
                 return
             }
-            this.doSync(dataStoreContextType: dataStoreContextType, callbackQueue: callbackQueue, cancellable: cancellable, completionHandler)
+            switch operation {
+            case .sync:
+                this.doSync(operation: operation,
+                            dataStoreContextType: dataStoreContextType,
+                            callbackQueue: callbackQueue,
+                            cancellable: cancellable,
+                            completionHandler: completionHandler)
+            case .reload:
+                this.doReload(operation: operation,
+                              dataStoreContextType: dataStoreContextType,
+                              callbackQueue: callbackQueue,
+                              cancellable: cancellable,
+                              completionHandler: completionHandler)
+            }
+
         }
         return cancellable
     }
 
-    private func doSync(dataStoreContextType: DataStoreContextType = .background, callbackQueue: DispatchQueue? = nil, cancellable: CancellableComposite, _ completionHandler: @escaping SyncCompletionHandler) {
+    private func doSync(operation: DataSync.Operation, dataStoreContextType: DataStoreContextType = .background, callbackQueue: DispatchQueue? = nil, cancellable: CancellableComposite, completionHandler: @escaping SyncCompletionHandler) {
         logger.info("Start data synchronisation")
 
         // Check if metadata could be read
@@ -77,7 +72,7 @@ extension DataSync {
         }
 
         // Ask delegate if there is any reason to stop process
-        let stop = self.dataSyncDidBegin(.sync)
+        let stop = self.dataSyncDidBegin(operation)
         if stop {
             logger.info("Data synchronisation stop requested before starting the process")
             completionHandler(.failure(.delegateRequestStop))
@@ -97,9 +92,12 @@ extension DataSync {
             let startStamp = metadata.stampStorage.globalStamp
             let tables = this.tables
 
-            // From remote
+            /// Create process and callback
             let processCompletion = this.syncProcessCompletionCallBack(completionHandler, context: context)
-            let process = Process(tables: tables, startStamp: startStamp, cancellable: cancellable, completionHandler: processCompletion)
+            let process = Process(tables: tables,
+                                  startStamp: startStamp,
+                                  cancellable: cancellable,
+                                  completionHandler: processCompletion)
 
             // assert(this.process == nil)
             this.process = process
@@ -113,7 +111,13 @@ extension DataSync {
 
                     for table in this.tables {
                         logger.debug("Start data synchronisation for table \(table.name)")
-                        let requestCancellable = this.syncTable(table, callbackQueue: callbackQueue, configureRequest: configureRequest, context: context)
+
+                        let progress: APIManager.ProgressHandler = { progress in }
+                        let requestCancellable = this.syncTable(table,
+                                                                operation: operation,
+                                                                callbackQueue: callbackQueue,
+                                                                configureRequest: configureRequest,
+                                                                context: context)
                         _ = cancellable.appendUnlocked(requestCancellable)  // XXX no reentrance for lock
                     }
                 }

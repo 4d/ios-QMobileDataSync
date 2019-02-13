@@ -21,8 +21,9 @@ extension DataSync {
         /*return*/ self.instance.loadTable(completionHander)
     }
 
-    public static func sync(_ completionHander: @escaping SyncCompletionHandler) -> Cancellable? {
-        return self.instance.sync(completionHander)
+    /// Launch a sync operation.
+    public static func sync(operation: DataSync.Operation = .sync, _ completionHander: @escaping SyncCompletionHandler) -> Cancellable? {
+        return self.instance.sync(operation: operation, completionHander)
     }
 
 }

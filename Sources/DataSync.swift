@@ -15,6 +15,7 @@ import Result
 import FileKit
 
 let logger = Logger.forClass(DataSync.self)
+let kStampFilter = "__stamp"
 
 public class DataSync {
 
@@ -61,5 +62,16 @@ public class DataSync {
 extension DataSync {
     func table(for name: String) -> Table? {
         return tablesInfoByTable.keys.filter({ $0.name == name }).first
+    }
+
+    func parseDate(from value: Any) -> Date? {
+        if let date = value as? Date {
+            return date
+        } else if let string = value as? String, let date = string.dateFromRFC3339 ?? string.simpleDate {
+            return date
+        } else if let json = value as? JSON, let date = json.date {
+            return date
+        }
+        return nil
     }
 }

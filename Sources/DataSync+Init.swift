@@ -25,6 +25,10 @@ extension DataSync {
         case reload
     }
 
+    public typealias SyncResult = Result<Void, DataSyncError>
+    public typealias SyncCompletionHandler = (SyncResult) -> Void
+    public typealias SyncFuture = Future<Void, DataSyncError>
+
     /// check data store loaded, and tables structures loaded
     public func initFuture(dataStoreContextType: DataStoreContextType = .background, callbackQueue: DispatchQueue? = nil) -> SyncFuture {
 

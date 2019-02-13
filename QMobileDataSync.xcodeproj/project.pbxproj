@@ -55,6 +55,15 @@
 		485554F01ECAFE35001EE365 /* DataStore+Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485554ED1ECAF853001EE365 /* DataStore+Future.swift */; };
 		485554F31ECB00D4001EE365 /* DataSync+Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485554F11ECB004C001EE365 /* DataSync+Future.swift */; };
 		485554F51ECB2B71001EE365 /* DataStoreTableStampStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485554F41ECB2B71001EE365 /* DataStoreTableStampStorageTests.swift */; };
+		48572BBB22144DEA005D1AFC /* Lockable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48572BBA22144DEA005D1AFC /* Lockable.swift */; };
+		48572BBD22145081005D1AFC /* Calendar+Zone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48572BBC22145081005D1AFC /* Calendar+Zone.swift */; };
+		48572BBF22145093005D1AFC /* Date+StartOfDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48572BBE22145093005D1AFC /* Date+StartOfDay.swift */; };
+		48572BC1221450C1005D1AFC /* PageInfo+Dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48572BC0221450C1005D1AFC /* PageInfo+Dummy.swift */; };
+		48572BC2221450FF005D1AFC /* Calendar+Zone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48572BBC22145081005D1AFC /* Calendar+Zone.swift */; };
+		48572BC3221450FF005D1AFC /* Date+StartOfDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48572BBE22145093005D1AFC /* Date+StartOfDay.swift */; };
+		48572BC4221450FF005D1AFC /* PageInfo+Dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48572BC0221450C1005D1AFC /* PageInfo+Dummy.swift */; };
+		48572BC522145102005D1AFC /* Lockable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48572BBA22144DEA005D1AFC /* Lockable.swift */; };
+		48572BC7221454ED005D1AFC /* DataSync+Drop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48572BC6221454ED005D1AFC /* DataSync+Drop.swift */; };
 		486081071F8CBAF500591942 /* DataStoreTableInfo+Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486081061F8CBAF500591942 /* DataStoreTableInfo+Table.swift */; };
 		4865B1AB1EC1BA3100085634 /* BrightFutures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4865B1AA1EC1BA3100085634 /* BrightFutures.framework */; };
 		4865B1AC1EC1BA3100085634 /* BrightFutures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4865B1AA1EC1BA3100085634 /* BrightFutures.framework */; };
@@ -191,6 +200,11 @@
 		485554ED1ECAF853001EE365 /* DataStore+Future.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataStore+Future.swift"; sourceTree = "<group>"; };
 		485554F11ECB004C001EE365 /* DataSync+Future.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Future.swift"; sourceTree = "<group>"; };
 		485554F41ECB2B71001EE365 /* DataStoreTableStampStorageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStoreTableStampStorageTests.swift; sourceTree = "<group>"; };
+		48572BBA22144DEA005D1AFC /* Lockable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lockable.swift; sourceTree = "<group>"; };
+		48572BBC22145081005D1AFC /* Calendar+Zone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Zone.swift"; sourceTree = "<group>"; };
+		48572BBE22145093005D1AFC /* Date+StartOfDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+StartOfDay.swift"; sourceTree = "<group>"; };
+		48572BC0221450C1005D1AFC /* PageInfo+Dummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PageInfo+Dummy.swift"; sourceTree = "<group>"; };
+		48572BC6221454ED005D1AFC /* DataSync+Drop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataSync+Drop.swift"; sourceTree = "<group>"; };
 		486081061F8CBAF500591942 /* DataStoreTableInfo+Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataStoreTableInfo+Table.swift"; sourceTree = "<group>"; };
 		4865B1A91EC1B7BF00085634 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		4865B1AA1EC1BA3100085634 /* BrightFutures.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BrightFutures.framework; path = Carthage/Build/iOS/BrightFutures.framework; sourceTree = "<group>"; };
@@ -374,6 +388,10 @@
 				486A22FA1F55B55C00B5A5E6 /* DataStoreContext+Queue.swift */,
 				486A23001F55B74300B5A5E6 /* DispatchQueue+Sync.swift */,
 				486A23031F55BF9D00B5A5E6 /* BrightFutures+Sync.swift */,
+				48572BBA22144DEA005D1AFC /* Lockable.swift */,
+				48572BBC22145081005D1AFC /* Calendar+Zone.swift */,
+				48572BBE22145093005D1AFC /* Date+StartOfDay.swift */,
+				48572BC0221450C1005D1AFC /* PageInfo+Dummy.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -469,6 +487,7 @@
 				4843784C1F471C02004C5101 /* DataSync+Notification.swift */,
 				481EDC721F4C568F00E97960 /* DataSync+Cache.swift */,
 				4811229B1F682001001EE34E /* DataSync+Dump.swift */,
+				48572BC6221454ED005D1AFC /* DataSync+Drop.swift */,
 				484428FF1EC99973008658B8 /* API */,
 				484428FE1EC99969008658B8 /* Configuration */,
 				484803A11EBCB1660094D84C /* Extensions */,
@@ -808,9 +827,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				486A22FF1F55B69400B5A5E6 /* DataSync+Init.swift in Sources */,
+				48572BBF22145093005D1AFC /* Date+StartOfDay.swift in Sources */,
 				4837277E1EB8A8DF0060B064 /* DataSync.swift in Sources */,
 				484429011EC999A6008658B8 /* DataSync+Sync.swift in Sources */,
 				484428F71EC998D0008658B8 /* DataSyncDelegate.swift in Sources */,
+				48572BC7221454ED005D1AFC /* DataSync+Drop.swift in Sources */,
 				481EDC731F4C568F00E97960 /* DataSync+Cache.swift in Sources */,
 				484803851EBC76D70094D84C /* DataSync+Singleton.swift in Sources */,
 				485554F01ECAFE35001EE365 /* DataStore+Future.swift in Sources */,
@@ -824,6 +845,7 @@
 				486A22FD1F55B68100B5A5E6 /* DataSync+SyncTable.swift in Sources */,
 				484428FB1EC99922008658B8 /* Sequence+Result.swift in Sources */,
 				484428F91EC998F0008658B8 /* DataSyncError.swift in Sources */,
+				48572BC1221450C1005D1AFC /* PageInfo+Dummy.swift in Sources */,
 				4843784D1F471C02004C5101 /* DataSync+Notification.swift in Sources */,
 				484803A51EBCB5C50094D84C /* DataSync+Records.swift in Sources */,
 				48FBBFAE1F554A4000E920B6 /* API+Future.swift in Sources */,
@@ -833,7 +855,9 @@
 				486081071F8CBAF500591942 /* DataStoreTableInfo+Table.swift in Sources */,
 				484428FD1EC9995E008658B8 /* DataSync+Process.swift in Sources */,
 				4811229C1F682001001EE34E /* DataSync+Dump.swift in Sources */,
+				48572BBB22144DEA005D1AFC /* Lockable.swift in Sources */,
 				484803A31EBCB2340094D84C /* DataSync+Table.swift in Sources */,
+				48572BBD22145081005D1AFC /* Calendar+Zone.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -877,6 +901,7 @@
 				48DB1F6221ABEA7B00B97E26 /* DataSyncError.swift in Sources */,
 				48DB1F6721ABEA7F00B97E26 /* TableStampStorage.swift in Sources */,
 				48DB1F6D21ABEA8800B97E26 /* Array+Sync.swift in Sources */,
+				48572BC3221450FF005D1AFC /* Date+StartOfDay.swift in Sources */,
 				48DB1F6C21ABEA8800B97E26 /* NSManagedObject+Importable.swift in Sources */,
 				48DB1F7021ABEA8800B97E26 /* DispatchQueue+Sync.swift in Sources */,
 				48DB1F5F21ABEA7B00B97E26 /* DataSync+Process.swift in Sources */,
@@ -886,8 +911,11 @@
 				48DB1F6821ABEA7F00B97E26 /* DataSync+Table.swift in Sources */,
 				48DB1F7221ABEA8D00B97E26 /* DataStore+Future.swift in Sources */,
 				48DB1F6421ABEA7B00B97E26 /* DataSync+Notification.swift in Sources */,
+				48572BC522145102005D1AFC /* Lockable.swift in Sources */,
 				48DB1F5A21ABEA7B00B97E26 /* DataSync.swift in Sources */,
 				48DB1F6621ABEA7B00B97E26 /* DataSync+Dump.swift in Sources */,
+				48572BC2221450FF005D1AFC /* Calendar+Zone.swift in Sources */,
+				48572BC4221450FF005D1AFC /* PageInfo+Dummy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
