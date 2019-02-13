@@ -128,26 +128,22 @@ extension DataSync {
                     return
                 }
 
-                let result = self.dataStore.perform(dataStoreContextType, blockName: "LoadCacheDataAfterRealoading") { context in
-                    if self.isCancelled {
+                let result = self.dataStore.perform(dataStoreContextType, blockName: "LoadCacheDataAfterRealoading") { [weak self] context in
+                    guard let this = self else {
+                        completionHandler(.failure(.retain))
+                        return
+                    }
+                    if this.isCancelled {
                         completionHandler(.failure(.cancel))
                         return
                     }
 
                     logger.info("Delete all tables data before loading from files")
-                    do {
-                        for (table, tableInfo) in self.tablesInfoByTable {
-                            logger.verbose("Data of table \(table.name) will be deleted")
-                            let deletedCount = try context.delete(in: tableInfo)
-                            logger.debug("Data of table \(table.name) deleted: \(deletedCount)")
-                        }
-                    } catch {
-                        completionHandler(.failure(DataSyncError.error(from: DataStoreError.error(from: error))))
-                    }
+                    _ = this.doDrop(context, completionHandler) // XXX if failed, go on?
 
                     logger.info("Load table data from cache data files")
                     do {
-                        try self.loadRecordsFromCache(context: context)
+                        try this.loadRecordsFromCache(context: context)
                         logger.debug("Load table data from cache data files success")
                         completionHandler(.success(()))
                     } catch {

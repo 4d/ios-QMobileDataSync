@@ -17,8 +17,10 @@ import QMobileDataStore
 
 extension DataSync {
 
+    /// Alias for record initialized. table name and json information.
     typealias RecordInitializer = (String, JSON) -> Record?
-    /// Initialize or find an existing record
+
+    /// Initialize or find an existing record.
     static func recordInitializer(table: Table, tableInfo: DataStoreTableInfo, context: DataStoreContext) -> RecordInitializer {
         return { tableName, json in
 
@@ -44,22 +46,22 @@ extension DataSync {
         }
     }
 
-    /// Load records from files, need to be done in data store context
+    /// Load records from files, need to be done in data store context.
     func loadRecordsFromFile(context: DataStoreContext, tables: [Table]? = nil) throws {
         // load data from files by table.
         for (table, tableInfo) in self.tablesInfoByTable {
             guard tables?.contains(table) ?? true else { continue } // could filter on some tables.
-
+            let tableName = table.name
             // Get json
             guard let json = NSDataAsset(name: table.name)?.json ??
                 NSDataAsset(name: tableInfo.name)?.json ??
                 self.bundle.json(forResource: tableInfo.name, withExtension: Preferences.jsonDataExtension) else { continue }
 
-            assert(ImportableParser.tableName(for: json) == tableInfo.originalName)
+            assert(ImportableParser.tableName(for: json) == tableInfo.originalName) // file with wrong format and an another table, renamed?
 
-            /// Parse the records from json and create core data object in passed context.
+            // Parse the records from json and create core data object in passed context.
             let records = try table.parser.parseArray(json: json, with: DataSync.recordInitializer(table: table, tableInfo: tableInfo, context: context))
-            logger.info("\(records.count) records imported from '\(tableInfo.name)' file")
+            logger.info("\(records.count) records imported from '\(tableName)' file")
         }
 
         // finally flush the context.
@@ -67,31 +69,28 @@ extension DataSync {
     }
 
     /// We download to a cache folder when reloading. Then we load from this cache.
-    func loadRecordsFromCache(context: DataStoreContext) throws {
+    func loadRecordsFromCache(context: DataStoreContext, tables: [Table]? = nil) throws {
         for (table, tableInfo) in self.tablesInfoByTable {
+            guard tables?.contains(table) ?? true else { continue } // could filter on some tables.
             let tableName = table.name
+            // Get json from file
             let cacheFile: Path = self.cachePath + "\(tableName).\(Preferences.jsonDataExtension)"
-            if cacheFile.exists {
-                do {
-                    let json = try JSON(path: cacheFile)
+            guard let json = cacheFile.json else { continue }
 
-                    assert(ImportableParser.tableName(for: json) == tableInfo.originalName) // file with wrong format and an another table, renamed?
+            assert(ImportableParser.tableName(for: json) == tableInfo.originalName) // file with wrong format and an another table, renamed?
 
-                    let records = try table.parser.parseArray(json: json, with: DataSync.recordInitializer(table: table, tableInfo: tableInfo, context: context))
-                    logger.info("\(records.count) records imported from '\(tableName)' file")
+            // Parse the records from json and create core data object in passed context.
+            let records = try table.parser.parseArray(json: json, with: DataSync.recordInitializer(table: table, tableInfo: tableInfo, context: context))
+            logger.info("\(records.count) records imported from '\(tableName)' file")
 
-                    try? cacheFile.deleteFile()
-                } catch {
-                    logger.warning("Failed to parse \(cacheFile): \(error)")
-                }
-            } else {
-                logger.warning("No cache file \(cacheFile)")
-            }
+            try? cacheFile.deleteFile()
         }
 
+        // finally flush the context.
         try context.commit()
     }
 
+    /// Remove all records cache files.
     func deleteRecordsCacheFile() throws {
         for (table, _) in self.tablesInfoByTable {
             let tableName = table.name
@@ -102,7 +101,7 @@ extension DataSync {
         }
     }
 
-    // (a save publish information to UI)
+    // (a save: publish information to UI)
     @discardableResult
     func tryCommit(_ context: DataStoreContext) -> Bool {
         do {
@@ -116,6 +115,22 @@ extension DataSync {
 
 }
 
+// MARK: JSON extensions
+extension Path {
+    fileprivate var json: JSON? {
+        if self.exists {
+            do {
+                return try JSON(path: self)
+            } catch {
+                logger.warning("Failed to parse \(self): \(error)")
+                try? self.deleteFile() // remove invalid file
+            }
+        } else {
+            logger.warning("No cache file \(self)")
+        }
+        return nil
+    }
+}
 extension NSDataAsset {
     var json: JSON? {
         return try? JSON(data: self.data)
@@ -131,6 +146,7 @@ extension Bundle {
     }
 }
 
+// MARK: RecordImportable
 import QMobileDataStore
 extension Record: RecordImportable {
 
