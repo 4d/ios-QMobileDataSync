@@ -12,6 +12,7 @@ import QMobileDataStore
 import Result
 import Moya
 
+/// Error of `DataSync` process.
 public enum DataSyncError: Swift.Error {
     /// Data sync object is no more retained in memory
     case retain
@@ -48,8 +49,10 @@ public enum DataSyncError: Swift.Error {
 
 }
 
+// MARK: - ErrorConvertible
 extension DataSyncError: ErrorConvertible {
 
+    /// Convert an error to a `DataSyncError`.
     public static func error(from underlying: Swift.Error) -> DataSyncError {
         if let apiError = underlying as? APIError {
             return .apiError(apiError)
@@ -76,7 +79,9 @@ extension DataSyncError: ErrorConvertible {
     }
 }
 
+// MARK: - Response
 extension DataSyncError {
+    /// If any return the server response embedded in error.
     public var response: Response? {
         switch self {
         case .apiError(let error):
@@ -85,6 +90,7 @@ extension DataSyncError {
             return nil
         }
     }
+    /// If any return the server response string.
     public var responseString: String? {
         switch self {
         case .apiError(let error):
@@ -95,15 +101,7 @@ extension DataSyncError {
     }
 }
 
-extension String {
-    var localized: String {
-        return localized(with: "")
-    }
-    func localized(with comment: String = "") -> String {
-        return NSLocalizedString(self, bundle: Bundle(for: DataSync.self), comment: comment)
-    }
-}
-
+// MARK: - LocalizedError
 extension DataSyncError: LocalizedError {
 
     public var errorDescription: String? {
@@ -163,5 +161,15 @@ extension DataSyncError: LocalizedError {
 
     public var helpAnchor: String? {
         return nil
+    }
+}
+
+// MARK: - String extension to localize
+extension String {
+    var localized: String {
+        return localized(with: "")
+    }
+    func localized(with comment: String = "") -> String {
+        return NSLocalizedString(self, bundle: Bundle(for: DataSync.self), comment: comment)
     }
 }

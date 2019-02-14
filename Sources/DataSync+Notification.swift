@@ -12,30 +12,30 @@ import QMobileAPI
 
 public extension Notification.Name {
 
-    // Notify data sync will begin
+    /// Notify data sync will begin
     public static let dataSyncWillBegin = Notification.Name("dataSync.will.begin")
-    // Notify data sync did begin
+    /// Notify data sync did begin
     public static let dataSyncDidBegin = Notification.Name("dataSync.did.begin")
     // notify sync end with success
     public static let dataSyncSuccess = Notification.Name("dataSync.success")
-    // notify sync failed
+    /// notify sync failed
     public static let dataSyncFailed = Notification.Name("dataSync.failed")
 
-    // sync begin for one table
+    /// sync begin for one table
     public static let dataSyncForTableBegin = Notification.Name("dataSync.table.begin")
-    // each page is published
+    /// each page is published
     public static let dataSyncForTableProgress = Notification.Name("dataSync.table.progress")
-    // table sync end with success
+    /// table sync end with success
     public static let dataSyncForTableSuccess = Notification.Name("dataSync.table.success")
-    // table sync end with error
+    /// table sync end with error
     public static let dataSyncForTableFailed = Notification.Name("dataSync.table.failed")
 }
 
 public extension Notification.Name {
 
-    // Notify data sync will begin
+    /// Notify data sync will begin
     public static let dataSyncWillLoad = Notification.Name("dataSync.will.load")
-    // Notify data sync did begin
+    /// Notify data sync did begin
     public static let dataSyncDidLoad = Notification.Name("dataSync.did.load")
 
 }
@@ -77,7 +77,7 @@ extension DataSync {
         self.delegate?.willDataSyncWillLoad(tables: self.tables)
     }
 
-    func dataSyncDidLoad      () {
+    func dataSyncDidLoad() {
         Notification(name: .dataSyncDidLoad, object: self, userInfo: [NotificationUserInfoKey.tables: self.tables]).post()
         self.delegate?.willDataSyncDidLoad(tables: self.tables)
     }

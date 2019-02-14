@@ -90,17 +90,6 @@ extension DataSync {
         try context.commit()
     }
 
-    /// Remove all records cache files.
-    func deleteRecordsCacheFile() throws {
-        for (table, _) in self.tablesInfoByTable {
-            let tableName = table.name
-            let cacheFile: Path = self.cachePath + "\(tableName).\(Preferences.jsonDataExtension)"
-            if cacheFile.exists {
-                try? cacheFile.deleteFile()
-            }
-        }
-    }
-
     // (a save: publish information to UI)
     @discardableResult
     func tryCommit(_ context: DataStoreContext) -> Bool {

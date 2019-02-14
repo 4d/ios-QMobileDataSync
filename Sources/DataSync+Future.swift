@@ -22,11 +22,11 @@ extension DataSync {
         return Future { _ = self.loadTable(callbackQueue: callbackQueue, $0) }
     }
 
-    public func sync(dataStoreContextType: DataStoreContextType = .background, callbackQueue: DispatchQueue? = nil) -> Future<Void, DataSyncError> {
-        return Future { _ = self.sync(dataStoreContextType: dataStoreContextType, callbackQueue: callbackQueue, $0) }
+    public func sync(in dataStoreContextType: DataStoreContextType = .background, on callbackQueue: DispatchQueue? = nil) -> Future<Void, DataSyncError> {
+        return Future { _ = self.sync(in: dataStoreContextType, on: callbackQueue, $0) }
     }
 
-    public func reload(dataStoreContextType: DataStoreContextType = .background, callbackQueue: DispatchQueue? = nil) -> Future<Void, DataSyncError> {
-        return Future { _ = self.reload(dataStoreContextType: dataStoreContextType, callbackQueue: callbackQueue, $0) }
+    public func reload(in dataStoreContextType: DataStoreContextType = .background, on callbackQueue: DispatchQueue? = nil) -> Future<Void, DataSyncError> {
+        return Future { _ = self.reload(in: dataStoreContextType, on: callbackQueue, $0) }
     }
 }

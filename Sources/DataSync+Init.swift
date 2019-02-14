@@ -23,6 +23,26 @@ extension DataSync {
         case sync
         /// Total.
         case reload
+
+        // use cache file before adding or updating records?
+        // temporary according to opeation, could be changed later (as option)
+        var useCache: Bool {
+            switch self {
+            case .sync:
+                return false
+            case .reload:
+                return true
+            }
+        }
+
+        var description: String {
+            switch self {
+            case .sync:
+                return "synchronization"
+            case .reload:
+                return "reloading"
+            }
+        }
     }
 
     public typealias SyncResult = Result<Void, DataSyncError>

@@ -48,7 +48,7 @@ extension DataSync {
 
 extension DataSync.Process {
 
-    // A table has been synchornized with a specific result
+    /// A table has been synchornized with a specific result
     func completed(for table: Table, with tableResult: TablePageResult) {
         tablesResults[table.name] = tableResult.map { return (table, $0.globalStamp) }
 
@@ -60,12 +60,14 @@ extension DataSync.Process {
         }
     }
 
+    /// All table has been sync?
     var isCompleted: Bool {
         // there is all status filled, so all task end
         // /!\ be careful to remove status when relaunching a task on specific table
         return tablesResults.count == tables.count
     }
 
+    /// Check if completed and give status if true, othewise return nil.
     func checkCompleted() -> [TableStatus]? {
         // maybe Future?Promize or a Lock
         logger.debug("There is \(tablesResults.count)/\(tables.count) tables sync")

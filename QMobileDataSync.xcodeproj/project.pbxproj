@@ -72,7 +72,6 @@
 		486A22FD1F55B68100B5A5E6 /* DataSync+SyncTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A22FC1F55B68100B5A5E6 /* DataSync+SyncTable.swift */; };
 		486A22FF1F55B69400B5A5E6 /* DataSync+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A22FE1F55B69400B5A5E6 /* DataSync+Init.swift */; };
 		486A23011F55B74300B5A5E6 /* DispatchQueue+Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A23001F55B74300B5A5E6 /* DispatchQueue+Sync.swift */; };
-		486A23021F55B98200B5A5E6 /* DataSync+Reload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FBBFA01F5407AE00E920B6 /* DataSync+Reload.swift */; };
 		486A23041F55BF9D00B5A5E6 /* BrightFutures+Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A23031F55BF9D00B5A5E6 /* BrightFutures+Sync.swift */; };
 		486B24791F56B23700706B92 /* FutureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486B24781F56B23700706B92 /* FutureTests.swift */; };
 		487F7FEA1F570C7D0064AF4B /* DataReloadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487F7FE91F570C7D0064AF4B /* DataReloadTests.swift */; };
@@ -90,7 +89,6 @@
 		48DB1F5A21ABEA7B00B97E26 /* DataSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4837277D1EB8A8DF0060B064 /* DataSync.swift */; };
 		48DB1F5B21ABEA7B00B97E26 /* DataSync+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A22FE1F55B69400B5A5E6 /* DataSync+Init.swift */; };
 		48DB1F5C21ABEA7B00B97E26 /* DataSync+Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484429001EC999A6008658B8 /* DataSync+Sync.swift */; };
-		48DB1F5D21ABEA7B00B97E26 /* DataSync+Reload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FBBFA01F5407AE00E920B6 /* DataSync+Reload.swift */; };
 		48DB1F5E21ABEA7B00B97E26 /* DataSync+SyncTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A22FC1F55B68100B5A5E6 /* DataSync+SyncTable.swift */; };
 		48DB1F5F21ABEA7B00B97E26 /* DataSync+Process.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484428FC1EC9995E008658B8 /* DataSync+Process.swift */; };
 		48DB1F6021ABEA7B00B97E26 /* DataSync+Cancellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489C15D91F3B42A5004844F3 /* DataSync+Cancellable.swift */; };
@@ -237,7 +235,6 @@
 		48DB1F8321ABECDE00B97E26 /* QMobileDataStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QMobileDataStore.framework; path = Carthage/Build/Mac/QMobileDataStore.framework; sourceTree = "<group>"; };
 		48ED97E41F4AC899000FF1B9 /* PRODUCTS.data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PRODUCTS.data.json; sourceTree = "<group>"; };
 		48EE8AC51F4492F0002C3F08 /* CLIENTS(2).json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "CLIENTS(2).json"; sourceTree = "<group>"; };
-		48FBBFA01F5407AE00E920B6 /* DataSync+Reload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Reload.swift"; sourceTree = "<group>"; };
 		48FBBFAD1F554A4000E920B6 /* API+Future.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "API+Future.swift"; sourceTree = "<group>"; };
 		48FBBFAF1F554C2100E920B6 /* ServerStatusTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerStatusTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -477,7 +474,6 @@
 				4837277D1EB8A8DF0060B064 /* DataSync.swift */,
 				486A22FE1F55B69400B5A5E6 /* DataSync+Init.swift */,
 				484429001EC999A6008658B8 /* DataSync+Sync.swift */,
-				48FBBFA01F5407AE00E920B6 /* DataSync+Reload.swift */,
 				486A22FC1F55B68100B5A5E6 /* DataSync+SyncTable.swift */,
 				484428FC1EC9995E008658B8 /* DataSync+Process.swift */,
 				489C15D91F3B42A5004844F3 /* DataSync+Cancellable.swift */,
@@ -837,7 +833,6 @@
 				485554F01ECAFE35001EE365 /* DataStore+Future.swift in Sources */,
 				484803831EBC768E0094D84C /* DataSync+Preferences.swift in Sources */,
 				486A23011F55B74300B5A5E6 /* DispatchQueue+Sync.swift in Sources */,
-				486A23021F55B98200B5A5E6 /* DataSync+Reload.swift in Sources */,
 				486745002021B8050029924D /* NSManagedObject+Importable.swift in Sources */,
 				484803871EBC78680094D84C /* Array+Sync.swift in Sources */,
 				484428F51EC99766008658B8 /* TableStampStorage.swift in Sources */,
@@ -892,7 +887,6 @@
 				48DB1F5E21ABEA7B00B97E26 /* DataSync+SyncTable.swift in Sources */,
 				48DB1F6A21ABEA7F00B97E26 /* DataStoreTableInfo+Table.swift in Sources */,
 				48DB1F5C21ABEA7B00B97E26 /* DataSync+Sync.swift in Sources */,
-				48DB1F5D21ABEA7B00B97E26 /* DataSync+Reload.swift in Sources */,
 				48DB1F7321ABEA8D00B97E26 /* DataSync+Future.swift in Sources */,
 				48DB1F5B21ABEA7B00B97E26 /* DataSync+Init.swift in Sources */,
 				48DB1F6F21ABEA8800B97E26 /* DataStoreContext+Queue.swift in Sources */,
