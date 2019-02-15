@@ -102,6 +102,13 @@ extension DataSync.Process {
             return nil
         }
     }
+
+    func completedAndCheck(for table: Table, with tableResult: TablePageResult) -> [TableStatus]? {
+        _ = self.lock()
+        defer { _ = self.unlock() }
+        self.completed(for: table, with: tableResult)
+        return self.checkCompleted()
+    }
 }
 
 // MARK: cancellable

@@ -127,7 +127,6 @@ extension DataSync {
             this.process = process
 
             // For each table get data from last global stamp
-            let configureRequest = this.configureRequest(stamp: startStamp)
             let locked = cancellable.perform {
                 if cancellable.isCancelledUnlocked { // XXX no reentrance for lock
                     completionHandler(.failure(.cancel))
@@ -138,11 +137,11 @@ extension DataSync {
 
                         let progress: APIManager.ProgressHandler = { progress in }
                         let requestCancellable = this.syncTable(table,
+                                                                at: startStamp,
                                                                 in: tempPath,
                                                                 operation: operation,
                                                                 callbackQueue: callbackQueue,
                                                                 progress: progress,
-                                                                configureRequest: configureRequest,
                                                                 context: context)
                         _ = cancellable.appendUnlocked(requestCancellable)  // XXX no reentrance for lock
                     }
@@ -166,7 +165,7 @@ extension DataSync {
         logger.info("Start data \(operation.description)")
 
         // Check if metadata could be read
-        guard let metadata = self.dataStore.metadata else {
+        guard var metadata = self.dataStore.metadata else {
             logger.warning("Could not read metadata from datastore when starting \(operation.description)")
             completionHandler(.failure(.dataStoreNotReady))
             return
@@ -181,7 +180,7 @@ extension DataSync {
         }
 
         // Get data from this global stamp
-        let startStamp = 0
+        let startStamp = 0 // metadata.stampStorage.globalStamp
         let tables = self.tables
 
         // From remote

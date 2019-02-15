@@ -20,22 +20,36 @@ import QMobileAPI
 
 extension DataSync {
 
+    /// Synchronize one table.
+    ///
+    /// - parameter table:         The table to sync.
+    /// - parameter startStamp:    The stamp to bebin sync.
+    /// - parameter path:          The path to use if data catched.
+    /// - parameter operation:     The type of operation.
+    /// - parameter callbackQueue: The queue used for callback of request.
+    /// - parameter progress:      An handler to get progression information about the request.
+    /// - parameter context:       Data store context, to make data store operation.
     func syncTable(_ table: Table,
+                   at startStamp: TableStampStorage.Stamp,
                    in path: Path,
                    operation: DataSync.Operation,
                    callbackQueue: DispatchQueue? = nil,
                    progress: APIManager.ProgressHandler? = nil,
-                   configureRequest: @escaping ((RecordsRequest) -> Void),
                    context: DataStoreContext) -> Cancellable {
         let cancellable = CancellableComposite()
         guard let tableInfo = self.tablesInfoByTable[table] else {
             assertionFailure("No table storage info for table \(table)")
             return cancellable
         }
-
         dataSyncBegin(for: table, operation)
 
-        let initializer = DataSync.recordInitializer(table: table, tableInfo: tableInfo, context: context)
+        // Maybe do not synchronize the table if slave table.
+        if tableInfo.slave != nil {
+            let pageInfo: PageInfo = .dummy
+            self.dataSyncEnd(for: table, with: pageInfo, operation)
+            self.process?.completed(for: table, with: .success(pageInfo))
+            return cancellable
+        }
 
         let completion: ((Result<([Record], PageInfo), APIError>) -> Void) = { result in
             switch result {
@@ -50,54 +64,53 @@ extension DataSync {
 
                 if pageInfo.isLast {
                     logger.info("Last page loaded for table \(table.name)")
-
                     self.dataSyncEnd(for: table, with: pageInfo, operation)
                     if case .byTable = self.saveMode {
                         self.tryCommit(context)
                         // If save could not manage error
                     }
-                }
-                if case .eachPage = self.saveMode {
-                    self.tryCommit(context)
-                }
-                if pageInfo.isLast, let process = self.process {
-                    _ = process.lock()
-                    defer {
-                        _ = process.unlock()
-                    }
-                    // Set current table completed
-                    process.completed(for: table, with: .success(pageInfo))
-                    // Check if we must relaunch some request due to stamp
-                    if let tableStatus = process.checkCompleted() {
+                    if let process = self.process {
+                        _ = process.lock()
+                        defer { _ = process.unlock() }
 
-                        // There is some table to relaunch sync because stamp are not equal
-                        for (table, stamp) in tableStatus {
-                            let configureRequest = self.configureRequest(stamp: stamp) // XXX Maybe a max stamp also to not do job eternally
-                            let c = self.syncTable(table,
-                                                   in: path,
-                                                   operation: operation,
-                                                   callbackQueue: callbackQueue,
-                                                   progress: progress,
-                                                   configureRequest: configureRequest,
-                                                   context: context)
-                            cancellable.append(c)
+                        // Set current table completed
+                        process.completed(for: table, with: .success(pageInfo))
+                        // Check if we must relaunch some request due to stamp
+                        if let tableStatus = process.checkCompleted() {
+
+                            // There is some table to relaunch sync because stamp are not equal
+                            for (table, stamp) in tableStatus {
+                                let c = self.syncTable(table,
+                                                       at: stamp,
+                                                       in: path,
+                                                       operation: operation,
+                                                       callbackQueue: callbackQueue,
+                                                       progress: progress,
+                                                       context: context)
+                                cancellable.append(c)
+                            }
                         }
+                    } else {
+                        logger.warning("No process available when finish to \(operation) the table \(table)")
+                    }
+                } else {
+                    if case .eachPage = self.saveMode {
+                        self.tryCommit(context)
                     }
                 }
-            case .failure(let error):
-                self.dataSyncFailed(for: table, with: error, operation)
 
-                if var process = self.process {
-                    _ = process.lock()
-                    defer {
-                        _ = process.unlock()
-                    }
-                    self.process?.completed(for: table, with: .mapOtherError(error))
-                    _ = self.process?.checkCompleted()
-                }
+            case .failure(let error):
+                // notify for one table
+                self.dataSyncFailed(for: table, with: error, operation)
+                // notify process
+                _ = self.process?.completedAndCheck(for: table, with: .mapOtherError(error))
             }
         }
-        let attributes = getAttributes(table)
+
+        // Configure and launch the request
+        let attributes = self.getAttributes(table)
+        let initializer = DataSync.recordInitializer(table: table, tableInfo: tableInfo, context: context)
+        let configureRequest = self.configureRecordsRequest(stamp: startStamp, tableInfo, table)
         let cancellableRecords = self.apiManager.records(table: table,
                                                          attributes: attributes,
                                                          recursive: true,
@@ -105,12 +118,18 @@ extension DataSync {
                                                          initializer: initializer,
                                                          queue: callbackQueue,
                                                          completionHandler: completion)
-
-        cancellable.append(cancellableRecords)
+        _ = cancellable.append(cancellableRecords)
 
         return cancellable
     }
 
+    /// Reload one table.
+    ///
+    /// - parameter table:         The table to sync.
+    /// - parameter path:          The path to use if data catched.
+    /// - parameter operation:     The type of operation.
+    /// - parameter callbackQueue: The queue used for callback of request.
+    /// - parameter progress:      An handler to get progression information about the request.
     func reloadTable( _ table: Table,
                       in path: Path,
                       operation: DataSync.Operation,
@@ -123,48 +142,12 @@ extension DataSync {
         }
         dataSyncBegin(for: table, operation)
 
-        let attributes = self.getAttributes(table)
-        var target = self.apiManager.base.records(from: table.name, attributes: attributes)
-        target.limit(Prephirences.DataSync.Request.limit)
-
-        // Maybe do not synchronize the table
+        // Maybe do not synchronize the table if slave table.
         if tableInfo.slave != nil {
             let pageInfo: PageInfo = .dummy
             self.dataSyncEnd(for: table, with: pageInfo, operation)
             self.process?.completed(for: table, with: .success(pageInfo))
             return cancellable
-        }
-
-        // If a filter is defined by table in data store, use it
-        if let filter = tableInfo.filter {
-            target.filter(filter)
-
-            /// Get user info to filter data
-            if var params = APIManager.instance.authToken?.userInfo {
-                for (key, value) in params {
-                    if let date = parseDate(from: value), date.isUTCStartOfDay {
-                        params[key] = "'\(DateFormatter.simpleDate.string(from: date))'" // format for 4d
-                        // APIManager.instance.authToken?.userInfo = params
-                    }
-                }
-                target.params(params)
-                // target.params([params])
-                logger.debug("Filter query params \(params) for \(table.name)")
-            }
-        }
-
-        // custom limit by table
-        if let limitString = tableInfo.limit, let limit = Int(limitString) {
-            target.limit(limit)
-        }
-
-        // Expand according to relation
-        if Prephirences.DataSync.expandAttribute { // will expend related entity will all fields
-            let relatedEntityAttributes = table.attributes.filter { $0.1.kind == .relatedEntity }
-            if !relatedEntityAttributes.isEmpty {
-                let expand = relatedEntityAttributes.map { $0.0 }.joined(separator: ",")
-                target.expand(expand)
-            }
         }
 
         // what to do when finishing
@@ -197,51 +180,52 @@ extension DataSync {
                 #endif
 
                 let pageInfo: PageInfo = .dummy // here multipage is deactivated
-                self.dataSyncEnd(for: table, with: pageInfo, operation)
+                if pageInfo.isLast {
+                    self.dataSyncEnd(for: table, with: pageInfo, operation)
 
-                if pageInfo.isLast, let process = self.process {
-                    if process.lock() {
-                        defer { _ = process.unlock() }
+                    if let process = self.process {
+                        if process.lock() {
+                            defer { _ = process.unlock() }
 
-                        // Set current table completed
-                        process.completed(for: table, with: .success(pageInfo))
+                            // Set current table completed
+                            process.completed(for: table, with: .success(pageInfo))
 
-                        // Check if we must relaunch some request due to stamp
-                        if let tableStatus = process.checkCompleted() {
-                            // There is some table to relaunch sync because stamp are not equal
-                            for (table, _) in tableStatus {
-                                let c = self.reloadTable(table,
-                                                         in: path,
-                                                         operation: operation,
-                                                         callbackQueue: callbackQueue,
-                                                         progress: progress)
-                                _ = cancellable.append(c)
+                            // Check if we must relaunch some request due to stamp
+                            if let tableStatus = process.checkCompleted() {
+                                // There is some table to relaunch sync because stamp are not equal
+                                for (table, _) in tableStatus {
+                                    let c = self.reloadTable(table,
+                                                             in: path,
+                                                             operation: operation,
+                                                             callbackQueue: callbackQueue,
+                                                             progress: progress)
+                                    _ = cancellable.append(c)
+                                }
                             }
                         }
+                    } else {
+                        logger.warning("No process available when finish to \(operation) the table \(table)")
                     }
                 }
             case .failure(let error):
                 // notify for one table
                 self.dataSyncFailed(for: table, with: APIError.error(from: error), operation)
-
                 // notify process
-                if var process = self.process {
-                    if process.lock() {
-                        defer { _ = process.unlock() }
-                        process.completed(for: table, with: .mapOtherError(error))
-                        _ = process.checkCompleted()
-                    }
-                }
+                _ = self.process?.completedAndCheck(for: table, with: .mapOtherError(error))
             }
         }
 
-        // launch the request
+        // Configure and launch the request
+        let attributes = self.getAttributes(table)
+        let target = self.apiManager.base.records(from: table.name, attributes: attributes)
+        self.configureRecordsRequest(target, tableInfo, table)
         let cancellableRecords = self.apiManager.request(target, callbackQueue: callbackQueue, progress: progress, completion: completion)
         _ = cancellable.append(cancellableRecords)
 
         return cancellable
     }
 
+    /// For one table, get list of attribute to use in records request.
     func getAttributes(_ table: Table) -> [String] {
         let attributes: [String]
         if Prephirences.DataSync.noAttributeFilter {
@@ -264,28 +248,57 @@ extension DataSync {
         return attributes
     }
 
-    func configureRequest(stamp: TableStampStorage.Stamp) -> ((RecordsRequest) -> Void) {
+    func configureRecordsRequest(stamp: TableStampStorage.Stamp, _ tableInfo: DataStoreTableInfo, _ table: Table) -> ((RecordsRequest) -> Void) {
         return { request in
-            request.limit(Prephirences.DataSync.Request.Page.limit)
+            self.configureRecordsRequest(request, tableInfo, table)
+
             // stamp filter
             let filter = "\(kStampFilter)=\(stamp)"
-            request.filter(filter)
-
-            /*if let filter = tablesInfoByTable[table]?.filter {
-             target.filter(filter)
-
-             /// Get user info to filter data
-             if var params = APIManager.instance.authToken?.userInfo {
-             for (key, value) in params {
-             if let date = parseDate(from: value), date.isUTCStartOfDay {
-             params[key] = "'\(DateFormatter.simpleDate.string(from: date))'" // format for 4d`
-             // APIManager.instance.authToken?.userInfo = params
-             }
-             }
-             // target.params(params)
-             target.params([params]) // need a collection for the moment
-             }
-             }*/
+            if let currentFilter = request.filter, !currentFilter.isEmpty {
+                request.filter(currentFilter+"&"+filter) // XXX maybe be do a function to append/add
+            } else {
+                let filter = "\(kStampFilter)=\(stamp)"
+                request.filter(filter)
+            }
         }
     }
+
+    /// Configure the record request
+    func configureRecordsRequest(_ request: RecordsRequest, _ tableInfo: DataStoreTableInfo, _ table: Table) {
+        /// Defined limit
+        request.limit(Prephirences.DataSync.Request.Page.limit)
+
+        // If a filter is defined by table in data store, use it
+        if let filter = tableInfo.filter {
+            request.filter(filter)
+
+            /// Get user info to filter data
+            if var params = APIManager.instance.authToken?.userInfo {
+                for (key, value) in params {
+                    if let date = parseDate(from: value), date.isUTCStartOfDay {
+                        params[key] = "'\(DateFormatter.simpleDate.string(from: date))'" // format for 4d
+                        // APIManager.instance.authToken?.userInfo = params
+                    }
+                }
+                request.params(params)
+                // target.params([params])
+                logger.debug("Filter query params \(params) for \(table.name)")
+            }
+        }
+
+        // custom limit by table
+        if let limitString = tableInfo.limit, let limit = Int(limitString) {
+            request.limit(limit)
+        }
+
+        // Expand according to relation
+        if Prephirences.DataSync.expandAttribute { // will expend related entity will all fields
+            let relatedEntityAttributes = table.attributes.filter { $0.1.kind == .relatedEntity }
+            if !relatedEntityAttributes.isEmpty {
+                let expand = relatedEntityAttributes.map { $0.0 }.joined(separator: ",")
+                request.expand(expand)
+            }
+        }
+    }
+
 }
