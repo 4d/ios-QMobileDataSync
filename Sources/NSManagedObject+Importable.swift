@@ -56,7 +56,7 @@ extension NSManagedObject: RecordImportable {
             }
 
             guard let context = self.managedObjectContext else { return }
-            let initializer = DataSync.recordInitializer(table: relationTable, tableInfo: relationTableInfo, context: context)
+            let builder = DataSyncBuilder(table: relationTable, tableInfo: relationTableInfo, context: context)
 
             if let value = value {
                 let parser = relationTable.parser
@@ -64,7 +64,7 @@ extension NSManagedObject: RecordImportable {
                 if type.isToMany {
                    // parser.parseArray(json: json, using: mapper,with : initializer)
                 } else {
-                    if let importable = initializer(relationTableName, json) {
+                    if let importable = builder.recordInitializer(relationTableName, json) {
                         parser.parse(json: json, into: importable, using: mapper, tableName: relationTableName)
                         self.setValue(importable.store, forKey: key)
                     }

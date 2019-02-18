@@ -109,7 +109,7 @@ extension DataSync {
 
         // Configure and launch the request
         let attributes = self.getAttributes(table)
-        let initializer = DataSync.recordInitializer(table: table, tableInfo: tableInfo, context: context)
+        let initializer = DataSyncBuilder(table: table, tableInfo: tableInfo, context: context)
         let configureRequest = self.configureRecordsRequest(stamp: startStamp, tableInfo, table)
         let cancellableRecords = self.apiManager.records(table: table,
                                                          attributes: attributes,

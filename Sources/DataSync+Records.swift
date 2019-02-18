@@ -17,35 +17,6 @@ import QMobileDataStore
 
 extension DataSync {
 
-    /// Alias for record initialized. table name and json information.
-    typealias RecordInitializer = (String, JSON) -> Record?
-
-    /// Initialize or find an existing record.
-    static func recordInitializer(table: Table, tableInfo: DataStoreTableInfo, context: DataStoreContext) -> RecordInitializer {
-        return { tableName, json in
-
-            assert(tableName == tableInfo.originalName)
-            assert(tableName == table.name)
-
-            // Create only if not created
-            var record: Record?
-            context.perform(wait: true) { // must wait or result will be nil
-                do {
-                    if let predicate = table.predicate(for: json) {
-                        record = try context.getOrCreate(in: tableInfo.name, matching: predicate)
-                    } else {
-                        logger.debug("Cannot checking if record already in database, no primary key for table '\(tableName)'. This could result to duplicate records.")
-                        record = context.create(in: tableInfo.name)
-                        // assertionFailure("Table \(tableInfo.name) must have primary key")
-                    }
-                } catch {
-                    logger.warning("Failed to import one data into '\(tableName)': \(error)")
-                }
-            }
-            return record
-        }
-    }
-
     /// Load records from files, need to be done in data store context.
     func loadRecordsFromFile(context: DataStoreContext, tables: [Table]? = nil) throws {
         // load data from files by table.
@@ -60,7 +31,7 @@ extension DataSync {
             assert(ImportableParser.tableName(for: json) == tableInfo.originalName) // file with wrong format and an another table, renamed?
 
             // Parse the records from json and create core data object in passed context.
-            let records = try table.parser.parseArray(json: json, with: DataSync.recordInitializer(table: table, tableInfo: tableInfo, context: context))
+            let records = try table.parser.parseArray(json: json, with: DataSyncBuilder(table: table, tableInfo: tableInfo, context: context))
             logger.info("\(records.count) records imported from '\(tableName)' file")
         }
 
@@ -80,7 +51,7 @@ extension DataSync {
             assert(ImportableParser.tableName(for: json) == tableInfo.originalName) // file with wrong format and an another table, renamed?
 
             // Parse the records from json and create core data object in passed context.
-            let records = try table.parser.parseArray(json: json, with: DataSync.recordInitializer(table: table, tableInfo: tableInfo, context: context))
+            let records = try table.parser.parseArray(json: json, with: DataSyncBuilder(table: table, tableInfo: tableInfo, context: context))
             logger.info("\(records.count) records imported from '\(tableName)' file")
 
             try? cacheFile.deleteFile()
@@ -102,6 +73,57 @@ extension DataSync {
         }
     }
 
+}
+
+/// Initialize or find an existing record.
+class DataSyncBuilder: ImportableBuilder {
+
+    typealias Importable = Record
+
+    let table: Table
+    let tableInfo: DataStoreTableInfo
+    let context: DataStoreContext
+
+    var inContext: Bool = false
+
+    init(table: Table, tableInfo: DataStoreTableInfo, context: DataStoreContext) {
+        self.table = table
+        self.tableInfo = tableInfo
+        self.context = context
+    }
+
+    func setup(in callback: @escaping () -> Void) {
+        context.perform(wait: true) {
+            self.inContext = true
+            callback()
+            self.inContext = false
+        }
+    }
+
+    func build(_ tableName: String, _ json: JSON) -> Record? {
+        assert(tableName == tableInfo.originalName)
+        assert(tableName == table.name)
+        assert(inContext) // Must beform operation in context
+
+        // Create only if not created
+        var record: Record?
+        do {
+            if let predicate = table.predicate(for: json) {
+                record = try context.getOrCreate(in: tableInfo.name, matching: predicate)
+            } else {
+                logger.debug("Cannot checking if record already in database, no primary key for table '\(tableName)'. This could result to duplicate records.")
+                record = context.create(in: tableInfo.name)
+                // assertionFailure("Table \(tableInfo.name) must have primary key")
+            }
+        } catch {
+            logger.warning("Failed to import one data into '\(tableName)': \(error)")
+        }
+        return record
+    }
+
+    func teardown() {
+        assert(!inContext) // teardown must be called after setup finish (caller issue, or asynchrone setup)
+    }
 }
 
 // MARK: JSON extensions
