@@ -45,10 +45,10 @@ extension DataStoreMetadata {
 struct DataStoreTableStampStorage: TableStampStorage {
     var dataStore: DataStoreMetadata
 
-    func stamp(for table: Table) -> TableStampStorage.Stamp {
+    public func stamp(for table: Table) -> TableStampStorage.Stamp {
         return dataStore.stamp(for: table)
     }
-    mutating func set(stamp: TableStampStorage.Stamp, for table: Table) {
+    public mutating func set(stamp: TableStampStorage.Stamp, for table: Table) {
         dataStore.set(stamp: stamp, for: table)
     }
     public var globalStamp: TableStampStorage.Stamp {

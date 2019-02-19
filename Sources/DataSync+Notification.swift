@@ -54,6 +54,8 @@ extension DataSync {
         public static let pageInfo = "pageInfo"
         /// A `Cancellable` to stop the operation.
         public static let cancellable = "cancellable"
+        /// stamp of modification.
+        public static let stamp = "stamp"
     }
 
     /// Wrap completion handler to send also notifications.
@@ -72,13 +74,13 @@ extension DataSync {
         }
     }
 
-    func dataSyncWillLoad() {
-        Notification(name: .dataSyncWillLoad, object: self, userInfo: [NotificationUserInfoKey.tables: self.tables]).post()
+    func dataSyncWillLoad(_ tables: [Table]) {
+        Notification(name: .dataSyncWillLoad, object: self, userInfo: [NotificationUserInfoKey.tables: tables]).post()
         self.delegate?.willDataSyncWillLoad(tables: self.tables)
     }
 
-    func dataSyncDidLoad() {
-        Notification(name: .dataSyncDidLoad, object: self, userInfo: [NotificationUserInfoKey.tables: self.tables]).post()
+    func dataSyncDidLoad(_ tables: [Table]) {
+        Notification(name: .dataSyncDidLoad, object: self, userInfo: [NotificationUserInfoKey.tables: tables]).post()
         self.delegate?.willDataSyncDidLoad(tables: self.tables)
     }
 

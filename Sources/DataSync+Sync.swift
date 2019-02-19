@@ -233,9 +233,10 @@ extension DataSync {
             switch result {
             case .success(let stamp):
                 // store new stamp
-                var metadata = self.dataStore.metadata
-                metadata?.globalStamp = stamp
-                metadata?.lastSync = Date()
+                if var stampStorage = self.dataStore.metadata?.stampStorage {
+                    stampStorage.globalStamp = stamp
+                    stampStorage.lastSync = Date()
+                }
                 logger.info("Data \(operation.description) end with stamp \(stamp)")
 
                 // save data store

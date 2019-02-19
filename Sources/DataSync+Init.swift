@@ -105,10 +105,21 @@ extension DataSync {
                 assert(dataStoreContext.type == dataStoreContextType)
 
                 logger.info("Load table data from embedded data files")
-                self.dataSyncWillLoad()
+                self.dataSyncWillLoad(tables)
                 do {
-                    try self.loadRecordsFromFile(context: dataStoreContext, tables: tables)
-                    self.dataSyncDidLoad()
+                    let stamps = try self.loadRecordsFromFile(context: dataStoreContext, tables: tables)
+                    self.dataSyncDidLoad(tables)
+
+                    if var stampStorage = self.dataStore.metadata?.stampStorage {
+                        var globalStamp = 0
+                        for (_, stamp) in stamps {
+                           // stampStorage.set(stamp: stamp, for: table)
+                            if stamp != 0 && stamp < globalStamp { // take the min but not zero (all stamps must be equal or zero, but in case of)
+                                globalStamp = stamp
+                            }
+                        }
+                        stampStorage.globalStamp = globalStamp
+                    }
                     return .success(())
                 } catch {
                     return .failure(DataStoreError.error(from: error))
