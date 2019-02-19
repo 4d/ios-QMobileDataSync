@@ -10,10 +10,11 @@ import Foundation
 
 import QMobileAPI
 
-let kGlobalStamp = "__globalStamp"
-let kLastSync = "lastSync"
-let kTableStamp = "stamp"
 let defaultStamp: TableStampStorage.Stamp = 0
+
+enum TableStampStorageKey: String {
+    case lastSync, tableStamp, globalStamp
+}
 
 /// Store the table stamps
 public protocol TableStampStorage {
@@ -72,27 +73,27 @@ struct DataStoreTableStampStorage: TableStampStorage {
 
 extension DataStoreMetadata {
     func stamp(for table: Table) -> TableStampStorage.Stamp {
-        return self["\(table.name).\(kTableStamp)"] as? TableStampStorage.Stamp ?? defaultStamp
+        return self["\(table.name).\(TableStampStorageKey.tableStamp.rawValue)"] as? TableStampStorage.Stamp ?? defaultStamp
     }
     mutating func set(stamp: TableStampStorage.Stamp, for table: Table) {
-        self["\(table.name).\(kTableStamp)"] = stamp
+        self["\(table.name).\(TableStampStorageKey.tableStamp.rawValue)"] = stamp
     }
     public var globalStamp: TableStampStorage.Stamp {
         get {
-            return self[kGlobalStamp] as? TableStampStorage.Stamp ?? defaultStamp
+            return self[TableStampStorageKey.globalStamp.rawValue] as? TableStampStorage.Stamp ?? defaultStamp
         }
         set {
             //assert(newValue > 0)
-            self[kGlobalStamp] = newValue
+            self[TableStampStorageKey.globalStamp.rawValue] = newValue
         }
     }
 
    public var lastSync: Date? {
         get {
-            return self[kLastSync] as? Date
+            return self[TableStampStorageKey.lastSync.rawValue] as? Date
         }
         set {
-            self[kLastSync] = newValue
+            self[TableStampStorageKey.lastSync.rawValue] = newValue
         }
     }
 }
@@ -105,26 +106,26 @@ struct PrephirencesTableStampStorage: TableStampStorage {
     var preferences: MutablePreferencesType
 
     func stamp(for table: Table) -> TableStampStorage.Stamp {
-        return preferences["\(table.name).\(kTableStamp)"] as? TableStampStorage.Stamp ?? defaultStamp
+        return preferences["\(table.name).\(TableStampStorageKey.tableStamp.rawValue)"] as? TableStampStorage.Stamp ?? defaultStamp
     }
     mutating func set(stamp: TableStampStorage.Stamp, for table: Table) {
-        preferences["\(table.name).\(kTableStamp)"] = stamp
+        preferences["\(table.name).\(TableStampStorageKey.tableStamp.rawValue)"] = stamp
     }
     public var globalStamp: TableStampStorage.Stamp {
         get {
-            return preferences[kGlobalStamp] as? TableStampStorage.Stamp ?? defaultStamp
+            return preferences[TableStampStorageKey.globalStamp.rawValue] as? TableStampStorage.Stamp ?? defaultStamp
         }
         set {
             assert(newValue > 0)
-            preferences[kGlobalStamp] = newValue
+            preferences[TableStampStorageKey.globalStamp.rawValue] = newValue
         }
     }
     public var lastSync: Date? {
         get {
-            return preferences[kLastSync] as? Date
+            return preferences[TableStampStorageKey.lastSync.rawValue] as? Date
         }
         set {
-            preferences[kLastSync] = newValue
+            preferences[TableStampStorageKey.lastSync.rawValue] = newValue
         }
     }
 }

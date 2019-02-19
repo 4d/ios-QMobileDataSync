@@ -236,6 +236,7 @@ extension DataSync {
                 var metadata = self.dataStore.metadata
                 metadata?.globalStamp = stamp
                 metadata?.lastSync = Date()
+                logger.info("Data \(operation.description) end with stamp \(stamp)")
 
                 // save data store
                 do {
@@ -267,6 +268,7 @@ extension DataSync {
                 var metadata = self.dataStore.metadata
                 metadata?.globalStamp = stamp
                 metadata?.lastSync = Date()
+                logger.info("Data \(operation.description) end with stamp \(stamp)")
 
                 // move file from download path to cache path
                 do {
@@ -293,10 +295,15 @@ extension DataSync {
                     do {
                         try this.loadRecordsFromCache(context: context)
                         logger.debug("Load table data from cache data files success")
+
+                        // finally flush the context.
+                        try context.commit()
+
                         completionHandler(.success(()))
                     } catch {
                         completionHandler(.failure(DataSyncError.error(from: DataStoreError.error(from: error))))
                     }
+
                 }
                 if !result {
                     completionHandler(.failure(DataSyncError.dataStoreNotReady))

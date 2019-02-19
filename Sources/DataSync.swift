@@ -15,7 +15,7 @@ import Result
 import FileKit
 
 let logger = Logger.forClass(DataSync.self)
-let kStampFilter = "__stamp"
+let kGlobalStamp = "__GlobalStamp"
 
 public class DataSync {
 

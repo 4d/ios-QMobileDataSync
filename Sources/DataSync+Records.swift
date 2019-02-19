@@ -56,9 +56,6 @@ extension DataSync {
 
             try? cacheFile.deleteFile()
         }
-
-        // finally flush the context.
-        try context.commit()
     }
 
     // (a save: publish information to UI)

@@ -252,13 +252,16 @@ extension DataSync {
         return { request in
             self.configureRecordsRequest(request, tableInfo, table)
 
-            // stamp filter
-            let filter = "\(kStampFilter)=\(stamp)"
-            if let currentFilter = request.filter, !currentFilter.isEmpty {
-                request.filter(currentFilter+"&"+filter) // XXX maybe be do a function to append/add
+            // Stamp filter
+            if table.attributes[kGlobalStamp] != nil {
+                let filter = "\(kGlobalStamp)>=\(stamp)" // XXX seems to be superior or EQUAL
+                if let currentFilter = request.filter, !currentFilter.isEmpty {
+                    request.filter(currentFilter+" AND "+filter) // XXX maybe be do a function to append/add
+                } else {
+                    request.filter(filter)
+                }
             } else {
-                let filter = "\(kStampFilter)=\(stamp)"
-                request.filter(filter)
+                logger.warning("There is no \(kGlobalStamp) field in table \(table.name). We could not make optimized data synchronization. Please update your structure.")
             }
         }
     }
