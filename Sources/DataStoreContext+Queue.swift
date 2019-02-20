@@ -11,6 +11,7 @@ import QMobileDataStore
 
 extension DataStoreContext {
 
+    /// Return the queue of context.
     var queue: DispatchQueue {
         return self.type.queue
     }
@@ -19,6 +20,7 @@ extension DataStoreContext {
 
 extension DataStoreContextType {
 
+    /// Return the queue used according to context type.
     var queue: DispatchQueue {
         switch self {
         case .foreground: return .main

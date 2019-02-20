@@ -13,5 +13,6 @@ import Prephirences
 import QMobileAPI
 
 extension PageInfo {
+    /// A dummy page info.
     static let dummy = PageInfo(globalStamp: 0, sent: Prephirences.DataSync.Request.limit, first: 0, count: Prephirences.DataSync.Request.limit)
 }

@@ -159,10 +159,7 @@ class DataStoreIntegrationTests: XCTestCase {
 
                 let dataStore = DataStoreFactory.dataStore
                 _ = dataStore.perform(.background) { context in
-
-                    let importables = try? table.parser.parseArray(json: json, with: { tableName, _ -> Record? in
-                        return context.create(in: tableName)
-                    })
+                    let importables = try? table.parser.parseArray(json: json, with: TextDataStoreContextBuilder(context: context))
 
                     XCTAssertEqual(importables?.count ?? 0, 100)
 
@@ -219,8 +216,28 @@ class DataStoreIntegrationTests: XCTestCase {
             expects.append(expect)
 
         }
-        let timeout: TimeInterval = 5
+        let timeout: TimeInterval = 8
         wait(for: expects, timeout: timeout)
     }
 
+}
+struct TextDataStoreContextBuilder: ImportableBuilder {
+    typealias Importable = Record
+
+    let context: DataStoreContext
+
+    init(context: DataStoreContext) {
+        self.context = context
+    }
+
+    func setup(in callback: @escaping () -> Void) {
+        callback()
+    }
+    func build(_ tableName: String, _ json: JSON) -> Record? {
+        guard let record = context.create(in: tableName) else { return nil }
+        // could import json here
+        return record
+    }
+    func teardown() {
+    }
 }

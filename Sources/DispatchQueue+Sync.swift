@@ -12,12 +12,17 @@ extension DispatchQueue {
 
     private static var currentKey = 0
 
-    static var userInteractive: DispatchQueue { return DispatchQueue.global(qos: .userInteractive) }
-    static var userInitiated: DispatchQueue { return DispatchQueue.global(qos: .userInitiated) }
-    static var utility: DispatchQueue { return DispatchQueue.global(qos: .utility) }
-    static var background: DispatchQueue { return DispatchQueue.global(qos: .background) }
+    /// The global qos userInteractive
+    public static var userInteractive: DispatchQueue { return DispatchQueue.global(qos: .userInteractive) }
+    /// The global qos userInitiated
+    public static var userInitiated: DispatchQueue { return DispatchQueue.global(qos: .userInitiated) }
+    /// The global qos utility
+    public static var utility: DispatchQueue { return DispatchQueue.global(qos: .utility) }
+    /// The global qos background
+    public static var background: DispatchQueue { return DispatchQueue.global(qos: .background) }
 
-    func after(_ delay: TimeInterval, execute closure: @escaping () -> Void) {
+    /// Execute `closure` in queue after a delay.
+    public func after(_ delay: TimeInterval, execute closure: @escaping () -> Void) {
         asyncAfter(deadline: .now() + delay, execute: closure)
     }
 

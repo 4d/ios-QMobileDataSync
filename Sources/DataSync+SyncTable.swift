@@ -54,13 +54,6 @@ extension DataSync {
         let completion: ((Result<([Record], PageInfo), APIError>) -> Void) = { result in
             switch result {
             case .success(let (records, pageInfo)):
-                // TODO check/save global stamp and current one
-                #if DEBUG
-                    let stamps = records.map { $0.__stamp }
-                    if let max = stamps.max(), max > pageInfo.globalStamp {
-                        logger.warning("GlobalStamp(\(pageInfo.globalStamp)) is not updated. Receive a record with stamp \(max)'")
-                    }
-                #endif
 
                 if pageInfo.isLast {
                     logger.info("Last page loaded for table \(table.name)")

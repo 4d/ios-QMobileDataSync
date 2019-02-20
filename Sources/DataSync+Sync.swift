@@ -84,7 +84,7 @@ extension DataSync {
         logger.info("Start data \(operation.description)")
 
         // Check if metadata could be read
-        guard let metadata = self.dataStore.metadata else {
+        guard let stampStorage = self.dataStore.metadata?.stampStorage else {
             logger.warning("Could not read metadata from datastore when starting \(operation.description)")
             completionHandler(.failure(.dataStoreNotReady))
             return
@@ -108,7 +108,7 @@ extension DataSync {
             let callbackQueue: DispatchQueue = callbackQueue ?? context.queue
 
             // Get data from this global stamp
-            let startStamp = metadata.stampStorage.globalStamp
+            let startStamp = stampStorage.globalStamp
             let tables = this.tables
 
             // From remote
@@ -165,11 +165,12 @@ extension DataSync {
         logger.info("Start data \(operation.description)")
 
         // Check if metadata could be read
-        guard var metadata = self.dataStore.metadata else {
+        guard var stampStorage = self.dataStore.metadata?.stampStorage else {
             logger.warning("Could not read metadata from datastore when starting \(operation.description)")
             completionHandler(.failure(.dataStoreNotReady))
             return
         }
+        stampStorage.globalStamp = 0 // start from 0
 
         // Ask delegate if there is any reason to stop process
         let stop = self.dataSyncDidBegin(operation)
@@ -180,7 +181,7 @@ extension DataSync {
         }
 
         // Get data from this global stamp
-        let startStamp = 0 // metadata.stampStorage.globalStamp
+        let startStamp = stampStorage.globalStamp
         let tables = self.tables
 
         // From remote
