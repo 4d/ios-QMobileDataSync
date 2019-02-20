@@ -62,6 +62,11 @@ public extension APIManager {
         return Future { _ = self.table(name: name, callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
     }
 
+    /// Get deleted records
+    public func deletedRecordPage(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<Page, APIError> {
+        return Future { _ = self.deletedRecordPage(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
+    }
+
 }
 
 public extension APIManager {

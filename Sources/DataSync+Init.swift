@@ -73,7 +73,7 @@ extension DataSync {
         }
 
         // Load table if needed
-        let loadTable: Future<[Table], DataSyncError> = self.loadTable(callbackQueue: callbackQueue)
+        let loadTable: Future<[Table], DataSyncError> = self.loadTable(on: callbackQueue)
         /// check if there is table
         let checkTable: SyncFuture = loadTable.flatMap { (tables: [Table]) -> SyncResult in
               return self.tables.isEmpty ? .failure(.noTables) : .success(())

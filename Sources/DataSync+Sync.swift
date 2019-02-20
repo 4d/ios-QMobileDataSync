@@ -225,6 +225,25 @@ extension DataSync {
 
     // MARK: process completion callback
 
+    func deleteRecords(_ page: Page, in context: DataStoreContext) {
+        let records: [RecordJSON] = page.records
+        let deletedRecords: [DeletedRecord] = records.compactMap { $0.deletedRecord }
+        for deletedRecord in deletedRecords {
+            if let table = table(for: deletedRecord.tableName), let tableInfo = self.tablesInfoByTable[table] {
+                do {
+                    let result = try context.delete(in: tableInfo.name, matching: table.predicate(forDeletedRecord: deletedRecord))
+                    if result > 0 {
+                        logger.verbose("Record defined by \(deletedRecord) has been deleted")
+                    } else {
+                        logger.debug("Failed to delete \(deletedRecord). Maybe already deleted.")
+                    }
+                } catch {
+                    logger.warning("Failed to delete \(deletedRecord). Maybe already deleted \(error)")
+                }
+            }
+        }
+    }
+
     func syncProcessCompletionCallBack(in context: DataStoreContext, operation: DataSync.Operation, tempPath: Path, _ completionHandler: @escaping SyncCompletionHandler) -> Process.CompletionHandler {
         return { result in
             if self.isCancelled {
@@ -233,21 +252,33 @@ extension DataSync {
             }
             switch result {
             case .success(let stamp):
-                // store new stamp
-                if var stampStorage = self.dataStore.metadata?.stampStorage {
-                    stampStorage.globalStamp = stamp
-                    stampStorage.lastSync = Date()
+                let future = self.apiManager.deletedRecordPage()
+                future.onSuccess { page in
+
+                    self.deleteRecords(page, in: context)
+
+                    // store new stamp
+                    if var stampStorage = self.dataStore.metadata?.stampStorage {
+                        stampStorage.globalStamp = stamp
+                        stampStorage.lastSync = Date()
+                    }
+                    logger.info("Data \(operation.description) end with stamp \(stamp)")
+
+                    // save data store
+                    do {
+                        try context.commit()
+
+                        // call success
+                        completionHandler(.success(()))
+                    } catch {
+                        completionHandler(.failure(DataSyncError.error(from: error)))
+                    }
                 }
-                logger.info("Data \(operation.description) end with stamp \(stamp)")
-
-                // save data store
-                do {
-                    try context.commit()
-
-                    // call success
-                    completionHandler(.success(()))
-                } catch {
-                    completionHandler(.failure(DataSyncError.error(from: error)))
+                future.onFailure { error in
+                    if case .onCompletion = self.saveMode {
+                        context.rollback()
+                    }
+                    completionHandler(.failure(DataSyncError.apiError(error)))
                 }
             case .failure(let error):
                 if case .onCompletion = self.saveMode {
