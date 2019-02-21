@@ -254,7 +254,7 @@ extension DataSync {
             switch result {
             case .success(let stamp):
                 let future = self.apiManager.deletedRecordPage(configure: { request in
-                    request.filter("__Stamp >= \(startStamp)") // XXX DeletedRecordKey.stamp
+                    request.filter("\(DeletedRecordKey.stamp) >= \(startStamp)") // XXX DeletedRecordKey.stamp
                 })
                 future.onSuccess { page in
 
@@ -278,10 +278,33 @@ extension DataSync {
                     }
                 }
                 future.onFailure { error in
-                    if case .onCompletion = self.saveMode {
-                        context.rollback()
+                    if let restErrors = error.restErrors, restErrors.match(.entity_not_found) {
+                        logger.error("The table \(DeletedRecord.entityName) do not exist. Deleted record will not be removed from this mobile application. Please update your struture")
+
+                        // Until we change decision, we go on without the table and save the synchronization...
+                        // store new stamp
+                        if var stampStorage = self.dataStore.metadata?.stampStorage {
+                            stampStorage.globalStamp = stamp
+                            stampStorage.lastSync = Date()
+                        }
+                        logger.info("Data \(operation.description) end with stamp \(stamp) but without removing potential deleted records")
+
+                        // save data store
+                        do {
+                            try context.commit()
+
+                            // call success
+                            completionHandler(.success(()))
+                        } catch {
+                            completionHandler(.failure(DataSyncError.error(from: error)))
+                        }
+
+                    } else {
+                        if case .onCompletion = self.saveMode {
+                            context.rollback()
+                        }
+                        completionHandler(.failure(DataSyncError.apiError(error)))
                     }
-                    completionHandler(.failure(DataSyncError.apiError(error)))
                 }
             case .failure(let error):
                 if case .onCompletion = self.saveMode {
