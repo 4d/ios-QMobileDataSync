@@ -63,8 +63,8 @@ public extension APIManager {
     }
 
     /// Get deleted records
-    public func deletedRecordPage(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<Page, APIError> {
-        return Future { _ = self.deletedRecordPage(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
+    public func deletedRecordPage(configure: ConfigureRecordsRequest? = nil, callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<Page, APIError> {
+        return Future { _ = self.deletedRecordPage(configure: configure, callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
     }
 
 }

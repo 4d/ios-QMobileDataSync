@@ -119,7 +119,7 @@ extension DataSync {
             }
 
             /// Create process and callback
-            let processCompletion = this.syncProcessCompletionCallBack(in: context, operation: operation, tempPath: tempPath, completionHandler)
+            let processCompletion = this.syncProcessCompletionCallBack(in: context, operation: operation, startStamp: startStamp, tempPath: tempPath, completionHandler)
             let process = Process(tables: tables,
                                   startStamp: startStamp,
                                   cancellable: cancellable,
@@ -242,9 +242,10 @@ extension DataSync {
                 }
             }
         }
+
     }
 
-    func syncProcessCompletionCallBack(in context: DataStoreContext, operation: DataSync.Operation, tempPath: Path, _ completionHandler: @escaping SyncCompletionHandler) -> Process.CompletionHandler {
+    func syncProcessCompletionCallBack(in context: DataStoreContext, operation: DataSync.Operation, startStamp: TableStampStorage.Stamp, tempPath: Path, _ completionHandler: @escaping SyncCompletionHandler) -> Process.CompletionHandler {
         return { result in
             if self.isCancelled {
                 completionHandler(.failure(.cancel))
@@ -252,7 +253,9 @@ extension DataSync {
             }
             switch result {
             case .success(let stamp):
-                let future = self.apiManager.deletedRecordPage()
+                let future = self.apiManager.deletedRecordPage(configure: { request in
+                    request.filter("__Stamp >= \(startStamp)") // XXX DeletedRecordKey.stamp
+                })
                 future.onSuccess { page in
 
                     self.deleteRecords(page, in: context)
