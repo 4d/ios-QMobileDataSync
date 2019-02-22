@@ -35,12 +35,21 @@ extension DataSync {
             }
         }
 
-        var description: String {
+        public var description: String {
             switch self {
             case .sync:
                 return "synchronization"
             case .reload:
                 return "reloading"
+            }
+        }
+
+        public var verb: String {
+            switch self {
+            case .sync:
+                return "synchronized"
+            case .reload:
+                return "reloaded"
             }
         }
     }
