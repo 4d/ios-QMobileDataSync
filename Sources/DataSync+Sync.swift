@@ -279,7 +279,7 @@ extension DataSync {
                 }
                 future.onFailure { error in
                     if let restErrors = error.restErrors, restErrors.match(.entity_not_found) {
-                        logger.error("The table \(DeletedRecord.entityName) do not exist. Deleted record will not be removed from this mobile application. Please update your struture")
+                        logger.error("The table \(DeletedRecordKey.entityName) do not exist. Deleted record will not be removed from this mobile application. Please update your struture")
 
                         // Until we change decision, we go on without the table and save the synchronization...
                         // store new stamp
