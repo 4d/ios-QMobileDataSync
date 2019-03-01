@@ -245,7 +245,11 @@ extension DataSync {
 
     }
 
-    func syncProcessCompletionCallBack(in context: DataStoreContext, operation: DataSync.Operation, startStamp: TableStampStorage.Stamp, tempPath: Path, _ completionHandler: @escaping SyncCompletionHandler) -> Process.CompletionHandler {
+    func syncProcessCompletionCallBack(in context: DataStoreContext,
+                                       operation: DataSync.Operation,
+                                       startStamp: TableStampStorage.Stamp,
+                                       tempPath: Path,
+                                       _ completionHandler: @escaping SyncCompletionHandler) -> Process.CompletionHandler {
         return { result in
             if self.isCancelled {
                 completionHandler(.failure(.cancel))
