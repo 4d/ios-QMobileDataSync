@@ -77,6 +77,15 @@ extension DataSyncError: ErrorConvertible {
             return nil
         }
     }
+    /// The underlying error if any.
+    public var apiError: APIError? {
+        switch self {
+        case .apiError(let error):
+            return error
+        default:
+            return nil
+        }
+    }
 }
 
 // MARK: - Response
