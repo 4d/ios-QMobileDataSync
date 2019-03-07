@@ -15,4 +15,11 @@ import QMobileAPI
 extension PageInfo {
     /// A dummy page info.
     static let dummy = PageInfo(globalStamp: 0, sent: Prephirences.DataSync.Request.limit, first: 0, count: Prephirences.DataSync.Request.limit)
+
+    /// A page to ignore when checking global stamp
+    static let ignored = PageInfo(globalStamp: PageInfo.ignoredGlobalStamp, sent: Prephirences.DataSync.Request.limit, first: 0, count: Prephirences.DataSync.Request.limit)
+
+    /// Stamp value for ignored table
+    static let ignoredGlobalStamp = -1
+
 }

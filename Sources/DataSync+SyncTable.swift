@@ -45,7 +45,7 @@ extension DataSync {
 
         // Maybe do not synchronize the table if slave table.
         if tableInfo.slave != nil {
-            let pageInfo: PageInfo = .dummy
+            let pageInfo: PageInfo = .ignored
             self.dataSyncEnd(for: table, with: pageInfo, operation)
             self.process?.completed(for: table, with: .success(pageInfo))
             return cancellable
@@ -137,7 +137,7 @@ extension DataSync {
 
         // Maybe do not synchronize the table if slave table.
         if tableInfo.slave != nil {
-            let pageInfo: PageInfo = .dummy
+            let pageInfo: PageInfo = .ignored
             self.dataSyncEnd(for: table, with: pageInfo, operation)
             self.process?.completed(for: table, with: .success(pageInfo))
             return cancellable
@@ -172,7 +172,7 @@ extension DataSync {
                 }
                 #endif
 
-                let pageInfo: PageInfo = .dummy // here multipage is deactivated
+                let pageInfo: PageInfo = .ignored // here multipage is deactivated
                 if pageInfo.isLast {
                     self.dataSyncEnd(for: table, with: pageInfo, operation)
 

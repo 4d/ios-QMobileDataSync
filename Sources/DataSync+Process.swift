@@ -81,7 +81,8 @@ extension DataSync.Process {
             let tableStatus = try result.dematerialize()
 
             // If all tableStatus are complete with same globalStamp
-            let stamps = tableStatus.map { $0.1 }
+            var stamps = tableStatus.map { $0.1 }
+            stamps.removeAll(where: { $0 == PageInfo.ignoredGlobalStamp })
             let maxStamp = stamps.max() ?? startStamp
             let sameStamp = stamps.min() == maxStamp
             if sameStamp {

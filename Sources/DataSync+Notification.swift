@@ -64,9 +64,11 @@ extension DataSync {
             completionHandler(result)
             switch result {
             case .success:
+                logger.debug("Data \(operation) did finish with success")
                 Notification(name: .dataSyncSuccess, object: self, userInfo: [NotificationUserInfoKey.operation: operation]).post()
                 self.delegate?.didDataSyncEnd(tables: self.tables, operation: operation)
             case .failure(let error):
+                logger.debug("Data \(operation) did failed \(error)")
                 Notification(name: .dataSyncFailed, object: self, userInfo: [NSUnderlyingErrorKey: error,
                                                                              NotificationUserInfoKey.operation: operation]).post()
                 self.delegate?.didDataSyncFailed(error: error, operation: operation)
@@ -85,6 +87,7 @@ extension DataSync {
     }
 
     func dataSyncWillBegin(_ operation: Operation, cancellable: Cancellable) {
+        logger.debug("Data \(operation) will begin")
         Notification(name: .dataSyncWillBegin, object: self, userInfo: [NotificationUserInfoKey.tables: self.tables,
                                                                         NotificationUserInfoKey.operation: operation,
                                                                         NotificationUserInfoKey.cancellable: cancellable]).post()
@@ -92,6 +95,7 @@ extension DataSync {
     }
 
     func dataSyncDidBegin(_ operation: Operation) -> Bool {
+        logger.debug("Data \(operation) did begin")
         Notification(name: .dataSyncDidBegin, object: self, userInfo: [NotificationUserInfoKey.tables: self.tables,
                                                                        NotificationUserInfoKey.operation: operation]).post()
         return self.delegate?.willDataSyncDidBegin(tables: self.tables, operation: operation) ?? false
