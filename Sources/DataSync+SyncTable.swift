@@ -246,7 +246,7 @@ extension DataSync {
             self.configureRecordsRequest(request, tableInfo, table)
 
             // Stamp filter
-            if table.attributes[kGlobalStamp] != nil {
+            if tableInfo.hasGlobalStamp || table.attributes[kGlobalStamp] != nil {
                 let filter = "\(kGlobalStamp)>=\(stamp)" // XXX seems to be superior or EQUAL
                 if let currentFilter = request.filter, !currentFilter.isEmpty {
                     request.filter(currentFilter+" AND "+filter) // XXX maybe be do a function to append/add

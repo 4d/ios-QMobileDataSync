@@ -19,6 +19,8 @@ private enum DataStoreTableInfoUserInfoKey: String {
     case primaryKey
     /// If defined, only slave table (ie. used with relation only)
     case slave
+    // has global stamp
+    case globalStamp
 
     // - Rest
 
@@ -47,6 +49,10 @@ extension DataStoreTableInfo {
 
     var limit: String? {
         return userInfo(.limit)
+    }
+
+    var hasGlobalStamp: Bool {
+        return userInfo(.globalStamp) == "YES"
     }
 
     var methods: [TableMethod] {
