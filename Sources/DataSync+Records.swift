@@ -194,3 +194,14 @@ extension Record: RecordImportable {
     }
 
 }
+
+extension Record {
+    /// If in userinfo a primary key is defined, get the value for this key.
+    open var primaryKeyValue: Any? {
+        guard let primaryKey = self.tableInfo.primaryKey else {
+            return nil
+        }
+        return self[primaryKey]
+    }
+
+}
