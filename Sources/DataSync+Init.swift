@@ -89,8 +89,7 @@ extension DataSync {
         }
         sequence.append(checkTable)
 
-        let firstStart = Prephirences.DataSync.firstSync // maybe add other things like no metadata
-        if firstStart {
+        if Prephirences.DataSync.firstSync {
             Prephirences.DataSync.firstSync = false
 
             // from file
