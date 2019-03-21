@@ -30,4 +30,8 @@ extension DataSync {
         return Future { _ = self.reload(in: dataStoreContextType, on: callbackQueue, $0) }
     }
 
+    public func drop(in dataStoreContextType: DataStoreContextType = .background, on callbackQueue: DispatchQueue? = nil) -> Future<Void, DataSyncError> {
+        return Future { _ = self.drop(in: dataStoreContextType, on: callbackQueue, $0) }
+    }
+
 }

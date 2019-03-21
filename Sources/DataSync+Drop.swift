@@ -8,7 +8,10 @@
 
 import Foundation
 
+import Moya
+
 import QMobileDataStore
+import QMobileAPI
 
 extension DataSync {
 
@@ -23,29 +26,56 @@ extension DataSync {
             return true
         } catch {
             completionHandler?(.failure(DataSyncError.error(from: DataStoreError.error(from: error))))
-            return true
+            return false
         }
     }
 
     /// Drop all data from tables in data store.
-    public func drop(dataStoreContextType: DataStoreContextType = .background, _ completionHandler: SyncCompletionHandler? = nil) -> Bool {
-       return self.dataStore.perform(dataStoreContextType, blockName: "DropTable") { [weak self] context in
-            guard let this = self else {
-                completionHandler?(.failure(.retain))
+    public func drop(in dataStoreContextType: DataStoreContextType = .background,
+                     on callbackQueue: DispatchQueue? = nil,
+                     _ completionHandler: @escaping SyncCompletionHandler) -> Cancellable {
+
+        let cancellable = CancellableComposite() // return value, a cancellable
+
+        // Check if data store initialized.
+        let future = initFuture(dataStoreContextType: dataStoreContextType, callbackQueue: callbackQueue)
+
+        // On succes launch the sync.
+        future.onSuccess { [weak self] in
+            guard let this = self else { // memory issue, must retain the dataSync object somewhere
+                completionHandler(.failure(.retain))
                 return
             }
-            if this.isCancelled {
-                completionHandler?(.failure(.cancel))
-                return
+
+            let perform = this.dataStore.perform(dataStoreContextType, blockName: "DropTables") { [weak self] context in
+                guard let this = self else {
+                    completionHandler(.failure(.retain))
+                    return
+                }
+                if this.isCancelled {
+                    completionHandler(.failure(.cancel))
+                    return
+                }
+                if this.doDrop(context, completionHandler) {
+                    do {
+                        try context.commit()
+                        completionHandler(.success(()))
+                    } catch {
+                        completionHandler(.failure(DataSyncError.error(from: error)))
+                    }
+                }
             }
-            _ = this.doDrop(context, completionHandler)
-            do {
-                try context.commit()
-                completionHandler?(.success(()))
-            } catch {
-                completionHandler?(.failure(DataSyncError.error(from: error)))
+            if !perform {
+                logger.warning("Cannot get data: context cannot be created on data store")
+                completionHandler(.failure(.dataStoreNotReady))
             }
         }
+
+        // on failure juste send the error
+        future.onFailure { error in
+            completionHandler(.failure(error))
+        }
+        return cancellable
     }
 
 }
