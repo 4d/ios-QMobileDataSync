@@ -19,16 +19,6 @@ import QMobileDataStore
 // MARK: Sync
 extension DataSync {
 
-    /// Reload the data. ie drop data and sync.
-    public func reload(in contextType: DataStoreContextType = .background,
-                       on callbackQueue: DispatchQueue? = nil,
-                       _ completionHandler: @escaping SyncCompletionHandler) -> Cancellable {
-        return sync(operation: .reload,
-                    in: contextType,
-                    on: callbackQueue,
-                    completionHandler)
-    }
-
     /// Synchronize the data.
     public func sync(operation: DataSync.Operation = .sync,
                      in dataStoreContextType: DataStoreContextType = .background,

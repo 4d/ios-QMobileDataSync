@@ -149,15 +149,15 @@ extension DataSync {
             case .success(let response):
 
                 // Write to file
-                let path: Path = path + "\(table.name).\(DataSync.Preferences.jsonDataExtension)"
+                let filePath: Path = path + "\(table.name).\(DataSync.Preferences.jsonDataExtension)"
                 let data = response.data
-                if path.exists {
-                    try? path.deleteFile()
+                if filePath.exists {
+                    try? filePath.deleteFile()
                 }
                 do {
-                    try DataFile(path: path).write(response.data)
+                    try DataFile(path: filePath).write(response.data)
                 } catch {
-                    logger.warning("failed to write to \(path)")
+                    logger.warning("failed to write to \(filePath)")
                 }
 
                 #if DEBUG

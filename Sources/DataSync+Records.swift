@@ -37,6 +37,7 @@ extension DataSync {
             logger.info("\(records.count) records imported from '\(tableName)' file")
         }
 
+        // read global stamp from embedded files
         if var stampStorage = self.dataStore.metadata?.stampStorage {
             var globalStamp = 0
             for (_, stamp) in stamps {
