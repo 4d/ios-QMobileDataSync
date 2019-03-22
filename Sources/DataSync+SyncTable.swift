@@ -247,12 +247,7 @@ extension DataSync {
 
             // Stamp filter
             if tableInfo.hasGlobalStamp || table.attributes[kGlobalStamp] != nil {
-                let filter = "\(kGlobalStamp)>=\(stamp)" // XXX seems to be superior or EQUAL
-                if let currentFilter = request.filter, !currentFilter.isEmpty {
-                    request.filter(currentFilter+" AND "+filter) // XXX maybe be do a function to append/add
-                } else {
-                    request.filter(filter)
-                }
+                request.appendToFilter("\(kGlobalStamp)>=\(stamp)") // seems to be superior or equal today
             } else {
                 logger.warning("There is no \(kGlobalStamp) field in table \(table.name). We could not make optimized data synchronization. Please update your structure.")
             }
