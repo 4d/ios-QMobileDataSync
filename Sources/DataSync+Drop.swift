@@ -38,7 +38,7 @@ extension DataSync {
         let cancellable = CancellableComposite() // return value, a cancellable
 
         // Check if data store initialized.
-        let future = initFuture(dataStoreContextType: dataStoreContextType, callbackQueue: callbackQueue)
+        let future = initFuture(dataStoreContextType: dataStoreContextType, loadRecordsFromFiles: false, callbackQueue: callbackQueue)
 
         // On succes launch the sync.
         future.onSuccess { [weak self] in
@@ -46,8 +46,11 @@ extension DataSync {
                 completionHandler(.failure(.retain))
                 return
             }
-
-            let perform = this.dataStore.perform(dataStoreContextType, blockName: "DropTables") { [weak self] context in
+            let dataStore = this.dataStore
+            if var stampStorage = dataStore.metadata?.stampStorage {
+                stampStorage.globalStamp = 0
+            }
+            let perform = dataStore.perform(dataStoreContextType, blockName: "DropTables") { [weak self] context in
                 guard let this = self else {
                     completionHandler(.failure(.retain))
                     return
@@ -58,8 +61,10 @@ extension DataSync {
                 }
                 if this.doDrop(context, completionHandler) {
                     do {
-                        try context.commit()
+                        try context.commit() // XXX maybe do not commit before loading files
+                        try this.loadRecordsFromFile(context: context, tables: Array(this.tablesInfoByTable.keys))
                         completionHandler(.success(()))
+
                     } catch {
                         completionHandler(.failure(DataSyncError.error(from: error)))
                     }

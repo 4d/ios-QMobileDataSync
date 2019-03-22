@@ -18,11 +18,12 @@ import QMobileDataStore
 extension DataSync {
 
     /// Load records from files, need to be done in data store context.
-    func loadRecordsFromFile(context: DataStoreContext, tables: [Table]? = nil) throws -> [Table: TableStampStorage.Stamp] {
+    func loadRecordsFromFile(context: DataStoreContext, tables: [Table]) throws {
+        self.dataSyncWillLoad(tables)
         var stamps: [Table: TableStampStorage.Stamp] = [:]
         // load data from files by table.
         for (table, tableInfo) in self.tablesInfoByTable {
-            guard tables?.contains(table) ?? true else { continue } // could filter on some tables.
+            guard tables.contains(table) else { continue } // could filter on some tables.
             let tableName = table.name
             // Get json
             guard let json = NSDataAsset(name: table.name)?.json ??
@@ -36,10 +37,21 @@ extension DataSync {
             logger.info("\(records.count) records imported from '\(tableName)' file")
         }
 
+        if var stampStorage = self.dataStore.metadata?.stampStorage {
+            var globalStamp = 0
+            for (_, stamp) in stamps {
+                // stampStorage.set(stamp: stamp, for: table)
+                if (globalStamp == 0) || (stamp != 0 && stamp < globalStamp) { // take the min but not zero (all stamps must be equal or zero, but in case of)
+                    globalStamp = stamp
+                }
+            }
+            stampStorage.globalStamp = globalStamp
+        }
+
         // finally flush the context.
         try context.commit()
 
-        return stamps
+        self.dataSyncDidLoad(tables)
     }
 
     /// We download to a cache folder when reloading. Then we load from this cache.
