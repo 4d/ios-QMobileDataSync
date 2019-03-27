@@ -14,6 +14,7 @@
 		481EDC771F4C724500E97960 /* LocalizableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481EDC761F4C724500E97960 /* LocalizableTests.swift */; };
 		481EDC781F4C72BF00E97960 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 481EDC7A1F4C72BF00E97960 /* Localizable.strings */; };
 		482259CE1F5EA3CD00BB2A87 /* DeviceKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 482259CD1F5EA3CD00BB2A87 /* DeviceKit.framework */; };
+		4833069C224BCF3700DE9269 /* __DeletedRecords.json in Resources */ = {isa = PBXBuildFile; fileRef = 4833069B224BCF3700DE9269 /* __DeletedRecords.json */; };
 		4837277E1EB8A8DF0060B064 /* DataSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4837277D1EB8A8DF0060B064 /* DataSync.swift */; };
 		483727801EB8AD940060B064 /* Moya.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4837277F1EB8AD940060B064 /* Moya.framework */; };
 		483727821EB8AD9C0060B064 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483727811EB8AD9C0060B064 /* Result.framework */; };
@@ -151,6 +152,7 @@
 		482259CD1F5EA3CD00BB2A87 /* DeviceKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DeviceKit.framework; path = Carthage/Build/iOS/DeviceKit.framework; sourceTree = "<group>"; };
 		482259D21F5EC4D600BB2A87 /* XCGLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCGLogger.framework; path = Carthage/Build/Mac/XCGLogger.framework; sourceTree = "<group>"; };
 		482259D31F5EC4DF00BB2A87 /* ObjcExceptionBridging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjcExceptionBridging.framework; path = Carthage/Build/Mac/ObjcExceptionBridging.framework; sourceTree = "<group>"; };
+		4833069B224BCF3700DE9269 /* __DeletedRecords.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = __DeletedRecords.json; sourceTree = "<group>"; };
 		4837277D1EB8A8DF0060B064 /* DataSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSync.swift; sourceTree = "<group>"; };
 		4837277F1EB8AD940060B064 /* Moya.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Moya.framework; path = Carthage/Build/iOS/Moya.framework; sourceTree = "<group>"; };
 		483727811EB8AD9C0060B064 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
@@ -547,6 +549,7 @@
 				4855549E1ECAEF68001EE365 /* CLIENTS.json */,
 				4855549F1ECAEF68001EE365 /* INVOICES.json */,
 				485554A01ECAEF68001EE365 /* PRODUCTS.json */,
+				4833069B224BCF3700DE9269 /* __DeletedRecords.json */,
 			);
 			name = Stub;
 			sourceTree = "<group>";
@@ -737,6 +740,7 @@
 				485554CA1ECAEF68001EE365 /* PRODUCTS.json in Resources */,
 				485554E21ECAEF68001EE365 /* restmethod.json in Resources */,
 				485554E31ECAEF68001EE365 /* restrecord.json in Resources */,
+				4833069C224BCF3700DE9269 /* __DeletedRecords.json in Resources */,
 				485554DE1ECAEF68001EE365 /* restcatalog.json in Resources */,
 				485554C11ECAEF68001EE365 /* restcatalogall.json in Resources */,
 				485554E11ECAEF68001EE365 /* restinfo.json in Resources */,

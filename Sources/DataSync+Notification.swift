@@ -34,9 +34,9 @@ public extension Notification.Name {
 public extension Notification.Name {
 
     /// Notify data sync will begin
-    public static let dataSyncWillLoad = Notification.Name("dataSync.will.load")
+    static let dataSyncWillLoad = Notification.Name("dataSync.will.load")
     /// Notify data sync did begin
-    public static let dataSyncDidLoad = Notification.Name("dataSync.did.load")
+    static let dataSyncDidLoad = Notification.Name("dataSync.did.load")
 
 }
 

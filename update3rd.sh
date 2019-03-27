@@ -59,6 +59,20 @@ sed -i '' '/Rx/d' Carthage/Checkouts/Moya/Cartfile.resolved
 sed -i '' '/Reactive/d' Carthage/Checkouts/Moya/Cartfile
 sed -i '' '/Rx/d' Carthage/Checkouts/Moya/Cartfile
 
+# remove workspace if project exist (avoid compile dependencies and have some umbrella issues)
+cd Carthage/Checkouts
+for f in *; do
+    if [[ -d $f ]]; then
+      if [[ $f == QMobile* ]]; then
+        echo "$f: "
+        if [[ -d $f/$f.xcworkspace ]]; then
+          echo "- remove xcworkspace"
+          rm -Rf $f/$f.xcworkspace
+        fi
+      fi
+    fi
+done
+
 # build
 mkdir -p "build"
 carthage build  --no-use-binaries --platform iOS --cache-builds --log-path "build/log"

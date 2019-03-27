@@ -50,7 +50,7 @@ extension Sequence where Iterator.Element: ResultProtocol {
     }
 
     public func dematerialize() throws -> [Iterator.Element.Value] {
-        return try self.result.dematerialize()
+        return try self.result.get()
     }
 
     public func analysis(ifSuccess: ([Iterator.Element.Value]) -> ResultSequence, ifFailure: (Iterator.Element.Error) -> ResultSequence) -> ResultSequence {

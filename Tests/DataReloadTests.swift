@@ -75,9 +75,9 @@ class DataReloadTests: XCTestCase {
     func testDataReload() {
         let lastSync = dataSync.dataStore.metadata?.lastSync ?? Date()
         let expectation = self.expectation()
-        let cancellable = dataSync.reload { result in
+        let cancellable = dataSync.sync(operation: .reload) { result in
             do {
-                try result.dematerialize()
+                try result.get()
                 
                 let date = self.dataSync.dataStore.metadata?.lastSync
                 XCTAssertNotNil(date, "no lastSync date")
@@ -137,9 +137,9 @@ class DataReloadTests: XCTestCase {
 
     func _testDataReloadCancelImmediately() {
         let expectation = self.expectation()
-        let cancellable = dataSync.reload { result in
+        let cancellable = dataSync.sync(operation: .reload) { result in
             do {
-                try result.dematerialize()
+                try result.get()
                 
                 XCTFail("Must have an exception")
             }
@@ -164,9 +164,9 @@ class DataReloadTests: XCTestCase {
     
     func _testDataReloadCancelInQueue() {
         let expectation = self.expectation()
-        let cancellable = dataSync.reload { result in
+        let cancellable = dataSync.sync(operation: .reload) { result in
             do {
-                try result.dematerialize()
+                try result.get()
                 
                 // XCTFail("Must have an exception")
                 expectation.fulfill() // difficult to test with stub
@@ -194,12 +194,12 @@ class DataReloadTests: XCTestCase {
 
     func _testTwoSerialDataReload() {
         let expectation = self.expectation()
-        let cancellable = dataSync.reload { result in
+        let cancellable = dataSync.sync(operation: .reload) { result in
             do {
-                try result.dematerialize()
+                try result.get()
                 
                 
-                _ = self.dataSync.reload { result in
+                _ = self.dataSync.sync(operation: .reload) { result in
                     
                     let result = self.dataSync.dataStore.perform(.background) { context in
                         

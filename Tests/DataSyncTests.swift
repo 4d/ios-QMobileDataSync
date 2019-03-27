@@ -60,7 +60,7 @@ class DataSyncTests: XCTestCase {
     func testLoadTable() {
         dataSync.loadTable { result in
             do {
-                let tables = try result.dematerialize()
+                let tables = try result.get()
                 XCTAssertFalse(tables.isEmpty)
                 
                 if Bundle.dataStore[Bundle.dataStoreKey] as? String == "Invoices" {
@@ -78,7 +78,7 @@ class DataSyncTests: XCTestCase {
         
         let cancellable = dataSync.loadRemoteTable { result in
             do {
-                let tables = try result.dematerialize()
+                let tables = try result.get()
                 XCTAssertFalse(tables.isEmpty)
                 
                 if Bundle.dataStore[Bundle.dataStoreKey] as? String == "Invoices" {
@@ -100,7 +100,7 @@ class DataSyncTests: XCTestCase {
         let expectation = self.expectation()
         let cancellable = dataSync.sync { result in
             do {
-                try result.dematerialize()
+                try result.get()
                 
                 let date = self.dataSync.dataStore.metadata?.lastSync
                 XCTAssertNotNil(date, "no lastSync date")
@@ -151,7 +151,7 @@ class DataSyncTests: XCTestCase {
         let expectation = self.expectation()
         let cancellable = dataSync.sync { result in
             do {
-                try result.dematerialize()
+                try result.get()
                 
                 XCTFail("Must have an exception")
             }
@@ -178,7 +178,7 @@ class DataSyncTests: XCTestCase {
         let expectation = self.expectation()
         let cancellable = dataSync.sync { result in
             do {
-                try result.dematerialize()
+                try result.get()
                 
                 // XCTFail("Must have an exception")
                 expectation.fulfill() // difficult to test with stub
@@ -208,7 +208,7 @@ class DataSyncTests: XCTestCase {
         let expectation = self.expectation()
         let cancellable = dataSync.sync { result in
             do {
-                try result.dematerialize()
+                try result.get()
  
                 _ = self.dataSync.sync { result in
                     
@@ -260,7 +260,7 @@ class DataSyncTests: XCTestCase {
         let expectation = self.expectation()
         let cancellable = dataSync.sync { result in
             do {
-                try result.dematerialize()
+                try result.get()
                 
                 
                 _ = self.dataSync.sync { result in

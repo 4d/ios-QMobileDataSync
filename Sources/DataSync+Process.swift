@@ -78,7 +78,7 @@ extension DataSync.Process {
 
         let result: Result<[TableStatus], ProcessError> = tablesResults.values.sequence()
         do {
-            let tableStatus = try result.dematerialize()
+            let tableStatus = try result.get()
 
             // If all tableStatus are complete with same globalStamp
             var stamps = tableStatus.map { $0.1 }

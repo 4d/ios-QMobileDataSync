@@ -17,53 +17,53 @@ import Moya
 public extension APIManager {
 
     /// Get server status
-    public func status(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<Status, APIError> {
+    func status(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<Status, APIError> {
         return Future { _ = self.status(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
     }
 
     /// Get server info
-    public func info(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<Info, APIError> {
+    func info(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<Info, APIError> {
         return Future { _ = self.info(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
     }
 
     /// Get server session info
-    public func sessionInfo(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<[SessionInfo], APIError> {
+    func sessionInfo(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<[SessionInfo], APIError> {
         return Future { _ = self.sessionInfo(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
     }
 
     /// Get server Progress Info
-    public func progressInfo(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<[ProgressInfo], APIError> {
+    func progressInfo(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<[ProgressInfo], APIError> {
         return Future { _ = self.progressInfo(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
     }
 
     /// Get server Cache Info
-    public func cacheInfo(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<[CacheInfo], APIError> {
+    func cacheInfo(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<[CacheInfo], APIError> {
         return Future { _ = self.cacheInfo(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
     }
 
     /// Get server Entity Set Info
-    public func entitySetInfo(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<EntitySetInfo, APIError> {
+    func entitySetInfo(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<EntitySetInfo, APIError> {
         return Future { _ = self.entitySetInfo(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
     }
 
     /// Get the catalog, list description of URI for tables and records
-    public func catalog(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<[Catalog], APIError> {
+    func catalog(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<[Catalog], APIError> {
         return Future { _ = self.catalog(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
     }
 
     /// Get all tables
-    public func tables(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<[Table], APIError> {
+    func tables(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<[Table], APIError> {
         return Future { _ = self.tables(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
     }
 
     /// Get one table by name
     /// @param table     the wanted table name
-    public func table(name: String, callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<Table, APIError> {
+    func table(name: String, callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<Table, APIError> {
         return Future { _ = self.table(name: name, callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
     }
 
     /// Get deleted records
-    public func deletedRecordPage(configure: ConfigureRecordsRequest? = nil, callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<Page, APIError> {
+    func deletedRecordPage(configure: ConfigureRecordsRequest? = nil, callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<Page, APIError> {
         return Future { _ = self.deletedRecordPage(configure: configure, callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
     }
 
@@ -71,7 +71,7 @@ public extension APIManager {
 
 public extension APIManager {
 
-    public static func status(for urls: [URL], callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<[URL: Result<Status, APIError>], NoError> {
+    static func status(for urls: [URL], callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<[URL: Result<Status, APIError>], NoError> {
         if urls.isEmpty {
             return Future(value: [:])
         }
@@ -87,7 +87,7 @@ public extension APIManager {
         return sequence.sequence().map { dict($0) }
     }
 
-    public static func firstStatus(for urls: [URL], callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<(URL, Status), APIError> {
+    static func firstStatus(for urls: [URL], callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<(URL, Status), APIError> {
         if urls.isEmpty {
             assertionFailure("no url provided")
             return Future(error: APIError.error(from: NSError(domain: "qmobile", code: 700))) // CLEAN, use a real APIError
@@ -103,7 +103,7 @@ public extension APIManager {
         return sequence.firstCompleted()
     }
 
-    public static func firstStatusSuccess(for urls: [URL], callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<(URL, Status), APIError> {
+    static func firstStatusSuccess(for urls: [URL], callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<(URL, Status), APIError> {
         var urls = urls.slice // popable
 
         guard let firstURL: URL = urls.popFirst() else {
