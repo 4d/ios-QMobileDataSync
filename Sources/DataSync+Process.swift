@@ -85,7 +85,7 @@ extension DataSync.Process {
             stamps.removeAll(where: { $0 == PageInfo.ignoredGlobalStamp })
             let maxStamp = stamps.max() ?? startStamp
             let sameStamp = stamps.min() == maxStamp
-            if sameStamp {
+            if sameStamp || stamps.isEmpty {
                 self.completionHandler(.success(maxStamp))
                 return nil
             } else {
