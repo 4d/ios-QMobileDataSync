@@ -13,22 +13,22 @@ import QMobileAPI
 public extension Notification.Name {
 
     /// Notify data sync will begin
-    public static let dataSyncWillBegin = Notification.Name("dataSync.will.begin")
+    static let dataSyncWillBegin = Notification.Name("dataSync.will.begin")
     /// Notify data sync did begin
-    public static let dataSyncDidBegin = Notification.Name("dataSync.did.begin")
+    static let dataSyncDidBegin = Notification.Name("dataSync.did.begin")
     // notify sync end with success
-    public static let dataSyncSuccess = Notification.Name("dataSync.success")
+    static let dataSyncSuccess = Notification.Name("dataSync.success")
     /// notify sync failed
-    public static let dataSyncFailed = Notification.Name("dataSync.failed")
+    static let dataSyncFailed = Notification.Name("dataSync.failed")
 
     /// sync begin for one table
-    public static let dataSyncForTableBegin = Notification.Name("dataSync.table.begin")
+    static let dataSyncForTableBegin = Notification.Name("dataSync.table.begin")
     /// each page is published
-    public static let dataSyncForTableProgress = Notification.Name("dataSync.table.progress")
+    static let dataSyncForTableProgress = Notification.Name("dataSync.table.progress")
     /// table sync end with success
-    public static let dataSyncForTableSuccess = Notification.Name("dataSync.table.success")
+    static let dataSyncForTableSuccess = Notification.Name("dataSync.table.success")
     /// table sync end with error
-    public static let dataSyncForTableFailed = Notification.Name("dataSync.table.failed")
+    static let dataSyncForTableFailed = Notification.Name("dataSync.table.failed")
 }
 
 public extension Notification.Name {
