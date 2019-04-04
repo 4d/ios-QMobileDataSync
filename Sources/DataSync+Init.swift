@@ -60,7 +60,7 @@ extension DataSync {
 
     /// check data store loaded, and tables structures loaded
     public func initFuture(dataStoreContextType: DataStoreContextType = .background,
-                           loadRecordsFromFiles: Bool? = nil,
+                           loadRecordsFromFiles: Bool = true,
                            callbackQueue: DispatchQueue? = nil) -> SyncFuture {
 
         // Load data store if necessary
@@ -91,7 +91,7 @@ extension DataSync {
         }
         sequence.append(checkTable)
 
-        if loadRecordsFromFiles == nil || Prephirences.DataSync.firstSync {
+        if loadRecordsFromFiles && Prephirences.DataSync.firstSync {
             Prephirences.DataSync.firstSync = false
 
             // from file
