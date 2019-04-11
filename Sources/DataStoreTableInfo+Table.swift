@@ -52,7 +52,15 @@ extension DataStoreTableInfo {
     }
 
     var hasGlobalStamp: Bool {
-        return userInfo(.globalStamp) == "YES"
+        get {
+            return userInfo(.globalStamp) == "YES"
+        }
+        set {
+            if self.userInfo == nil {
+                self.userInfo = [:]
+            }
+            self.userInfo?[DataStoreTableInfoUserInfoKey.globalStamp.rawValue] = newValue
+        }
     }
 
     var methods: [TableMethod] {
