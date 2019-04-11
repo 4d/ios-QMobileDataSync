@@ -152,6 +152,15 @@ extension DataSyncError: LocalizedError {
         return nil
     }
 
+    public var isNeedUpdate: Bool {
+        switch self {
+        case .missingRemoteTables, .missingRemoteTableAttributes:
+            return true
+        default:
+            return false
+        }
+    }
+
     public var recoverySuggestion: String? {
         if let error = self.error as? LocalizedError {
             return error.recoverySuggestion

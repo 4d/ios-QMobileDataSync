@@ -38,8 +38,8 @@ extension DataSync {
         // Check if data store initialized.
         var future: SyncFuture = initFuture(dataStoreContextType: dataStoreContextType, callbackQueue: callbackQueue)
 
-        future = future.andThen { _ in
-            return self.loadRemoteTable()
+        future = future.flatMap { _ in
+            return self.loadRemoteTable().asVoid()
         }
 
         // On succes launch the sync.
@@ -106,6 +106,8 @@ extension DataSync {
             // Get data from this global stamp
             let startStamp = stampStorage.globalStamp
             let tables = this.tables
+
+            logger.info("...\(operation.description) with stamp \(startStamp)")
 
             // From remote
             let tempPath: Path = .userTemporary

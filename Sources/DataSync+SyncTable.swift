@@ -56,7 +56,7 @@ extension DataSync {
             case .success(let (records, pageInfo)):
 
                 if pageInfo.isLast {
-                    logger.info("Last page loaded for table \(table.name)")
+                    logger.info("Last page loaded for table \(table.name): \(pageInfo)")
                     self.dataSyncEnd(for: table, with: pageInfo, operation)
                     if case .byTable = self.saveMode {
                         self.tryCommit(context)
