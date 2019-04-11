@@ -44,6 +44,8 @@ extension Prephirences {
             }
         }
 
+        static let allowMissingField: Bool = instance["allowMissingField"] as? Bool ?? true
+
         struct Request {
             static let instance =  ProxyPreferences(preferences: Prephirences.DataSync.instance, key: "request.")
             static let limit = instance["limit"] as? Int ?? 100000

@@ -57,6 +57,7 @@ extension DataSync {
     public typealias SyncResult = Result<Void, DataSyncError>
     public typealias SyncCompletionHandler = (SyncResult) -> Void
     public typealias SyncFuture = Future<Void, DataSyncError>
+    public typealias SyncTableFuture = Future<[Table], DataSyncError>
 
     /// check data store loaded, and tables structures loaded
     public func initFuture(dataStoreContextType: DataStoreContextType = .background,
@@ -84,7 +85,7 @@ extension DataSync {
         }
 
         // Load table if needed
-        let loadTable: Future<[Table], DataSyncError> = self.loadTable(on: callbackQueue)
+        let loadTable: SyncTableFuture = self.loadTable(on: callbackQueue)
         /// check if there is table
         let checkTable: SyncFuture = loadTable.flatMap { (tables: [Table]) -> SyncResult in
               return self.tables.isEmpty ? .failure(.noTables) : .success(())
@@ -108,7 +109,7 @@ extension DataSync {
         return sequence.sequence().asVoid()
     }
 
-    private func loadRecordsFromFileFuture(dataStoreContextType: DataStoreContextType, previous: Future<[Table], DataSyncError>) -> SyncFuture {
+    private func loadRecordsFromFileFuture(dataStoreContextType: DataStoreContextType, previous: SyncTableFuture) -> SyncFuture {
         return previous.flatMap { (tables: [Table]) -> SyncFuture in
 
             return self.dataStore.perform(dataStoreContextType, blockName: "LoadEmbeddedData").flatMap { (dataStoreContext: DataStoreContext) -> Result<Void, DataStoreError> in
@@ -130,7 +131,7 @@ extension DataSync {
         }
     }
 
-    private func deleteRecordsFuture(dataStoreContextType: DataStoreContextType, previous: Future<[Table], DataSyncError>) -> SyncFuture {
+    private func deleteRecordsFuture(dataStoreContextType: DataStoreContextType, previous: SyncTableFuture) -> SyncFuture {
         return previous.flatMap { (tables: [Table]) -> SyncFuture in
 
             return self.dataStore.perform(dataStoreContextType).flatMap { (dataStoreContext: DataStoreContext) -> Result<Void, DataStoreError> in

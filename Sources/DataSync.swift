@@ -35,7 +35,7 @@ public class DataSync {
     /// Bundle for files (JSON tables and data)
     public var bundle: Bundle = .main
 
-    /// List of loaded tables
+    /// List of loaded tables from data store
     public var tablesInfoByTable: [Table: DataStoreTableInfo] = [:]
     public var tables: [Table] {
         return Array(tablesInfoByTable.keys)

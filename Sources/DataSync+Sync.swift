@@ -12,6 +12,7 @@ import Prephirences
 import Result
 import Moya
 import FileKit
+import BrightFutures
 
 import QMobileAPI
 import QMobileDataStore
@@ -35,7 +36,12 @@ extension DataSync {
         let completionHandler: SyncCompletionHandler = wrap(operation, completionHandler: completionHandler)
 
         // Check if data store initialized.
-        let future = initFuture(dataStoreContextType: dataStoreContextType, callbackQueue: callbackQueue)
+        var future: SyncFuture = initFuture(dataStoreContextType: dataStoreContextType, callbackQueue: callbackQueue)
+
+        future = future.andThen { _ in
+            return self.loadRemoteTable()
+        }
+
         // On succes launch the sync.
         future.onSuccess { [weak self] in
             guard let this = self else { // memory issue, must retain the dataSync object somewhere

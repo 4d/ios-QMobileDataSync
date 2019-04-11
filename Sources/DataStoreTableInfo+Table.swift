@@ -35,9 +35,32 @@ private enum DataStoreTableInfoUserInfoKey: String {
 
 extension DataStoreTableInfo {
 
+    // MARK: helper methods
+
     fileprivate func userInfo(_ key: DataStoreTableInfoUserInfoKey) -> String? {
         return self.userInfo?[key.rawValue] as? String
     }
+
+    fileprivate mutating func setUserInfo(_ key: DataStoreTableInfoUserInfoKey, _ value: String) {
+        if self.userInfo == nil {
+            self.userInfo = [:]
+        }
+        self.userInfo?[key.rawValue] = value
+    }
+
+    fileprivate mutating func setUserInfo(_ key: DataStoreTableInfoUserInfoKey, _ value: Bool) {
+        if value {
+            setUserInfo(key, "YES")
+        } else {
+            unsetUserInfo(key)
+        }
+    }
+
+    fileprivate mutating func unsetUserInfo(_ key: DataStoreTableInfoUserInfoKey) {
+        self.userInfo?[key.rawValue] = nil
+    }
+
+    // MARK: properties
 
     var originalName: String {
         return userInfo(.keyMapping) ?? self.name
@@ -56,10 +79,7 @@ extension DataStoreTableInfo {
             return userInfo(.globalStamp) == "YES"
         }
         set {
-            if self.userInfo == nil {
-                self.userInfo = [:]
-            }
-            self.userInfo?[DataStoreTableInfoUserInfoKey.globalStamp.rawValue] = newValue
+            setUserInfo(.globalStamp, newValue)
         }
     }
 

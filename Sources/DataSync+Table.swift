@@ -14,6 +14,8 @@ import Moya
 import QMobileAPI
 import QMobileDataStore
 
+let kUserInfoMissingFromRemote = "missingFromRemote"
+
 extension DataSync {
 
     /// Load table structures from embedded files (not working if definition in asset)
@@ -75,7 +77,7 @@ extension DataSync {
         }
     }
 
-    public func loadRemoteTable(callbackQueue: DispatchQueue? = nil, _ completionHander: @escaping TablesCompletionHander) -> Cancellable {
+    public func loadRemoteTable(on callbackQueue: DispatchQueue? = nil, _ completionHander: @escaping TablesCompletionHander) -> Cancellable {
         if self.tables.isEmpty {
             self.loadTable { _ in
                 // no really asynchrone; if asynchone must use Future
@@ -94,23 +96,43 @@ extension DataSync {
                         logger.verbose("Table '\(remoteTable.name) not managed by this mobile project.")
                     }
                 #endif
+
+                // Look for missing tables or attributes
                 var removeTablesByName = remoteTables.dictionary { $0.name }
                 var missingTables = [Table]()
                 var missingAttributes = [Table: [Attribute]]()
                 for table in self.tables {
+                    var tableInfo = self.tablesInfoByTable[table]
+                    var fieldInfoByOriginalName = tableInfo?.fields.dictionary { $0.originalName }
                     if let remoteTable = removeTablesByName[table.name] {
                         assert(table.name == remoteTable.name)
 
                         let remoteAttributesByName = remoteTable.attributes
                         // check remoteTable and table equals? or compatible ie. all field in table are in remoteTable
-                        for (name, attribute) in table.attributes where remoteAttributesByName[name] == nil {
-                            if missingAttributes[table] == nil {
-                                missingAttributes[table] = [attribute]
-                            } else {
-                                missingAttributes[table]?.append(attribute)
-                            }
-                        }
+                        for (name, attribute) in table.attributes {
+                            if remoteAttributesByName[name] == nil {
+                                logger.warning("Missing attribute \(attribute.name) for table \(table.name) on remote 4D Server. Check if you app is up to date")
+                                if missingAttributes[table] == nil {
+                                    missingAttributes[table] = [attribute]
+                                } else {
+                                    missingAttributes[table]?.append(attribute)
+                                }
 
+                                if var fieldInfo = fieldInfoByOriginalName?[attribute.name] {
+                                    var userInfo = fieldInfo.userInfo ?? [:]
+                                    userInfo[kUserInfoMissingFromRemote] = "YES"
+                                    fieldInfo.userInfo = userInfo
+                                }
+                            } else {
+                                fieldInfoByOriginalName?[attribute.name]?.userInfo?[kUserInfoMissingFromRemote] = nil
+                            }
+
+                        }
+                        // check if there is global stamp on server for filter
+                        tableInfo?.hasGlobalStamp = remoteTable.attributes[kGlobalStamp] != nil
+                        if remoteTable.attributes[kGlobalStamp] == nil {
+                            logger.warning("No \(kGlobalStamp) for Table \(table.name) on remote 4D Server. Contact the server administator to have incremental data reloading.")
+                        }
                     } else {
                         missingTables.append(table)
                         logger.warning("Table \(table.name) not accessible on remote 4D Server. Check if you app is up to date")

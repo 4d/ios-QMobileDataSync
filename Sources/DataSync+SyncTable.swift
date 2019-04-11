@@ -220,12 +220,15 @@ extension DataSync {
 
     /// For one table, get list of attribute to use in records request.
     func getAttributes(_ table: Table) -> [String] {
-        let attributes: [String]
-        if Prephirences.DataSync.noAttributeFilter {
-            attributes = []
-        } else if Prephirences.DataSync.expandAttribute {
+        guard Prephirences.DataSync.noAttributeFilter else { return []  }
+
+        var attributes: [String] = []
+        if Prephirences.DataSync.expandAttribute {
             attributes = table.attributes.filter { !$0.1.type.isRelative }.map { $0.0 }
         } else {
+            let tableInfo = self.tablesInfoByTable[table]
+            let fieldInfoByOriginalName = tableInfo?.fields.dictionary { $0.originalName }
+
             attributes = table.attributes.compactMap { (name, attribute) in
                 if let relationType = attribute.relativeType {
                     if let expand = relationType.expand {
@@ -235,6 +238,15 @@ extension DataSync {
                     return nil
                 } else {
                     return name
+                }
+            }
+            if Prephirences.DataSync.allowMissingField {
+                // exclude missing field from remote (XXX relation not taken into account yet)
+                attributes = attributes.filter { name in
+                    if let fieldInfo = fieldInfoByOriginalName?[name] {
+                        return fieldInfo.userInfo?[kUserInfoMissingFromRemote] == nil // allow to reload event if missing attributes
+                    }
+                    return true
                 }
             }
         }
