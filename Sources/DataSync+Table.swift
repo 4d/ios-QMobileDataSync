@@ -14,8 +14,6 @@ import Moya
 import QMobileAPI
 import QMobileDataStore
 
-let kUserInfoMissingFromRemote = "missingFromRemote"
-
 extension DataSync {
 
     /// Load table structures from embedded files (not working if definition in asset)
@@ -117,16 +115,10 @@ extension DataSync {
                                 } else {
                                     missingAttributes[table]?.append(attribute)
                                 }
-
-                                if var fieldInfo = fieldInfoByOriginalName?[attribute.name] {
-                                    var userInfo = fieldInfo.userInfo ?? [:]
-                                    userInfo[kUserInfoMissingFromRemote] = "YES"
-                                    fieldInfo.userInfo = userInfo
-                                }
+                                fieldInfoByOriginalName?[attribute.name]?.isMissingRemoteField = true
                             } else {
-                                fieldInfoByOriginalName?[attribute.name]?.userInfo?[kUserInfoMissingFromRemote] = nil
+                                fieldInfoByOriginalName?[attribute.name]?.isMissingRemoteField = false
                             }
-
                         }
                         // check if there is global stamp on server for filter
                         tableInfo?.hasGlobalStamp = remoteTable.attributes[kGlobalStamp] != nil
@@ -155,4 +147,27 @@ extension DataSync {
         }
     }
 
+}
+
+let kUserInfoMissingFromRemote = "missingFromRemote"
+let kYES = "YES"
+
+extension DataStoreFieldInfo {
+    var isMissingRemoteField: Bool {
+        get {
+            if let userInfo = self.userInfo, let missing = userInfo[kUserInfoMissingFromRemote] as? String {
+                return missing == kYES
+            }
+            return false
+        }
+        set {
+            if newValue {
+                var userInfo = self.userInfo ?? [:]
+                userInfo[kUserInfoMissingFromRemote] = kYES
+                self.userInfo = userInfo
+            } else {
+                self.userInfo?[kUserInfoMissingFromRemote] = nil
+            }
+        }
+    }
 }

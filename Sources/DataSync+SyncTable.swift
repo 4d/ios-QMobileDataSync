@@ -237,16 +237,12 @@ extension DataSync {
                     }
                     return nil
                 } else {
-                    return name
-                }
-            }
-            if Prephirences.DataSync.allowMissingField {
-                // exclude missing field from remote (XXX relation not taken into account yet)
-                attributes = attributes.filter { name in
-                    if let fieldInfo = fieldInfoByOriginalName?[name] {
-                        return fieldInfo.userInfo?[kUserInfoMissingFromRemote] == nil // allow to reload event if missing attributes
+                    if Prephirences.DataSync.allowMissingField {
+                        if let fieldInfo = fieldInfoByOriginalName?[name], fieldInfo.isMissingRemoteField {  // allow to reload event if missing attributes
+                            return nil
+                        }
                     }
-                    return true
+                    return name
                 }
             }
         }
