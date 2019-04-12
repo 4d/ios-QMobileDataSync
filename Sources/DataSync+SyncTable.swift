@@ -220,7 +220,7 @@ extension DataSync {
 
     /// For one table, get list of attribute to use in records request.
     func getAttributes(_ table: Table) -> [String] {
-        guard Prephirences.DataSync.noAttributeFilter else { return []  }
+        guard !Prephirences.DataSync.noAttributeFilter else { return []  }
 
         var attributes: [String] = []
         if Prephirences.DataSync.expandAttribute {
