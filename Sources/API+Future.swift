@@ -71,15 +71,15 @@ public extension APIManager {
 
 public extension APIManager {
 
-    static func status(for urls: [URL], callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<[URL: Result<Status, APIError>], NoError> {
+    static func status(for urls: [URL], callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<[URL: Result<Status, APIError>], Never> {
         if urls.isEmpty {
             return Future(value: [:])
         }
 
-        typealias FutureTuple = Future<(URL, Result<Status, APIError>), NoError>
+        typealias FutureTuple = Future<(URL, Result<Status, APIError>), Never>
         var sequence: [FutureTuple] = []
         for url in urls {
-            let resultified: Future<(Result<Status, APIError>), NoError> = manager(for: url).status(callbackQueue: callbackQueue, progress: progress).resultify()
+            let resultified: Future<(Result<Status, APIError>), Never> = manager(for: url).status(callbackQueue: callbackQueue, progress: progress).resultify()
             let future: FutureTuple = resultified.map { (url, $0) }
             sequence.append(future)
         }

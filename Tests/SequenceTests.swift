@@ -21,8 +21,8 @@ class SequenceTests: XCTestCase {
     }
     
     func testEmptyResultSequence() {
-        let arrayOfResult: [Result<String, NoError>] = []
-        let result: Result<[String], NoError> = arrayOfResult.result
+        let arrayOfResult: [Result<String, Never>] = []
+        let result: Result<[String], Never> = arrayOfResult.result
         switch result {
         case .success(let array):
             XCTAssertEqual(array.count, arrayOfResult.count)
@@ -36,8 +36,8 @@ class SequenceTests: XCTestCase {
     
     func testOneResultSequenceSuccess() {
         let data = "test"
-        let arrayOfResult: [Result<String, NoError>] = [.success(data)]
-        let result: Result<[String], NoError> = arrayOfResult.result
+        let arrayOfResult: [Result<String, Never>] = [.success(data)]
+        let result: Result<[String], Never> = arrayOfResult.result
         switch result {
         case .success(let array):
             XCTAssertEqual(array.count, arrayOfResult.count)
@@ -89,8 +89,8 @@ class SequenceTests: XCTestCase {
     func testResultSequenceOnlySuccess() {
         let data = "test"
         let data2 = "test2"
-        let arrayOfResult: [Result<String, NoError>] = [.success(data),.success(data2)]
-        let result: Result<[String], NoError> = arrayOfResult.result
+        let arrayOfResult: [Result<String, Never>] = [.success(data),.success(data2)]
+        let result: Result<[String], Never> = arrayOfResult.result
         switch result {
         case .success(let array):
             XCTAssertEqual(array.count, arrayOfResult.count)

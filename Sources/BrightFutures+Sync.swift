@@ -23,25 +23,25 @@ extension AsyncType {
 
 extension AsyncType where Self.Value: ResultProtocol {
 
-    public func resultify() -> Future<Self.Value, NoError> {
-        let promise = Promise<Self.Value, NoError>()
+    public func resultify() -> Future<Self.Value, Swift.Never> {
+        let promise = Promise<Self.Value, Swift.Never>()
         _ = self.andThen { result in
-            let resultified: Result<Self.Value, NoError> = .success(result)
+            let resultified: Result<Self.Value, Swift.Never> = .success(result)
             promise.complete(resultified)
         }
         return promise.future
     }
 
-    /*public func resultify2() -> Future<Self.Value, NoError> {
+    /*public func resultify2() -> Future<Self.Value, Swift.Never> {
         let future: Future<Result<Value.Value, Value.Error>, Value.Error> = self.map {
             return .success($0)
         }
 
-        let noError = future.recover { error -> Result<Value.Value, Value.Error> in
+        let Never = future.recover { error -> Result<Value.Value, Value.Error> in
             return .failure(error)
         }
 
-        return noError
+        return Never
     }*/
 
 }
