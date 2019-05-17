@@ -59,15 +59,19 @@ extension NSManagedObject: RecordImportable {
             let builder = DataSyncBuilder(table: relationTable, tableInfo: relationTableInfo, context: context)
 
             if let value = value {
-                let parser = relationTable.parser
                 let json = JSON(value)
-                if type.isToMany {
-                   // parser.parseArray(json: json, using: mapper,with : initializer)
-                } else {
-                    if let importable = builder.recordInitializer(relationTableName, json) {
-                        parser.parse(json: json, into: importable, using: mapper, tableName: relationTableName)
-                        self.setValue(importable.store, forKey: key)
+                if !json.isNull {
+                    let parser = relationTable.parser
+                    if type.isToMany {
+                        // parser.parseArray(json: json, using: mapper,with : initializer)
+                    } else {
+                        if let importable = builder.recordInitializer(relationTableName, json) {
+                            parser.parse(json: json, into: importable, using: mapper, tableName: relationTableName)
+                            self.setValue(importable.store, forKey: key)
+                        }
                     }
+                } else {
+                    // XXX remove link?
                 }
             } else {
                 // XXX remove link?
@@ -107,4 +111,10 @@ extension NSManagedObject: RecordImportable {
         return nil
     }
 
+}
+
+extension JSON {
+    var isNull: Bool {
+        return self.type == .null
+    }
 }
