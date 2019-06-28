@@ -174,50 +174,49 @@ class DataStoreIntegrationTests: XCTestCase {
 
     func testJSONImportable() {
         let tableName = "CLIENTS"
-        var expects: [XCTestExpectation] = []
-        if let table = table(name: tableName), let json = json(name: tableName, id: "2") {
+        guard let table = table(name: tableName), let json = json(name: tableName, id: "2") else {
+            XCTFail("No JSON \(tableName)(2) to test")
+            return
+        }
 
-            let expect = self.expectation(description: "Create entities")
-            let dataStore = DataStoreFactory.dataStore
-            _ = dataStore.perform(.background) { context in
+        let expect = self.expectation(description: "Create entities")
+        let dataStore = DataStoreFactory.dataStore
+        _ = dataStore.perform(.background) { context in
 
-                if let importable = context.create(in: tableName) {
-                    table.parser.parse(json: json, into: importable)
+            if let importable = context.create(in: tableName) {
+                table.parser.parse(json: json, into: importable)
 
-                    // check imported
-                    for (_, attribute) in table.attributes {
-                        if attribute.type.isStorage {
-                            if let value = importable.get(attribute: attribute) {
-                                // check with  json[key].object??
+                // check imported
+                for (_, attribute) in table.attributes {
+                    if attribute.type.isStorage {
+                        if let value = importable.get(attribute: attribute) {
+                            // check with  json[key].object??
 
-                                if let storageType = attribute.storageType, storageType == .image {
-                                    if let dico = value as? [String: Any] {
-                                        let imageURI = ImportableParser.parseImage(dico)
-                                        XCTAssertNotNil(imageURI, "not URI for image in data")
-                                    } else {
-                                        XCTFail("Image storage is not a dictionary")
-                                    }
+                            if let storageType = attribute.storageType, storageType == .image {
+                                if let dico = value as? [String: Any] {
+                                    let imageURI = ImportableParser.parseImage(dico)
+                                    XCTAssertNotNil(imageURI, "not URI for image in data")
+                                } else {
+                                    XCTFail("Image storage is not a dictionary")
                                 }
-
-                            } else {
-                                XCTFail("No value for attribute \(attribute)")
                             }
-                        }
 
+                        } else {
+                            XCTFail("No value for attribute \(attribute)")
+                        }
                     }
 
-                    // test unknown attribute
-                   // let fakeAttribute = Attribute(name: "fakeName", kind: .storage, scope: .public, type: AttributeStorageType.string )
-                    //XCTAssertNil(importable.get(attribute: fakeAttribute))
                 }
 
-                expect.fulfill()
+                // test unknown attribute
+                // let fakeAttribute = Attribute(name: "fakeName", kind: .storage, scope: .public, type: AttributeStorageType.string )
+                //XCTAssertNil(importable.get(attribute: fakeAttribute))
             }
-            expects.append(expect)
 
+            expect.fulfill()
         }
         let timeout: TimeInterval = 20
-        wait(for: expects, timeout: timeout)
+        wait(for: [expect], timeout: timeout)
     }
 
 }
