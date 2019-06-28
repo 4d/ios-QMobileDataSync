@@ -8,7 +8,6 @@
 
 import Foundation
 
-import Foundation
 import Result
 import Prephirences
 import BrightFutures

@@ -171,7 +171,6 @@ extension Bundle {
 }
 
 // MARK: RecordImportable
-import QMobileDataStore
 extension Record: RecordImportable {
 
     public var tableName: String {
