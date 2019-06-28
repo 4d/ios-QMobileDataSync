@@ -216,7 +216,7 @@ class DataStoreIntegrationTests: XCTestCase {
             expects.append(expect)
 
         }
-        let timeout: TimeInterval = 8
+        let timeout: TimeInterval = 20
         wait(for: expects, timeout: timeout)
     }
 
