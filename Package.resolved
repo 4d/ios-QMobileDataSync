@@ -48,11 +48,11 @@
       },
       {
         "package": "Prephirences",
-        "repositoryURL": "https://github.com/Eubb/Prephirences.git",
+        "repositoryURL": "https://github.com/phimage/Prephirences.git",
         "state": {
-          "branch": null,
+          "branch": "HEAD",
           "revision": "2ddd058050b22dc64f4b88a137aabb31fa3cc552",
-          "version": "5.0.1"
+          "version": null
         }
       },
       {

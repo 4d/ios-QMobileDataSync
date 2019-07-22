@@ -28,7 +28,7 @@ let package = Package(
         .package(url: "https://github.com/Moya/Moya.git" , from: "13.0.1"),
         .package(url: "https://github.com/SwiftyJSON/SwiftyJSON.git" , from: "5.0.0"),
         .package(url: "https://github.com/antitypical/Result.git" , from: "4.1.0"),
-        .package(url: "https://github.com/Eubb/Prephirences.git" , from: "5.0.1") // Not master repo
+        .package(url: "https://github.com/phimage/Prephirences.git" , .revision("HEAD"))
 
 //        .package(url: "https://github.com/devicekit/DeviceKit.git" , .revision("89452446badb4391899e989b8ae99c84488457f5")), // not for macOS
 
