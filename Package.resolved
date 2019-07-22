@@ -20,15 +20,6 @@
         }
       },
       {
-        "package": "CallbackURLKit",
-        "repositoryURL": "https://github.com/phimage/CallbackURLKit.git",
-        "state": {
-          "branch": null,
-          "revision": "736aece485957c4846db97bb882165e1e394adf0",
-          "version": null
-        }
-      },
-      {
         "package": "FileKit",
         "repositoryURL": "https://github.com/nvzqz/FileKit.git",
         "state": {
@@ -68,8 +59,17 @@
         "package": "QMobileAPI",
         "repositoryURL": "http://srv-git:3000/qmobile/QMobileAPI.git",
         "state": {
-          "branch": null,
-          "revision": "79bc3133cfeffb07bb3a287e813485ca2b5f6e03",
+          "branch": "HEAD",
+          "revision": "cef73de9c20bdf5fffbee08cb0fc04b553ebc131",
+          "version": null
+        }
+      },
+      {
+        "package": "QMobileDataStore",
+        "repositoryURL": "http://srv-git:3000/qmobile/QMobileDataStore.git",
+        "state": {
+          "branch": "HEAD",
+          "revision": "e1a2537a0c14b6254597a84e0d3082c8d5ec430b",
           "version": null
         }
       },
@@ -125,15 +125,6 @@
           "branch": null,
           "revision": "f0daefd2a472f0c8d3d12a4b0d45594195a6c74d",
           "version": "7.0.0"
-        }
-      },
-      {
-        "package": "ZIPFoundation",
-        "repositoryURL": "https://github.com/weichsel/ZIPFoundation.git",
-        "state": {
-          "branch": null,
-          "revision": "edbeaa39b426e54702194b0a601342322f01e400",
-          "version": "0.9.9"
         }
       }
     ]
