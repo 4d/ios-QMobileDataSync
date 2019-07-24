@@ -59,11 +59,22 @@ extension NSManagedObject: RecordImportable {
             let builder = DataSyncBuilder(table: relationTable, tableInfo: relationTableInfo, context: context)
 
             if let value = value {
-                let json = JSON(value)
+                var json = JSON(value)
                 if !json.isNull {
                     let parser = relationTable.parser
                     if type.isToMany {
-                        // parser.parseArray(json: json, using: mapper,with : initializer)
+                        do {
+                            json[ImportKey.entityModel] = JSON(relationTable.name) // add missing value
+                            let relationEntities = try parser.parseArray(json: json, using: mapper, with: builder)
+                            if logger.isEnabledFor(level: .debug) {
+                                logger.debug("Import relation of type \(relationTable.name) into \(tableName): \(relationEntities.count) , expected \(json[ImportKey.count])")
+                                if logger.isEnabledFor(level: .verbose) {
+                                    logger.verbose("json \(json)")
+                                }
+                            }
+                        } catch {
+                            logger.warning("Failed to import relation of type \(relationTable.name) into \(tableName): \(error)")
+                        }
                     } else {
                         if let importable = builder.recordInitializer(relationTableName, json) {
                             parser.parse(json: json, into: importable, using: mapper, tableName: relationTableName)
