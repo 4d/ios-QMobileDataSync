@@ -73,6 +73,10 @@ extension DataSyncError: ErrorConvertible {
             return error
         case .apiError(let error):
             return error
+        case .dataCache(let error):
+            return error
+        case .underlying(let error):
+            return error
         default:
             return nil
         }
@@ -171,7 +175,7 @@ extension DataSyncError: LocalizedError {
         case .missingRemoteTables:
             return "dataSync.missingRemoteTables.recovery".localized
         case .missingRemoteTableAttributes:
-                return "dataSync.missingRemoteTableAttributes.recovery".localized
+            return "dataSync.missingRemoteTableAttributes.recovery".localized
         default:
             return nil
         }

@@ -65,6 +65,8 @@
 		48572BC4221450FF005D1AFC /* PageInfo+Dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48572BC0221450C1005D1AFC /* PageInfo+Dummy.swift */; };
 		48572BC522145102005D1AFC /* Lockable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48572BBA22144DEA005D1AFC /* Lockable.swift */; };
 		48572BC7221454ED005D1AFC /* DataSync+Drop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48572BC6221454ED005D1AFC /* DataSync+Drop.swift */; };
+		485B273722E9DE6400185241 /* DataStoreFieldInfo+Attribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485B273622E9DE6400185241 /* DataStoreFieldInfo+Attribute.swift */; };
+		485B273A22E9DE8F00185241 /* DataStoreRelationInfo+Attribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485B273922E9DE8F00185241 /* DataStoreRelationInfo+Attribute.swift */; };
 		486081071F8CBAF500591942 /* DataStoreTableInfo+Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486081061F8CBAF500591942 /* DataStoreTableInfo+Table.swift */; };
 		4865B1AB1EC1BA3100085634 /* BrightFutures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4865B1AA1EC1BA3100085634 /* BrightFutures.framework */; };
 		4865B1AC1EC1BA3100085634 /* BrightFutures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4865B1AA1EC1BA3100085634 /* BrightFutures.framework */; };
@@ -205,6 +207,8 @@
 		48572BBE22145093005D1AFC /* Date+StartOfDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+StartOfDay.swift"; sourceTree = "<group>"; };
 		48572BC0221450C1005D1AFC /* PageInfo+Dummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PageInfo+Dummy.swift"; sourceTree = "<group>"; };
 		48572BC6221454ED005D1AFC /* DataSync+Drop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataSync+Drop.swift"; sourceTree = "<group>"; };
+		485B273622E9DE6400185241 /* DataStoreFieldInfo+Attribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataStoreFieldInfo+Attribute.swift"; sourceTree = "<group>"; };
+		485B273922E9DE8F00185241 /* DataStoreRelationInfo+Attribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataStoreRelationInfo+Attribute.swift"; sourceTree = "<group>"; };
 		486081061F8CBAF500591942 /* DataStoreTableInfo+Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataStoreTableInfo+Table.swift"; sourceTree = "<group>"; };
 		4865B1A91EC1B7BF00085634 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		4865B1AA1EC1BA3100085634 /* BrightFutures.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BrightFutures.framework; path = Carthage/Build/iOS/BrightFutures.framework; sourceTree = "<group>"; };
@@ -374,6 +378,8 @@
 				484803A21EBCB2340094D84C /* DataSync+Table.swift */,
 				484803A41EBCB5C50094D84C /* DataSync+Records.swift */,
 				486081061F8CBAF500591942 /* DataStoreTableInfo+Table.swift */,
+				485B273622E9DE6400185241 /* DataStoreFieldInfo+Attribute.swift */,
+				485B273922E9DE8F00185241 /* DataStoreRelationInfo+Attribute.swift */,
 			);
 			name = API;
 			sourceTree = "<group>";
@@ -857,7 +863,9 @@
 				4811229C1F682001001EE34E /* DataSync+Dump.swift in Sources */,
 				48572BBB22144DEA005D1AFC /* Lockable.swift in Sources */,
 				484803A31EBCB2340094D84C /* DataSync+Table.swift in Sources */,
+				485B273A22E9DE8F00185241 /* DataStoreRelationInfo+Attribute.swift in Sources */,
 				48572BBD22145081005D1AFC /* Calendar+Zone.swift in Sources */,
+				485B273722E9DE6400185241 /* DataStoreFieldInfo+Attribute.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
