@@ -65,13 +65,20 @@ extension NSManagedObject: RecordImportable {
                     if type.isToMany {
                         do {
                             json[ImportKey.entityModel] = JSON(relationTable.name) // add missing value
-                            let relationEntities = try parser.parseArray(json: json, using: mapper, with: builder)
+                            let relationEntities = try parser.parseArray(json: json, using: mapper, with: builder).map { $0.store /* get core data object */ }
                             if logger.isEnabledFor(level: .debug) {
                                 logger.debug("Import relation of type \(relationTable.name) into \(tableName): \(relationEntities.count) , expected \(json[ImportKey.count])")
                                 if logger.isEnabledFor(level: .verbose) {
                                     logger.verbose("json \(json)")
                                 }
                             }
+                            let set = self.mutableSetValue(forKey: key)
+                            set.removeAllObjects() // maybe before remove, make a conciliation for perd
+                            for relationEntity in relationEntities {
+                                set.add(relationEntity)
+                            }
+                            // or maybe change the set?
+                            // self.setValue(NSSet(array: relationEntities), forKey: key) // tips: if ordered NSOrderedSet
                         } catch {
                             logger.warning("Failed to import relation of type \(relationTable.name) into \(tableName): \(error)")
                         }
