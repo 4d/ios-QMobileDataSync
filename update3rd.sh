@@ -5,33 +5,33 @@ rm -Rf ~/Library/Caches/org.carthage.CarthageKit/dependencies/QMobile*
 # rm -f Cartfile.resolved
 
 file=Cartfile.resolved
-url=https://gitfusion.wakanda.io/qmobile/
+url=http://srv-git:3000/qmobile/
 
-echo "- before:"
-cat $file
+# echo "- before:"
+# cat $file
 
-sed -i '' '/QMobile/d' $file
+# sed -i '' '/QMobile/d' $file
 
-for f in ../QMobile*; do
-    if [[ -d $f ]]; then
-        hash=`git -C $f rev-parse HEAD`
-        f="$(basename $f)"
-        if [ -z "$hash" ];then
-    		if [[ -d $HOME/QMobile/$f ]]; then
-        		hash=`git -C $HOME/QMobile/$f rev-parse HEAD`
-    		fi
-        fi
-        if grep -q $f "Cartfile"; then
-            line="git \"$url$f.git\" \"$hash\""
+# for f in ../QMobile*; do
+#     if [[ -d $f ]]; then
+#         hash=`git -C $f rev-parse HEAD`
+#         f="$(basename $f)"
+#         if [ -z "$hash" ];then
+#     		if [[ -d $HOME/QMobile/$f ]]; then
+#         		hash=`git -C $HOME/QMobile/$f rev-parse HEAD`
+#     		fi
+#         fi
+#         if grep -q $f "Cartfile"; then
+#             line="git \"$url$f.git\" \"$hash\""
 
-            echo "$line" >> "$file"
-        fi
-    fi
-done
-echo "- after:"
-cat $file
+#             echo "$line" >> "$file"
+#         fi
+#     fi
+# done
+# echo "- after:"
+# cat $file
 
-# checkout
+# # checkout
 carthage checkout
 
 # Remove Reactivate extension from Moya
@@ -61,6 +61,7 @@ sed -i '' '/Rx/d' Carthage/Checkouts/Moya/Cartfile
 
 # remove workspace if project exist (avoid compile dependencies and have some umbrella issues)
 cd Carthage/Checkouts
+
 for f in *; do
     if [[ -d $f ]]; then
       if [[ $f == QMobile* ]]; then
@@ -72,10 +73,14 @@ for f in *; do
       fi
     fi
 done
+echo "aeaze"
 
-# build
+cd ..
+cd ..
+
+# build@
 mkdir -p "build"
-carthage build  --no-use-binaries --platform iOS --cache-builds --log-path "build/log"
+carthage build --no-use-binaries --platform iOS --cache-builds --log-path "build/log"
 
 #  https://github.com/Carthage/Carthage/issues/1986?
 

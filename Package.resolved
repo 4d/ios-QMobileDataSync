@@ -29,6 +29,15 @@
         }
       },
       {
+        "package": "MomXML",
+        "repositoryURL": "https://github.com/phimage/MomXML.git",
+        "state": {
+          "branch": "HEAD",
+          "revision": "f5b77798de0c9003f43e67bcd2406ccf37df3b4c",
+          "version": null
+        }
+      },
+      {
         "package": "Moya",
         "repositoryURL": "https://github.com/Moya/Moya.git",
         "state": {
@@ -60,7 +69,7 @@
         "repositoryURL": "http://srv-git:3000/qmobile/QMobileAPI.git",
         "state": {
           "branch": "HEAD",
-          "revision": "cef73de9c20bdf5fffbee08cb0fc04b553ebc131",
+          "revision": "5c33cb567b35d27f27628cfa342380cce311ff63",
           "version": null
         }
       },
@@ -69,7 +78,7 @@
         "repositoryURL": "http://srv-git:3000/qmobile/QMobileDataStore.git",
         "state": {
           "branch": "HEAD",
-          "revision": "e1a2537a0c14b6254597a84e0d3082c8d5ec430b",
+          "revision": "c15ee2ba96c4bf4ed55b1d95ece33e660f4b8a93",
           "version": null
         }
       },
@@ -116,6 +125,15 @@
           "branch": null,
           "revision": "2b6054efa051565954e1d2b9da831680026cd768",
           "version": "5.0.0"
+        }
+      },
+      {
+        "package": "SWXMLHash",
+        "repositoryURL": "https://github.com/drmohundro/SWXMLHash.git",
+        "state": {
+          "branch": null,
+          "revision": "f43166a8e18fdd0857f29e303b1bb79a5428bca0",
+          "version": "4.9.0"
         }
       },
       {

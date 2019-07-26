@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18C54" minimumToolsVersion="Xcode 8.0" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14490.99" systemVersion="18F132" minimumToolsVersion="Xcode 8.0" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="CLIENTS" representedClassName="CLIENTS" syncable="YES" codeGenerationType="class">
         <attribute name="address1" optional="YES" attributeType="String" syncable="YES">
             <userInfo>
@@ -100,6 +100,16 @@
                 <entry key="keyMapping" value="ZipCode"/>
             </userInfo>
         </attribute>
+        <relationship name="invoices" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="INVOICES" inverseName="client" inverseEntity="INVOICES" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="Link_4_return"/>
+            </userInfo>
+        </relationship>
+        <relationship name="products" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PRODUCTS" inverseName="client" inverseEntity="PRODUCTS" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="Link_7_return"/>
+            </userInfo>
+        </relationship>
         <userInfo>
             <entry key="primaryKey" value="id"/>
         </userInfo>
@@ -172,6 +182,16 @@
                 <entry key="keyMapping" value="Total"/>
             </userInfo>
         </attribute>
+        <relationship name="client" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CLIENTS" inverseName="invoices" inverseEntity="CLIENTS" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="Link_4"/>
+            </userInfo>
+        </relationship>
+        <relationship name="product" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PRODUCTS" inverseName="invoice" inverseEntity="PRODUCTS" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="Link_5_return"/>
+            </userInfo>
+        </relationship>
         <userInfo>
             <entry key="primaryKey" value="id"/>
         </userInfo>
@@ -208,13 +228,23 @@
                 <entry key="keyMapping" value="UnitPrice"/>
             </userInfo>
         </attribute>
+        <relationship name="client" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CLIENTS" inverseName="products" inverseEntity="CLIENTS" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="Link_8_return"/>
+            </userInfo>
+        </relationship>
+        <relationship name="invoice" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="INVOICES" inverseName="product" inverseEntity="INVOICES" syncable="YES">
+            <userInfo>
+                <entry key="keyMapping" value="Link_6_return"/>
+            </userInfo>
+        </relationship>
         <userInfo>
             <entry key="primaryKey" value="id"/>
         </userInfo>
     </entity>
     <elements>
-        <element name="CLIENTS" positionX="-785" positionY="-870" width="128" height="390"/>
-        <element name="INVOICES" positionX="-450" positionY="-873" width="128" height="270"/>
-        <element name="PRODUCTS" positionX="-623" positionY="-873" width="128" height="150"/>
+        <element name="CLIENTS" positionX="-965.2109375" positionY="-852.92578125" width="128" height="418"/>
+        <element name="INVOICES" positionX="-672.96484375" positionY="-1126.15625" width="128" height="298"/>
+        <element name="PRODUCTS" positionX="-634.76171875" positionY="-702.22265625" width="128" height="178"/>
     </elements>
 </model>
