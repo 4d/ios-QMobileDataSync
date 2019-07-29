@@ -7,6 +7,8 @@
 //
 
 import XCTest
+@testable import QMobileDataSync
+
 import QMobileAPI
 import QMobileDataStore
 
@@ -158,6 +160,10 @@ class DataStoreIntegrationTests: XCTestCase {
             if let json = json(name: tableName), let table = table(name: tableName) {
 
                 let dataStore = DataStoreFactory.dataStore
+                if DataSync.instance.tablesInfoByTable.isEmpty {
+                    let tableInfos: [DataStoreTableInfo] = tablesNames.compactMap { dataStore.tableInfo(for: $0) }
+                    DataSync.instance.tablesInfoByTable = tableInfos.dictionary(key: { $0.api })
+                }
                 _ = dataStore.perform(.background) { context in
                     let importables = try? table.parser.parseArray(json: json, with: TextDataStoreContextBuilder(context: context))
 
@@ -181,6 +187,12 @@ class DataStoreIntegrationTests: XCTestCase {
 
         let expect = self.expectation(description: "Create entities")
         let dataStore = DataStoreFactory.dataStore
+        
+        if DataSync.instance.tablesInfoByTable.isEmpty {
+            let tableInfos: [DataStoreTableInfo] = tablesNames.compactMap { dataStore.tableInfo(for: $0) }
+            DataSync.instance.tablesInfoByTable = tableInfos.dictionary(key: { $0.api })
+        }
+        
         _ = dataStore.perform(.background) { context in
 
             if let importable = context.create(in: tableName) {
@@ -219,16 +231,27 @@ class DataStoreIntegrationTests: XCTestCase {
         wait(for: [expect], timeout: timeout)
     }
     
-    /*func _testSetAttributeRelationship() {
+    func _testSetAttributeRelationship() {
         
-        let tableName = "CLIENTS"
-        guard let table = table(name: tableName), let json = json(name: tableName, id: "2") else {
-            XCTFail("No JSON \(tableName)(2) to test")
+        let mapper: AttributeValueMapper = .default
+        let tableNameForce: String? = nil
+
+        let tableName = "INVOICES"
+        guard var table = table(name: tableName), let json = json(name: tableName) else {
+            XCTFail("No JSON \(tableName) to test")
             return
         }
         
-        let expect = self.expectation(description: "Create entities")
+        table.attributes["Link_5_return"]?.nameTransformer = AttributeNameTransformer(encoded: "Link_5_return", decoded: "product", name: "Link_5_return")
+        table.attributes["Link_4"]?.nameTransformer = AttributeNameTransformer(encoded: "Link_4", decoded: "client", name: "Link_4")
+        
         let dataStore = DataStoreFactory.dataStore
+        if DataSync.instance.tablesInfoByTable.isEmpty {
+            let tableInfos: [DataStoreTableInfo] = tablesNames.compactMap { dataStore.tableInfo(for: $0) }
+            DataSync.instance.tablesInfoByTable = tableInfos.dictionary(key: { $0.api })
+        }
+        
+        let expect = self.expectation(description: "Create entities")
         _ = dataStore.perform(.background) { context in
             
             if let importable = context.create(in: tableName) {
@@ -245,36 +268,33 @@ class DataStoreIntegrationTests: XCTestCase {
                         if let attribute = table[key] ?? table.attribute(forSafeName: key) {
                             importable.set(attribute: attribute, value: jsonValue.object, with: mapper)
                         } else {
-                            logger.debug("Field '\(key)' not defined in table \(tableNameForce ?? self.table.name) structure.")
-                            // logger.debug("Maybe your data structures is not up to date with data server")
+                            XCTFail("Field '\(key)' not defined in table \(tableNameForce ?? table.name) structure.")
                         }
                     }
                 }
                 
+                print("*** client ? \(String(describing: importable["client"]))")
                 
-                table.parser.parse(json: json, into: importable)
-                
-                // check imported
-                for (_, attribute) in table.attributes {
-                    if attribute.type.isStorage {
-                        if let value = importable.get(attribute: attribute) {
-                            // check with  json[key].object??
-                            
-                            if let storageType = attribute.storageType, storageType == .image {
-                                if let dico = value as? [String: Any] {
-                                    let imageURI = ImportableParser.parseImage(dico)
-                                    XCTAssertNotNil(imageURI, "not URI for image in data")
-                                } else {
-                                    XCTFail("Image storage is not a dictionary")
-                                }
-                            }
-                            
-                        } else {
-                            XCTFail("No value for attribute \(attribute)")
-                        }
-                    }
-                    
-                }
+//                // check imported
+//                for (_, attribute) in table.attributes {
+//                    if attribute.type.isStorage {
+//                        if let value = importable.get(attribute: attribute) {
+//                            // check with  json[key].object??
+//
+//                            if let storageType = attribute.storageType, storageType == .image {
+//                                if let dico = value as? [String: Any] {
+//                                    let imageURI = ImportableParser.parseImage(dico)
+//                                    XCTAssertNotNil(imageURI, "not URI for image in data")
+//                                } else {
+//                                    XCTFail("Image storage is not a dictionary")
+//                                }
+//                            }
+//
+//                        } else {
+//                            XCTFail("No value for attribute \(attribute)")
+//                        }
+//                    }
+//                }
                 
                 // test unknown attribute
                 // let fakeAttribute = Attribute(name: "fakeName", kind: .storage, scope: .public, type: AttributeStorageType.string )
@@ -285,7 +305,7 @@ class DataStoreIntegrationTests: XCTestCase {
         }
         let timeout: TimeInterval = 20
         wait(for: [expect], timeout: timeout)
-    }*/
+    }
 
 }
 struct TextDataStoreContextBuilder: ImportableBuilder {

@@ -131,6 +131,7 @@
 		48EE8AC61F4492F0002C3F08 /* CLIENTS(2).json in Resources */ = {isa = PBXBuildFile; fileRef = 48EE8AC51F4492F0002C3F08 /* CLIENTS(2).json */; };
 		48FBBFAE1F554A4000E920B6 /* API+Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FBBFAD1F554A4000E920B6 /* API+Future.swift */; };
 		48FBBFB01F554C2100E920B6 /* ServerStatusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FBBFAF1F554C2100E920B6 /* ServerStatusTests.swift */; };
+		C5EFDC1E22EF37C50094A0B4 /* INVOICESWITHRELATION.json in Resources */ = {isa = PBXBuildFile; fileRef = C5EFDC1D22EF37C50094A0B4 /* INVOICESWITHRELATION.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -243,6 +244,7 @@
 		48EE8AC51F4492F0002C3F08 /* CLIENTS(2).json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "CLIENTS(2).json"; sourceTree = "<group>"; };
 		48FBBFAD1F554A4000E920B6 /* API+Future.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "API+Future.swift"; sourceTree = "<group>"; };
 		48FBBFAF1F554C2100E920B6 /* ServerStatusTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerStatusTests.swift; sourceTree = "<group>"; };
+		C5EFDC1D22EF37C50094A0B4 /* INVOICESWITHRELATION.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = INVOICESWITHRELATION.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -556,6 +558,7 @@
 				4855549F1ECAEF68001EE365 /* INVOICES.json */,
 				485554A01ECAEF68001EE365 /* PRODUCTS.json */,
 				4833069B224BCF3700DE9269 /* __DeletedRecords.json */,
+				C5EFDC1D22EF37C50094A0B4 /* INVOICESWITHRELATION.json */,
 			);
 			name = Stub;
 			sourceTree = "<group>";
@@ -756,6 +759,7 @@
 				48ED97E51F4AC899000FF1B9 /* PRODUCTS.data.json in Resources */,
 				485554C41ECAEF68001EE365 /* PRODUCTS.catalog.json in Resources */,
 				485554C81ECAEF68001EE365 /* CLIENTS.json in Resources */,
+				C5EFDC1E22EF37C50094A0B4 /* INVOICESWITHRELATION.json in Resources */,
 				485554C21ECAEF68001EE365 /* CLIENTS.catalog.json in Resources */,
 				485554E01ECAEF68001EE365 /* restcompute.json in Resources */,
 				485554DD1ECAEF68001EE365 /* status.json in Resources */,
