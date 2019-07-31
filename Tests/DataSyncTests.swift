@@ -31,9 +31,18 @@ class DataSyncTests: XCTestCase {
         apiManager.stub = RemoteConfig.stub
         apiManager.stubDelegate = RemoteConfig.instance
         let dataStore = DataStoreFactory.dataStore
-
+        
         dataSync = DataSync(apiManager: apiManager, dataStore: dataStore)
         dataSync.bundle = bundle
+        
+        if dataSync.tablesInfoByTable.isEmpty {
+            let tableInfos: [DataStoreTableInfo] = tablesNames.compactMap { dataStore.tableInfo(for: $0) }
+            dataSync.tablesInfoByTable = tableInfos.dictionary(key: { $0.api })
+        }
+        if DataSync.instance.tablesInfoByTable.isEmpty {
+            let tableInfos: [DataStoreTableInfo] = tablesNames.compactMap { dataStore.tableInfo(for: $0) }
+            DataSync.instance.tablesInfoByTable = tableInfos.dictionary(key: { $0.api })
+        }
 
         if !dataStore.isLoaded { // XXX not thread safe if parallel test
             let exp =  expectation(description: "dataStoreLoaded")
@@ -114,7 +123,7 @@ class DataSyncTests: XCTestCase {
                         var count = try context.count(in: RemoteConfig.tableName)
                         XCTAssertEqual(count, 200, RemoteConfig.tableName)
                         
-                         count = try context.count(in: "PRODUCTS")
+                        count = try context.count(in: "PRODUCTS")
                         XCTAssertEqual(count, 100, "PRODUCTS")
                         
                         expectation.fulfill()

@@ -1,0 +1,113 @@
+{
+    "__GlobalStamp": 94,
+    "__COUNT": 100,
+    "__ENTITIES": [
+        {
+            "Client_ID": 1,
+            "Date": "12!4!2014",
+            "InvoiceNumber": "INV00001",
+            "Link_4": {
+                "__deferred": {
+                    "__KEY": "1",
+                    "uri": "/rest/CLIENTS(1)"
+                }
+            },
+            "Link_5_return": {
+                "__FIRST": 0,
+                "__GlobalStamp": 94,
+                "__COUNT": 2,
+                "__SENT": 2,
+                "__ENTITYSET": "\\/mobileapp\\/CLIENTS(1)\\/Link_4_return?$expand=Link_4_return",
+                "__ENTITIES": [{
+                    "ID": 1,
+                    "__KEY": "5",
+                    "__TIMESTAMP": "2019-07-26T13:20:42.030Z",
+                    "__STAMP": 33
+                }, {
+                    "ID": 2,
+                    "__KEY": "6",
+                    "__TIMESTAMP": "2019-07-26T13:20:42.030Z",
+                    "__STAMP": 33
+                }]
+            },
+            "Paid": true,
+            "PayementDate": "26!3!2014",
+            "PayementDelay": 30,
+            "PayementMethod": "Par ch\u00e8que",
+            "PayementReference": "Num\u00e9ro de ch\u00e8que: 00010001001001",
+            "ProForma": false,
+            "ProformaNumber": "",
+            "Subtotal": 54,
+            "Tax": 11,
+            "Total": 65,
+            "__KEY": "1",
+            "__STAMP": 1,
+            "__TIMESTAMP": "\"2014-04-30T07:19:33.433Z\"",
+            "id": 1
+        },
+        {
+            "Client_ID": 1,
+            "Date": "28!4!2014",
+            "InvoiceNumber": "INV00002",
+            "Link_4": {
+                "__deferred": {
+                    "__KEY": "1",
+                    "uri": "/rest/CLIENTS(1)"
+                }
+            },
+            "Link_5_return": {
+                "__deferred": {
+                    "uri": "/rest/INVOICES(2)/Link_5_return?$expand=Link_5_return"
+                }
+            },
+            "Paid": true,
+            "PayementDate": "13!4!2014",
+            "PayementDelay": 30,
+            "PayementMethod": "Par transfert bancaire",
+            "PayementReference": "Compte bancaire: 000001000200010002",
+            "ProForma": false,
+            "ProformaNumber": "",
+            "Subtotal": 847.2,
+            "Tax": 166,
+            "Total": 1013.2,
+            "__KEY": "2",
+            "__STAMP": 1,
+            "__TIMESTAMP": "\"2014-04-30T07:19:33.434Z\"",
+            "id": 2
+        },
+        {
+            "Client_ID": 1,
+            "Date": "6!4!2014",
+            "InvoiceNumber": "INV00003",
+            "Link_4": {
+                "__deferred": {
+                    "__KEY": "1",
+                    "uri": "/rest/CLIENTS(1)"
+                }
+            },
+            "Link_5_return": {
+                "__deferred": {
+                    "uri": "/rest/INVOICES(3)/Link_5_return?$expand=Link_5_return"
+                }
+            },
+            "Paid": true,
+            "PayementDate": "16!4!2014",
+            "PayementDelay": 30,
+            "PayementMethod": "Par transfert bancaire",
+            "PayementReference": "Compte bancaire: 000001000300010003",
+            "ProForma": false,
+            "ProformaNumber": "",
+            "Subtotal": 1004.95,
+            "Tax": 198,
+            "Total": 1202.95,
+            "__KEY": "3",
+            "__STAMP": 1,
+            "__TIMESTAMP": "\"2014-04-30T07:19:33.436Z\"",
+            "id": 3
+        }
+    ],
+    "__FIRST": 0,
+    "__SENT": 100,
+    "__entityModel": "INVOICES"
+}
+

@@ -237,7 +237,13 @@ class DataStoreIntegrationTests: XCTestCase {
         let tableNameForce: String? = nil
 
         let tableName = "INVOICES"
-        guard var table = table(name: tableName), let json = json(name: tableName) else {
+
+        guard var table = table(name: tableName) else {
+            XCTFail("No catalog \(tableName) to test")
+            return
+        }
+        
+        guard let json = json(name: "\(tableName)") else {
             XCTFail("No JSON \(tableName) to test")
             return
         }
@@ -263,6 +269,8 @@ class DataStoreIntegrationTests: XCTestCase {
                     jsonEntity = json
                 }
                 
+                XCTAssertNil(importable["client"])
+                
                 if let dictionary = jsonEntity.dictionary?.filter({ !$0.key.hasPrefix(ImportKey.reserved) }) {
                     for (key, jsonValue) in dictionary {
                         if let attribute = table[key] ?? table.attribute(forSafeName: key) {
@@ -272,28 +280,15 @@ class DataStoreIntegrationTests: XCTestCase {
                         }
                     }
                 }
-                
-                print("*** client ? \(String(describing: importable["client"]))")
-                
-//                // check imported
-//                for (_, attribute) in table.attributes {
-//                    if attribute.type.isStorage {
-//                        if let value = importable.get(attribute: attribute) {
-//                            // check with  json[key].object??
 //
-//                            if let storageType = attribute.storageType, storageType == .image {
-//                                if let dico = value as? [String: Any] {
-//                                    let imageURI = ImportableParser.parseImage(dico)
-//                                    XCTAssertNotNil(imageURI, "not URI for image in data")
-//                                } else {
-//                                    XCTFail("Image storage is not a dictionary")
-//                                }
-//                            }
-//
-//                        } else {
-//                            XCTFail("No value for attribute \(attribute)")
-//                        }
-//                    }
+//                let selfId = importable["id"]
+//                if let client = importable["client"] as? NSManagedObject, let invoices = client["invoices"] as? NSManagedObject {
+//                    let invoiceId = invoices["id"]
+//                    print("selfId= \(selfId)")
+//                    print("invoiceId= \(invoiceId)")
+////                    XCTAssertEqual(selfId, invoiceId)
+//                } else {
+//                    XCTAssertNotNil(importable["client"])
 //                }
                 
                 // test unknown attribute

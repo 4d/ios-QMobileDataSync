@@ -187,7 +187,7 @@
                 <entry key="keyMapping" value="Link_4"/>
             </userInfo>
         </relationship>
-        <relationship name="product" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PRODUCTS" inverseName="invoice" inverseEntity="PRODUCTS" syncable="YES">
+        <relationship name="products" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PRODUCTS" inverseName="invoice" inverseEntity="PRODUCTS" syncable="YES">
             <userInfo>
                 <entry key="keyMapping" value="Link_5_return"/>
             </userInfo>
@@ -233,7 +233,7 @@
                 <entry key="keyMapping" value="Link_8_return"/>
             </userInfo>
         </relationship>
-        <relationship name="invoice" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="INVOICES" inverseName="product" inverseEntity="INVOICES" syncable="YES">
+        <relationship name="invoice" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="INVOICES" inverseName="products" inverseEntity="INVOICES" syncable="YES">
             <userInfo>
                 <entry key="keyMapping" value="Link_6_return"/>
             </userInfo>

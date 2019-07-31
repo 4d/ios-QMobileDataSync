@@ -68,7 +68,12 @@ func json(name: String) -> JSON? {
         XCTFail("Failed to read data for table \(name) at url \(url)")
         return nil
     }
-    return try? JSON(data: data)
+    do {
+        return try JSON(data: data)
+    } catch {
+        XCTFail("Failed to parse data to JSON : \(error)")
+    }
+    return nil
 }
 
 func json(name: String, id: String) -> JSON? {
