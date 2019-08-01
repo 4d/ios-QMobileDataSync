@@ -54,9 +54,9 @@
                                  },
                                  {
                                  "name":"Link_8_return",
-                                 "kind":"relatedEntities",
+                                 "kind":"relatedEntity",
                                  "scope":"public",
-                                 "type":"AGGREG_4DMOBILE_PRODUCTCollection",
+                                 "type":"CLIENT",
                                  "reversePath":true,
                                  "path":"Link_8"
                                  },
@@ -64,7 +64,7 @@
                                  "name":"Link_6_return",
                                  "kind":"relatedEntities",
                                  "scope":"public",
-                                 "type":"INVOICE_LINESCollection",
+                                 "type":"INVOICESCollection",
                                  "reversePath":true,
                                  "path":"Link_6"
                                  }

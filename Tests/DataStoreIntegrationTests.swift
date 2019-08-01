@@ -15,7 +15,7 @@ import QMobileDataStore
 import CoreData
 
 class DataStoreIntegrationTests: XCTestCase {
-
+    let injectTableInSingleton = true
     override func setUp() {
         super.setUp()
 
@@ -188,7 +188,7 @@ class DataStoreIntegrationTests: XCTestCase {
         let expect = self.expectation(description: "Create entities")
         let dataStore = DataStoreFactory.dataStore
         
-        if DataSync.instance.tablesInfoByTable.isEmpty {
+        if injectTableInSingleton, DataSync.instance.tablesInfoByTable.isEmpty {
             let tableInfos: [DataStoreTableInfo] = tablesNames.compactMap { dataStore.tableInfo(for: $0) }
             DataSync.instance.tablesInfoByTable = tableInfos.dictionary(key: { $0.api })
         }
@@ -248,11 +248,11 @@ class DataStoreIntegrationTests: XCTestCase {
             return
         }
         
-        table.attributes["Link_5_return"]?.nameTransformer = AttributeNameTransformer(encoded: "Link_5_return", decoded: "product", name: "Link_5_return")
+        table.attributes["Link_5_return"]?.nameTransformer = AttributeNameTransformer(encoded: "Link_5_return", decoded: "products", name: "Link_5_return")
         table.attributes["Link_4"]?.nameTransformer = AttributeNameTransformer(encoded: "Link_4", decoded: "client", name: "Link_4")
         
         let dataStore = DataStoreFactory.dataStore
-        if DataSync.instance.tablesInfoByTable.isEmpty {
+        if injectTableInSingleton, DataSync.instance.tablesInfoByTable.isEmpty {
             let tableInfos: [DataStoreTableInfo] = tablesNames.compactMap { dataStore.tableInfo(for: $0) }
             DataSync.instance.tablesInfoByTable = tableInfos.dictionary(key: { $0.api })
         }
@@ -280,20 +280,112 @@ class DataStoreIntegrationTests: XCTestCase {
                         }
                     }
                 }
-//
-//                let selfId = importable["id"]
-//                if let client = importable["client"] as? NSManagedObject, let invoices = client["invoices"] as? NSManagedObject {
-//                    let invoiceId = invoices["id"]
-//                    print("selfId= \(selfId)")
-//                    print("invoiceId= \(invoiceId)")
-////                    XCTAssertEqual(selfId, invoiceId)
-//                } else {
-//                    XCTAssertNotNil(importable["client"])
-//                }
+
+                if let selfId = importable["id"] as? Int {
+                    XCTAssertEqual(selfId, 1)
+                } else {
+                    XCTFail("Couldn't get id of current invoice")
+                }
+               
+                if let client = importable["client"] as? NSManagedObject { // as? CLIENTS
+
+                    if let invoices = client["invoices"] as? NSSet {
+                        
+                        if let invoiceObjects = invoices.allObjects as? [NSManagedObject] {
+                            
+                           XCTAssertTrue(invoiceObjects.contains(importable.store))
+                         
+                        } else {
+                             XCTFail("Couldn't cast invoices.allObjects as [NSManagedObject]")
+                        }
+                    } else {
+                        XCTFail("Couldn't cast client[\"invoices\"] as NSSet")
+                    }
+                } else {
+                    XCTFail("Couldn't cast importable[\"client\"] as NSManagedObject")
+                }
+            }
+            
+            expect.fulfill()
+        }
+        let timeout: TimeInterval = 20
+        wait(for: [expect], timeout: timeout)
+    }
+
+    func _testSetAttributeRelationshipMany() {
+        
+        let mapper: AttributeValueMapper = .default
+        let tableNameForce: String? = nil
+        
+        let tableName = "CLIENTS"
+        
+        guard var table = table(name: tableName) else {
+            XCTFail("No catalog \(tableName) to test")
+            return
+        }
+        
+        guard let json = json(name: "\(tableName)") else {
+            XCTFail("No JSON \(tableName) to test")
+            return
+        }
+        
+        table.attributes["Link_7_return"]?.nameTransformer = AttributeNameTransformer(encoded: "Link_7_return", decoded: "products", name: "Link_7_return")
+        table.attributes["Link_4_return"]?.nameTransformer = AttributeNameTransformer(encoded: "Link_4_return", decoded: "invoices", name: "Link_4_return")
+        
+        let dataStore = DataStoreFactory.dataStore
+        if injectTableInSingleton, DataSync.instance.tablesInfoByTable.isEmpty {
+            let tableInfos: [DataStoreTableInfo] = tablesNames.compactMap { dataStore.tableInfo(for: $0) }
+            DataSync.instance.tablesInfoByTable = tableInfos.dictionary(key: { $0.api })
+        }
+        
+        let expect = self.expectation(description: "Create entities")
+        _ = dataStore.perform(.background) { context in
+            
+            if let importable = context.create(in: tableName) {
+
+                let jsonEntity: JSON
+                if let entities = json[ImportKey.entities].array?.first {
+                    jsonEntity = entities
+                } else {
+                    jsonEntity = json
+                }
                 
-                // test unknown attribute
-                // let fakeAttribute = Attribute(name: "fakeName", kind: .storage, scope: .public, type: AttributeStorageType.string )
-                //XCTAssertNil(importable.get(attribute: fakeAttribute))
+                if let dictionary = jsonEntity.dictionary?.filter({ !$0.key.hasPrefix(ImportKey.reserved) }) {
+                    for (key, jsonValue) in dictionary {
+                        if let attribute = table[key] ?? table.attribute(forSafeName: key) {
+                            importable.set(attribute: attribute, value: jsonValue.object, with: mapper)
+                        } else {
+                            XCTFail("Field '\(key)' not defined in table \(tableNameForce ?? table.name) structure.")
+                        }
+                    }
+                }
+                
+                if let selfId = importable["id"] as? Int {
+                    XCTAssertEqual(selfId, 1)
+                } else {
+                    XCTFail("Couldn't get id of current client")
+                }
+                
+                if let invoices = importable["invoices"] as? NSSet {
+                    
+                    if let invoiceObject = invoices.allObjects as? [NSManagedObject] {
+                        
+                        for invoice in invoiceObject {
+                            
+                            if let client = invoice.value(forKey: "client") as? NSManagedObject {
+                                
+                                XCTAssertEqual(client, importable.store)
+                                
+                            } else {
+                                XCTFail("Couldn't cast invoices[\"invoices\"] as NSManagedObject")
+                            }
+                        }
+                    } else {
+                        XCTFail("Couldn't cast iinvoices.allObjects as [NSManagedObject]")
+                    }
+                } else {
+                    XCTFail("Couldn't cast importable[\"invoices\"] as NSSet")
+                }
             }
             
             expect.fulfill()
@@ -303,6 +395,12 @@ class DataStoreIntegrationTests: XCTestCase {
     }
 
 }
+
+func _testRelationAfterInitEntities() {
+    
+}
+
+
 struct TextDataStoreContextBuilder: ImportableBuilder {
     typealias Importable = Record
 

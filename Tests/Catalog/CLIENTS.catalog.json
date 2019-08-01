@@ -141,9 +141,9 @@
                                  "name":"Link_7_return",
                                  "kind":"relatedEntities",
                                  "scope":"public",
-                                 "type":"AGGREG_4DMOBILE_PRODUCTCollection",
+                                 "type":"PRODUCTSCollection",
                                  "reversePath":true,
-                                 "path":"4DMobileSumProducts_CLIENTS"
+                                 "path":"Link_7"
                                  }
                                  ],
                    "key":[

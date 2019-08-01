@@ -109,7 +109,7 @@
                                  "name":"Link_5_return",
                                  "kind":"relatedEntities",
                                  "scope":"public",
-                                 "type":"INVOICE_LINESCollection",
+                                 "type":"PRODUCTSCollection",
                                  "reversePath":true,
                                  "path":"Link_5"
                                  }
