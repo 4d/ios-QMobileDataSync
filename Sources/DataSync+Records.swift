@@ -93,16 +93,33 @@ class DataSyncBuilder: ImportableBuilder {
 
     typealias Importable = Record
 
-    let table: Table
-    let tableInfo: DataStoreTableInfo
+    let table: Table // needed for predicate but could be build using tableInfo
+    let tableInfo: DataStoreTableInfo // needed to create data store object
     let context: DataStoreContext
 
     var inContext: Bool = false
 
     init(table: Table, tableInfo: DataStoreTableInfo, context: DataStoreContext) {
-        self.table = table
-        self.tableInfo = tableInfo
         self.context = context
+        self.tableInfo = tableInfo
+        self.table = table
+    }
+
+    init?(tableName: String, context: DataStoreContext) {
+        self.context = context
+        guard let tableInfo = context.tableInfo(for: tableName) else { // XXX if time consuming use a cache...(but not singletong if possible DataSync.instance)
+            return nil
+        }
+        self.tableInfo = tableInfo
+        self.table = tableInfo.api
+        /*
+         guard let relationTableInfo = DataSync.instance.tablesInfoByTable[relationTable] else {
+         logger.warning("Could not find related table information \(relationTableName) in structure")
+         return
+         }guard let relationTable = DataSync.instance.table(for: relationTableName) else {
+         logger.warning("Could not find related table \(relationTableName) in structure")
+         return
+         }*/
     }
 
     func setup(in callback: @escaping () -> Void) {

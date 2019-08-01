@@ -8,6 +8,7 @@
 
 import Foundation
 import QMobileAPI
+import QMobileDataStore
 
 import CoreData
 
@@ -42,32 +43,23 @@ extension NSManagedObject: RecordImportable {
             return
         }
         if let type = attribute.type as? AttributeRelativeType, isRelation(key: key) { // AND destination is related entity on core data!!!
-
-            let relationTableName = type.relationTable
-            //guard let relationTableInfo = context.tableInfo(for: relationTableName) else { return }
-            //let relationTable = relationTableInfo.api
-            guard let relationTable = DataSync.instance.table(for: relationTableName) else {
-                logger.warning("Could not find related table \(relationTableName) in structure")
-                return
-            }
-            guard let relationTableInfo = DataSync.instance.tablesInfoByTable[relationTable] else {
-                logger.warning("Could not find related table information \(relationTableName) in structure")
-                return
-            }
-
             guard let context = self.managedObjectContext else { return }
-            let builder = DataSyncBuilder(table: relationTable, tableInfo: relationTableInfo, context: context)
+            let relationTableName = type.relationTable
+            guard let relationBuilder = DataSyncBuilder(tableName: relationTableName, context: context) else {
+                logger.warning("Cannot get info for relation table \(relationTableName)")
+                return
+            }
 
             if let value = value {
                 var json = JSON(value)
                 if !json.isNull {
-                    let parser = relationTable.parser
+                    let parser = relationBuilder.table.parser
                     if type.isToMany {
                         do {
-                            json[ImportKey.entityModel] = JSON(relationTable.name) // add missing value
-                            let relationEntities = try parser.parseArray(json: json, using: mapper, with: builder).map { $0.store /* get core data object */ }
+                            json[ImportKey.entityModel] = JSON(relationBuilder.table.name) // add missing value
+                            let relationEntities = try parser.parseArray(json: json, using: mapper, with: relationBuilder).map { $0.store /* get core data object */ }
                             if logger.isEnabledFor(level: .debug) {
-                                logger.debug("Import relation of type \(relationTable.name) into \(tableName): \(relationEntities.count) , expected \(json[ImportKey.count])")
+                                logger.debug("Import relation of type \(relationBuilder.table.name) into \(tableName): \(relationEntities.count) , expected \(json[ImportKey.count])")
                                 if logger.isEnabledFor(level: .verbose) {
                                     logger.verbose("json \(json)")
                                 }
@@ -80,10 +72,10 @@ extension NSManagedObject: RecordImportable {
                             // or maybe change the set?
                             // self.setValue(NSSet(array: relationEntities), forKey: key) // tips: if ordered NSOrderedSet
                         } catch {
-                            logger.warning("Failed to import relation of type \(relationTable.name) into \(tableName): \(error)")
+                            logger.warning("Failed to import relation of type \(relationBuilder.table.name) into \(tableName): \(error)")
                         }
                     } else {
-                        if let importable = builder.recordInitializer(relationTableName, json) {
+                        if let importable = relationBuilder.recordInitializer(relationTableName, json) {
                             parser.parse(json: json, into: importable, using: mapper, tableName: relationTableName)
                             self.setValue(importable.store, forKey: key)
                         }
