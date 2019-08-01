@@ -27,7 +27,8 @@ extension DataStoreRelationInfo {
     }
 
     var api: Attribute {
-        var type = AttributeRelativeType(rawValue: self.destinationTable?.originalName ?? "")
+        let destinationName = self.destinationTable?.originalName ?? ""
+        var type = AttributeRelativeType(rawValue: isToMany ? "\(destinationName)\(AttributeRelativeType.suffix)": destinationName)
         type.isToMany = self.isToMany
         type.expand = self.userInfo(.expand) as? String
         let kind: AttributeKind = isToMany ? .relatedEntities: .relatedEntity
