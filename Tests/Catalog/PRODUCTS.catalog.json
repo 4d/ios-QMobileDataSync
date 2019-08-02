@@ -56,15 +56,15 @@
                                  "name":"Link_8_return",
                                  "kind":"relatedEntity",
                                  "scope":"public",
-                                 "type":"CLIENT",
+                                 "type":"CLIENTS",
                                  "reversePath":true,
                                  "path":"Link_8"
                                  },
                                  {
                                  "name":"Link_6_return",
-                                 "kind":"relatedEntities",
+                                 "kind":"relatedEntity",
                                  "scope":"public",
-                                 "type":"INVOICESCollection",
+                                 "type":"INVOICES",
                                  "reversePath":true,
                                  "path":"Link_6"
                                  }

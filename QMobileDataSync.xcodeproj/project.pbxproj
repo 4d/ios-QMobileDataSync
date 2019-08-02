@@ -122,7 +122,6 @@
 		48DB1F8021ABEBE700B97E26 /* FileKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 481BFB791F4F27FD007B77C8 /* FileKit.framework */; };
 		48DB1F8221ABEC3A00B97E26 /* QMobileAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48DB1F8121ABEC3900B97E26 /* QMobileAPI.framework */; };
 		48DB1F8421ABECDE00B97E26 /* QMobileDataStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48DB1F8321ABECDE00B97E26 /* QMobileDataStore.framework */; };
-		48ED97E51F4AC899000FF1B9 /* PRODUCTS.data.json in Resources */ = {isa = PBXBuildFile; fileRef = 48ED97E41F4AC899000FF1B9 /* PRODUCTS.data.json */; };
 		48FBBFAE1F554A4000E920B6 /* API+Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FBBFAD1F554A4000E920B6 /* API+Future.swift */; };
 		48FBBFB01F554C2100E920B6 /* ServerStatusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FBBFAF1F554C2100E920B6 /* ServerStatusTests.swift */; };
 		C5EFDC4822F1E4420094A0B4 /* INVOICESWITHRELATION.json in Resources */ = {isa = PBXBuildFile; fileRef = C5EFDC3D22F1E4410094A0B4 /* INVOICESWITHRELATION.json */; };
@@ -239,7 +238,6 @@
 		48DB1F5521ABEA6B00B97E26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		48DB1F8121ABEC3900B97E26 /* QMobileAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QMobileAPI.framework; path = Carthage/Build/Mac/QMobileAPI.framework; sourceTree = "<group>"; };
 		48DB1F8321ABECDE00B97E26 /* QMobileDataStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QMobileDataStore.framework; path = Carthage/Build/Mac/QMobileDataStore.framework; sourceTree = "<group>"; };
-		48ED97E41F4AC899000FF1B9 /* PRODUCTS.data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PRODUCTS.data.json; sourceTree = "<group>"; };
 		48FBBFAD1F554A4000E920B6 /* API+Future.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "API+Future.swift"; sourceTree = "<group>"; };
 		48FBBFAF1F554C2100E920B6 /* ServerStatusTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerStatusTests.swift; sourceTree = "<group>"; };
 		C5EFDC3D22F1E4410094A0B4 /* INVOICESWITHRELATION.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = INVOICESWITHRELATION.json; sourceTree = "<group>"; };
@@ -425,7 +423,6 @@
 			isa = PBXGroup;
 			children = (
 				48ED97E61F4AC89C000FF1B9 /* Stub */,
-				48ED97E41F4AC899000FF1B9 /* PRODUCTS.data.json */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -771,7 +768,6 @@
 				C5EFDC4D22F1E4420094A0B4 /* INVOICES.json in Resources */,
 				C5EFDC4E22F1E4420094A0B4 /* CLIENTS_OLD.json in Resources */,
 				C5EFDC4B22F1E4420094A0B4 /* PRODUCTS.json in Resources */,
-				48ED97E51F4AC899000FF1B9 /* PRODUCTS.data.json in Resources */,
 				485554C41ECAEF68001EE365 /* PRODUCTS.catalog.json in Resources */,
 				485554C21ECAEF68001EE365 /* CLIENTS.catalog.json in Resources */,
 				C5EFDC5022F1E4420094A0B4 /* CLIENTS_100.json in Resources */,

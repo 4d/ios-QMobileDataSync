@@ -90,6 +90,27 @@ func json(name: String, id: String) -> JSON? {
 }
 
 
+func createRelationLink(table: inout Table) {
+    
+    switch table.name {
+    case "CLIENTS":
+        table.attributes["Link_7_return"]?.nameTransformer = AttributeNameTransformer(encoded: "Link_7_return", decoded: "products", name: "Link_7_return")
+        table.attributes["Link_4_return"]?.nameTransformer = AttributeNameTransformer(encoded: "Link_4_return", decoded: "invoices", name: "Link_4_return")
+        
+    case "INVOICES":
+        table.attributes["Link_5_return"]?.nameTransformer = AttributeNameTransformer(encoded: "Link_5_return", decoded: "products", name: "Link_5_return")
+        table.attributes["Link_4"]?.nameTransformer = AttributeNameTransformer(encoded: "Link_4", decoded: "client", name: "Link_4")
+        
+    case "PRODUCTS":
+        table.attributes["Link_8_return"]?.nameTransformer = AttributeNameTransformer(encoded: "Link_8_return", decoded: "client", name: "Link_8_return")
+        table.attributes["Link_6_return"]?.nameTransformer = AttributeNameTransformer(encoded: "Link_6_return", decoded: "invoice", name: "Link_6_return")
+        
+    default:
+        break
+    }
+}
+
+
 extension XCTestCase {
     
     open func expectation(function: String = #function) -> XCTestExpectation{
