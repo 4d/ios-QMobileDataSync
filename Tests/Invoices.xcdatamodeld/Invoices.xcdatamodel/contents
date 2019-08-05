@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14492.1" systemVersion="18G84" minimumToolsVersion="Xcode 8.0" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14490.99" systemVersion="18F132" minimumToolsVersion="Xcode 8.0" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="CLIENTS" representedClassName="CLIENTS" syncable="YES" codeGenerationType="class">
         <attribute name="address1" optional="YES" attributeType="String" syncable="YES">
             <userInfo>
@@ -111,7 +111,6 @@
             </userInfo>
         </relationship>
         <userInfo>
-            <entry key="globalStamp" value="YES"/>
             <entry key="primaryKey" value="id"/>
         </userInfo>
     </entity>
@@ -194,7 +193,6 @@
             </userInfo>
         </relationship>
         <userInfo>
-            <entry key="globalStamp" value="YES"/>
             <entry key="primaryKey" value="id"/>
         </userInfo>
     </entity>
@@ -241,13 +239,12 @@
             </userInfo>
         </relationship>
         <userInfo>
-            <entry key="globalStamp" value="YES"/>
             <entry key="primaryKey" value="id"/>
         </userInfo>
     </entity>
     <elements>
-        <element name="CLIENTS" positionX="-965.2109375" positionY="-852.92578125" width="128" height="420"/>
-        <element name="INVOICES" positionX="-672.96484375" positionY="-1126.15625" width="128" height="300"/>
-        <element name="PRODUCTS" positionX="-634.76171875" positionY="-702.22265625" width="128" height="180"/>
+        <element name="CLIENTS" positionX="-965.2109375" positionY="-852.92578125" width="128" height="418"/>
+        <element name="INVOICES" positionX="-672.96484375" positionY="-1126.15625" width="128" height="298"/>
+        <element name="PRODUCTS" positionX="-634.76171875" positionY="-702.22265625" width="128" height="178"/>
     </elements>
 </model>

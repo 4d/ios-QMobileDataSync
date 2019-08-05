@@ -4,14 +4,16 @@
     "__ENTITIES": [
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(1)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 80,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 94
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(1)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 57,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 94
             },
             "Name": "Stylo Multifonction Potter Black",
             "Picture": null,
@@ -22,18 +24,21 @@
             "__KEY": "1",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.392Z\"",
-            "id": 1
+            "id": 1,
+            "__GlobalStamp": 42
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(2)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 6,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 80
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(2)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 99,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 80
             },
             "Name": "Stylo Multifonction Potter Red",
             "Picture": null,
@@ -44,18 +49,21 @@
             "__KEY": "2",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.393Z\"",
-            "id": 2
+            "id": 2,
+            "__GlobalStamp": 33
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(3)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 5,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 73
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(3)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 60,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 73
             },
             "Name": "Stylo Multifonction Potter Bright Red",
             "Picture": null,
@@ -66,18 +74,21 @@
             "__KEY": "3",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.393Z\"",
-            "id": 3
+            "id": 3,
+            "__GlobalStamp": 85
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(4)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 96,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 38
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(4)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 17,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 38
             },
             "Name": "Stylo Multifonction Potter Blue",
             "Picture": null,
@@ -88,18 +99,21 @@
             "__KEY": "4",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.393Z\"",
-            "id": 4
+            "id": 4,
+            "__GlobalStamp": 33
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(5)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 20,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 2
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(5)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 46,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 2
             },
             "Name": "Stylo Multifonction Potter Bright Blue",
             "Picture": null,
@@ -110,18 +124,21 @@
             "__KEY": "5",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.393Z\"",
-            "id": 5
+            "id": 5,
+            "__GlobalStamp": 79
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(6)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 99,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 77
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(6)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 33,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 77
             },
             "Name": "Stylo Multifonction Potter Yellow",
             "Picture": null,
@@ -132,18 +149,21 @@
             "__KEY": "6",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.393Z\"",
-            "id": 6
+            "id": 6,
+            "__GlobalStamp": 40
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(7)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 85,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 28
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(7)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 39,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 28
             },
             "Name": "Stylo Multifonction Potter Bright Yellow",
             "Picture": null,
@@ -154,18 +174,21 @@
             "__KEY": "7",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.393Z\"",
-            "id": 7
+            "id": 7,
+            "__GlobalStamp": 81
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(8)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 16,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 59
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(8)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 20,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 59
             },
             "Name": "Stylo Multifonction Potter Green",
             "Picture": null,
@@ -176,18 +199,21 @@
             "__KEY": "8",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.393Z\"",
-            "id": 8
+            "id": 8,
+            "__GlobalStamp": 42
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(9)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 11,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 18
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(9)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 82,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 18
             },
             "Name": "Stylo Multifonction Potter Bright Green",
             "Picture": null,
@@ -198,18 +224,21 @@
             "__KEY": "9",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.393Z\"",
-            "id": 9
+            "id": 9,
+            "__GlobalStamp": 27
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(10)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 55,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 37
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(10)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 46,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 37
             },
             "Name": "Stylo Multifonction Potter White",
             "Picture": null,
@@ -220,18 +249,21 @@
             "__KEY": "10",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.393Z\"",
-            "id": 10
+            "id": 10,
+            "__GlobalStamp": 10
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(11)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 19,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 60
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(11)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 64,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 60
             },
             "Name": "Stylo Multifonction Weasley Black",
             "Picture": null,
@@ -242,18 +274,21 @@
             "__KEY": "11",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.393Z\"",
-            "id": 11
+            "id": 11,
+            "__GlobalStamp": 43
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(12)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 94,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 63
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(12)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 36,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 63
             },
             "Name": "Stylo Multifonction Weasley Red",
             "Picture": null,
@@ -264,18 +299,21 @@
             "__KEY": "12",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.394Z\"",
-            "id": 12
+            "id": 12,
+            "__GlobalStamp": 30
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(13)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 51,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 32
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(13)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 30,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 32
             },
             "Name": "Stylo Multifonction Weasley Bright Red",
             "Picture": null,
@@ -286,18 +324,21 @@
             "__KEY": "13",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.394Z\"",
-            "id": 13
+            "id": 13,
+            "__GlobalStamp": 78
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(14)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 89,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 13
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(14)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 5,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 13
             },
             "Name": "Stylo Multifonction Weasley Blue",
             "Picture": null,
@@ -308,18 +349,21 @@
             "__KEY": "14",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.394Z\"",
-            "id": 14
+            "id": 14,
+            "__GlobalStamp": 61
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(15)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 91,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 69
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(15)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 11,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 69
             },
             "Name": "Stylo Multifonction Weasley Bright Blue",
             "Picture": null,
@@ -330,18 +374,21 @@
             "__KEY": "15",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.394Z\"",
-            "id": 15
+            "id": 15,
+            "__GlobalStamp": 36
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(16)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 12,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 65
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(16)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 80,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 65
             },
             "Name": "Stylo Multifonction Weasley Yellow",
             "Picture": null,
@@ -352,18 +399,21 @@
             "__KEY": "16",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.394Z\"",
-            "id": 16
+            "id": 16,
+            "__GlobalStamp": 74
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(17)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 97,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 88
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(17)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 22,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 88
             },
             "Name": "Stylo Multifonction Weasley Bright Yellow",
             "Picture": null,
@@ -374,18 +424,21 @@
             "__KEY": "17",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.394Z\"",
-            "id": 17
+            "id": 17,
+            "__GlobalStamp": 10
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(18)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 64,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 88
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(18)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 10,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 88
             },
             "Name": "Stylo Multifonction Weasley Green",
             "Picture": null,
@@ -396,18 +449,21 @@
             "__KEY": "18",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.394Z\"",
-            "id": 18
+            "id": 18,
+            "__GlobalStamp": 53
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(19)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 58,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 59
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(19)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 59,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 59
             },
             "Name": "Stylo Multifonction Weasley Bright Green",
             "Picture": null,
@@ -418,18 +474,21 @@
             "__KEY": "19",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.394Z\"",
-            "id": 19
+            "id": 19,
+            "__GlobalStamp": 87
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(20)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 32,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 48
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(20)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 36,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 48
             },
             "Name": "Stylo Multifonction Weasley White",
             "Picture": null,
@@ -440,18 +499,21 @@
             "__KEY": "20",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.394Z\"",
-            "id": 20
+            "id": 20,
+            "__GlobalStamp": 23
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(21)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 62,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 19
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(21)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 38,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 19
             },
             "Name": "Stylo Multifonction Rogue Black",
             "Picture": null,
@@ -462,18 +524,21 @@
             "__KEY": "21",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.394Z\"",
-            "id": 21
+            "id": 21,
+            "__GlobalStamp": 43
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(22)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 88,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 19
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(22)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 52,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 19
             },
             "Name": "Stylo Multifonction Rogue Red",
             "Picture": null,
@@ -484,18 +549,21 @@
             "__KEY": "22",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.394Z\"",
-            "id": 22
+            "id": 22,
+            "__GlobalStamp": 89
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(23)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 100,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 27
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(23)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 47,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 27
             },
             "Name": "Stylo Multifonction Rogue Bright Red",
             "Picture": null,
@@ -506,18 +574,21 @@
             "__KEY": "23",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.395Z\"",
-            "id": 23
+            "id": 23,
+            "__GlobalStamp": 48
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(24)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 89,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 17
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(24)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 78,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 17
             },
             "Name": "Stylo Multifonction Rogue Blue",
             "Picture": null,
@@ -528,18 +599,21 @@
             "__KEY": "24",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.395Z\"",
-            "id": 24
+            "id": 24,
+            "__GlobalStamp": 86
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(25)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 59,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 6
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(25)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 22,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 6
             },
             "Name": "Stylo Multifonction Rogue Bright Blue",
             "Picture": null,
@@ -550,18 +624,21 @@
             "__KEY": "25",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.395Z\"",
-            "id": 25
+            "id": 25,
+            "__GlobalStamp": 22
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(26)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 82,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 1
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(26)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 24,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 1
             },
             "Name": "Stylo Multifonction Rogue Yellow",
             "Picture": null,
@@ -572,18 +649,21 @@
             "__KEY": "26",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.395Z\"",
-            "id": 26
+            "id": 26,
+            "__GlobalStamp": 17
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(27)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 86,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 88
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(27)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 21,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 88
             },
             "Name": "Stylo Multifonction Rogue Bright Yellow",
             "Picture": null,
@@ -594,18 +674,21 @@
             "__KEY": "27",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.395Z\"",
-            "id": 27
+            "id": 27,
+            "__GlobalStamp": 94
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(28)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 19,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 69
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(28)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 64,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 69
             },
             "Name": "Stylo Multifonction Rogue Green",
             "Picture": null,
@@ -616,18 +699,21 @@
             "__KEY": "28",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.395Z\"",
-            "id": 28
+            "id": 28,
+            "__GlobalStamp": 70
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(29)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 68,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 32
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(29)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 19,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 32
             },
             "Name": "Stylo Multifonction Rogue Bright Green",
             "Picture": null,
@@ -638,18 +724,21 @@
             "__KEY": "29",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.395Z\"",
-            "id": 29
+            "id": 29,
+            "__GlobalStamp": 90
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(30)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 13,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 39
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(30)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 44,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 39
             },
             "Name": "Stylo Multifonction Rogue White",
             "Picture": null,
@@ -660,18 +749,21 @@
             "__KEY": "30",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.395Z\"",
-            "id": 30
+            "id": 30,
+            "__GlobalStamp": 17
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(31)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 12,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 3
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(31)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 59,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 3
             },
             "Name": "Stylo Multifonction Voldermont Black",
             "Picture": null,
@@ -682,18 +774,21 @@
             "__KEY": "31",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.395Z\"",
-            "id": 31
+            "id": 31,
+            "__GlobalStamp": 72
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(32)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 94,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 93
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(32)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 73,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 93
             },
             "Name": "Stylo Multifonction Voldermont Red",
             "Picture": null,
@@ -704,18 +799,21 @@
             "__KEY": "32",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.395Z\"",
-            "id": 32
+            "id": 32,
+            "__GlobalStamp": 28
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(33)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 57,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 33
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(33)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 89,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 33
             },
             "Name": "Stylo Multifonction Voldermont Bright Red",
             "Picture": null,
@@ -726,18 +824,21 @@
             "__KEY": "33",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.396Z\"",
-            "id": 33
+            "id": 33,
+            "__GlobalStamp": 6
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(34)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 72,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 27
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(34)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 59,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 27
             },
             "Name": "Stylo Multifonction Voldermont Blue",
             "Picture": null,
@@ -748,18 +849,21 @@
             "__KEY": "34",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.396Z\"",
-            "id": 34
+            "id": 34,
+            "__GlobalStamp": 3
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(35)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 35,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 8
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(35)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 32,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 8
             },
             "Name": "Stylo Multifonction Voldermont Bright Blue",
             "Picture": null,
@@ -770,18 +874,21 @@
             "__KEY": "35",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.396Z\"",
-            "id": 35
+            "id": 35,
+            "__GlobalStamp": 69
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(36)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 70,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 14
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(36)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 42,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 14
             },
             "Name": "Stylo Multifonction Voldermont Yellow",
             "Picture": null,
@@ -792,18 +899,21 @@
             "__KEY": "36",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.396Z\"",
-            "id": 36
+            "id": 36,
+            "__GlobalStamp": 31
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(37)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 100,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 1
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(37)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 95,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 1
             },
             "Name": "Stylo Multifonction Voldermont Bright Yellow",
             "Picture": null,
@@ -814,18 +924,21 @@
             "__KEY": "37",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.396Z\"",
-            "id": 37
+            "id": 37,
+            "__GlobalStamp": 36
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(38)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 9,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 66
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(38)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 20,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 66
             },
             "Name": "Stylo Multifonction Voldermont Green",
             "Picture": null,
@@ -836,18 +949,21 @@
             "__KEY": "38",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.396Z\"",
-            "id": 38
+            "id": 38,
+            "__GlobalStamp": 21
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(39)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 14,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 21
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(39)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 77,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 21
             },
             "Name": "Stylo Multifonction Voldermont Bright Green",
             "Picture": null,
@@ -858,18 +974,21 @@
             "__KEY": "39",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.396Z\"",
-            "id": 39
+            "id": 39,
+            "__GlobalStamp": 90
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(40)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 51,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 70
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(40)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 61,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 70
             },
             "Name": "Stylo Multifonction Voldermont White",
             "Picture": null,
@@ -880,18 +999,21 @@
             "__KEY": "40",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.396Z\"",
-            "id": 40
+            "id": 40,
+            "__GlobalStamp": 73
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(41)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 14,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 79
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(41)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 92,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 79
             },
             "Name": "Stylo Multifonction Granger Black",
             "Picture": null,
@@ -902,18 +1024,21 @@
             "__KEY": "41",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.397Z\"",
-            "id": 41
+            "id": 41,
+            "__GlobalStamp": 10
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(42)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 29,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 72
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(42)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 80,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 72
             },
             "Name": "Stylo Multifonction Granger Red",
             "Picture": null,
@@ -924,18 +1049,21 @@
             "__KEY": "42",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.397Z\"",
-            "id": 42
+            "id": 42,
+            "__GlobalStamp": 34
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(43)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 1,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 87
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(43)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 15,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 87
             },
             "Name": "Stylo Multifonction Granger Bright Red",
             "Picture": null,
@@ -946,18 +1074,21 @@
             "__KEY": "43",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.397Z\"",
-            "id": 43
+            "id": 43,
+            "__GlobalStamp": 20
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(44)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 71,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 8
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(44)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 26,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 8
             },
             "Name": "Stylo Multifonction Granger Blue",
             "Picture": null,
@@ -968,18 +1099,21 @@
             "__KEY": "44",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.397Z\"",
-            "id": 44
+            "id": 44,
+            "__GlobalStamp": 10
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(45)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 44,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 22
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(45)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 97,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 22
             },
             "Name": "Stylo Multifonction Granger Bright Blue",
             "Picture": null,
@@ -990,18 +1124,21 @@
             "__KEY": "45",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.397Z\"",
-            "id": 45
+            "id": 45,
+            "__GlobalStamp": 35
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(46)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 66,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 32
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(46)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 61,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 32
             },
             "Name": "Stylo Multifonction Granger Yellow",
             "Picture": null,
@@ -1012,18 +1149,21 @@
             "__KEY": "46",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.397Z\"",
-            "id": 46
+            "id": 46,
+            "__GlobalStamp": 83
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(47)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 14,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 59
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(47)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 45,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 59
             },
             "Name": "Stylo Multifonction Granger Bright Yellow",
             "Picture": null,
@@ -1034,18 +1174,21 @@
             "__KEY": "47",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.397Z\"",
-            "id": 47
+            "id": 47,
+            "__GlobalStamp": 24
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(48)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 14,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 88
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(48)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 58,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 88
             },
             "Name": "Stylo Multifonction Granger Green",
             "Picture": null,
@@ -1056,18 +1199,21 @@
             "__KEY": "48",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.398Z\"",
-            "id": 48
+            "id": 48,
+            "__GlobalStamp": 72
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(49)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 40,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 20
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(49)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 73,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 20
             },
             "Name": "Stylo Multifonction Granger Bright Green",
             "Picture": null,
@@ -1078,18 +1224,21 @@
             "__KEY": "49",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.398Z\"",
-            "id": 49
+            "id": 49,
+            "__GlobalStamp": 48
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(50)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 4,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 72
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(50)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 54,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 72
             },
             "Name": "Stylo Multifonction Granger White",
             "Picture": null,
@@ -1100,18 +1249,21 @@
             "__KEY": "50",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.398Z\"",
-            "id": 50
+            "id": 50,
+            "__GlobalStamp": 92
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(51)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 91,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 90
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(51)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 18,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 90
             },
             "Name": "Stylo Multifonction Dumbledore Black",
             "Picture": null,
@@ -1122,18 +1274,21 @@
             "__KEY": "51",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.398Z\"",
-            "id": 51
+            "id": 51,
+            "__GlobalStamp": 7
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(52)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 66,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 9
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(52)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 2,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 9
             },
             "Name": "Stylo Multifonction Dumbledore Red",
             "Picture": null,
@@ -1144,18 +1299,21 @@
             "__KEY": "52",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.398Z\"",
-            "id": 52
+            "id": 52,
+            "__GlobalStamp": 53
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(53)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 24,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 37
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(53)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 58,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 37
             },
             "Name": "Stylo Multifonction Dumbledore Bright Red",
             "Picture": null,
@@ -1166,18 +1324,21 @@
             "__KEY": "53",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.398Z\"",
-            "id": 53
+            "id": 53,
+            "__GlobalStamp": 86
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(54)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 66,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 16
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(54)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 62,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 16
             },
             "Name": "Stylo Multifonction Dumbledore Blue",
             "Picture": null,
@@ -1188,18 +1349,21 @@
             "__KEY": "54",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.398Z\"",
-            "id": 54
+            "id": 54,
+            "__GlobalStamp": 15
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(55)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 7,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 57
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(55)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 41,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 57
             },
             "Name": "Stylo Multifonction Dumbledore Bright Blue",
             "Picture": null,
@@ -1210,18 +1374,21 @@
             "__KEY": "55",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.398Z\"",
-            "id": 55
+            "id": 55,
+            "__GlobalStamp": 42
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(56)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 48,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 88
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(56)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 42,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 88
             },
             "Name": "Stylo Multifonction Dumbledore Yellow",
             "Picture": null,
@@ -1232,18 +1399,21 @@
             "__KEY": "56",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.398Z\"",
-            "id": 56
+            "id": 56,
+            "__GlobalStamp": 49
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(57)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 60,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 38
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(57)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 84,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 38
             },
             "Name": "Stylo Multifonction Dumbledore Bright Yellow",
             "Picture": null,
@@ -1254,18 +1424,21 @@
             "__KEY": "57",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.398Z\"",
-            "id": 57
+            "id": 57,
+            "__GlobalStamp": 28
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(58)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 16,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 1
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(58)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 45,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 1
             },
             "Name": "Stylo Multifonction Dumbledore Green",
             "Picture": null,
@@ -1276,18 +1449,21 @@
             "__KEY": "58",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.398Z\"",
-            "id": 58
+            "id": 58,
+            "__GlobalStamp": 94
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(59)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 38,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 47
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(59)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 83,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 47
             },
             "Name": "Stylo Multifonction Dumbledore Bright Green",
             "Picture": null,
@@ -1298,18 +1474,21 @@
             "__KEY": "59",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.399Z\"",
-            "id": 59
+            "id": 59,
+            "__GlobalStamp": 64
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(60)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 35,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 24
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(60)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 16,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 24
             },
             "Name": "Stylo Multifonction Dumbledore White",
             "Picture": null,
@@ -1320,18 +1499,21 @@
             "__KEY": "60",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.399Z\"",
-            "id": 60
+            "id": 60,
+            "__GlobalStamp": 91
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(61)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 52,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 5
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(61)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 62,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 5
             },
             "Name": "Stylo Plume Potter Black",
             "Picture": null,
@@ -1342,18 +1524,21 @@
             "__KEY": "61",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.399Z\"",
-            "id": 61
+            "id": 61,
+            "__GlobalStamp": 44
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(62)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 43,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 63
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(62)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 49,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 63
             },
             "Name": "Stylo Plume Potter Red",
             "Picture": null,
@@ -1364,18 +1549,21 @@
             "__KEY": "62",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.399Z\"",
-            "id": 62
+            "id": 62,
+            "__GlobalStamp": 56
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(63)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 68,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 53
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(63)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 94,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 53
             },
             "Name": "Stylo Plume Potter Bright Red",
             "Picture": null,
@@ -1386,18 +1574,21 @@
             "__KEY": "63",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.399Z\"",
-            "id": 63
+            "id": 63,
+            "__GlobalStamp": 94
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(64)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 13,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 85
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(64)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 4,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 85
             },
             "Name": "Stylo Plume Potter Blue",
             "Picture": null,
@@ -1408,18 +1599,21 @@
             "__KEY": "64",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.399Z\"",
-            "id": 64
+            "id": 64,
+            "__GlobalStamp": 76
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(65)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 81,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 57
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(65)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 95,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 57
             },
             "Name": "Stylo Plume Potter Bright Blue",
             "Picture": null,
@@ -1430,18 +1624,21 @@
             "__KEY": "65",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.399Z\"",
-            "id": 65
+            "id": 65,
+            "__GlobalStamp": 61
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(66)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 64,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 7
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(66)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 29,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 7
             },
             "Name": "Stylo Plume Potter Yellow",
             "Picture": null,
@@ -1452,18 +1649,21 @@
             "__KEY": "66",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.399Z\"",
-            "id": 66
+            "id": 66,
+            "__GlobalStamp": 53
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(67)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 4,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 8
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(67)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 38,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 8
             },
             "Name": "Stylo Plume Potter Bright Yellow",
             "Picture": null,
@@ -1474,18 +1674,21 @@
             "__KEY": "67",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.399Z\"",
-            "id": 67
+            "id": 67,
+            "__GlobalStamp": 38
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(68)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 86,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 87
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(68)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 15,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 87
             },
             "Name": "Stylo Plume Potter Green",
             "Picture": null,
@@ -1496,18 +1699,21 @@
             "__KEY": "68",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.399Z\"",
-            "id": 68
+            "id": 68,
+            "__GlobalStamp": 5
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(69)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 72,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 6
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(69)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 23,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 6
             },
             "Name": "Stylo Plume Potter Bright Green",
             "Picture": null,
@@ -1518,18 +1724,21 @@
             "__KEY": "69",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.400Z\"",
-            "id": 69
+            "id": 69,
+            "__GlobalStamp": 42
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(70)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 80,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 84
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(70)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 32,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 84
             },
             "Name": "Stylo Plume Potter White",
             "Picture": null,
@@ -1540,18 +1749,21 @@
             "__KEY": "70",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.400Z\"",
-            "id": 70
+            "id": 70,
+            "__GlobalStamp": 40
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(71)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 39,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 94
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(71)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 66,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 94
             },
             "Name": "Stylo Plume Weasley Black",
             "Picture": null,
@@ -1562,18 +1774,21 @@
             "__KEY": "71",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.400Z\"",
-            "id": 71
+            "id": 71,
+            "__GlobalStamp": 64
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(72)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 36,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 53
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(72)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 22,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 53
             },
             "Name": "Stylo Plume Weasley Red",
             "Picture": null,
@@ -1584,18 +1799,21 @@
             "__KEY": "72",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.400Z\"",
-            "id": 72
+            "id": 72,
+            "__GlobalStamp": 70
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(73)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 5,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 90
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(73)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 68,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 90
             },
             "Name": "Stylo Plume Weasley Bright Red",
             "Picture": null,
@@ -1606,18 +1824,21 @@
             "__KEY": "73",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.400Z\"",
-            "id": 73
+            "id": 73,
+            "__GlobalStamp": 14
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(74)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 58,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 71
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(74)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 18,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 71
             },
             "Name": "Stylo Plume Weasley Blue",
             "Picture": null,
@@ -1628,18 +1849,21 @@
             "__KEY": "74",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.400Z\"",
-            "id": 74
+            "id": 74,
+            "__GlobalStamp": 51
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(75)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 49,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 40
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(75)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 73,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 40
             },
             "Name": "Stylo Plume Weasley Bright Blue",
             "Picture": null,
@@ -1650,18 +1874,21 @@
             "__KEY": "75",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.400Z\"",
-            "id": 75
+            "id": 75,
+            "__GlobalStamp": 60
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(76)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 17,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 31
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(76)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 10,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 31
             },
             "Name": "Stylo Plume Weasley Yellow",
             "Picture": null,
@@ -1672,18 +1899,21 @@
             "__KEY": "76",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.400Z\"",
-            "id": 76
+            "id": 76,
+            "__GlobalStamp": 57
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(77)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 98,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 82
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(77)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 1,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 82
             },
             "Name": "Stylo Plume Weasley Bright Yellow",
             "Picture": null,
@@ -1694,18 +1924,21 @@
             "__KEY": "77",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.400Z\"",
-            "id": 77
+            "id": 77,
+            "__GlobalStamp": 23
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(78)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 30,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 48
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(78)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 76,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 48
             },
             "Name": "Stylo Plume Weasley Green",
             "Picture": null,
@@ -1716,18 +1949,21 @@
             "__KEY": "78",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.401Z\"",
-            "id": 78
+            "id": 78,
+            "__GlobalStamp": 31
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(79)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 50,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 78
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(79)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 85,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 78
             },
             "Name": "Stylo Plume Weasley Bright Green",
             "Picture": null,
@@ -1738,18 +1974,21 @@
             "__KEY": "79",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.401Z\"",
-            "id": 79
+            "id": 79,
+            "__GlobalStamp": 15
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(80)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 55,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 5
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(80)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 10,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 5
             },
             "Name": "Stylo Plume Weasley White",
             "Picture": null,
@@ -1760,18 +1999,21 @@
             "__KEY": "80",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.401Z\"",
-            "id": 80
+            "id": 80,
+            "__GlobalStamp": 51
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(81)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 95,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 61
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(81)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 43,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 61
             },
             "Name": "Stylo Plume Rogue Black",
             "Picture": null,
@@ -1782,18 +2024,21 @@
             "__KEY": "81",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.401Z\"",
-            "id": 81
+            "id": 81,
+            "__GlobalStamp": 43
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(82)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 1,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 83
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(82)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 76,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 83
             },
             "Name": "Stylo Plume Rogue Red",
             "Picture": null,
@@ -1804,18 +2049,21 @@
             "__KEY": "82",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.401Z\"",
-            "id": 82
+            "id": 82,
+            "__GlobalStamp": 7
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(83)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 35,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 42
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(83)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 14,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 42
             },
             "Name": "Stylo Plume Rogue Bright Red",
             "Picture": null,
@@ -1826,18 +2074,21 @@
             "__KEY": "83",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.401Z\"",
-            "id": 83
+            "id": 83,
+            "__GlobalStamp": 65
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(84)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 18,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 57
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(84)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 94,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 57
             },
             "Name": "Stylo Plume Rogue Blue",
             "Picture": null,
@@ -1848,18 +2099,21 @@
             "__KEY": "84",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.401Z\"",
-            "id": 84
+            "id": 84,
+            "__GlobalStamp": 8
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(85)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 44,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 46
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(85)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 55,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 46
             },
             "Name": "Stylo Plume Rogue Bright Blue",
             "Picture": null,
@@ -1870,18 +2124,21 @@
             "__KEY": "85",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.401Z\"",
-            "id": 85
+            "id": 85,
+            "__GlobalStamp": 16
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(86)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 61,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 69
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(86)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 57,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 69
             },
             "Name": "Stylo Plume Rogue Yellow",
             "Picture": null,
@@ -1892,18 +2149,21 @@
             "__KEY": "86",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.401Z\"",
-            "id": 86
+            "id": 86,
+            "__GlobalStamp": 11
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(87)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 88,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 48
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(87)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 15,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 48
             },
             "Name": "Stylo Plume Rogue Bright Yellow",
             "Picture": null,
@@ -1914,18 +2174,21 @@
             "__KEY": "87",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.401Z\"",
-            "id": 87
+            "id": 87,
+            "__GlobalStamp": 57
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(88)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 14,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 26
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(88)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 85,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 26
             },
             "Name": "Stylo Plume Rogue Green",
             "Picture": null,
@@ -1936,18 +2199,21 @@
             "__KEY": "88",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.401Z\"",
-            "id": 88
+            "id": 88,
+            "__GlobalStamp": 79
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(89)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 16,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 80
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(89)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 46,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 80
             },
             "Name": "Stylo Plume Rogue Bright Green",
             "Picture": null,
@@ -1958,18 +2224,21 @@
             "__KEY": "89",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.402Z\"",
-            "id": 89
+            "id": 89,
+            "__GlobalStamp": 35
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(90)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 17,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 64
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(90)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 79,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 64
             },
             "Name": "Stylo Plume Rogue White",
             "Picture": null,
@@ -1980,18 +2249,21 @@
             "__KEY": "90",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.402Z\"",
-            "id": 90
+            "id": 90,
+            "__GlobalStamp": 51
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(91)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 9,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 12
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(91)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 79,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 12
             },
             "Name": "Stylo Plume Voldermont Black",
             "Picture": null,
@@ -2002,18 +2274,21 @@
             "__KEY": "91",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.402Z\"",
-            "id": 91
+            "id": 91,
+            "__GlobalStamp": 85
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(92)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 8,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 89
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(92)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 99,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 89
             },
             "Name": "Stylo Plume Voldermont Red",
             "Picture": null,
@@ -2024,18 +2299,21 @@
             "__KEY": "92",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.402Z\"",
-            "id": 92
+            "id": 92,
+            "__GlobalStamp": 92
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(93)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 64,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 43
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(93)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 16,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 43
             },
             "Name": "Stylo Plume Voldermont Bright Red",
             "Picture": null,
@@ -2046,18 +2324,21 @@
             "__KEY": "93",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.402Z\"",
-            "id": 93
+            "id": 93,
+            "__GlobalStamp": 59
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(94)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 84,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 25
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(94)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 50,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 25
             },
             "Name": "Stylo Plume Voldermont Blue",
             "Picture": null,
@@ -2068,18 +2349,21 @@
             "__KEY": "94",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.402Z\"",
-            "id": 94
+            "id": 94,
+            "__GlobalStamp": 77
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(95)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 3,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 18
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(95)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 64,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 18
             },
             "Name": "Stylo Plume Voldermont Bright Blue",
             "Picture": null,
@@ -2090,18 +2374,21 @@
             "__KEY": "95",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.402Z\"",
-            "id": 95
+            "id": 95,
+            "__GlobalStamp": 14
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(96)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 14,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 16
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(96)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 11,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 16
             },
             "Name": "Stylo Plume Voldermont Yellow",
             "Picture": null,
@@ -2112,18 +2399,21 @@
             "__KEY": "96",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.402Z\"",
-            "id": 96
+            "id": 96,
+            "__GlobalStamp": 40
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(97)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 63,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 65
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(97)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 7,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 65
             },
             "Name": "Stylo Plume Voldermont Bright Yellow",
             "Picture": null,
@@ -2134,18 +2424,21 @@
             "__KEY": "97",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.402Z\"",
-            "id": 97
+            "id": 97,
+            "__GlobalStamp": 29
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(98)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 37,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 53
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(98)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 89,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 53
             },
             "Name": "Stylo Plume Voldermont Green",
             "Picture": null,
@@ -2156,18 +2449,21 @@
             "__KEY": "98",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.402Z\"",
-            "id": 98
+            "id": 98,
+            "__GlobalStamp": 40
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(99)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 62,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 50
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(99)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 59,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 50
             },
             "Name": "Stylo Plume Voldermont Bright Green",
             "Picture": null,
@@ -2178,18 +2474,21 @@
             "__KEY": "99",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.403Z\"",
-            "id": 99
+            "id": 99,
+            "__GlobalStamp": 85
         },
         {
             "Link_6_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(100)/Link_6_return?$expand=Link_6_return"
-                }
+                "id": 55,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 51
             },
             "Link_8_return": {
-                "__deferred": {
-                    "uri": "/rest/PRODUCTS(100)/Link_8_return?$expand=Link_8_return"
-                }
+                "id": 79,
+                "__KEY": "",
+                "__TIMESTAMP": "2019-08-05",
+                "__STAMP": 51
             },
             "Name": "Stylo Plume Voldermont White",
             "Picture": null,
@@ -2200,7 +2499,8 @@
             "__KEY": "100",
             "__STAMP": 1,
             "__TIMESTAMP": "\"2014-04-30T07:19:33.403Z\"",
-            "id": 100
+            "id": 100,
+            "__GlobalStamp": 88
         }
     ],
     "__FIRST": 0,

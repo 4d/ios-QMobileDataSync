@@ -422,12 +422,12 @@ class DataStoreIntegrationTests: XCTestCase {
         _ = dataStore.perform(.background) { context in
             
             var invoiceListReference: [INVOICES] = []
-//            var clientReference: CLIENTS? = nil
+            var clientReference: CLIENTS? = nil
             
             if let importableClient = context.create(in: tableNameClient) {
                 
                 let jsonEntity: JSON
-                if let entities = jsonClient[ImportKey.entities].array?.first {  // client of the invoice we'll work with below
+                if let entities = jsonClient[ImportKey.entities].array?[2] {  // id = 3 : client of the invoice we'll work with below
                     jsonEntity = entities
                 } else {
                     jsonEntity = jsonClient
@@ -444,17 +444,17 @@ class DataStoreIntegrationTests: XCTestCase {
                 }
                 
                 if let selfId = importableClient["id"] as? Int {
-                    XCTAssertEqual(selfId, 1)
+                    XCTAssertEqual(selfId, 3)
                 } else {
                     XCTFail("Couldn't get id of current invoice")
                 }
-
-//                if let clientObj = importableClient.store as? CLIENTS {
-//                    // Saving client to check we have the same object fetched below
-//                    clientReference = clientObj
-//                } else {
-//                    XCTFail("Couldn't cast importableClient.store as CLIENTS")
-//                }
+                
+                if let clientObj = importableClient.store as? CLIENTS {
+                    // Saving client to check we have the same object fetched below
+                    clientReference = clientObj
+                } else {
+                    XCTFail("Couldn't cast importableClient.store as CLIENTS")
+                }
                 
                 if let invoices = importableClient["invoices"] as? NSSet {
                     
@@ -472,11 +472,10 @@ class DataStoreIntegrationTests: XCTestCase {
 //                try? context.commit()
             }
 
-            let predicateInvoice = NSPredicate(format: "id == 9")
+            let predicateInvoice = NSPredicate(format: "id == 38")
             if let importableInvoice = try? context.getOrCreate(in: tableNameInvoice, matching: predicateInvoice) {
-                
                 let jsonEntity: JSON
-                if let entities = jsonInvoice[ImportKey.entities].array?[8] { // invoice matching client above
+                if let entities = jsonInvoice[ImportKey.entities].array?[37] { // id = 17 : invoice matching client above
                     jsonEntity = entities
                 } else {
                     jsonEntity = jsonInvoice
@@ -495,7 +494,7 @@ class DataStoreIntegrationTests: XCTestCase {
                 }
                 
                 if let selfId = importableInvoice["id"] as? Int {
-                    XCTAssertEqual(selfId, 9)
+                    XCTAssertEqual(selfId, 38)
                 } else {
                     XCTFail("Couldn't get id of current invoice")
                 }
@@ -508,12 +507,7 @@ class DataStoreIntegrationTests: XCTestCase {
                 
                 if let client = importableInvoice["client"] as? CLIENTS { // as? NSManagedObject
                     
-//                    XCTAssertEqual(client, clientReference)
-                    if let clientId = client["id"] as? Int {
-                        XCTAssertEqual(clientId, 1)
-                    } else {
-                        XCTFail("Couldn't get id of linked client")
-                    }
+                    XCTAssertEqual(client, clientReference)
                     
                     if let invoices = client["invoices"] as? NSSet {
                         

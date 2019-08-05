@@ -110,29 +110,28 @@ class DataSyncTests: XCTestCase {
         let cancellable = dataSync.sync { result in
             do {
                 try result.get()
-                
+
                 let date = self.dataSync.dataStore.metadata?.lastSync
                 XCTAssertNotNil(date, "no lastSync date")
 
                 XCTAssertTrue(lastSync < date!)
                 
-                
                let result = self.dataSync.dataStore.perform(.background) { context in
-                
+
                     do {
                         var count = try context.count(in: RemoteConfig.tableName)
                         XCTAssertEqual(count, 200, RemoteConfig.tableName)
-                        
+
                         count = try context.count(in: "PRODUCTS")
                         XCTAssertEqual(count, 100, "PRODUCTS")
-                        
+
                         expectation.fulfill()
-                        
+
                     } catch {
-                        
+
                         XCTFail("\(error)")
                     }
-                    
+
                 }
                 XCTAssertEqual(result, true, "unable to perform request")
             }
