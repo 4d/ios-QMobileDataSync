@@ -144,7 +144,8 @@
                                  "type":"PRODUCTSCollection",
                                  "reversePath":true,
                                  "path":"Link_7"
-                                 }
+                                 },
+                                 {"name":"__GlobalStamp","kind":"storage","fieldPos":24,"scope":"public","indexed":true,"type":"long64"}
                                  ],
                    "key":[
                           {

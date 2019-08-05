@@ -58,11 +58,12 @@ extension NSManagedObject: RecordImportable {
                         do {
                             json[ImportKey.entityModel] = JSON(relationBuilder.table.name) // add missing value
                             let relationEntities = try parser.parseArray(json: json, using: mapper, with: relationBuilder).map { $0.store /* get core data object */ }
-                            if logger.isEnabledFor(level: .debug) {
+                            if relationEntities.count != json[ImportKey.count].intValue {
+                                logger.warning("Import relation of type \(relationBuilder.table.name) into \(tableName): \(relationEntities.count) , but expected \(json[ImportKey.count])")
+                            }
+                            if logger.isEnabledFor(level: .verbose) {
                                 logger.debug("Import relation of type \(relationBuilder.table.name) into \(tableName): \(relationEntities.count) , expected \(json[ImportKey.count])")
-                                if logger.isEnabledFor(level: .verbose) {
-                                    logger.verbose("json \(json)")
-                                }
+                                logger.verbose("json \(json)")
                             }
                             let set = self.mutableSetValue(forKey: key)
                             set.removeAllObjects() // maybe before remove, make a conciliation for perd

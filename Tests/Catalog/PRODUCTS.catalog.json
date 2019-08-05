@@ -67,7 +67,8 @@
                                  "type":"INVOICES",
                                  "reversePath":true,
                                  "path":"Link_6"
-                                 }
+                                 },
+                                 {"name":"__GlobalStamp","kind":"storage","fieldPos":24,"scope":"public","indexed":true,"type":"long64"}
                                  ],
                    "key":[
                           {
