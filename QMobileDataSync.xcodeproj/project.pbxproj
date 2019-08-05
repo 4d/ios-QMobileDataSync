@@ -238,6 +238,8 @@
 		48DB1F5521ABEA6B00B97E26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		48DB1F8121ABEC3900B97E26 /* QMobileAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QMobileAPI.framework; path = Carthage/Build/Mac/QMobileAPI.framework; sourceTree = "<group>"; };
 		48DB1F8321ABECDE00B97E26 /* QMobileDataStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QMobileDataStore.framework; path = Carthage/Build/Mac/QMobileDataStore.framework; sourceTree = "<group>"; };
+		48EB167122F8633C006238B6 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		48EB167222F8643D006238B6 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		48FBBFAD1F554A4000E920B6 /* API+Future.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "API+Future.swift"; sourceTree = "<group>"; };
 		48FBBFAF1F554C2100E920B6 /* ServerStatusTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerStatusTests.swift; sourceTree = "<group>"; };
 		C5EFDC3D22F1E4410094A0B4 /* INVOICESWITHRELATION.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = INVOICESWITHRELATION.json; sourceTree = "<group>"; };
@@ -415,6 +417,7 @@
 				485554971ECAEF68001EE365 /* CLIENTS.catalog.json */,
 				485554981ECAEF68001EE365 /* INVOICES.catalog.json */,
 				485554991ECAEF68001EE365 /* PRODUCTS.catalog.json */,
+				48EB167122F8633C006238B6 /* README.md */,
 			);
 			path = Catalog;
 			sourceTree = "<group>";
@@ -568,6 +571,7 @@
 				C5EFDC4122F1E4410094A0B4 /* PRODUCTS_OLD.json */,
 				C5EFDC4422F1E4410094A0B4 /* PRODUCTS.data.json */,
 				C5EFDC4022F1E4410094A0B4 /* PRODUCTS.json */,
+				48EB167222F8643D006238B6 /* README.md */,
 			);
 			name = Stub;
 			sourceTree = "<group>";
