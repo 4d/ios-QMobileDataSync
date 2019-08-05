@@ -76,6 +76,11 @@ extension NSManagedObject: RecordImportable {
                             logger.warning("Failed to import relation of type \(relationBuilder.table.name) into \(tableName): \(error)")
                         }
                     } else {
+                        if let first = json[ImportKey.entities].array?.first {
+                            logger.warning("Trying to import toMany relation to a toOne relation. Only the first one will be imported: \(tableName) -> \(relationBuilder.table.name))")
+                            json = first
+                        }
+
                         if let importable = relationBuilder.recordInitializer(relationTableName, json) {
                             parser.parse(json: json, into: importable, using: mapper, tableName: relationTableName)
                             self.setValue(importable.store, forKey: key)
