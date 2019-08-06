@@ -77,6 +77,7 @@
                 <entry key="keyMapping" value="Phone"/>
             </userInfo>
         </attribute>
+        <attribute name="qmobile__GlobalStamp" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="qmobile__KEY" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="qmobile__STAMP" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="qmobile__TIMESTAMP" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -243,7 +244,7 @@
         </userInfo>
     </entity>
     <elements>
-        <element name="CLIENTS" positionX="-965.2109375" positionY="-852.92578125" width="128" height="418"/>
+        <element name="CLIENTS" positionX="-994.71875" positionY="-972.70703125" width="128" height="433"/>
         <element name="INVOICES" positionX="-672.96484375" positionY="-1126.15625" width="128" height="298"/>
         <element name="PRODUCTS" positionX="-634.76171875" positionY="-702.22265625" width="128" height="178"/>
     </elements>

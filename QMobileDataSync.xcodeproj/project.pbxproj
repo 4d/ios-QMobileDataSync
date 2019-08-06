@@ -124,13 +124,9 @@
 		48DB1F8421ABECDE00B97E26 /* QMobileDataStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48DB1F8321ABECDE00B97E26 /* QMobileDataStore.framework */; };
 		48FBBFAE1F554A4000E920B6 /* API+Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FBBFAD1F554A4000E920B6 /* API+Future.swift */; };
 		48FBBFB01F554C2100E920B6 /* ServerStatusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FBBFAF1F554C2100E920B6 /* ServerStatusTests.swift */; };
-		C5EFDC4822F1E4420094A0B4 /* INVOICESWITHRELATION.json in Resources */ = {isa = PBXBuildFile; fileRef = C5EFDC3D22F1E4410094A0B4 /* INVOICESWITHRELATION.json */; };
 		C5EFDC4922F1E4420094A0B4 /* CLIENTS(2).json in Resources */ = {isa = PBXBuildFile; fileRef = C5EFDC3E22F1E4410094A0B4 /* CLIENTS(2).json */; };
-		C5EFDC4A22F1E4420094A0B4 /* INVOICES_OLD.json in Resources */ = {isa = PBXBuildFile; fileRef = C5EFDC3F22F1E4410094A0B4 /* INVOICES_OLD.json */; };
 		C5EFDC4B22F1E4420094A0B4 /* PRODUCTS.json in Resources */ = {isa = PBXBuildFile; fileRef = C5EFDC4022F1E4410094A0B4 /* PRODUCTS.json */; };
-		C5EFDC4C22F1E4420094A0B4 /* PRODUCTS_OLD.json in Resources */ = {isa = PBXBuildFile; fileRef = C5EFDC4122F1E4410094A0B4 /* PRODUCTS_OLD.json */; };
 		C5EFDC4D22F1E4420094A0B4 /* INVOICES.json in Resources */ = {isa = PBXBuildFile; fileRef = C5EFDC4222F1E4410094A0B4 /* INVOICES.json */; };
-		C5EFDC4E22F1E4420094A0B4 /* CLIENTS_OLD.json in Resources */ = {isa = PBXBuildFile; fileRef = C5EFDC4322F1E4410094A0B4 /* CLIENTS_OLD.json */; };
 		C5EFDC4F22F1E4420094A0B4 /* PRODUCTS.data.json in Resources */ = {isa = PBXBuildFile; fileRef = C5EFDC4422F1E4410094A0B4 /* PRODUCTS.data.json */; };
 		C5EFDC5022F1E4420094A0B4 /* CLIENTS_100.json in Resources */ = {isa = PBXBuildFile; fileRef = C5EFDC4522F1E4410094A0B4 /* CLIENTS_100.json */; };
 		C5EFDC5122F1E4420094A0B4 /* CLIENTS.json in Resources */ = {isa = PBXBuildFile; fileRef = C5EFDC4622F1E4420094A0B4 /* CLIENTS.json */; };
@@ -242,13 +238,9 @@
 		48EB167222F8643D006238B6 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		48FBBFAD1F554A4000E920B6 /* API+Future.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "API+Future.swift"; sourceTree = "<group>"; };
 		48FBBFAF1F554C2100E920B6 /* ServerStatusTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerStatusTests.swift; sourceTree = "<group>"; };
-		C5EFDC3D22F1E4410094A0B4 /* INVOICESWITHRELATION.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = INVOICESWITHRELATION.json; sourceTree = "<group>"; };
 		C5EFDC3E22F1E4410094A0B4 /* CLIENTS(2).json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "CLIENTS(2).json"; sourceTree = "<group>"; };
-		C5EFDC3F22F1E4410094A0B4 /* INVOICES_OLD.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = INVOICES_OLD.json; sourceTree = "<group>"; };
 		C5EFDC4022F1E4410094A0B4 /* PRODUCTS.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PRODUCTS.json; sourceTree = "<group>"; };
-		C5EFDC4122F1E4410094A0B4 /* PRODUCTS_OLD.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PRODUCTS_OLD.json; sourceTree = "<group>"; };
 		C5EFDC4222F1E4410094A0B4 /* INVOICES.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = INVOICES.json; sourceTree = "<group>"; };
-		C5EFDC4322F1E4410094A0B4 /* CLIENTS_OLD.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CLIENTS_OLD.json; sourceTree = "<group>"; };
 		C5EFDC4422F1E4410094A0B4 /* PRODUCTS.data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PRODUCTS.data.json; sourceTree = "<group>"; };
 		C5EFDC4522F1E4410094A0B4 /* CLIENTS_100.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CLIENTS_100.json; sourceTree = "<group>"; };
 		C5EFDC4622F1E4420094A0B4 /* CLIENTS.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CLIENTS.json; sourceTree = "<group>"; };
@@ -562,13 +554,9 @@
 			children = (
 				C5EFDC4722F1E4420094A0B4 /* __DeletedRecords.json */,
 				C5EFDC4522F1E4410094A0B4 /* CLIENTS_100.json */,
-				C5EFDC4322F1E4410094A0B4 /* CLIENTS_OLD.json */,
 				C5EFDC4622F1E4420094A0B4 /* CLIENTS.json */,
 				C5EFDC3E22F1E4410094A0B4 /* CLIENTS(2).json */,
-				C5EFDC3F22F1E4410094A0B4 /* INVOICES_OLD.json */,
 				C5EFDC4222F1E4410094A0B4 /* INVOICES.json */,
-				C5EFDC3D22F1E4410094A0B4 /* INVOICESWITHRELATION.json */,
-				C5EFDC4122F1E4410094A0B4 /* PRODUCTS_OLD.json */,
 				C5EFDC4422F1E4410094A0B4 /* PRODUCTS.data.json */,
 				C5EFDC4022F1E4410094A0B4 /* PRODUCTS.json */,
 				48EB167222F8643D006238B6 /* README.md */,
@@ -760,17 +748,13 @@
 				C5EFDC5122F1E4420094A0B4 /* CLIENTS.json in Resources */,
 				485554E21ECAEF68001EE365 /* restmethod.json in Resources */,
 				485554E31ECAEF68001EE365 /* restrecord.json in Resources */,
-				C5EFDC4C22F1E4420094A0B4 /* PRODUCTS_OLD.json in Resources */,
 				485554DE1ECAEF68001EE365 /* restcatalog.json in Resources */,
 				485554C11ECAEF68001EE365 /* restcatalogall.json in Resources */,
-				C5EFDC4822F1E4420094A0B4 /* INVOICESWITHRELATION.json in Resources */,
 				485554E11ECAEF68001EE365 /* restinfo.json in Resources */,
-				C5EFDC4A22F1E4420094A0B4 /* INVOICES_OLD.json in Resources */,
 				C5EFDC4F22F1E4420094A0B4 /* PRODUCTS.data.json in Resources */,
 				485554C31ECAEF68001EE365 /* INVOICES.catalog.json in Resources */,
 				485554E41ECAEF68001EE365 /* restrecords.json in Resources */,
 				C5EFDC4D22F1E4420094A0B4 /* INVOICES.json in Resources */,
-				C5EFDC4E22F1E4420094A0B4 /* CLIENTS_OLD.json in Resources */,
 				C5EFDC4B22F1E4420094A0B4 /* PRODUCTS.json in Resources */,
 				485554C41ECAEF68001EE365 /* PRODUCTS.catalog.json in Resources */,
 				485554C21ECAEF68001EE365 /* CLIENTS.catalog.json in Resources */,

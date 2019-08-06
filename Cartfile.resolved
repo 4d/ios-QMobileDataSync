@@ -1,5 +1,5 @@
-git "http://srv-git:3000/qmobile/QMobileAPI.git" "5c33cb567b35d27f27628cfa342380cce311ff63"
-git "http://srv-git:3000/qmobile/QMobileDataStore.git" "c15ee2ba96c4bf4ed55b1d95ece33e660f4b8a93"
+git "http://srv-git:3000/qmobile/QMobileDataStore.git" "HEAD"
+git "http://srv-git:3000/qmobile/QMobileAPI.git" "HEAD"
 github "Alamofire/Alamofire" "4.8.2"
 github "DaveWoodCom/XCGLogger" "7.0.0"
 github "Moya/Moya" "13.0.1"
