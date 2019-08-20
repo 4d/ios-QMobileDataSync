@@ -8,7 +8,7 @@
 
 import XCTest
 @testable import QMobileDataSync
-import Result
+
 
 class SequenceTests: XCTestCase {
     

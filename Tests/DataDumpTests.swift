@@ -14,7 +14,7 @@ import XCTest
 
 import QMobileDataStore
 import QMobileAPI
-import Result
+
 import FileKit
 
 class DataDumpTests: XCTestCase {

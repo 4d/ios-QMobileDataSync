@@ -8,7 +8,6 @@
 
 import Foundation
 
-import Result
 import Moya
 import FileKit
 
@@ -232,5 +231,9 @@ extension Record {
         }
         return self[primaryKey]
     }
+
+}
+
+extension DataStoreError: ErrorConvertible {
 
 }

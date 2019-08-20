@@ -9,7 +9,7 @@
 import Foundation
 
 import BrightFutures
-import Result
+
 import QMobileAPI
 import QMobileDataStore
 

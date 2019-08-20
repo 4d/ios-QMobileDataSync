@@ -9,7 +9,7 @@
 import Foundation
 import QMobileAPI
 import QMobileDataStore
-import Result
+
 import Moya
 
 /// Error of `DataSync` process.

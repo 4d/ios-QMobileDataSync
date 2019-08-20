@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Result
+import BrightFutures
 
 extension Sequence where Iterator.Element: ResultProtocol {
 

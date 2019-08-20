@@ -12,7 +12,7 @@ import XCTest
 
 import QMobileDataStore
 import QMobileAPI
-import Result
+
 
 
 class DataReloadTests: XCTestCase {

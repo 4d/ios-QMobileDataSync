@@ -11,7 +11,6 @@ import Foundation
 import QMobileDataStore
 import QMobileAPI
 
-import Result
 import FileKit
 
 let logger = Logger.forClass(DataSync.self)

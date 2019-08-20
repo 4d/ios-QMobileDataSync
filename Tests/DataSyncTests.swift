@@ -11,7 +11,7 @@ import XCTest
 
 import QMobileDataStore
 import QMobileAPI
-import Result
+
 import Prephirences
 
 class DataSyncTests: XCTestCase {

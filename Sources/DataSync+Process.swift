@@ -10,7 +10,7 @@ import Foundation
 
 import QMobileAPI
 import Moya
-import Result
+
 import Prephirences
 
 // MARK: Sync
@@ -116,4 +116,13 @@ extension DataSync.Process {
 extension DataSync.Process: Cancellable {
     public func cancel() { cancellable?.cancel() }
     public var isCancelled: Bool { return cancellable?.isCancelled ?? true }
+}
+
+extension Result where Error: ErrorConvertible {
+    public static func mapOtherError(_ error: Swift.Error) -> Result<Value, Error> {
+        if let std = error as? Error {
+            return .failure(std)
+        }
+        return .failure(Error.error(from: error))
+    }
 }

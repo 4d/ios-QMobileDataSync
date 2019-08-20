@@ -8,7 +8,7 @@
 
 import Foundation
 import QMobileAPI
-import Result
+
 import BrightFutures
 import Moya
 
