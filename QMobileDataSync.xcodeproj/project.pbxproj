@@ -16,7 +16,6 @@
 		482259CE1F5EA3CD00BB2A87 /* DeviceKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 482259CD1F5EA3CD00BB2A87 /* DeviceKit.framework */; };
 		4837277E1EB8A8DF0060B064 /* DataSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4837277D1EB8A8DF0060B064 /* DataSync.swift */; };
 		483727801EB8AD940060B064 /* Moya.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4837277F1EB8AD940060B064 /* Moya.framework */; };
-		483727821EB8AD9C0060B064 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483727811EB8AD9C0060B064 /* Result.framework */; };
 		483727841EB8ADAE0060B064 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483727831EB8ADAE0060B064 /* Alamofire.framework */; };
 		483D549E1F3320790061D1FE /* SequenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483D549D1F3320790061D1FE /* SequenceTests.swift */; };
 		483EF60F1EF925BB00C11B5E /* DataStoreIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483EF60E1EF925BB00C11B5E /* DataStoreIntegrationTests.swift */; };
@@ -118,7 +117,6 @@
 		48DB1F7C21ABEB1000B97E26 /* BrightFutures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483EF6131EF9401E00C11B5E /* BrightFutures.framework */; };
 		48DB1F7D21ABEB1000B97E26 /* Moya.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483EF6141EF9401E00C11B5E /* Moya.framework */; };
 		48DB1F7E21ABEB1000B97E26 /* Prephirences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483EF6151EF9401E00C11B5E /* Prephirences.framework */; };
-		48DB1F7F21ABEB1000B97E26 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483EF6161EF9401E00C11B5E /* Result.framework */; };
 		48DB1F8021ABEBE700B97E26 /* FileKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 481BFB791F4F27FD007B77C8 /* FileKit.framework */; };
 		48DB1F8221ABEC3A00B97E26 /* QMobileAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48DB1F8121ABEC3900B97E26 /* QMobileAPI.framework */; };
 		48DB1F8421ABECDE00B97E26 /* QMobileDataStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48DB1F8321ABECDE00B97E26 /* QMobileDataStore.framework */; };
@@ -261,7 +259,6 @@
 				48C55E901EB8A48300F9ECAC /* Prephirences.framework in Frameworks */,
 				481BFB781F4F1C1F007B77C8 /* FileKit.framework in Frameworks */,
 				4865B1AB1EC1BA3100085634 /* BrightFutures.framework in Frameworks */,
-				483727821EB8AD9C0060B064 /* Result.framework in Frameworks */,
 				48C55E951EB8A48300F9ECAC /* XCGLogger.framework in Frameworks */,
 				48C55E8F1EB8A48300F9ECAC /* ObjcExceptionBridging.framework in Frameworks */,
 			);
@@ -284,7 +281,6 @@
 				48DB1F7821ABEB1000B97E26 /* XCGLogger.framework in Frameworks */,
 				48DB1F7A21ABEB1000B97E26 /* SwiftyJSON.framework in Frameworks */,
 				48DB1F8021ABEBE700B97E26 /* FileKit.framework in Frameworks */,
-				48DB1F7F21ABEB1000B97E26 /* Result.framework in Frameworks */,
 				48DB1F7B21ABEB1000B97E26 /* Alamofire.framework in Frameworks */,
 				48DB1F7C21ABEB1000B97E26 /* BrightFutures.framework in Frameworks */,
 				48DB1F8421ABECDE00B97E26 /* QMobileDataStore.framework in Frameworks */,
@@ -800,7 +796,6 @@
 				"$(SRCROOT)/Carthage/Build/iOS/QMobileDataStore.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/ObjcExceptionBridging.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Prephirences.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Result.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SwiftyJSON.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/XCGLogger.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Moya.framework",
