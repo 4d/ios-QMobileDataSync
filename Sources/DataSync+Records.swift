@@ -106,7 +106,7 @@ class DataSyncBuilder: ImportableBuilder {
 
     init?(tableName: String, context: DataStoreContext) {
         self.context = context
-        guard let tableInfo = context.tableInfo(for: tableName) else { // XXX if time consuming use a cache...(but not singletong if possible DataSync.instance)
+        guard let tableInfo = context.tableInfo(forOriginalName: tableName) else { // XXX if time consuming use a cache...(but not singleton if possible DataSync.instance)
             return nil
         }
         self.tableInfo = tableInfo
@@ -152,6 +152,17 @@ class DataSyncBuilder: ImportableBuilder {
 
     func teardown() {
         assert(!inContext) // teardown must be called after setup finish (caller issue, or asynchrone setup)
+    }
+}
+
+extension DataStoreContext {
+    func tableInfo(forOriginalName tableName: String) -> DataStoreTableInfo? {
+        for tableInfo in self.tablesInfo {
+            if tableInfo.originalName == tableName {
+                return tableInfo
+            }
+        }
+        return nil
     }
 }
 
