@@ -157,10 +157,8 @@ class DataSyncBuilder: ImportableBuilder {
 
 extension DataStoreContext {
     func tableInfo(forOriginalName tableName: String) -> DataStoreTableInfo? {
-        for tableInfo in self.tablesInfo {
-            if tableInfo.originalName == tableName {
-                return tableInfo
-            }
+        for tableInfo in self.tablesInfo where tableInfo.originalName == tableName {
+            return tableInfo
         }
         return nil
     }
