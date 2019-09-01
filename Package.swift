@@ -21,7 +21,7 @@ let package = Package(
         .package(url: "http://srv-git:3000/qmobile/QMobileDataStore.git" , .revision("HEAD")),
 
         .package(url: "https://github.com/Thomvis/BrightFutures.git" , from: "8.0.1"),
-        .package(url: "https://github.com/nvzqz/FileKit.git" , .revision("48b5ddb287f131a5c628badc819b880453f94449")), // HEAD
+        .package(url: "https://github.com/nvzqz/FileKit.git" , from: "6.0.0"),
         .package(url: "https://github.com/DaveWoodCom/XCGLogger.git" , from: "7.0.0"),
         .package(url: "https://github.com/Alamofire/Alamofire.git" , from: "4.8.2"),
         .package(url: "https://github.com/Moya/Moya.git" , from: "13.0.1"),
