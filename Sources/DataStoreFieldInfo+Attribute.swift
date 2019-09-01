@@ -31,7 +31,7 @@ extension DataStoreFieldInfo {
         return Bool(string)
     }
 
-    var originalName: String {
+    public var originalName: String {
         return userInfo(.keyMapping) ?? self.name
     }
 

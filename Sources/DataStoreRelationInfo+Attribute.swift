@@ -22,7 +22,7 @@ extension DataStoreRelationInfo {
         return self.userInfo?[key.rawValue]
     }
 
-    var originalName: String {
+    public var originalName: String {
         return self.userInfo(.keyMapping) as? String ?? self.name
     }
 
