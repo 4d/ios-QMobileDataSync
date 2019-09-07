@@ -1,6 +1,6 @@
-github "Alamofire/Alamofire" "5.0.0-beta.7"
+github "Alamofire/Alamofire" "5.0.0-rc.1"
 github "DaveWoodCom/XCGLogger" "7.0.0"
-github "Moya/Moya" "14.0.0-alpha.2"
+github "Moya/Moya" "14.0.0-beta.1"
 github "SwiftyJSON/SwiftyJSON" "5.0.0"
 github "Thomvis/BrightFutures" "8.0.1"
 github "dennisweissmann/DeviceKit" "2.0.0"
