@@ -39,7 +39,7 @@ extension DataSync {
 
     private func stripTablesNotInDataStore(_ tables: [String: Table]) -> [String: Table] {
         // Check consistency with data store
-        var indexedTablesInfo = self.dataStore.tablesInfo.dictionary { $0.originalName }
+        let indexedTablesInfo = self.dataStore.tablesInfo.dictionary { $0.originalName }
         var tables = tables
         for (name, table) in tables {
             if let tableInfo = indexedTablesInfo[table.name] {
@@ -95,7 +95,7 @@ extension DataSync {
                 #endif
 
                 // Look for missing tables or attributes
-                var removeTablesByName = remoteTables.dictionary { $0.name }
+                let removeTablesByName = remoteTables.dictionary { $0.name }
                 var missingTables = [Table]()
                 var missingAttributes = [Table: [Attribute]]()
                 for table in self.tables {

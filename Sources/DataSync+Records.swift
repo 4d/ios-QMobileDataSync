@@ -16,6 +16,15 @@ import QMobileDataStore
 
 extension DataSync {
 
+    fileprivate func json(_ table: Table, _ tableInfo: DataStoreTableInfo) -> JSON? {
+        #if os(iOS)
+        if let dataAsset = NSDataAsset(name: table.name) ?? NSDataAsset(name: tableInfo.name), let json = dataAsset.json {
+            return json
+        }
+        #endif
+        return self.bundle.json(forResource: tableInfo.name, withExtension: Preferences.jsonDataExtension)
+    }
+
     /// Load records from files, need to be done in data store context.
     func loadRecordsFromFile(context: DataStoreContext, tables: [Table]) throws {
         self.dataSyncWillLoad(tables)
@@ -25,9 +34,7 @@ extension DataSync {
             guard tables.contains(table) else { continue } // could filter on some tables.
             let tableName = table.name
             // Get json
-            guard let json = NSDataAsset(name: table.name)?.json ??
-                NSDataAsset(name: tableInfo.name)?.json ??
-                self.bundle.json(forResource: tableInfo.name, withExtension: Preferences.jsonDataExtension) else { continue }
+            guard let json = json(table, tableInfo) else { continue }
 
             assert(ImportableParser.tableName(for: json) == tableInfo.originalName) // file with wrong format and an another table, renamed?
             stamps[table] = json[ImportKey.globalStamp].intValue
@@ -88,9 +95,9 @@ extension DataSync {
 }
 
 /// Initialize or find an existing record.
-class DataSyncBuilder: ImportableBuilder {
+public class DataSyncBuilder: ImportableBuilder {
 
-    typealias Importable = Record
+    public typealias Importable = Record
 
     let table: Table // needed for predicate but could be build using tableInfo
     let tableInfo: DataStoreTableInfo // needed to create data store object
@@ -98,13 +105,13 @@ class DataSyncBuilder: ImportableBuilder {
 
     var inContext: Bool = false
 
-    init(table: Table, tableInfo: DataStoreTableInfo, context: DataStoreContext) {
+    public init(table: Table, tableInfo: DataStoreTableInfo, context: DataStoreContext) {
         self.context = context
         self.tableInfo = tableInfo
         self.table = table
     }
 
-    init?(tableName: String, context: DataStoreContext) {
+    public init?(tableName: String, context: DataStoreContext) {
         self.context = context
         guard let tableInfo = context.tableInfo(forOriginalName: tableName) else { // XXX if time consuming use a cache...(but not singleton if possible DataSync.instance)
             return nil
@@ -121,7 +128,7 @@ class DataSyncBuilder: ImportableBuilder {
          }*/
     }
 
-    func setup(in callback: @escaping () -> Void) {
+    public func setup(in callback: @escaping () -> Void) {
         context.perform(wait: true) {
             self.inContext = true
             callback()
@@ -129,7 +136,7 @@ class DataSyncBuilder: ImportableBuilder {
         }
     }
 
-    func build(_ tableName: String, _ json: JSON) -> Record? {
+    public func build(_ tableName: String, _ json: JSON) -> Record? {
         assert(tableName == tableInfo.originalName)
         assert(tableName == table.name)
         assert(inContext) // Must beform operation in context
@@ -150,8 +157,14 @@ class DataSyncBuilder: ImportableBuilder {
         return record
     }
 
-    func teardown() {
+    public func teardown() {
         assert(!inContext) // teardown must be called after setup finish (caller issue, or asynchrone setup)
+    }
+}
+
+extension DataSyncBuilder {
+    public func parseArray(json: JSON, using mapper: AttributeValueMapper = .default) throws ->  [DataSyncBuilder.Importable] {
+        return try self.table.parser.parseArray(json: json, using: mapper, with: self)
     }
 }
 
@@ -180,11 +193,13 @@ extension Path {
         return nil
     }
 }
+#if os(iOS)
 extension NSDataAsset {
     var json: JSON? {
         return try? JSON(data: self.data)
     }
 }
+#endif
 
 extension Bundle {
     func json(forResource resource: String, withExtension ext: String) -> JSON? {
