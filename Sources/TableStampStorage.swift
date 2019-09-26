@@ -36,7 +36,7 @@ public protocol TableStampStorage {
 /// MARK: DataStore
 import QMobileDataStore
 extension DataStoreMetadata {
-    var stampStorage: TableStampStorage {
+    public var stampStorage: TableStampStorage {
         return DataStoreTableStampStorage(dataStore: self)
     }
 }
