@@ -279,7 +279,7 @@ extension DataSync {
                 }
                 request.params(params)
                 // target.params([params])
-                logger.debug("Filter query params \(params) for \(table.name)")
+                logger.debug("Filter query params \(params) for \(table.name) with filter \(filter)")
             }
         }
 
