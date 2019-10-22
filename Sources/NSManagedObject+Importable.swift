@@ -49,6 +49,7 @@ extension NSManagedObject: RecordImportable {
                 logger.warning("Cannot get info for relation table \(relationTableName)")
                 return
             }
+            relationBuilder.isRelation = true
 
             if let value = value {
                 var json = JSON(value)
@@ -61,8 +62,8 @@ extension NSManagedObject: RecordImportable {
                             if relationEntities.count != json[ImportKey.count].intValue {
                                 logger.warning("Import relation of type \(relationBuilder.table.name) into \(tableName): \(relationEntities.count) , but expected \(json[ImportKey.count])")
                             }
+                            logger.debug("Import relation of type \(relationBuilder.table.name) into \(tableName): \(relationEntities.count) , expected \(json[ImportKey.count])")
                             if logger.isEnabledFor(level: .verbose) {
-                                logger.debug("Import relation of type \(relationBuilder.table.name) into \(tableName): \(relationEntities.count) , expected \(json[ImportKey.count])")
                                 logger.verbose("json \(json)")
                             }
                             let set = self.mutableSetValue(forKey: key)

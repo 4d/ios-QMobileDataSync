@@ -103,6 +103,7 @@ public class DataSyncBuilder: ImportableBuilder {
     let tableInfo: DataStoreTableInfo // needed to create data store object
     let context: DataStoreContext
 
+    var isRelation: Bool = false
     var inContext: Bool = false
 
     public init(table: Table, tableInfo: DataStoreTableInfo, context: DataStoreContext) {
@@ -144,12 +145,14 @@ public class DataSyncBuilder: ImportableBuilder {
         // Create only if not created
         var record: Record?
         do {
+            var created = false
             if let predicate = table.predicate(for: json) {
-                record = try context.getOrCreate(in: tableInfo.name, matching: predicate)
+                record = try context.getOrCreate(in: tableInfo.name, matching: predicate, created: &created)
             } else {
                 logger.warning("Cannot checking if record already in database, no primary key for table '\(tableName)'. This could result to duplicate records.")
                 record = context.create(in: tableInfo.name)
                 // assertionFailure("Table \(tableInfo.name) must have primary key")
+                created = true
             }
         } catch {
             logger.warning("Failed to import one data into '\(tableName)': \(error)")

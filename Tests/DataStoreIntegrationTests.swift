@@ -473,7 +473,8 @@ class DataStoreIntegrationTests: XCTestCase {
             }
 
             let predicateInvoice = NSPredicate(format: "id == 38")
-            if let importableInvoice = try? context.getOrCreate(in: tableNameInvoice, matching: predicateInvoice) {
+            var created = false
+            if let importableInvoice = try? context.getOrCreate(in: tableNameInvoice, matching: predicateInvoice, created: &created) {
                 let jsonEntity: JSON
                 if let entities = jsonInvoice[ImportKey.entities].array?[37] { // id = 17 : invoice matching client above
                     jsonEntity = entities
