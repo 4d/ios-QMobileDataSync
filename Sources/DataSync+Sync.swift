@@ -229,7 +229,8 @@ extension DataSync {
         for deletedRecord in deletedRecords {
             if let table = table(for: deletedRecord.tableName), let tableInfo = self.tablesInfoByTable[table] {
                 do {
-                    let result = try context.delete(in: tableInfo.name, matching: table.predicate(forDeletedRecord: deletedRecord))
+                    let predicate = table.predicate(forDeletedRecord: deletedRecord)
+                    let result = try context.delete(in: tableInfo.name, matching: predicate)
                     if result > 0 {
                         logger.verbose("Record defined by \(deletedRecord) has been deleted")
                     } else {
@@ -238,6 +239,8 @@ extension DataSync {
                 } catch {
                     logger.warning("Failed to delete \(deletedRecord). Maybe already deleted \(error)")
                 }
+            } else {
+                logger.verbose("Unknown record \(deletedRecord). Not managed table.")
             }
         }
 

@@ -94,6 +94,16 @@ extension DataStoreTableInfo {
         return self.userInfo(.primaryKey)
     }
 
+    var primaryKeyFieldInfo: DataStoreFieldInfo? {
+        guard let primaryKey = primaryKey else {
+            return nil
+        }
+        for field in fields where field.originalName == primaryKey {
+            return field
+        }
+        return nil
+    }
+
     var slave: String? {
         return self.userInfo(.slave)
     }
