@@ -13,8 +13,8 @@ let package = Package(
         .library(name: "QMobileDataSync", targets: ["QMobileDataSync"]),
     ],
     dependencies: [
-        .package(url: "http://srv-git:3000/qmobile/QMobileAPI.git", .revision("HEAD")),
-        .package(url: "http://srv-git:3000/qmobile/QMobileDataStore.git", .revision("HEAD")),
+        .package(url: "https://gitlab-4d.private.4d.fr/qmobile/QMobileAPI.git", .revision("HEAD")),
+        .package(url: "https://gitlab-4d.private.4d.fr/qmobile/QMobileDataStore.git", .revision("HEAD")),
 
         .package(url: "https://github.com/Thomvis/BrightFutures.git", from: "8.0.1"),
         .package(url: "https://github.com/nvzqz/FileKit.git", from: "6.0.0"),
