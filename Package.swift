@@ -38,7 +38,7 @@ let package = Package(
                 "Moya",
                 "SwiftyJSON",
                 "Prephirences",
-                // "DeviceKit"
+                "DeviceKit"
             ],
             path: "Sources"),
         .testTarget(
