@@ -20,6 +20,10 @@ class Utils {
     static func initialize() {
         Prephirences.sharedInstance = MutableCompositePreferences([UserDefaults.standard, Bundle.test])
     }
+
+    static let testTargetPath = URL(fileURLWithPath: #file)
+          .deletingLastPathComponent()
+          .deletingLastPathComponent()
 }
 
 extension Bundle {

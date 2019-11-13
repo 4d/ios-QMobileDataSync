@@ -30,6 +30,7 @@ class ServerStatusTest: XCTestCase {
         Bundle.dataStoreKey = "CoreDataModel"
         
         Bundle.qMobileApiStub = Bundle.test
+        Bundle.qMobileApiStubURL = Utils.testTargetPath
         
         let apiManager = APIManager.instance
         apiManager.stub = RemoteConfig.stub

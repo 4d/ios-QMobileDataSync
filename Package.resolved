@@ -5,9 +5,9 @@
         "package": "Alamofire",
         "repositoryURL": "https://github.com/Alamofire/Alamofire.git",
         "state": {
-          "branch": null,
-          "revision": "c1d14588e5558a3669fd03510d135d88c5109069",
-          "version": "5.0.0-rc.3"
+          "branch": "5.0.0-rc.3",
+          "revision": "2cbf59935fbb1f26e352ce4db53f1cf9408d5313",
+          "version": null
         }
       },
       {
@@ -20,21 +20,12 @@
         }
       },
       {
-        "package": "CwlCatchException",
-        "repositoryURL": "https://github.com/mattgallagher/CwlCatchException.git",
+        "package": "DeviceKit",
+        "repositoryURL": "https://github.com/phimage/DeviceKit.git",
         "state": {
-          "branch": null,
-          "revision": "7cd2f8cacc4d22f21bc0b2309c3b18acf7957b66",
-          "version": "1.2.0"
-        }
-      },
-      {
-        "package": "CwlPreconditionTesting",
-        "repositoryURL": "https://github.com/mattgallagher/CwlPreconditionTesting.git",
-        "state": {
-          "branch": null,
-          "revision": "c228db5d2ad1b01ebc84435e823e6cca4e3db98b",
-          "version": "1.2.0"
+          "branch": "feature/macos",
+          "revision": "15fa25b33473cfbd5257cb89cae97b980973f1e9",
+          "version": null
         }
       },
       {
@@ -59,27 +50,18 @@
         "package": "Moya",
         "repositoryURL": "https://github.com/Moya/Moya.git",
         "state": {
-          "branch": null,
-          "revision": "062db248c4f320d35a18bd4046a2adc164d64934",
-          "version": "14.0.0-beta.2"
-        }
-      },
-      {
-        "package": "Nimble",
-        "repositoryURL": "https://github.com/Quick/Nimble.git",
-        "state": {
-          "branch": null,
-          "revision": "6abeb3f5c03beba2b9e4dbe20886e773b5b629b6",
-          "version": "8.0.4"
+          "branch": "14.0.0-beta.5",
+          "revision": "e31409e1a38c7a18d05dc0b3f0ff0ef3b383780a",
+          "version": null
         }
       },
       {
         "package": "Prephirences",
         "repositoryURL": "https://github.com/phimage/Prephirences.git",
         "state": {
-          "branch": "HEAD",
-          "revision": "2ddd058050b22dc64f4b88a137aabb31fa3cc552",
-          "version": null
+          "branch": null,
+          "revision": "81b4792293972ec7541a941333e584ccc7976198",
+          "version": "5.1.0"
         }
       },
       {
@@ -87,7 +69,7 @@
         "repositoryURL": "https://gitlab-4d.private.4d.fr/qmobile/QMobileAPI.git",
         "state": {
           "branch": "HEAD",
-          "revision": "7421c7dace284bd09957ecb7ef9686e9bf360abe",
+          "revision": "672e0e4f73cec4b0980fb9609f42b2057dd72640",
           "version": null
         }
       },
@@ -96,25 +78,16 @@
         "repositoryURL": "https://gitlab-4d.private.4d.fr/qmobile/QMobileDataStore.git",
         "state": {
           "branch": "HEAD",
-          "revision": "164628d361eb33ae94f4ae6c92ffa494b3c5214e",
+          "revision": "ca2a0bf29df975c179fdd610bd64bd0a36e1839e",
           "version": null
         }
       },
       {
-        "package": "Quick",
-        "repositoryURL": "https://github.com/Quick/Quick.git",
-        "state": {
-          "branch": null,
-          "revision": "94df9b449508344667e5afc7e80f8bcbff1e4c37",
-          "version": "2.1.0"
-        }
-      },
-      {
         "package": "ReactiveSwift",
-        "repositoryURL": "https://github.com/ReactiveCocoa/ReactiveSwift.git",
+        "repositoryURL": "https://github.com/Moya/ReactiveSwift.git",
         "state": {
           "branch": null,
-          "revision": "b772fa0b624926e6e2f21acbb79297736a05c585",
+          "revision": "f195d82bb30e412e70446e2b4a77e1b514099e88",
           "version": "6.1.0"
         }
       },
@@ -141,8 +114,8 @@
         "repositoryURL": "https://github.com/drmohundro/SWXMLHash.git",
         "state": {
           "branch": null,
-          "revision": "f43166a8e18fdd0857f29e303b1bb79a5428bca0",
-          "version": "4.9.0"
+          "revision": "a4931e5c3bafbedeb1601d3bb76bbe835c6d475a",
+          "version": "5.0.1"
         }
       },
       {

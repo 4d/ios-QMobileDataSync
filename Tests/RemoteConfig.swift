@@ -13,7 +13,12 @@ import QMobileAPI
 class RemoteConfig {
 
     static let stub = true // TODO parametrize , maybe if ip not set
-    
+
+    static let testTargetPath = URL(fileURLWithPath: #file)
+          .deletingLastPathComponent()
+          .deletingLastPathComponent()
+          .deletingLastPathComponent()
+
     static var tableName: String {
         return "CLIENTS"
     }
@@ -37,7 +42,12 @@ extension RemoteConfig: StubDelegate {
                 fileName = "\(tableName)_\(skip)"
                 print("stub \(tableName) with skip \(skip)")
             }
-
+            #if SWIFT_PACKAGE
+            let url = RemoteConfig.testTargetPath.appendingPathComponent("\(fileName).json")
+            if FileManager.default.fileExists(atPath: url.path) {
+                return try? Moya.EndpointSampleResponse.url(url)
+            }
+            #endif
             if let url = RemoteConfig.bundle.url(forResource: fileName, withExtension: "json", subdirectory: nil) {
                 return try? Moya.EndpointSampleResponse.url(url)
             }

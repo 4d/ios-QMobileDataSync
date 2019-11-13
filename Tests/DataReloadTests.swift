@@ -27,6 +27,7 @@ class DataReloadTests: XCTestCase {
         Bundle.dataStoreKey = "CoreDataModel"
         
         Bundle.qMobileApiStub = bundle
+        Bundle.qMobileApiStubURL = Utils.testTargetPath
         
         let apiManager = APIManager.instance
         apiManager.stub = RemoteConfig.stub

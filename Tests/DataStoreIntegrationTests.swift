@@ -420,10 +420,14 @@ class DataStoreIntegrationTests: XCTestCase {
         
         let expect = self.expectation(description: "Create entities")
         _ = dataStore.perform(.background) { context in
-            
+
+            #if SWIFT_PACKAGE
+            var invoiceListReference: [NSManagedObject] = []
+            var clientReference: NSManagedObject? = nil
+            #else
             var invoiceListReference: [INVOICES] = []
             var clientReference: CLIENTS? = nil
-            
+            #endif
             if let importableClient = context.create(in: tableNameClient) {
                 
                 let jsonEntity: JSON
@@ -448,23 +452,38 @@ class DataStoreIntegrationTests: XCTestCase {
                 } else {
                     XCTFail("Couldn't get id of current invoice")
                 }
-                
+
+                #if SWIFT_PACKAGE
+                    // Saving client to check we have the same object fetched below
+                    clientReference = importableClient.store
+                #else
                 if let clientObj = importableClient.store as? CLIENTS {
                     // Saving client to check we have the same object fetched below
                     clientReference = clientObj
                 } else {
                     XCTFail("Couldn't cast importableClient.store as CLIENTS")
                 }
+                #endif
                 
                 if let invoices = importableClient["invoices"] as? NSSet {
-                    
-                    if let invoiceObject = invoices.allObjects as? [INVOICES] { // as? [NSManagedObject]
+                    #if SWIFT_PACKAGE
+                    if let invoiceObject = invoices.allObjects as? [NSManagedObject] { // as? [NSManagedObject]
                         // Saving invoice list to check we have the same object fetched below
-                       invoiceListReference = invoiceObject
+                        invoiceListReference = invoiceObject
                         
                     } else {
                         XCTFail("Couldn't cast invoices.allObjects as [NSManagedObject]")
                     }
+                    #else
+                    if let invoiceObject = invoices.allObjects as? [INVOICES] { // as? [NSManagedObject]
+                        // Saving invoice list to check we have the same object fetched below
+                        invoiceListReference = invoiceObject
+
+                    } else {
+                        XCTFail("Couldn't cast invoices.allObjects as [NSManagedObject]")
+                    }
+                    #endif
+
                 } else {
                     XCTFail("Couldn't cast importableClient[\"invoices\"] as NSSet")
                 }
@@ -499,31 +518,41 @@ class DataStoreIntegrationTests: XCTestCase {
                 } else {
                     XCTFail("Couldn't get id of current invoice")
                 }
-                
+
+                #if SWIFT_PACKAGE
+                let invoiceObj = importableInvoice.store
+                XCTAssertTrue(invoiceListReference.contains(invoiceObj))
+                guard let client = importableInvoice["client"] as? NSManagedObject  else {
+                    XCTFail("Couldn't cast importableInvoice[\"client\"] as NSManagedObject")
+                    expect.fulfill()
+                    return
+                }
+                #else
                 if let invoiceObj = importableInvoice.store as? INVOICES {
                     XCTAssertTrue(invoiceListReference.contains(invoiceObj))
                 } else {
                     XCTFail("Couldn't cast importableInvoice.store as INVOICES")
                 }
-                
-                if let client = importableInvoice["client"] as? CLIENTS { // as? NSManagedObject
-                    
-                    XCTAssertEqual(client, clientReference)
-                    
-                    if let invoices = client["invoices"] as? NSSet {
-                        
-                        if let invoiceObjects = invoices.allObjects as? [NSManagedObject] {
-                            
-                            XCTAssertTrue(invoiceObjects.contains(importableInvoice.store))
-                            
-                        } else {
-                            XCTFail("Couldn't cast invoices.allObjects as [NSManagedObject]")
-                        }
+                guard let client = importableInvoice["client"] as? CLIENTS  else {
+                    XCTFail("Couldn't cast importableInvoice[\"client\"] as NSManagedObject")
+                    expect.fulfill()
+                    return
+                }
+                #endif
+
+                XCTAssertEqual(client, clientReference)
+
+                if let invoices = client["invoices"] as? NSSet {
+
+                    if let invoiceObjects = invoices.allObjects as? [NSManagedObject] {
+
+                        XCTAssertTrue(invoiceObjects.contains(importableInvoice.store))
+
                     } else {
-                        XCTFail("Couldn't cast client[\"invoices\"] as NSSet")
+                        XCTFail("Couldn't cast invoices.allObjects as [NSManagedObject]")
                     }
                 } else {
-                    XCTFail("Couldn't cast importableInvoice[\"client\"] as NSManagedObject")
+                    XCTFail("Couldn't cast client[\"invoices\"] as NSSet")
                 }
             }
 
