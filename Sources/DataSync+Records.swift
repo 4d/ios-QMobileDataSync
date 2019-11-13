@@ -13,6 +13,9 @@ import FileKit
 
 import QMobileAPI
 import QMobileDataStore
+#if os(iOS)
+import UIKit
+#endif
 
 extension DataSync {
 

@@ -9,6 +9,10 @@ import XCTest
 @testable import QMobileDataSync
 import QMobileAPI
 
+#if os(iOS)
+import UIKit
+#endif
+
 import Foundation
 import SwiftyJSON
 import Prephirences
@@ -34,6 +38,8 @@ extension Bundle {
 
 func table(name: String) -> Table? {
     let bundle = Bundle(for: Utils.self)
+
+    #if os(iOS)
     if let json = NSDataAsset(name: "\(name).catalog", bundle: bundle)?.json {
         guard let table = Table(json: json) else {
             XCTFail("Failed to parse table \(name)")
@@ -41,6 +47,7 @@ func table(name: String) -> Table? {
         }
         return table
     }
+    #endif
 
     guard let url = bundle.url(forResource: "\(name).catalog", withExtension: "json") else {
         XCTFail("File not found to test \(name)")
