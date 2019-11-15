@@ -33,7 +33,7 @@ public protocol TableStampStorage {
     var lastSync: Date? { get set }
 }
 
-/// MARK: DataStore
+// MARK: DataStore
 import QMobileDataStore
 extension DataStoreMetadata {
     public var stampStorage: TableStampStorage {
@@ -98,7 +98,7 @@ extension DataStoreMetadata {
     }
 }
 
-/// MARK: Prephirences
+// MARK: Prephirences
 import Prephirences
 
 /// Store table stamps in a `MutablePreferencesType` (keychain, userdefaults, plist, memory dictionary)
