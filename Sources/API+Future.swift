@@ -67,6 +67,18 @@ public extension APIManager {
         return Future { _ = self.deletedRecordPage(configure: configure, callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
     }
 
+    /// Upload data to the server. Could be an image or a blob.
+    /// An id will be returned to use to associate this upload to record field or action parameters.
+    func upload(data: Data, image: Bool = false, mimeType: String?, callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<UploadResult, APIError> {
+        return  Future { _ = self.upload(data: data, image: image, mimeType: mimeType, callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
+    }
+
+    /// Upload file url data to server.
+    /// An id will be returned to use to associate this upload to record field or action parameters.
+    func upload(url: URL, callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<UploadResult, APIError> {
+        return  Future { _ = self.upload(url: url, callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
+    }
+
 }
 
 public extension APIManager {
