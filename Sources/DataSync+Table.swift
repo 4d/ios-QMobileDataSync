@@ -141,6 +141,9 @@ extension DataSync {
 
             case .failure(let error):
                 logger.warning("Failed to retrieve tables from remote 4D server \(error)")
+                if let response = error.responseString {
+                    logger.debug("data: \(response)")
+                }
                 completionHander(.failure(.apiError(error)))
             }
         }

@@ -70,13 +70,29 @@ public extension APIManager {
     /// Upload data to the server. Could be an image or a blob.
     /// An id will be returned to use to associate this upload to record field or action parameters.
     func upload(data: Data, image: Bool = false, mimeType: String?, callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<UploadResult, APIError> {
-        return  Future { _ = self.upload(data: data, image: image, mimeType: mimeType, callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
+        return Future { _ = self.upload(data: data, image: image, mimeType: mimeType, callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
     }
 
     /// Upload file url data to server.
     /// An id will be returned to use to associate this upload to record field or action parameters.
     func upload(url: URL, callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<UploadResult, APIError> {
-        return  Future { _ = self.upload(url: url, callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
+        return Future { _ = self.upload(url: url, callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
+    }
+
+    /// Get the records into simple structures. Only one page is loaded.
+    /// You must get information from page to configure next request.
+    /// @param tableName   the table name
+    /// @param attribute   get only this attributes
+    /// @param recursive   receive all page until last one (default: false)
+    /// @param configure   closure to configure the request
+    func recordPage(tableName: String,
+                    attributes: [String] = [],
+                    setID: QMobileAPI.EntitySetIdConvertible? = nil,
+                    recursive: Bool = false,
+                    configure: QMobileAPI.APIManager.ConfigureRecordsRequest? = nil,
+                    callbackQueue: DispatchQueue? = nil,
+                    progress: QMobileAPI.APIManager.ProgressHandler? = nil) -> Future<Page, APIError> {
+        return Future { _ = self.recordPage(tableName: tableName, attributes: attributes, setID: setID, recursive: recursive, configure: configure, callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
     }
 
 }

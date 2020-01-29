@@ -23,6 +23,22 @@ extension Array {
         return result
     }
 
+    /// Create a dictionary from this array.
+    ///
+    /// - parameter key: A closure to get hashing key from array values.
+    ///
+    /// - returns: the dictionary
+    func dictionaryBy<T: Hashable>(key: (Element) -> T) -> [T: [Element]] {
+        var result: [T: [Element]] = [:]
+        self.forEach {
+            let keyValue = key($0)
+            if result[keyValue] == nil {
+                result[keyValue] = []
+            }
+            result[keyValue]?.append($0)
+        }
+        return result
+    }
 }
 
 extension Array where Element: Hashable {

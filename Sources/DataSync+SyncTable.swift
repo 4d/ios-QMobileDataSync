@@ -18,6 +18,27 @@ import QMobileAPI
 
 extension DataSync {
 
+    fileprivate func sync(tableStatus: [DataSync.Process.TableStatus],
+                          cancellable: CancellableComposite,
+                          in path: Path,
+                          operation: DataSync.Operation,
+                          callbackQueue: DispatchQueue? = nil,
+                          progress: APIManager.ProgressHandler? = nil,
+                          context: DataStoreContext
+    ) {
+        // There is some table to relaunch sync because stamp are not equal
+        for (table, stamp) in tableStatus {
+            let c = self.syncTable(table,
+                                   at: stamp,
+                                   in: path,
+                                   operation: operation,
+                                   callbackQueue: callbackQueue,
+                                   progress: progress,
+                                   context: context)
+            cancellable.append(c)
+        }
+    }
+
     /// Synchronize one table.
     ///
     /// - parameter table:         The table to sync.
@@ -53,43 +74,39 @@ extension DataSync {
             switch result {
             case .success(let (records, pageInfo)):
 
-                if pageInfo.isLast {
-                    logger.info("Last page loaded for table \(table.name): \(pageInfo)")
-                    self.dataSyncEnd(for: table, with: pageInfo, operation)
-                    if case .byTable = self.saveMode {
+                guard pageInfo.isLast else {
+                    /*if case .eachPage = self.saveMode {
                         self.tryCommit(context)
-                        // If save could not manage error
-                    }
-                    if let process = self.process {
-                        _ = process.lock()
-                        defer { _ = process.unlock() }
+                    }*/
+                    return
+                }
+                logger.info("Last page loaded for table \(table.name): \(pageInfo)")
+                self.dataSyncEnd(for: table, with: pageInfo, operation)
+                /*if case .byTable = self.saveMode {
+                    self.tryCommit(context) // If save could not manage error
 
-                        // Set current table completed
-                        process.completed(for: table, with: .success(pageInfo))
-                        // Check if we must relaunch some request due to stamp
-                        if let tableStatus = process.checkCompleted() {
+                }*/
+                if let process = self.process {
+                    _ = process.lock()
+                    defer { _ = process.unlock() }
 
-                            // There is some table to relaunch sync because stamp are not equal
-                            for (table, stamp) in tableStatus {
-                                let c = self.syncTable(table,
-                                                       at: stamp,
-                                                       in: path,
-                                                       operation: operation,
-                                                       callbackQueue: callbackQueue,
-                                                       progress: progress,
-                                                       context: context)
-                                cancellable.append(c)
-                            }
-                        }
+                    // Set current table completed
+                    process.completed(for: table, with: .success(pageInfo))
+                    // Check if we must relaunch some request due to stamp
+                    if let tableStatus = process.checkCompleted() {
+                        self.sync(tableStatus: tableStatus,
+                                  cancellable: cancellable,
+                                  in: path,
+                                  operation: operation,
+                                  callbackQueue: callbackQueue,
+                                  progress: progress,
+                                  context: context)
                     } else {
-                        logger.warning("No process available when finish to \(operation) the table \(table)")
+                        logger.verbose(" \(operation) complete, after sync of table \(table)")
                     }
                 } else {
-                    if case .eachPage = self.saveMode {
-                        self.tryCommit(context)
-                    }
+                    logger.warning("No process available when finish to \(operation) the table \(table)")
                 }
-
             case .failure(let error):
                 // notify for one table
                 self.dataSyncFailed(for: table, with: error, operation)
@@ -99,7 +116,7 @@ extension DataSync {
         }
 
         // Configure and launch the request
-        let attributes = self.getAttributes(table)
+        let attributes = self.getAttributes(table) // filter da
         let initializer = DataSyncBuilder(table: table, tableInfo: tableInfo, context: context)
         let configureRequest = self.configureRecordsRequest(stamp: startStamp, tableInfo, table)
         let cancellableRecords = self.apiManager.records(table: table,

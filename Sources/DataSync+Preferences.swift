@@ -30,6 +30,9 @@ extension Prephirences {
             }
         }
 
+        /// Remove records that do not match records
+        static let deletedByFilter = instance["deletedByFilter"] as? Bool ?? false
+
         /// Use or not attribute filters
         static let noAttributeFilter = instance["noAttributeFilter"] as? Bool ?? false
         static let expandAttribute = instance["expandAttribute"] as? Bool ?? false

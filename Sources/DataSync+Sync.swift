@@ -223,29 +223,98 @@ extension DataSync {
 
     // MARK: process completion callback
 
-    func deleteRecords(_ page: Page, in context: DataStoreContext) {
-        let records: [RecordJSON] = page.records
-        let deletedRecords: [DeletedRecord] = records.compactMap { $0.deletedRecord }
+    func deleteRecords(_ deletedRecords: [DeletedRecord], in context: DataStoreContext) {
         for deletedRecord in deletedRecords {
-            if let table = table(for: deletedRecord.tableName), let tableInfo = self.tablesInfoByTable[table] {
-                do {
-                    let predicate = table.predicate(forDeletedRecord: deletedRecord)
-                    let result = try context.delete(in: tableInfo.name, matching: predicate)
-                    if result > 0 {
-                        logger.verbose("Record defined by \(deletedRecord) has been deleted")
-                    } else {
-                        logger.debug("Failed to delete \(deletedRecord). Maybe already deleted.")
-                    }
-                } catch {
-                    logger.warning("Failed to delete \(deletedRecord). Maybe already deleted \(error)")
-                }
-            } else {
+            guard let table = table(for: deletedRecord.tableName), let tableInfo = self.tablesInfoByTable[table] else {
                 logger.verbose("Unknown record \(deletedRecord). Not managed table.")
+                continue
+            }
+            do {
+                let predicate = table.predicate(forDeletedRecord: deletedRecord)
+                let result = try context.delete(in: tableInfo.name, matching: predicate)
+                if result > 0 {
+                    logger.verbose("Record defined by \(deletedRecord) has been deleted")
+                } else {
+                    logger.debug("Failed to delete \(deletedRecord). Maybe already deleted.")
+                }
+            } catch {
+                logger.warning("Failed to delete \(deletedRecord). Maybe already deleted \(error)")
             }
         }
-
     }
 
+    func syncDeletedRecods(in context: DataStoreContext,
+                           startStamp: TableStampStorage.Stamp,
+                           endStamp: TableStampStorage.Stamp,
+                           callbackQueue: DispatchQueue? = nil,
+                           progress: APIManager.ProgressHandler? = nil) -> Future<[DeletedRecord], APIError> {
+
+        // First get drom DeleteRecord table
+        var configure: APIManager.ConfigureRecordsRequest? = { request in
+            request.filter("\(DeletedRecordKey.stamp) >= \(startStamp) AND \(DeletedRecordKey.stamp) <= \(endStamp)")  // synchronized interval
+        }
+        let future = self.apiManager.deletedRecordPage(configure: configure, callbackQueue: callbackQueue, progress: progress).map { page in
+            return page.records.compactMap { $0.deletedRecord }
+        }
+
+        if Prephirences.DataSync.deletedByFilter {
+            // then for all table with filters. in fact some records could now be out of filter scope.
+            configure = { request in
+                request.filter("\(kGlobalStamp) >= \(startStamp) AND \(kGlobalStamp) <= \(endStamp)")  // synchronized interval
+            }
+            let futures = [future] + deletedRecordsDueToFilter(in: context, configure: configure)
+
+            // Merge and flattenize all task result
+            return futures.sequence().flatMap { (list: [[DeletedRecord]]) -> Result<[DeletedRecord], APIError> in
+                return .success(list.flatMap { $0 })
+            }
+        }
+        return future
+    }
+
+    /// Synchronize removed record due to filter only
+    func deletedRecordsDueToFilter(in context: DataStoreContext, configure: APIManager.ConfigureRecordsRequest? = nil) -> [Future<[DeletedRecord], APIError>] {
+        // work only on tables with filter
+        let tablesWithFilter = tablesInfoByTable.filter { $1.filter != nil }
+
+        // Find the updated or created records. This records must not be deleted, because we get it with filter
+        let updatedRecords: [Record] = context.insertedRecords + context.updatedRecords
+        let updatedRecordsByTable: [String: [Record]] = updatedRecords.dictionaryBy { $0.tableName }
+
+        var futures: [Future<[DeletedRecord], APIError>] = []
+        for (table, tableInfo) in tablesWithFilter {
+            // Get table information
+            guard let primaryKey = tableInfo.primaryKeyFieldInfo?.originalName else {
+                continue
+            }
+            let tableName = table.name
+            let updatedRecords: [Record] = updatedRecordsByTable[tableName] ?? [] // maybe no one visible for this table
+            let updatedRecordPrimaryKeys = updatedRecords.compactMap { $0.primaryKeyValue }
+
+            // Make the request to get records
+            let future = APIManager.instance.recordPage(tableName: tableName, attributes: [primaryKey], configure: configure).map { (page: Page) -> [DeletedRecord] in
+                let records = page.records
+                // Filter records that must not be deleted, ie. the ones pending to be modified by synchro
+                let deletedRecords: [DeletedRecord] = records.compactMap { recordJSON in
+                    let json = recordJSON.json
+                    let primaryKey = "\(json[primaryKey].rawValue)"
+                    let hasBeenUpdated = updatedRecordPrimaryKeys.contains { updatedPrimaryKey in
+                        return ("\(updatedPrimaryKey)" == primaryKey) // use string to compare, maybe could be faster if not converted
+                    }
+                    if hasBeenUpdated {
+                        return nil // do not deleted
+                    }
+                    let stamp = json[kGlobalStamp].doubleValue
+                    return DeletedRecord(primaryKey: "\(primaryKey)", tableNumber: nil, tableName: tableName, stamp: stamp)
+                }
+                return deletedRecords
+            }
+            futures.append(future)
+        }
+        return futures
+    }
+
+    /// Function called after all table has been synchronised
     func syncProcessCompletionCallBack(in context: DataStoreContext,
                                        operation: DataSync.Operation,
                                        startStamp: TableStampStorage.Stamp,
@@ -258,60 +327,66 @@ extension DataSync {
             }
             switch result {
             case .success(let stamp):
-                let future = self.apiManager.deletedRecordPage(configure: { request in
-                    request.filter("\(DeletedRecordKey.stamp) >= \(startStamp)") // XXX DeletedRecordKey.stamp
-                })
-                future.onSuccess { page in
-
-                    self.deleteRecords(page, in: context)
-
-                    // store new stamp
-                    if var stampStorage = self.dataStore.metadata?.stampStorage {
-                        stampStorage.globalStamp = stamp
-                        stampStorage.lastSync = Date()
-                    }
-                    logger.info("Data \(operation.description) end with stamp \(stamp)")
-
-                    // save data store
-                    do {
-                        try context.commit()
-
-                        // call success
-                        completionHandler(.success(()))
-                    } catch {
-                        completionHandler(.failure(DataSyncError.error(from: error)))
-                    }
-                }
-                future.onFailure { error in
-                    if let restErrors = error.restErrors, restErrors.match(.entity_not_found) {
-                        logger.error("The table \(DeletedRecordKey.entityName) do not exist. Deleted record will not be removed from this mobile application. Please update your struture")
-
-                        // Until we change decision, we go on without the table and save the synchronization...
-                        // store new stamp
-                        if var stampStorage = self.dataStore.metadata?.stampStorage {
-                            stampStorage.globalStamp = stamp
-                            stampStorage.lastSync = Date()
-                        }
-                        logger.info("Data \(operation.description) end with stamp \(stamp) but without removing potential deleted records")
-
-                        // save data store
-                        do {
-                            try context.commit()
-
-                            // call success
-                            completionHandler(.success(()))
-                        } catch {
-                            completionHandler(.failure(DataSyncError.error(from: error)))
-                        }
-
-                    } else {
-                        if case .onCompletion = self.saveMode {
-                            context.rollback()
-                        }
-                        completionHandler(.failure(DataSyncError.apiError(error)))
-                    }
-                }
+                self.syncProcessCompletionSuccess(in: context, operation: operation, startStamp: startStamp, endStamp: stamp, completionHandler)
             case .failure(let error):
+                if case .onCompletion = self.saveMode {
+                    context.rollback()
+                }
+                completionHandler(.failure(DataSyncError.apiError(error)))
+            }
+        }
+    }
+
+    func syncProcessCompletionSuccess(in context: DataStoreContext,
+                                      operation: DataSync.Operation,
+                                      startStamp: TableStampStorage.Stamp,
+                                      endStamp: TableStampStorage.Stamp,
+                                      _ completionHandler: @escaping SyncCompletionHandler) {
+        let future = self.syncDeletedRecods(in: context, startStamp: startStamp, endStamp: endStamp)
+        future.onSuccess { deletedRecords in
+
+            self.deleteRecords(deletedRecords, in: context)
+
+            // store new stamp
+            if var stampStorage = self.dataStore.metadata?.stampStorage {
+                stampStorage.globalStamp = endStamp
+                stampStorage.lastSync = Date()
+            }
+            logger.info("Data \(operation.description) end with stamp \(endStamp)")
+
+            // save data store
+            do {
+                try context.commit()
+
+                // call success
+                completionHandler(.success(()))
+            } catch {
+                completionHandler(.failure(DataSyncError.error(from: error)))
+            }
+        }
+        future.onFailure { error in
+            if let restErrors = error.restErrors, restErrors.match(.entity_not_found) {
+                logger.error("The table \(DeletedRecordKey.entityName) do not exist. Deleted record will not be removed from this mobile application. Please update your struture")
+
+                // Until we change decision, we go on without the table and save the synchronization...
+                // store new stamp
+                if var stampStorage = self.dataStore.metadata?.stampStorage {
+                    stampStorage.globalStamp = endStamp
+                    stampStorage.lastSync = Date()
+                }
+                logger.info("Data \(operation.description) end with stamp \(endStamp) but without removing potential deleted records")
+
+                // save data store
+                do {
+                    try context.commit()
+
+                    // call success
+                    completionHandler(.success(()))
+                } catch {
+                    completionHandler(.failure(DataSyncError.error(from: error)))
+                }
+
+            } else {
                 if case .onCompletion = self.saveMode {
                     context.rollback()
                 }
