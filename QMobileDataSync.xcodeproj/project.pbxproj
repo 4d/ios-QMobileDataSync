@@ -31,6 +31,7 @@
 		484803871EBC78680094D84C /* Array+Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484803861EBC78680094D84C /* Array+Sync.swift */; };
 		484803A31EBCB2340094D84C /* DataSync+Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484803A21EBCB2340094D84C /* DataSync+Table.swift */; };
 		484803A51EBCB5C50094D84C /* DataSync+Records.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484803A41EBCB5C50094D84C /* DataSync+Records.swift */; };
+		4854D34C23EC6EA000C518B2 /* DataSync+Deletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4854D34B23EC6EA000C518B2 /* DataSync+Deletable.swift */; };
 		485554901ECAEC85001EE365 /* TableStampStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4855548F1ECAEC85001EE365 /* TableStampStorageTests.swift */; };
 		485554921ECAEF40001EE365 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485554911ECAEF40001EE365 /* Utils.swift */; };
 		485554C11ECAEF68001EE365 /* restcatalogall.json in Resources */ = {isa = PBXBuildFile; fileRef = 485554961ECAEF68001EE365 /* restcatalogall.json */; };
@@ -176,6 +177,7 @@
 		484803861EBC78680094D84C /* Array+Sync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Sync.swift"; sourceTree = "<group>"; };
 		484803A21EBCB2340094D84C /* DataSync+Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Table.swift"; sourceTree = "<group>"; };
 		484803A41EBCB5C50094D84C /* DataSync+Records.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Records.swift"; sourceTree = "<group>"; };
+		4854D34B23EC6EA000C518B2 /* DataSync+Deletable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataSync+Deletable.swift"; sourceTree = "<group>"; };
 		4855548F1ECAEC85001EE365 /* TableStampStorageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableStampStorageTests.swift; sourceTree = "<group>"; };
 		485554911ECAEF40001EE365 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		485554961ECAEF68001EE365 /* restcatalogall.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = restcatalogall.json; path = ../Catalog/restcatalogall.json; sourceTree = "<group>"; };
@@ -481,6 +483,7 @@
 				486A22FE1F55B69400B5A5E6 /* DataSync+Init.swift */,
 				484429001EC999A6008658B8 /* DataSync+Sync.swift */,
 				486A22FC1F55B68100B5A5E6 /* DataSync+SyncTable.swift */,
+				4854D34B23EC6EA000C518B2 /* DataSync+Deletable.swift */,
 				484428FC1EC9995E008658B8 /* DataSync+Process.swift */,
 				489C15D91F3B42A5004844F3 /* DataSync+Cancellable.swift */,
 				484803841EBC76D70094D84C /* DataSync+Singleton.swift */,
@@ -845,6 +848,7 @@
 				486A23011F55B74300B5A5E6 /* DispatchQueue+Sync.swift in Sources */,
 				486745002021B8050029924D /* NSManagedObject+Importable.swift in Sources */,
 				484803871EBC78680094D84C /* Array+Sync.swift in Sources */,
+				4854D34C23EC6EA000C518B2 /* DataSync+Deletable.swift in Sources */,
 				484428F51EC99766008658B8 /* TableStampStorage.swift in Sources */,
 				486A22FB1F55B55C00B5A5E6 /* DataStoreContext+Queue.swift in Sources */,
 				486A22FD1F55B68100B5A5E6 /* DataSync+SyncTable.swift in Sources */,

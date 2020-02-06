@@ -72,6 +72,7 @@ extension DataSync {
         return cancellable
     }
 
+    // MARK: Sync
     private func doSync(operation: DataSync.Operation,
                         in contextType: DataStoreContextType = .background,
                         on callbackQueue: DispatchQueue? = nil,
@@ -155,6 +156,7 @@ extension DataSync {
         }
     }
 
+    // MARK: Reload
     func doReload(operation: DataSync.Operation,
                   in contextType: DataStoreContextType = .background,
                   on callbackQueue: DispatchQueue? = nil,
@@ -221,99 +223,7 @@ extension DataSync {
         }
     }
 
-    // MARK: process completion callback
-
-    func deleteRecords(_ deletedRecords: [DeletedRecord], in context: DataStoreContext) {
-        for deletedRecord in deletedRecords {
-            guard let table = table(for: deletedRecord.tableName), let tableInfo = self.tablesInfoByTable[table] else {
-                logger.verbose("Unknown record \(deletedRecord). Not managed table.")
-                continue
-            }
-            do {
-                let predicate = table.predicate(forDeletedRecord: deletedRecord)
-                let result = try context.delete(in: tableInfo.name, matching: predicate)
-                if result > 0 {
-                    logger.verbose("Record defined by \(deletedRecord) has been deleted")
-                } else {
-                    logger.debug("Failed to delete \(deletedRecord). Maybe already deleted.")
-                }
-            } catch {
-                logger.warning("Failed to delete \(deletedRecord). Maybe already deleted \(error)")
-            }
-        }
-    }
-
-    func syncDeletedRecods(in context: DataStoreContext,
-                           startStamp: TableStampStorage.Stamp,
-                           endStamp: TableStampStorage.Stamp,
-                           callbackQueue: DispatchQueue? = nil,
-                           progress: APIManager.ProgressHandler? = nil) -> Future<[DeletedRecord], APIError> {
-
-        // First get drom DeleteRecord table
-        var configure: APIManager.ConfigureRecordsRequest? = { request in
-            request.filter("\(DeletedRecordKey.stamp) >= \(startStamp) AND \(DeletedRecordKey.stamp) <= \(endStamp)")  // synchronized interval
-        }
-        let future = self.apiManager.deletedRecordPage(configure: configure, callbackQueue: callbackQueue, progress: progress).map { page in
-            return page.records.compactMap { $0.deletedRecord }
-        }
-
-        if Prephirences.DataSync.deletedByFilter {
-            // then for all table with filters. in fact some records could now be out of filter scope.
-            configure = { request in
-                request.filter("\(kGlobalStamp) >= \(startStamp) AND \(kGlobalStamp) <= \(endStamp)")  // synchronized interval
-            }
-            let futures = [future] + deletedRecordsDueToFilter(in: context, configure: configure)
-
-            // Merge and flattenize all task result
-            return futures.sequence().flatMap { (list: [[DeletedRecord]]) -> Result<[DeletedRecord], APIError> in
-                return .success(list.flatMap { $0 })
-            }
-        }
-        return future
-    }
-
-    /// Synchronize removed record due to filter only
-    func deletedRecordsDueToFilter(in context: DataStoreContext, configure: APIManager.ConfigureRecordsRequest? = nil) -> [Future<[DeletedRecord], APIError>] {
-        // work only on tables with filter
-        let tablesWithFilter = tablesInfoByTable.filter { $1.filter != nil }
-
-        // Find the updated or created records. This records must not be deleted, because we get it with filter
-        let updatedRecords: [Record] = context.insertedRecords + context.updatedRecords
-        let updatedRecordsByTable: [String: [Record]] = updatedRecords.dictionaryBy { $0.tableName }
-
-        var futures: [Future<[DeletedRecord], APIError>] = []
-        for (table, tableInfo) in tablesWithFilter {
-            // Get table information
-            guard let primaryKey = tableInfo.primaryKeyFieldInfo?.originalName else {
-                continue
-            }
-            let tableName = table.name
-            let updatedRecords: [Record] = updatedRecordsByTable[tableName] ?? [] // maybe no one visible for this table
-            let updatedRecordPrimaryKeys = updatedRecords.compactMap { $0.primaryKeyValue }
-
-            // Make the request to get records
-            let future = APIManager.instance.recordPage(tableName: tableName, attributes: [primaryKey], configure: configure).map { (page: Page) -> [DeletedRecord] in
-                let records = page.records
-                // Filter records that must not be deleted, ie. the ones pending to be modified by synchro
-                let deletedRecords: [DeletedRecord] = records.compactMap { recordJSON in
-                    let json = recordJSON.json
-                    let primaryKey = "\(json[primaryKey].rawValue)"
-                    let hasBeenUpdated = updatedRecordPrimaryKeys.contains { updatedPrimaryKey in
-                        return ("\(updatedPrimaryKey)" == primaryKey) // use string to compare, maybe could be faster if not converted
-                    }
-                    if hasBeenUpdated {
-                        return nil // do not deleted
-                    }
-                    let stamp = json[kGlobalStamp].doubleValue
-                    return DeletedRecord(primaryKey: "\(primaryKey)", tableNumber: nil, tableName: tableName, stamp: stamp)
-                }
-                return deletedRecords
-            }
-            futures.append(future)
-        }
-        return futures
-    }
-
+    // MARK: Sync Callback
     /// Function called after all table has been synchronised
     func syncProcessCompletionCallBack(in context: DataStoreContext,
                                        operation: DataSync.Operation,
@@ -342,7 +252,7 @@ extension DataSync {
                                       startStamp: TableStampStorage.Stamp,
                                       endStamp: TableStampStorage.Stamp,
                                       _ completionHandler: @escaping SyncCompletionHandler) {
-        let future = self.syncDeletedRecods(in: context, startStamp: startStamp, endStamp: endStamp)
+        let future = self.syncDeletedRecods(in: context, operation: operation, startStamp: startStamp, endStamp: endStamp)
         future.onSuccess { deletedRecords in
 
             self.deleteRecords(deletedRecords, in: context)
@@ -395,6 +305,7 @@ extension DataSync {
         }
     }
 
+    // MARK: Reload Callback
     func reloadProcessCompletionCallBack(in contextType: DataStoreContextType, operation: DataSync.Operation, tempPath: Path, _ completionHandler: @escaping SyncCompletionHandler) -> Process.CompletionHandler {
         return { result in
             if self.isCancelled {
@@ -435,14 +346,27 @@ extension DataSync {
                         try this.loadRecordsFromCache(context: context)
                         logger.debug("Load table data from cache data files success")
 
-                        // finally flush the context.
-                        try context.commit()
+                        let future = this.syncDeletedRecods(in: context, operation: operation, startStamp: 0, endStamp: stamp)
+                        future.onSuccess { deletedRecords in
 
-                        completionHandler(.success(()))
+                            this.deleteRecords(deletedRecords, in: context)
+
+                            // finally flush the context.
+                            do {
+                                try context.commit()
+
+                                // call success
+                                completionHandler(.success(()))
+                            } catch {
+                                completionHandler(.failure(DataSyncError.error(from: error)))
+                            }
+                        }
+                        future.onFailure { error in
+                            completionHandler(.failure(DataSyncError.apiError(error)))
+                        }
                     } catch {
                         completionHandler(.failure(DataSyncError.error(from: DataStoreError.error(from: error))))
                     }
-
                 }
                 if !result {
                     completionHandler(.failure(DataSyncError.dataStoreNotReady))

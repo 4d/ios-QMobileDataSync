@@ -47,7 +47,9 @@ extension DataSync {
         }
 
         // read global stamp from embedded files
-        if var stampStorage = self.dataStore.metadata?.stampStorage {
+        if stamps.isEmpty {
+            logger.debug("no embedded files, must not set global stamp")
+        } else if var stampStorage = self.dataStore.metadata?.stampStorage {
             var globalStamp = 0
             for (_, stamp) in stamps {
                 // stampStorage.set(stamp: stamp, for: table)
@@ -56,6 +58,7 @@ extension DataSync {
                 }
             }
             stampStorage.globalStamp = globalStamp
+            logger.info("set global stamp \(stampStorage.globalStamp)")
         }
 
         // finally flush the context.
@@ -146,9 +149,9 @@ public class DataSyncBuilder: ImportableBuilder {
         assert(inContext) // Must beform operation in context
 
         // Create only if not created
+        var created = false
         var record: Record?
         do {
-            var created = false
             if let predicate = table.predicate(for: json) {
                 record = try context.getOrCreate(in: tableInfo.name, matching: predicate, created: &created)
             } else {
@@ -159,6 +162,11 @@ public class DataSyncBuilder: ImportableBuilder {
             }
         } catch {
             logger.warning("Failed to import one data into '\(tableName)': \(error)")
+        }
+        if isRelation {
+            record?.pending = created
+        } else {
+            record?.pending = false
         }
         return record
     }
@@ -262,6 +270,12 @@ extension Record {
         return self[primaryKey]
     }
 
+    var deletedRecord: DeletedRecord? {
+        guard let primaryKey = self.primaryKeyValue else {
+            return nil
+        }
+        return DeletedRecord(primaryKey: "\(primaryKey)", tableNumber: nil, tableName: self.tableName, stamp: self.value(forKeyPath: kGlobalStamp) as? Double ?? 0)
+    }
 }
 
 extension DataStoreError: ErrorConvertible {
