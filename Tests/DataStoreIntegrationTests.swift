@@ -206,7 +206,7 @@ class DataStoreIntegrationTests: XCTestCase {
         _ = dataStore.perform(.background) { context in
 
             if let importable = context.create(in: tableName) {
-                table.parser.parse(json: json, into: importable)
+                table.parser.parseAttributes(json: json, into: importable)
 
                 // check imported
                 for (_, attribute) in table.attributes {
