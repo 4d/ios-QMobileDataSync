@@ -108,6 +108,10 @@ extension DataStoreTableInfo {
         return self.userInfo(.slave)
     }
 
+    var isSlave: Bool {
+        return slave != nil
+    }
+
     func keys(for table: Table) -> [String: Key] {
         guard let primaryKey = self.primaryKey else {
             assertionFailure("No primary key defined in core data model using key primary_key")

@@ -63,7 +63,7 @@ extension DataSync {
         dataSyncBegin(for: table, operation)
 
         // Maybe do not synchronize the table if slave table.
-        if tableInfo.slave != nil {
+        if tableInfo.isSlave {
             let pageInfo: PageInfo = .ignored
             self.dataSyncEnd(for: table, with: pageInfo, operation)
             self.process?.completed(for: table, with: .success(pageInfo))
@@ -151,7 +151,7 @@ extension DataSync {
         dataSyncBegin(for: table, operation)
 
         // Maybe do not synchronize the table if slave table.
-        if tableInfo.slave != nil {
+        if tableInfo.isSlave {
             let pageInfo: PageInfo = .ignored
             self.dataSyncEnd(for: table, with: pageInfo, operation)
             self.process?.completed(for: table, with: .success(pageInfo))

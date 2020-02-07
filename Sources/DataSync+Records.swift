@@ -111,6 +111,9 @@ public class DataSyncBuilder: ImportableBuilder {
 
     var isRelation: Bool = false
     var inContext: Bool = false
+    lazy var managePending = {
+        return isRelation && !self.tableInfo.isSlave // a slave table will not sync, so record must not be destroyed
+    }()
 
     public init(table: Table, tableInfo: DataStoreTableInfo, context: DataStoreContext) {
         self.context = context
@@ -163,7 +166,7 @@ public class DataSyncBuilder: ImportableBuilder {
         } catch {
             logger.warning("Failed to import one data into '\(tableName)': \(error)")
         }
-        if isRelation {
+        if managePending {
             record?.pending = created
         } else {
             record?.pending = false
