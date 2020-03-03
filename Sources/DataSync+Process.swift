@@ -27,6 +27,7 @@ extension DataSync {
 
         // list of table to sync
         let tables: [Table]
+        var operation: DataSync.Operation
         // stamp
         let startStamp: TableStampStorage.Stamp
 
@@ -35,9 +36,10 @@ extension DataSync {
 
         var tablesResults: [String: TableResult] = [:]
 
-        init(tables: [Table], startStamp: TableStampStorage.Stamp, cancellable: Cancellable?, completionHandler: @escaping CompletionHandler) {
+        init(tables: [Table], startStamp: TableStampStorage.Stamp, operation: DataSync.Operation, cancellable: Cancellable?, completionHandler: @escaping CompletionHandler) {
             self.tables = tables
             self.startStamp = startStamp
+            self.operation = operation
             self.cancellable = cancellable
             self.completionHandler = completionHandler
         }

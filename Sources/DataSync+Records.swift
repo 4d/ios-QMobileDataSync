@@ -166,10 +166,14 @@ public class DataSyncBuilder: ImportableBuilder {
         } catch {
             logger.warning("Failed to import one data into '\(tableName)': \(error)")
         }
-        if managePending {
-            record?.pending = created
-        } else {
-            record?.pending = false
+        if let record = record {
+            if managePending {
+                if created && (record.pending == nil) {
+                    record.pending = true
+                }
+            } else {
+                record.pending = false
+            }
         }
         return record
     }

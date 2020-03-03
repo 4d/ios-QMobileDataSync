@@ -25,8 +25,19 @@ extension DataSync {
                      in dataStoreContextType: DataStoreContextType = .background,
                      on callbackQueue: DispatchQueue? = nil,
                      _ completionHandler: @escaping SyncCompletionHandler) -> Cancellable {
-        if !isCancelled {
-            cancel()  // XXX maybe wait...
+
+        if !cancelOrWait(operation: operation) {
+            let cancellable = CancellableComposite(mode: .requested) // return value, a cancellable
+            cancellable.cancel()
+            if let callbackQueue = callbackQueue {
+                callbackQueue.async {
+                    completionHandler(.failure(.cancel))
+                }
+            } else {
+
+                completionHandler(.failure(.cancel))
+            }
+            return cancellable
         }
 
         let cancellable = CancellableComposite() // return value, a cancellable
@@ -121,6 +132,7 @@ extension DataSync {
             let processCompletion = this.syncProcessCompletionCallBack(in: context, operation: operation, startStamp: startStamp, tempPath: tempPath, completionHandler)
             let process = Process(tables: tables,
                                   startStamp: startStamp,
+                                  operation: operation,
                                   cancellable: cancellable,
                                   completionHandler: processCompletion)
             this.process = process
@@ -195,6 +207,7 @@ extension DataSync {
         let processCompletion = self.reloadProcessCompletionCallBack(in: contextType, operation: operation, tempPath: tempPath, completionHandler)
         let process = Process(tables: tables,
                               startStamp: startStamp,
+                              operation: operation,
                               cancellable: cancellable,
                               completionHandler: processCompletion)
         self.process = process

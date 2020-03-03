@@ -42,7 +42,7 @@ extension DataSync {
 
     // MARK: process completion callback
 
-    /// Delete record defined by info provided by `DeletableRecord` object.
+    /// Delete records defined by info provided by `DeletableRecord` objects.
     func deleteRecords(_ deletedRecords: [DeletableRecord], in context: DataStoreContext) {
         for deletedRecord in deletedRecords {
             guard let table = table(for: deletedRecord.tableName), let tableInfo = self.tablesInfoByTable[table] else {
@@ -66,12 +66,14 @@ extension DataSync {
         }
     }
 
+    /// immediatly return the records that we do not want to persist.
     func pendingRecords() -> DeletedRecordFuture {
         let promize = Promise<[DeletableRecord], APIError>()
         promize.success(Array(PendingRecord.pendingRecords))
         return promize.future
     }
 
+    /// Create futures of all record to remove according to operation type.
     func syncDeletedRecods(in context: DataStoreContext,
                            operation: DataSync.Operation,
                            startStamp: TableStampStorage.Stamp,
