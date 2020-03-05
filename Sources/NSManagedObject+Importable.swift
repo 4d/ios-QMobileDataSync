@@ -59,10 +59,14 @@ extension NSManagedObject: RecordImportable {
                         do {
                             json[ImportKey.entityModel] = JSON(relationBuilder.table.name) // add missing value
                             let relationEntities = try parser.parseArray(json: json, using: mapper, with: relationBuilder).map { $0.store /* get core data object */ }
-                            if relationEntities.count != json[ImportKey.count].intValue {
-                                logger.warning("Import relation of type \(relationBuilder.table.name) into \(tableName): \(relationEntities.count) , but expected \(json[ImportKey.count])")
+
+                            let expectedRecordCount = json[ImportKey.sent].int ?? json[ImportKey.count].intValue
+                            let expectedInfo = "[count=\(json[ImportKey.count]),sent=\(json[ImportKey.sent])]"
+                            if relationEntities.count != expectedRecordCount {
+                                logger.warning("Import relation of type \(relationBuilder.table.name) into \(tableName): \(relationEntities.count), but expected \(expectedRecordCount) \(expectedInfo)")
+                            } else {
+                                logger.debug("Import relation of type \(relationBuilder.table.name) into \(tableName): \(relationEntities.count), expected \(expectedRecordCount) \(expectedInfo)]")
                             }
-                            logger.debug("Import relation of type \(relationBuilder.table.name) into \(tableName): \(relationEntities.count) , expected \(json[ImportKey.count])")
                             if logger.isEnabledFor(level: .verbose) {
                                 logger.verbose("json \(json)")
                             }
