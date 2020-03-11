@@ -105,8 +105,8 @@ public class DataSyncBuilder: ImportableBuilder {
 
     public typealias Importable = Record
 
-    let table: Table // needed for predicate but could be build using tableInfo
-    let tableInfo: DataStoreTableInfo // needed to create data store object
+    public let table: Table // needed for predicate but could be build using tableInfo
+    public let tableInfo: DataStoreTableInfo // needed to create data store object
     let context: DataStoreContext
 
     var isRelation: Bool = false
@@ -190,7 +190,7 @@ extension DataSyncBuilder {
 }
 
 extension DataStoreContext {
-    func tableInfo(forOriginalName tableName: String) -> DataStoreTableInfo? {
+    public func tableInfo(forOriginalName tableName: String) -> DataStoreTableInfo? {
         for tableInfo in self.tablesInfo where tableInfo.originalName == tableName {
             return tableInfo
         }
