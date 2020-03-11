@@ -85,7 +85,7 @@ extension NSManagedObject: RecordImportable {
                             logger.warning("Trying to import toMany relation to a toOne relation. Only the first one will be imported: \(tableName) -> \(relationBuilder.table.name))")
                             json = first
                         }
-                        logger.debug("Importing toMany relation to a toOne relation.\(tableName) -> \(relationBuilder.table.name))")
+                        logger.debug("Importing toMany relation \(key)[\(tableName) -> \(relationBuilder.table.name)] to a toOne relation, coredataid= \(self)")
                         if logger.isEnabledFor(level: .verbose) {
                             logger.verbose("\(json)")
                         }
