@@ -23,6 +23,8 @@ public class DataSync {
     /// Mobile data store
     public let dataStore: DataStore
 
+    public var defaultQueue: DispatchQueue? = DispatchQueue(label: "DataSync", attributes: .concurrent)
+
     public init(apiManager: APIManager = APIManager.instance, dataStore: DataStore = DataStoreFactory.dataStore) {
         self.apiManager = apiManager
         self.dataStore = dataStore
@@ -72,5 +74,12 @@ extension DataSync {
             return date
         }
         return nil
+    }
+}
+
+extension DataSync {
+
+    public static var initialGlobalStamp: Int {
+        return 0
     }
 }

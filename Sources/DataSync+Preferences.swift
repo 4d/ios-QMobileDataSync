@@ -38,7 +38,7 @@ extension Prephirences {
         static let expandAttribute = instance["expandAttribute"] as? Bool ?? false
 
         /// Is it first synchronisation?.
-        static var firstSync: Bool {
+        public static var firstSync: Bool {
             get {
                 return instance["firstSync"] as? Bool ?? true
             }

@@ -36,6 +36,7 @@ extension DataSync {
                      _ completionHandler: @escaping SyncCompletionHandler) -> Cancellable {
 
         let cancellable = CancellableComposite() // return value, a cancellable
+        self.cancel()
 
         // Check if data store initialized.
         let future = initFuture(dataStoreContextType: dataStoreContextType, loadRecordsFromFiles: false, callbackQueue: callbackQueue)
@@ -48,15 +49,11 @@ extension DataSync {
             }
             let dataStore = this.dataStore
             if var stampStorage = dataStore.metadata?.stampStorage {
-                stampStorage.globalStamp = 0
+                stampStorage.globalStamp = DataSync.initialGlobalStamp
             }
             let perform = dataStore.perform(dataStoreContextType, blockName: "DropTables") { [weak self] context in
                 guard let this = self else {
                     completionHandler(.failure(.retain))
-                    return
-                }
-                if this.isCancelled {
-                    completionHandler(.failure(.cancel))
                     return
                 }
                 if this.doDrop(context, completionHandler) {
