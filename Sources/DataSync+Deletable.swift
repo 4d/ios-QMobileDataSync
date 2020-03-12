@@ -52,7 +52,7 @@ extension DataSync {
             do {
                 guard let predicate = deletedRecord.predicate(table: table) else {
                     logger.warning("Failed to delete \(deletedRecord). Cannot get primary key and predicate to find it.")
-                    return
+                    continue
                 }
                 let result = try context.delete(in: tableInfo.name, matching: predicate)
                 if result > 0 {
