@@ -16,18 +16,18 @@ import Prephirences
 // MARK: Sync
 extension DataSync {
 
-    class Process: LockableBySync {
-
+    class Process: LockableBySync, Equatable {
         public typealias ProcessError = APIError
 
         public typealias TableStatus = (Table, TableStampStorage.Stamp)
         public typealias TableResult = Result<TableStatus, ProcessError>
         public typealias TablePageResult = Result<PageInfo, ProcessError>
-        public typealias CompletionHandler = (Result<TableStampStorage.Stamp, ProcessError>) -> Void
+        public typealias CompletionHandler = (Result<TableStampStorage.Stamp, ProcessError>, @escaping () -> Void) -> Void
 
         // list of table to sync
         let tables: [Table]
         var operation: DataSync.Operation
+        let uuid = UUID().uuidString
         // stamp
         let startStamp: TableStampStorage.Stamp
 
@@ -42,6 +42,10 @@ extension DataSync {
             self.operation = operation
             self.cancellable = cancellable
             self.completionHandler = completionHandler
+        }
+
+        static func == (lhs: DataSync.Process, rhs: DataSync.Process) -> Bool {
+            return lhs.uuid == rhs.uuid
         }
 
     }
@@ -88,7 +92,7 @@ extension DataSync.Process {
             let maxStamp = stamps.max() ?? startStamp
             let sameStamp = stamps.min() == maxStamp
             if sameStamp || stamps.isEmpty {
-                self.completionHandler(.success(maxStamp))
+                self.complete(with: .success(maxStamp))
                 return nil
             } else {
                 // else some table stamps are outdated
@@ -101,8 +105,14 @@ extension DataSync.Process {
         } catch {
             // TODO according to errors, remove all added objects, or return an error for incomplete sync
             // String(data: (((error as! AnyError).error as! APIError).error as! MoyaError).response!.data, encoding: .utf8)
-            self.completionHandler(.mapOtherError(error))
+            self.complete(with: .mapOtherError(error))
             return nil
+        }
+    }
+
+    fileprivate func complete(with result: Result<TableStampStorage.Stamp, ProcessError>) {
+        self.completionHandler(result) {
+            self.finalCompletion()
         }
     }
 
@@ -111,6 +121,12 @@ extension DataSync.Process {
         defer { _ = self.unlock() }
         self.completed(for: table, with: tableResult)
         return self.checkCompleted()
+    }
+
+    fileprivate func finalCompletion() {
+        if DataSync.instance.process == self {
+            DataSync.instance.process = nil
+        }
     }
 }
 

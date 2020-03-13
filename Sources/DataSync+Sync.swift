@@ -34,11 +34,12 @@ extension DataSync {
                     completionHandler(.failure(.cancel))
                 }
             } else {
-
                 completionHandler(.failure(.cancel))
             }
             return cancellable
         }
+
+        let callbackQueue = callbackQueue ?? self.defaultQueue
 
         let cancellable = CancellableComposite() // return value, a cancellable
         self.dataSyncWillBegin(operation, cancellable: cancellable)
@@ -182,7 +183,8 @@ extension DataSync {
             completionHandler(.failure(.dataStoreNotReady))
             return
         }
-        stampStorage.globalStamp = 0 // start from 0
+        logger.debug("Reset Global Stamp to initialValue \(DataSync.initialGlobalStamp). Current \(stampStorage.globalStamp)")
+        stampStorage.globalStamp = DataSync.initialGlobalStamp // start from initial value
 
         // Ask delegate if there is any reason to stop process
         let stop = self.dataSyncDidBegin(operation)
@@ -242,20 +244,24 @@ extension DataSync {
                                        operation: DataSync.Operation,
                                        startStamp: TableStampStorage.Stamp,
                                        tempPath: Path,
-                                       _ completionHandler: @escaping SyncCompletionHandler) -> Process.CompletionHandler {
-        return { result in
+                                       _ aCompletionHandler: @escaping SyncCompletionHandler) -> Process.CompletionHandler {
+        return { result, processCompletion in
+            let completionHandler: SyncCompletionHandler = self.wrapWithProcessCompletion(aCompletionHandler, processCompletion)
             if self.isCancelled {
                 completionHandler(.failure(.cancel))
+                processCompletion()
                 return
             }
             switch result {
             case .success(let stamp):
+
                 self.syncProcessCompletionSuccess(in: context, operation: operation, startStamp: startStamp, endStamp: stamp, completionHandler)
             case .failure(let error):
                 if case .onCompletion = self.saveMode {
                     context.rollback()
                 }
                 completionHandler(.failure(DataSyncError.apiError(error)))
+                processCompletion()
             }
         }
     }
@@ -318,9 +324,17 @@ extension DataSync {
         }
     }
 
-    // MARK: Reload Callback
-    func reloadProcessCompletionCallBack(in contextType: DataStoreContextType, operation: DataSync.Operation, tempPath: Path, _ completionHandler: @escaping SyncCompletionHandler) -> Process.CompletionHandler {
+    func wrapWithProcessCompletion(_ handler: @escaping SyncCompletionHandler, _ process: @escaping () -> Void) -> SyncCompletionHandler {
         return { result in
+            handler(result) // XXX replace by rx-style code...
+            process()
+        }
+    }
+
+    // MARK: Reload Callback
+    func reloadProcessCompletionCallBack(in contextType: DataStoreContextType, operation: DataSync.Operation, tempPath: Path, _ aCompletionHandler: @escaping SyncCompletionHandler) -> Process.CompletionHandler {
+        return { result, processCompletion in
+            let completionHandler: SyncCompletionHandler = self.wrapWithProcessCompletion(aCompletionHandler, processCompletion)
             if self.isCancelled {
                 completionHandler(.failure(.cancel))
                 return
