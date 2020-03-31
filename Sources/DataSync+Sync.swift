@@ -143,19 +143,44 @@ extension DataSync {
                 if cancellable.isCancelledUnlocked { // XXX no reentrance for lock
                     completionHandler(.failure(.cancel))
                 } else {
-
-                    for table in this.tables {
-                        logger.debug("Start data \(operation.description) for table \(table.name)")
-
-                        let progress: APIManager.ProgressHandler = { progress in }
-                        let requestCancellable = this.syncTable(table,
-                                                                at: startStamp,
-                                                                in: tempPath,
-                                                                operation: operation,
-                                                                callbackQueue: callbackQueue,
-                                                                progress: progress,
-                                                                context: context)
+                    var tables = this.tables
+                    if Prephirences.DataSync.sequential {
+                        if let orderBy = Prephirences.DataSync.tableOrder {
+                            switch orderBy {
+                            case .asc:
+                                tables.sort { $0.name > $1.name }  // reverse order, sequential use popLast
+                            case .desc:
+                                tables.sort { $0.name < $1.name }
+                            }
+                        }
+                        let requestCancellable = this.syncTablesSequentially(tables,
+                                                                 at: startStamp,
+                                                                 in: tempPath,
+                                                                 operation: operation,
+                                                                 callbackQueue: callbackQueue,
+                                                                 context: context)
                         _ = cancellable.appendUnlocked(requestCancellable)  // XXX no reentrance for lock
+                    } else {
+                        if let orderBy = Prephirences.DataSync.tableOrder {
+                            switch orderBy {
+                            case .asc:
+                                tables.sort { $0.name < $1.name }
+                            case .desc:
+                                tables.sort { $0.name > $1.name }
+                            }
+                        }
+                        // parallele
+                        for table in tables {
+                            logger.debug("Start data \(operation.description) for table \(table.name)")
+
+                            let requestCancellable = this.syncTable(table,
+                                                                    at: startStamp,
+                                                                    in: tempPath,
+                                                                    operation: operation,
+                                                                    callbackQueue: callbackQueue,
+                                                                    context: context)
+                            _ = cancellable.appendUnlocked(requestCancellable)  // XXX no reentrance for lock
+                        }
                     }
                 }
             }
@@ -167,6 +192,32 @@ extension DataSync {
             logger.warning("Cannot get data: context cannot be created on data store")
             completionHandler(.failure(.dataStoreNotReady))
         }
+    }
+
+    /// Synchronise table sequentially
+    func syncTablesSequentially(_ tables: [Table],
+                     at startStamp: TableStampStorage.Stamp,
+                     in path: Path,
+                     operation: DataSync.Operation,
+                     callbackQueue: DispatchQueue? = nil,
+                     context: DataStoreContext) -> Cancellable {
+        var tables = tables
+
+        let cancellable = CancellableComposite()
+        if let table = tables.popLast() {
+            let tableSync = self.syncTable(
+                table,
+                at: startStamp,
+                in: path,
+                operation: operation,
+                callbackQueue: callbackQueue,
+                context: context) {
+                    let tablesSync = self.syncTablesSequentially(tables, at: startStamp, in: path, operation: operation, context: context)
+                    cancellable.append(tablesSync)
+            }
+            cancellable.append(tableSync)
+        }
+        return cancellable
     }
 
     // MARK: Reload
@@ -284,13 +335,15 @@ extension DataSync {
             logger.info("Data \(operation.description) end with stamp \(endStamp)")
 
             // save data store
-            do {
-                try context.commit()
 
-                // call success
-                completionHandler(.success(()))
-            } catch {
-                completionHandler(.failure(DataSyncError.error(from: error)))
+            context.perform(wait: true) {
+                do {
+                    try context.commit()
+                    // call success
+                    completionHandler(.success(()))
+                } catch {
+                    completionHandler(.failure(DataSyncError.error(from: error)))
+                }
             }
         }
         future.onFailure { error in

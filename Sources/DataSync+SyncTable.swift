@@ -54,10 +54,12 @@ extension DataSync {
                    operation: DataSync.Operation,
                    callbackQueue: DispatchQueue? = nil,
                    progress: APIManager.ProgressHandler? = nil,
-                   context: DataStoreContext) -> Cancellable {
+                   context: DataStoreContext,
+                   completionHandler: (() -> Void)? = nil) -> Cancellable {
         let cancellable = CancellableComposite()
         guard let tableInfo = self.tablesInfoByTable[table] else {
             assertionFailure("No table storage info for table \(table)")
+            completionHandler?()
             return cancellable
         }
         dataSyncBegin(for: table, operation)
@@ -67,6 +69,7 @@ extension DataSync {
             let pageInfo: PageInfo = .ignored
             self.dataSyncEnd(for: table, with: pageInfo, operation)
             self.process?.completed(for: table, with: .success(pageInfo))
+            completionHandler?()
             return cancellable
         }
 
@@ -104,14 +107,17 @@ extension DataSync {
                     } else {
                         logger.verbose(" \(operation) complete, after sync of table \(table)")
                     }
+                    completionHandler?()
                 } else {
                     logger.warning("No process available when finish to \(operation) the table \(table)")
+                    completionHandler?()
                 }
             case .failure(let error):
                 // notify for one table
                 self.dataSyncFailed(for: table, with: error, operation)
                 // notify process
                 _ = self.process?.completedAndCheck(for: table, with: .mapOtherError(error))
+                completionHandler?()
             }
         }
 

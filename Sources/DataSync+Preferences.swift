@@ -8,6 +8,7 @@
 
 import Foundation
 import Prephirences
+import QMobileAPI
 
 extension Prephirences {
 
@@ -44,6 +45,26 @@ extension Prephirences {
             }
             set {
                 instance["firstSync"] = newValue
+            }
+        }
+
+        /// If `true` synchronize table sequentially
+        public static var sequential: Bool {
+            get {
+                return instance["sequential"] as? Bool ?? false
+            }
+            set {
+                instance["sequential"] = newValue
+            }
+        }
+
+        /// Table order: asc, desc or undefined
+        public static var tableOrder: OrderBy? {
+            get {
+                guard let order = instance["order"] as? String else {
+                    return sequential ? .asc: nil
+                }
+                return (order == "asc") ? .asc: .desc
             }
         }
 

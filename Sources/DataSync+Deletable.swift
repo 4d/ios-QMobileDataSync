@@ -69,9 +69,7 @@ extension DataSync {
     /// immediatly return the records that we do not want to persist.
     func pendingRecords() -> DeletedRecordFuture {
         let promize = Promise<[DeletableRecord], APIError>()
-        let pendingRecords = Array(PendingRecord.pendingRecords)
-        promize.success(pendingRecords)
-        PendingRecord.pendingRecords.removeAll()
+        promize.success(PendingRecord.consume())
         return promize.future
     }
 
