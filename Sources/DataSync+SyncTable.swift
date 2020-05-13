@@ -75,7 +75,7 @@ extension DataSync {
 
         let completion: ((Result<([Record], PageInfo), APIError>) -> Void) = { result in
             switch result {
-            case .success(let (records, pageInfo)):
+            case .success(let (_/*records*/, pageInfo)):
 
                 guard pageInfo.isLast else {
                     /*if case .eachPage = self.saveMode {

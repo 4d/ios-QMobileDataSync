@@ -196,11 +196,11 @@ extension DataSync {
 
     /// Synchronise table sequentially
     func syncTablesSequentially(_ tables: [Table],
-                     at startStamp: TableStampStorage.Stamp,
-                     in path: Path,
-                     operation: DataSync.Operation,
-                     callbackQueue: DispatchQueue? = nil,
-                     context: DataStoreContext) -> Cancellable {
+                                at startStamp: TableStampStorage.Stamp,
+                                in path: Path,
+                                operation: DataSync.Operation,
+                                callbackQueue: DispatchQueue? = nil,
+                                context: DataStoreContext) -> Cancellable {
         var tables = tables
 
         let cancellable = CancellableComposite()

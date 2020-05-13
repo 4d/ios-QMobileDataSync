@@ -60,12 +60,10 @@ extension Prephirences {
 
         /// Table order: asc, desc or undefined
         public static var tableOrder: OrderBy? {
-            get {
-                guard let order = instance["order"] as? String else {
-                    return sequential ? .asc: nil
-                }
-                return (order == "asc") ? .asc: .desc
+            guard let order = instance["order"] as? String else {
+                return sequential ? .asc: nil
             }
+            return (order == "asc") ? .asc: .desc
         }
 
         static let allowMissingField: Bool = instance["allowMissingField"] as? Bool ?? true
