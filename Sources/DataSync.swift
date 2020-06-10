@@ -21,7 +21,7 @@ public class DataSync {
     /// Object to make remote request
     public var apiManager: APIManager
     /// Mobile data store
-    public let dataStore: DataStore
+    public var dataStore: DataStore
 
     public var defaultQueue: DispatchQueue? = DispatchQueue(label: "DataSync", attributes: .concurrent)
 
