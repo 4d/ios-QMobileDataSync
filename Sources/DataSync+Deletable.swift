@@ -67,9 +67,9 @@ extension DataSync {
     }
 
     /// immediatly return the records that we do not want to persist.
-    func pendingRecords() -> DeletedRecordFuture {
+    func pendingRecords(for context: DataStoreContext) -> DeletedRecordFuture {
         let promize = Promise<[DeletableRecord], APIError>()
-        promize.success(PendingRecord.consume())
+        promize.success(context.pendingRecords)
         return promize.future
     }
 
@@ -94,7 +94,7 @@ extension DataSync {
             futures.append(deletedRecordPageFuture)
         }
 
-        let pendingRecordFuture = self.pendingRecords()
+        let pendingRecordFuture = self.pendingRecords(for: context)
 
         futures.append(pendingRecordFuture)
 

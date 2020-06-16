@@ -324,21 +324,20 @@ extension DataSync {
                                       _ completionHandler: @escaping SyncCompletionHandler) {
         let future = self.syncDeletedRecods(in: context, operation: operation, startStamp: startStamp, endStamp: endStamp)
         future.onSuccess { deletedRecords in
-
-            self.deleteRecords(deletedRecords, in: context)
-
-            // store new stamp
-            if var stampStorage = self.dataStore.metadata?.stampStorage {
-                stampStorage.globalStamp = endStamp
-                stampStorage.lastSync = Date()
-            }
-            logger.info("Data \(operation.description) end with stamp \(endStamp)")
-
-            // save data store
-
             context.perform(wait: true) {
+                self.deleteRecords(deletedRecords, in: context)
+
+                // store new stamp
+                if var stampStorage = self.dataStore.metadata?.stampStorage {
+                    stampStorage.globalStamp = endStamp
+                    stampStorage.lastSync = Date()
+                }
+                logger.info("Data \(operation.description) end with stamp \(endStamp)")
+
+                // save data store
                 do {
                     try context.commit()
+                    logger.debug("Data \(operation.description) commited")
                     // call success
                     completionHandler(.success(()))
                 } catch {
