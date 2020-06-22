@@ -58,6 +58,11 @@ extension Prephirences {
             }
         }
 
+        /// Limit the number of parallel task to sync tables. if 0 no limit.
+        public static var parallelCount: Int {
+            return instance["parallelCount"] as? Int ?? 4
+        }
+
         /// Table order: asc, desc or undefined
         public static var tableOrder: OrderBy? {
             guard let order = instance["order"] as? String else {

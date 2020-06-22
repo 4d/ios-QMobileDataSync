@@ -170,16 +170,32 @@ extension DataSync {
                             }
                         }
                         // parallele
-                        for table in tables {
-                            logger.debug("Start data \(operation.description) for table \(table.name)")
 
-                            let requestCancellable = this.syncTable(table,
-                                                                    at: startStamp,
-                                                                    in: tempPath,
-                                                                    operation: operation,
-                                                                    callbackQueue: callbackQueue,
-                                                                    context: context)
-                            _ = cancellable.appendUnlocked(requestCancellable)  // XXX no reentrance for lock
+                        let paralleleLimiter: DispatchSemaphore?
+                        if Prephirences.DataSync.parallelCount > 0 && Prephirences.DataSync.parallelCount < tables.count {
+                            paralleleLimiter = DispatchSemaphore(value: Prephirences.DataSync.parallelCount)
+                        } else {
+                            paralleleLimiter = nil
+                        }
+                        DispatchQueue.background.async {
+                            for table in tables {
+                                if process.isCancelled {
+                                    logger.debug("Cancelling \(operation.description) before managing table \(table.name)")
+                                    completionHandler(.failure(.cancel))
+                                    return
+                                }
+                                logger.debug("Start data \(operation.description) for table \(table.name)")
+
+                                let requestCancellable = this.syncTable(table,
+                                                                        at: startStamp,
+                                                                        in: tempPath,
+                                                                        operation: operation,
+                                                                        callbackQueue: callbackQueue,
+                                                                        context: context,
+                                                                        completionHandler: { paralleleLimiter?.signal() })
+                                _ = cancellable.appendUnlocked(requestCancellable)  // XXX no reentrance for lock
+                                paralleleLimiter?.wait()
+                            }
                         }
                     }
                 }
