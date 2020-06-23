@@ -29,7 +29,7 @@ extension DataSync {
         var operation: DataSync.Operation
         let uuid = UUID().uuidString
         // stamp
-        let startStamp: TableStampStorage.Stamp
+        var startStamp: TableStampStorage.Stamp
 
         let cancellable: Cancellable?
         let completionHandler: CompletionHandler

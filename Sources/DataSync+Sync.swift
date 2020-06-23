@@ -169,6 +169,11 @@ extension DataSync {
                             paralleleLimiter = nil
                         }
                         DataSync.schedulerQueue.async {
+                            let newStartStamp = stampStorage.globalStamp
+                            if newStartStamp != startStamp {
+                                logger.info("...\(operation.description) reevaluate start stamp from \(startStamp) to newStartStamp")
+                                this.process?.startStamp = newStartStamp
+                            }
                             for table in tables {
                                 if process.isCancelled {
                                     logger.debug("Cancelling \(operation.description) before managing table \(table.name)")
@@ -178,7 +183,7 @@ extension DataSync {
                                 logger.debug("Start data \(operation.description) for table \(table.name)")
 
                                 let requestCancellable = this.syncTable(table,
-                                                                        at: startStamp,
+                                                                        at: newStartStamp,
                                                                         in: tempPath,
                                                                         operation: operation,
                                                                         callbackQueue: callbackQueue,
