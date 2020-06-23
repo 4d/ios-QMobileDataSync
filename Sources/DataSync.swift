@@ -25,6 +25,8 @@ public class DataSync {
 
     public var defaultQueue: DispatchQueue? = DispatchQueue(label: "DataSync", attributes: .concurrent)
 
+    public static var schedulerQueue: DispatchQueue = DispatchQueue(label: "DataSyncLauncher")
+
     public init(apiManager: APIManager = APIManager.instance, dataStore: DataStore = DataStoreFactory.dataStore) {
         self.apiManager = apiManager
         self.dataStore = dataStore

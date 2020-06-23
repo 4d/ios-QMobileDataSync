@@ -89,7 +89,7 @@ extension DataSync {
                         in contextType: DataStoreContextType = .background,
                         on callbackQueue: DispatchQueue? = nil,
                         cancellable: CancellableComposite,
-                        completionHandler: @escaping SyncCompletionHandler) {
+                        completionHandler: @escaping SyncCompletionHandler) { //swiftlint:disable:this function_body_length
         logger.info("Start data \(operation.description)")
 
         // Check if metadata could be read
@@ -144,40 +144,31 @@ extension DataSync {
                     completionHandler(.failure(.cancel))
                 } else {
                     var tables = this.tables
-                    if Prephirences.DataSync.sequential {
-                        if let orderBy = Prephirences.DataSync.tableOrder {
-                            switch orderBy {
-                            case .asc:
-                                tables.sort { $0.name > $1.name }  // reverse order, sequential use popLast
-                            case .desc:
-                                tables.sort { $0.name < $1.name }
-                            }
+                    if let orderBy = Prephirences.DataSync.tableOrder {
+                        switch orderBy {
+                        case .asc:
+                            tables.sort { $0.name < $1.name }
+                        case .desc:
+                            tables.sort { $0.name > $1.name }
                         }
+                    }
+                    if Prephirences.DataSync.sequential {
                         let requestCancellable = this.syncTablesSequentially(tables,
-                                                                 at: startStamp,
-                                                                 in: tempPath,
-                                                                 operation: operation,
-                                                                 callbackQueue: callbackQueue,
-                                                                 context: context)
+                                                                             at: startStamp,
+                                                                             in: tempPath,
+                                                                             operation: operation,
+                                                                             callbackQueue: callbackQueue,
+                                                                             context: context)
                         _ = cancellable.appendUnlocked(requestCancellable)  // XXX no reentrance for lock
                     } else {
-                        if let orderBy = Prephirences.DataSync.tableOrder {
-                            switch orderBy {
-                            case .asc:
-                                tables.sort { $0.name < $1.name }
-                            case .desc:
-                                tables.sort { $0.name > $1.name }
-                            }
-                        }
                         // parallele
-
                         let paralleleLimiter: DispatchSemaphore?
                         if Prephirences.DataSync.parallelCount > 0 && Prephirences.DataSync.parallelCount < tables.count {
                             paralleleLimiter = DispatchSemaphore(value: Prephirences.DataSync.parallelCount)
                         } else {
                             paralleleLimiter = nil
                         }
-                        DispatchQueue.background.async {
+                        DataSync.schedulerQueue.async {
                             for table in tables {
                                 if process.isCancelled {
                                     logger.debug("Cancelling \(operation.description) before managing table \(table.name)")
