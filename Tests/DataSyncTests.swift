@@ -183,13 +183,13 @@ class DataSyncTests: XCTestCase {
         }
     }
  
-    func _testDataSyncCancelInQueue() {
+    func _testDataSyncCancelInQueue() { // instead of cancel now we put in queue new sync
         let expectation = self.expectation()
         let cancellable = dataSync.sync { result in
             do {
                 try result.get()
                 
-                // XCTFail("Must have an exception")
+                 XCTFail("Must have an exception")
                 expectation.fulfill() // difficult to test with stub
             }
             catch {
@@ -200,12 +200,12 @@ class DataSyncTests: XCTestCase {
                 }
             }
         }
-        DispatchQueue.background.after(3) {
+        DispatchQueue(label: "test").after(10) {
             cancellable.cancel()
             XCTAssertTrue(cancellable.isCancelled)
             
         }
-        waitForExpectations(timeout: 10) { e in
+        waitForExpectations(timeout: 500) { e in
             if let error = e {
                 XCTFail(error.localizedDescription)
             }
