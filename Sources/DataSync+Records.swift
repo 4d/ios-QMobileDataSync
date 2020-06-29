@@ -115,21 +115,41 @@ public class DataSyncBuilder: ImportableBuilder {
         return isRelation && !self.tableInfo.isSlave // a slave table will not sync, so record must not be destroyed
     }()
 
+    static var tableCache: [String: Table] = [:]
+    static var tableInfoCache: [String: DataStoreTableInfo] = [:]
+
     public init(table: Table, tableInfo: DataStoreTableInfo, context: DataStoreContext) {
         self.context = context
         self.tableInfo = tableInfo
         self.table = table
     }
 
-    public init?(tableName: String, context: DataStoreContext) {
+    public static func builder(for tableName: String, context: DataStoreContext) -> DataSyncBuilder? {
+        return DataSyncBuilder(tableName: tableName, context: context)
+    }
+
+    private init?(tableName: String, context: DataStoreContext) {
         self.context = context
-        guard let tableInfo = context.tableInfo(forOriginalName: tableName) else { // XXX if time consuming use a cache...(but not singleton if possible DataSync.instance)
+        var tableInfo = DataSyncBuilder.tableInfoCache[tableName]
+        if tableInfo == nil {
+            tableInfo = context.tableInfo(forOriginalName: tableName)
+            DataSyncBuilder.tableInfoCache[tableName] = tableInfo
+        }
+        guard let finalTableInfo = tableInfo else {
             return nil
         }
-        self.tableInfo = tableInfo
-        self.table = tableInfo.api
-        /*
-         guard let relationTableInfo = DataSync.instance.tablesInfoByTable[relationTable] else {
+        var table = DataSyncBuilder.tableCache[tableName]
+        if table == nil {
+            table = finalTableInfo.api
+            DataSyncBuilder.tableCache[tableName] = table
+        }
+        guard let finalTable = table else {
+            return nil
+        }
+        self.tableInfo = finalTableInfo
+        self.table = finalTable
+
+        /*finalTable         guard let relationTableInfo = DataSync.instance.tablesInfoByTable[relationTable] else {
          logger.warning("Could not find related table information \(relationTableName) in structure")
          return
          }guard let relationTable = DataSync.instance.table(for: relationTableName) else {

@@ -45,7 +45,7 @@ extension NSManagedObject: RecordImportable {
         if let type = attribute.type as? AttributeRelativeType, isRelation(key: key) { // AND destination is related entity on core data!!!
             guard let context = self.managedObjectContext else { return }
             let relationTableName = type.relationTable
-            guard let relationBuilder = DataSyncBuilder(tableName: relationTableName, context: context) else {
+            guard let relationBuilder = DataSyncBuilder.builder(for: relationTableName, context: context) else {
                 logger.warning("Cannot get info for relation table \(relationTableName)")
                 return
             }
