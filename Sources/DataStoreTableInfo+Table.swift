@@ -66,7 +66,7 @@ extension DataStoreTableInfo {
         return userInfo(.keyMapping) ?? self.name
     }
 
-    var filter: String? {
+    public var filter: String? {
         return userInfo(.filter)
     }
 
@@ -133,7 +133,8 @@ extension DataStoreTableInfo {
         return keys
     }
 
-    var api: Table {
+    /// Convert data store table info into api object.
+    public var api: Table {
         let originalName = self.originalName
         var table = Table(name: originalName)
         table.className = originalName
