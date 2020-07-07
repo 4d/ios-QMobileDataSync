@@ -94,6 +94,16 @@ extension DataStoreTableInfo {
         return self.userInfo(.primaryKey)
     }
 
+    // return a predicate to match with primary key and passed values
+    public func primaryKeyPredicate(value: Any) -> NSPredicate? {
+        guard let primaryKey = self.primaryKeyFieldInfo else {
+            return nil
+        }
+        let lhs = NSExpression(forKeyPath: primaryKey.name)
+        let rhs = NSExpression(forConstantValue: value)
+        return NSComparisonPredicate(leftExpression: lhs, rightExpression: rhs, modifier: .direct, type: .equalTo, options: [])
+    }
+
     var primaryKeyFieldInfo: DataStoreFieldInfo? {
         guard let primaryKey = primaryKey else {
             return nil
