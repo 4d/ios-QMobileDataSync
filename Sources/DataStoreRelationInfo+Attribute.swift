@@ -10,22 +10,31 @@ import Foundation
 import QMobileAPI
 import QMobileDataStore
 
+/// Key used for data stored in DataStoreRelationInfo user info
 private enum DataStoreRelationInfoUserInfoKey: String {
     case keyMapping // original name
     case path, reversePath
-    case expand
+    case expand, format
 }
 
 extension DataStoreRelationInfo {
 
+    /// Get data from user info
     fileprivate func userInfo(_ key: DataStoreRelationInfoUserInfoKey) -> Any? {
         return self.userInfo?[key.rawValue]
     }
 
+    /// Original database relation name.
     public var originalName: String {
         return self.userInfo(.keyMapping) as? String ?? self.name
     }
 
+    /// Title format
+    public var format: String? {
+        return self.userInfo(.format) as? String
+    }
+
+    /// Convert to api representation.
     var api: Attribute {
         let destinationName = self.destinationTable?.originalName ?? ""
         var type = AttributeRelativeType(rawValue: isToMany ? "\(destinationName)\(AttributeRelativeType.suffix)": destinationName)
