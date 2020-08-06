@@ -131,7 +131,7 @@ extension DataSync {
             let updatedRecordPrimaryKeys = updatedRecords.compactMap { $0.primaryKeyValue }
 
             // Make the request to get records
-            let future = APIManager.instance.recordPage(tableName: tableName, attributes: [primaryKey], configure: configure).map { (page: Page) -> [DeletableRecord] in
+            let future = APIManager.instance.recordPage(tableName: tableName, attributes: [primaryKey: true], configure: configure).map { (page: Page) -> [DeletableRecord] in
                 let records = page.records
                 // Filter records that must not be deleted, ie. the ones pending to be modified by synchro
                 let deletedRecords: [DeletableRecord] = records.compactMap { recordJSON in

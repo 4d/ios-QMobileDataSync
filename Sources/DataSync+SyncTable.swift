@@ -122,7 +122,7 @@ extension DataSync {
         }
 
         // Configure and launch the request
-        let attributes = self.getAttributes(table) // filter da
+        let attributes = self.getAttributes(table)
         let initializer = DataSyncBuilder(table: table, tableInfo: tableInfo, context: context)
         let configureRequest = self.configureRecordsRequest(stamp: startStamp, tableInfo, table)
         let cancellableRecords = self.apiManager.records(table: table,
@@ -240,33 +240,41 @@ extension DataSync {
     }
 
     /// For one table, get list of attribute to use in records request.
-    func getAttributes(_ table: Table) -> [String] {
-        guard !Prephirences.DataSync.noAttributeFilter else { return []  }
+    func getAttributes(_ table: Table) -> [String: Any] {
+        var attributes: [String: Any] = [:]
 
-        var attributes: [String] = []
-        if Prephirences.DataSync.expandAttribute {
-            attributes = table.attributes.filter { !$0.1.type.isRelative }.map { $0.0 }
-        } else {
-            let tableInfo = self.tablesInfoByTable[table]
-            let fieldInfoByOriginalName = tableInfo?.fields.dictionary { $0.originalName }
+        let tableInfo = self.tablesInfoByTable[table]
+        let fieldInfoByOriginalName = tableInfo?.fields.dictionary { $0.originalName }
 
-            attributes = table.attributes.compactMap { (name, attribute) in
-                if let relationType = attribute.relativeType {
-                    if let expand = relationType.expand {
-                        let expands = expand.split(separator: ",")
-                        return expands.map { "\(name).\($0)"}.joined(separator: ",")
-                    }
-                    return nil
-                } else {
-                    if Prephirences.DataSync.allowMissingField {
-                        if let fieldInfo = fieldInfoByOriginalName?[name], fieldInfo.isMissingRemoteField {  // allow to reload event if missing attributes
-                            return nil
+        for (name, attribute) in table.attributes {
+            if let relationType = attribute.relativeType { // is a relation
+                if let expandString = relationType.expand {
+                    let expands = expandString.split(separator: ",")
+
+                    if RecordsTarget.attributeInBody {
+                        var relationsInfo: [String: Any] = [:]
+                        for expand in expands {
+                            relationsInfo[String(expand)]=true
+                        }
+                        if let filter = relationType.filter {
+                            relationsInfo["__Query"]=filter
+                        }
+                        attributes[name]=relationsInfo
+                    } else {
+                        for expand in expands.map({ "\(name).\($0)"}) {
+                            attributes[expand]=true
                         }
                     }
-                    return name
+                } // else skip relation with no field
+            } else {
+                if Prephirences.DataSync.allowMissingField, let fieldInfo = fieldInfoByOriginalName?[name], fieldInfo.isMissingRemoteField {  // allow to reload event if missing attributes
+                    // skip
+                } else {
+                    attributes[name]=true
                 }
             }
         }
+
         return attributes
     }
 
@@ -309,15 +317,6 @@ extension DataSync {
         // custom limit by table
         if let limitString = tableInfo.limit, let limit = Int(limitString) {
             request.limit(limit)
-        }
-
-        // Expand according to relation
-        if Prephirences.DataSync.expandAttribute { // will expend related entity will all fields
-            let relatedEntityAttributes = table.attributes.filter { $0.1.kind == .relatedEntity }
-            if !relatedEntityAttributes.isEmpty {
-                let expand = relatedEntityAttributes.map { $0.0 }.joined(separator: ",")
-                request.expand(expand)
-            }
         }
     }
 

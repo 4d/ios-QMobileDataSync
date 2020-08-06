@@ -86,7 +86,7 @@ public extension APIManager {
     /// @param recursive   receive all page until last one (default: false)
     /// @param configure   closure to configure the request
     func recordPage(tableName: String,
-                    attributes: [String] = [],
+                    attributes: [String: Any] = [:],
                     setID: QMobileAPI.EntitySetIdConvertible? = nil,
                     recursive: Bool = false,
                     configure: QMobileAPI.APIManager.ConfigureRecordsRequest? = nil,

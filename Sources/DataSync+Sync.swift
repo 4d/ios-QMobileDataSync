@@ -358,32 +358,34 @@ extension DataSync {
             }
         }
         future.onFailure { error in
-            if let restErrors = error.restErrors, restErrors.match(.entity_not_found) {
-                logger.error("The table \(DeletedRecordKey.entityName) do not exist. Deleted record will not be removed from this mobile application. Please update your struture")
+            context.perform(wait: true) {
+                if let restErrors = error.restErrors, restErrors.match(.entity_not_found) {
+                    logger.error("The table \(DeletedRecordKey.entityName) do not exist. Deleted record will not be removed from this mobile application. Please update your struture")
 
-                // Until we change decision, we go on without the table and save the synchronization...
-                // store new stamp
-                if var stampStorage = self.dataStore.metadata?.stampStorage {
-                    stampStorage.globalStamp = endStamp
-                    stampStorage.lastSync = Date()
+                    // Until we change decision, we go on without the table and save the synchronization...
+                    // store new stamp
+                    if var stampStorage = self.dataStore.metadata?.stampStorage {
+                        stampStorage.globalStamp = endStamp
+                        stampStorage.lastSync = Date()
+                    }
+                    logger.info("Data \(operation.description) end with stamp \(endStamp) but without removing potential deleted records")
+
+                    // save data store
+                    do {
+                        try context.commit()
+
+                        // call success
+                        completionHandler(.success(()))
+                    } catch {
+                        completionHandler(.failure(DataSyncError.error(from: error)))
+                    }
+
+                } else {
+                    if case .onCompletion = self.saveMode {
+                        context.rollback()
+                    }
+                    completionHandler(.failure(DataSyncError.apiError(error)))
                 }
-                logger.info("Data \(operation.description) end with stamp \(endStamp) but without removing potential deleted records")
-
-                // save data store
-                do {
-                    try context.commit()
-
-                    // call success
-                    completionHandler(.success(()))
-                } catch {
-                    completionHandler(.failure(DataSyncError.error(from: error)))
-                }
-
-            } else {
-                if case .onCompletion = self.saveMode {
-                    context.rollback()
-                }
-                completionHandler(.failure(DataSyncError.apiError(error)))
             }
         }
     }
