@@ -246,6 +246,13 @@ extension DataSync {
         let tableInfo = self.tablesInfoByTable[table]
         let fieldInfoByOriginalName = tableInfo?.fields.dictionary { $0.originalName }
 
+        var params = APIManager.instance.authToken?.userInfo
+        for (key, value) in params ?? [:] {
+            if let date = parseDate(from: value), date.isUTCStartOfDay {
+                params?[key] = "'\(DateFormatter.simpleDate.string(from: date))'" // format for 4d
+            }
+        }
+
         for (name, attribute) in table.attributes {
             if let relationType = attribute.relativeType { // is a relation
                 if let expandString = relationType.expand {
@@ -257,7 +264,14 @@ extension DataSync {
                             relationsInfo[String(expand)]=true
                         }
                         if let filter = relationType.filter {
-                            relationsInfo["__Query"]=filter
+                            if let params = params {
+                                relationsInfo["__Query"]=[
+                                    "queryString": filter,
+                                    "settings": ["parameters": params]
+                                ]
+                            } else {
+                                relationsInfo["__Query"]=filter
+                            }
                         }
                         attributes[name]=relationsInfo
                     } else {
