@@ -10,6 +10,7 @@ import Foundation
 
 import Moya
 import FileKit
+import Prephirences
 
 import QMobileAPI
 import QMobileDataStore
@@ -42,7 +43,8 @@ extension DataSync {
             assert(ImportableParser.tableName(for: json) == tableInfo.originalName) // file with wrong format and an another table, renamed?
             stamps[table] = json[ImportKey.globalStamp].intValue
             // Parse the records from json and create core data object in passed context.
-            let records = try table.parser.parseArray(json: json, with: DataSyncBuilder(table: table, tableInfo: tableInfo, context: context))
+            let builder = DataSyncBuilder(table: table, tableInfo: tableInfo, context: context)
+            let records = try builder.parseArray(json: json)
             logger.info("\(records.count) records imported from '\(tableName)' file")
         }
 
@@ -202,10 +204,14 @@ public class DataSyncBuilder: ImportableBuilder {
         assert(!inContext) // teardown must be called after setup finish (caller issue, or asynchrone setup)
     }
 }
-
+import CoreData
 extension DataSyncBuilder {
     public func parseArray(json: JSON, using mapper: AttributeValueMapper = .default) throws ->  [DataSyncBuilder.Importable] {
+        if Prephirences.DataSync.newSync {
+            return try self.parseArray2(json: json, context: self.context as! NSManagedObjectContext)// swiftlint:disable:this force_cast
+        }
         return try self.table.parser.parseArray(json: json, using: mapper, with: self)
+
     }
 }
 
@@ -307,4 +313,100 @@ extension Record {
 
 extension DataStoreError: ErrorConvertible {
 
+}
+
+extension DataSyncBuilder {
+    public func parseArray2(json: JSON, using mapper: AttributeValueMapper = .default, context: NSManagedObjectContext) throws ->  [DataSyncBuilder.Importable] {
+        let mapping = self.tableInfo.mapping
+        var entities: [Any] = []
+        let representation: [NSObject] = json["__ENTITIES"].arrayObject as? [NSObject] ?? []
+        context.perform(wait: true) {
+            entities = DataStoreDeserializer.collection(fromRepresentation: representation, mapping: mapping, context: context)
+
+        }
+        return entities.compactMap { $0 as? NSManagedObject}.map { Record(store: $0) }
+    }
+}
+
+typealias DataStoreTableInfoMapping = DataStoreMapping
+
+extension DataStoreTableInfo {
+
+    fileprivate func fill(_ mapping: DataStoreTableInfoMapping) {
+        assert(mapping.entityName == self.name)
+        mapping.primaryKey = self.primaryKeyFieldInfo?.name
+        var names: [String] = []
+        for field in self.fields {
+            switch field.type {
+            case .date:
+                let attributeName = field.userInfo?["keyMapping"] as? String ?? field.name
+                mapping.addAttribute(withProperty: field.name, keyPath: attributeName, map: { value in
+                    if let string = value as? String, !string.isEmpty {
+                        if field.simpleDate {
+                            return string.simpleDate ?? string.dateFromISO8601 // could remove dateFromISO8601
+                        }
+                        return string.dateFromISO8601
+                    }
+                    return  nil
+                }, reverseMap: nil/* not implement if not push*/)
+            default:
+                if let originalName = field.userInfo?["keyMapping"] as? String {
+                    mapping.addAttribute(withProperty: field.name, keyPath: originalName)
+                } else {
+                    names.append(field.name)
+                }
+            }
+        }
+        mapping.addAttributes(fromArray: names)
+
+        for relationship in self.relationships {
+            if let destinationTableInfo = relationship.destinationTable/*, destinationTableInfo.name == "Societe"*/ {
+                let destinationMapping = destinationTableInfo.mapping
+                if relationship.isToMany {
+                    /*if let originalName = relationship.userInfo?["keyMapping"] as? String {
+                     mapping.addToManyRelationshipMapping(destinationMapping, forProperty: relationship.name, keyPath: originalName)
+                     } else {
+                     mapping.addToManyRelationshipMapping(destinationMapping, forProperty: relationship.name, keyPath: nil)
+                     }
+                     if let relationShipFm = mapping.relationship(forProperty: relationship.name) {
+                     relationShipFm.assignmentPolicy = FEMAssignmentPolicyCollectionMerge
+                     }*/ // we must do not create relation recursively, or we must create mapping according to the request we do
+                } else {
+                    if let originalName = relationship.userInfo?["keyMapping"] as? String {
+                        mapping.addRelationshipMapping(destinationMapping, forProperty: relationship.name, keyPath: originalName)
+                    } else {
+                        mapping.addRelationshipMapping(destinationMapping, forProperty: relationship.name, keyPath: relationship.name)
+                    }
+                    /*if let relationShipFm = mapping.relationship(forProperty: relationship.name) {
+                      //  relationShipFm.assignmentPolicy = FEMAssignmentPolicyObjectReplace
+                    } else {
+                        logger.error("Failed to add relationship \(relationship.name)")
+                    }*/
+                }
+            } else {
+                logger.error("no info for relationship \(relationship.name)")
+            }
+        }
+    }
+
+    var mapping: DataStoreTableInfoMapping {
+        return DataStoreTableInfoMapping.mapping(for: self)
+    }
+
+}
+
+extension DataStoreTableInfoMapping {
+
+    static var pool: [String: DataStoreTableInfoMapping] = [:]
+
+    static func mapping(for info: DataStoreTableInfo) -> DataStoreTableInfoMapping {
+        let name = info.name
+        if let cached = pool[name] {
+            return cached
+        }
+        let mapping = DataStoreTableInfoMapping(entityName: name)
+        pool[name] = mapping
+        info.fill(mapping)
+        return mapping
+    }
 }

@@ -39,6 +39,10 @@ extension DataStoreFieldInfo {
         return userInfo(.path)
     }
 
+    var simpleDate: Bool {
+        return self.userInfoAsBool(.simpleDate) ?? false
+    }
+
     var api: Attribute? {
         // Excluse private fields
         if self.name.contains(keyPrivateCoreDataField+"__") {

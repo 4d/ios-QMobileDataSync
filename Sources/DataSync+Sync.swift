@@ -85,11 +85,11 @@ extension DataSync {
     }
 
     // MARK: Sync
-    private func doSync(operation: DataSync.Operation,
+    private func doSync(operation: DataSync.Operation, //swiftlint:disable:this function_body_length
                         in contextType: DataStoreContextType = .background,
                         on callbackQueue: DispatchQueue? = nil,
                         cancellable: CancellableComposite,
-                        completionHandler: @escaping SyncCompletionHandler) { //swiftlint:disable:this function_body_length
+                        completionHandler: @escaping SyncCompletionHandler) {
         logger.info("Start data \(operation.description)")
 
         // Check if metadata could be read
