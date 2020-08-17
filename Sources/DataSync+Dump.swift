@@ -11,44 +11,105 @@ import QMobileDataStore
 import QMobileAPI
 import SwiftyJSON
 import FileKit
+import CallbackURLKit
+import CoreData
 
 extension DataSync {
 
-    public func dump(to path: Path, with contextType: DataStoreContextType = .background, wait: Bool = false, completion: @escaping () -> Void) -> Bool {
+   /* public enum DataSyncDumpError: Error, FailureCallbackError {
+        case failedToDump([[String: Any]])
+
+        public var code: Int {
+            switch self {
+            case .failedToDump(let results):
+                return results.filter({ $0["errors"] != nil}).count
+            }
+        }
+        public var message: String {
+            switch self {
+            case .failedToDump(let results):
+                return results.compactMap({ $0["errors"] as? String}).joined(separator: ", ")
+            }
+        }
+    }*/
+
+    public func dump(to path: Path, with contextType: DataStoreContextType = .background, wait: Bool = false, completion: @escaping (Result<[String], NSError>) -> Void) -> Bool {
         assert(path.isWritable)
+
+        if !path.exists {
+            try? path.createDirectory(withIntermediateDirectories: true)
+        }
 
         return self.dataStore.perform(contextType, wait: wait, blockName: "dump") { context in
 
-            context.dump { table, result in
+            /* var results = [[String: Any]]()
 
-                let file = path + "\(table.name).json"
+             context.dump { table, result in
 
-                var dico = [String: Any]()
-                switch result {
-                case .success(let records):
-                    dico["success"] = true
-                    dico["table"] = table.dictionary
-                    dico["records"] = records.map { $0.dictionaryWithValues(forKeys: table.fields.map { $0.name }) }
-                case .failure(let error):
-                    dico["success"] = false
-                    dico["errors"] = error.errors
-                }
-                do {
-                    if file.exists {
-                        try file.deleteFile()
+             let file = path + "\(table.name).json"
+
+             var dico = [String: Any]()
+             switch result {
+             case .success(let records):
+             dico["success"] = true
+             //dico["table"] = table.dictionary
+             dico["records"] = [records.map { $0.dictionaryWithValues(forKeys: table.fields.map { $0.name }).compactMapValues { $0 } }.first!]
+             case .failure(let error):
+             dico["success"] = false
+             // dico["table"] = table.dictionary
+             dico["errors"] = error.errors
+             }
+             do {
+             if file.exists {
+             try file.deleteFile()
+             }
+
+             /*  if JSONSerialization.isValidJSONObject(dico) {*/
+             let rawData = try JSONSerialization.data(withJSONObject: dico, options: .prettyPrinted)
+             try rawData.write(to: file.url)
+             logger.info("Data of table \(table.name) dumped into \(file)")
+             /* } else {
+             logger.warning("Failed to dump data of table \(table.name) into \(file): invalid json")
+             dico["errors"]  = "invalid json"
+             }*/
+             } catch {
+             logger.warning("Failed to dump data of table \(table.name) into \(file): \(error)")
+             dico["errors"]  = "\(error)"
+             }
+             results.append(dico)
+             }*/
+
+            // try a copy of db instead of converting to json, work only for core data
+            do {
+                if let container = ((self.dataStore) as? CoreDataStore)?.persistentContainer,
+                    let storeURL = container.persistentStoreDescriptions.first?.url,
+                    let storePath = Path(url: storeURL) {
+                    let dst = path + storePath.fileName
+                    if dst.exists {
+                        try dst.deleteFile()
                     }
-                    // ENHANCE: cannot json encode with some value type like optionnal...
-                    // JSONEncoder().encode(dico)
-                    let data = try JSON(dico).rawData()
-                    try DataFile(path: file).write(data)
-                    logger.info("Data of table \(table.name) dumped into \(file)")
-                } catch {
-                    logger.warning("Failed to dump data of table \(table.name) into \(file): \(error)")
-                }
-            }
-            completion()
-        }
+                    try storePath.copyFile(to: dst)
 
+                    let tableNames: [String] = context.tablesInfo.map { $0.name}
+                    // let tableNames = results.filter({ $0["errors"] == nil }).compactMap({ $0["table"] as? [String: Any] }).compactMap({ $0["name"] as? String })
+
+                    //if tableNames.count == results.count {
+                    completion(.success(tableNames))
+
+                } else {
+                    completion(.failure(NSError(domain: "com.4d.mobile", code: 2, userInfo: ["message": "unable to find database to dump"])))
+
+                }
+            } catch let error as NSError {
+                completion(.failure(error))
+            } catch {
+                completion(.failure(NSError(domain: "com.4d.mobile", code: 1, userInfo: ["message": "\(error)"])))
+            }
+            /* } else {
+             completion(.failure(DataSyncDumpError.failedToDump(results)))
+             }*/
+
+        }
     }
 }
 
@@ -92,8 +153,8 @@ extension DataStoreTableInfo {
 
     public var dictionary: [String: Any] {
         var dico = [String: Any]()
-        dico["name"] = self.name
-        dico["fields"] = self.fields.map { $0.dictionary }
+        dico["name"] = self.name as NSString
+        dico["fields"] = self.fields.map { $0.dictionary /*as NSDictionary*/ } /*as NSArray*/
          return dico
     }
     public var json: JSON {
@@ -108,10 +169,10 @@ extension DataStoreFieldInfo {
         dico["name"] = self.name
         dico["localizedName"] = self.localizedName
         dico["isOptional"] = self.isOptional
-        if let userInfo = self.userInfo {
+        if let userInfo = self.userInfo as? [String: Any] {
             dico["userInfo"] = userInfo
         }
-        dico["type"] = self.type
+        dico["type"] = self.type.rawValue
 
         return dico
     }
