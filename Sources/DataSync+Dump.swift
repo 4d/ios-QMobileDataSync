@@ -44,18 +44,26 @@ extension DataSync {
                                 objectDico[dateKey] = DateFormatter.iso8601.string(from: date)
                             }
                         }
-                        let relationKeys = table.relationships.map({ $0.name })
-                        let relationDico: [String: Any] = object.dictionaryWithValues(forKeys: relationKeys).mapValues({ relationValue in
-                            if let record = relationValue as? RecordBase {
-                                return "\(record.objectID)"
-                            } else if let records = relationValue as? Set<RecordBase> {
-                                return records.compactMap({ "\($0.objectID)" })
+                        let relationKeys = table.relationshipsByName
+
+                        var relationDico: [String: Any] = object.dictionaryWithValues(forKeys: Array(relationKeys.keys)).compactMapValues { $0 }
+
+                        for (relationName, relationInfo) in relationKeys {
+                            guard let primaryKey = relationInfo.destinationTable?.primaryKey else {
+                                relationDico[relationName] = nil
+                                continue
                             }
-                            return nil
-                        }).compactMapValues { $0 }
+                            if let record = relationDico[relationName] as? RecordBase {
+                                relationDico[relationName] = "\(record.value(forKeyPath: primaryKey) ?? "-")"
+                            } else if let records = relationDico[relationName] as? Set<RecordBase> {
+                                relationDico[relationName] = records.compactMap({ "\($0.value(forKeyPath: primaryKey) ?? "-")" })
+                            } else {
+                                relationDico[relationName] = nil
+                            }
+                        }
 
                         // combine
-                        return objectDico.merging(relationDico) { (current, _) in current }
+                        return objectDico.merging(relationDico.compactMapValues { $0 }) { (current, _) in current }
                     }
                 case .failure(let error):
                     dico["success"] = false
