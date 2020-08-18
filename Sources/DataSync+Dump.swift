@@ -1,5 +1,5 @@
 //
-//  DataSync+Dumpswift.swift
+//  DataSync+Dump.swift
 //  QMobileDataSync
 //
 //  Created by Eric Marchand on 12/09/2017.
@@ -11,27 +11,9 @@ import QMobileDataStore
 import QMobileAPI
 import SwiftyJSON
 import FileKit
-import CallbackURLKit
 import CoreData
 
 extension DataSync {
-
-   /* public enum DataSyncDumpError: Error, FailureCallbackError {
-        case failedToDump([[String: Any]])
-
-        public var code: Int {
-            switch self {
-            case .failedToDump(let results):
-                return results.filter({ $0["errors"] != nil}).count
-            }
-        }
-        public var message: String {
-            switch self {
-            case .failedToDump(let results):
-                return results.compactMap({ $0["errors"] as? String}).joined(separator: ", ")
-            }
-        }
-    }*/
 
     public func dump(to path: Path, with contextType: DataStoreContextType = .background, wait: Bool = false, completion: @escaping (Result<[String], NSError>) -> Void) -> Bool {
         assert(path.isWritable)
@@ -42,42 +24,63 @@ extension DataSync {
 
         return self.dataStore.perform(contextType, wait: wait, blockName: "dump") { context in
 
-            /* var results = [[String: Any]]()
+            var results = [[String: Any]]()
 
-             context.dump { table, result in
+            context.dump { table, result in
 
-             let file = path + "\(table.name).json"
+                let file = path + "\(table.name).json"
 
-             var dico = [String: Any]()
-             switch result {
-             case .success(let records):
-             dico["success"] = true
-             //dico["table"] = table.dictionary
-             dico["records"] = [records.map { $0.dictionaryWithValues(forKeys: table.fields.map { $0.name }).compactMapValues { $0 } }.first!]
-             case .failure(let error):
-             dico["success"] = false
-             // dico["table"] = table.dictionary
-             dico["errors"] = error.errors
-             }
-             do {
-             if file.exists {
-             try file.deleteFile()
-             }
+                var dico = [String: Any]()
+                switch result {
+                case .success(let records):
+                    dico["success"] = true
+                    //dico["table"] = table.dictionary
+                    dico["records"] = records.map { (object: Record) -> [String: Any] in
+                        let keys = table.fields.map { $0.name }
+                        var objectDico: [String: Any] = object.dictionaryWithValues(forKeys: keys).compactMapValues { $0 }
 
-             /*  if JSONSerialization.isValidJSONObject(dico) {*/
-             let rawData = try JSONSerialization.data(withJSONObject: dico, options: .prettyPrinted)
-             try rawData.write(to: file.url)
-             logger.info("Data of table \(table.name) dumped into \(file)")
-             /* } else {
-             logger.warning("Failed to dump data of table \(table.name) into \(file): invalid json")
-             dico["errors"]  = "invalid json"
-             }*/
-             } catch {
-             logger.warning("Failed to dump data of table \(table.name) into \(file): \(error)")
-             dico["errors"]  = "\(error)"
-             }
-             results.append(dico)
-             }*/
+                        for dateKey in table.fields.filter({ $0.type == .date }).map({ $0.name }) {
+                            if let date = objectDico[dateKey] as? Date {
+                                objectDico[dateKey] = DateFormatter.iso8601.string(from: date)
+                            }
+                        }
+                        let relationKeys = table.relationships.map({ $0.name })
+                        let relationDico: [String: Any] = object.dictionaryWithValues(forKeys: relationKeys).mapValues({ relationValue in
+                            if let record = relationValue as? RecordBase {
+                                return "\(record.objectID)"
+                            } else if let records = relationValue as? Set<RecordBase> {
+                                return records.compactMap({ "\($0.objectID)" })
+                            }
+                            return nil
+                        }).compactMapValues { $0 }
+
+                        // combine
+                        return objectDico.merging(relationDico) { (current, _) in current }
+                    }
+                case .failure(let error):
+                    dico["success"] = false
+                    // dico["table"] = table.dictionary
+                    dico["errors"] = error.errors
+                }
+                do {
+                    if file.exists {
+                        try file.deleteFile()
+                    }
+
+                    /*  if JSONSerialization.isValidJSONObject(dico) {*/
+                    let rawData = try JSONSerialization.data(withJSONObject: dico, options: .prettyPrinted)
+                    try rawData.write(to: file.url)
+                    logger.info("Data of table \(table.name) dumped into \(file)")
+                    /* } else {
+                     logger.warning("Failed to dump data of table \(table.name) into \(file): invalid json")
+                     dico["errors"]  = "invalid json"
+                     }*/
+                } catch {
+                    logger.warning("Failed to dump data of table \(table.name) into \(file): \(error)")
+                    dico["errors"]  = "\(error)"
+                }
+                results.append(dico)
+            }
 
             // try a copy of db instead of converting to json, work only for core data
             do {
@@ -88,6 +91,7 @@ extension DataSync {
                     if dst.exists {
                         try dst.deleteFile()
                     }
+
                     try storePath.copyFile(to: dst)
 
                     let tableNames: [String] = context.tablesInfo.map { $0.name}
