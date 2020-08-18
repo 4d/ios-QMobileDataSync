@@ -34,8 +34,8 @@ public class DataStoreRelationship: NSObject, DataStoreProperty {
     }
     var assignmentPolicyClosure: DataStoreAssignmentPolicyClosure?
 
-    public var recursive: Bool {
-        return owner == mapping
+    public var isRecursive: Bool {
+        return owner?.entityName == mapping?.entityName
     }
 
     // MARK: - Init
@@ -60,7 +60,7 @@ public class DataStoreRelationship: NSObject, DataStoreProperty {
 
     // MARK: - description
     public override var description: String {
-        if recursive {
+        if isRecursive {
             return "<\(NSStringFromClass(DataStoreRelationship.self)) \(self)>\n {\nproperty:\(property) keyPath:\(keyPath ?? "") toMany:\(toMany)\nrecursive}\n"
         } else {
             return "<\(NSStringFromClass(DataStoreRelationship.self)) \(self)>\n {\nproperty:\(property) keyPath:\(keyPath ?? "") toMany:\(toMany)\n}\n"

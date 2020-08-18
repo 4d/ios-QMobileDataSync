@@ -61,8 +61,10 @@ class DataStoreRepresentationUtility {
     static func collectPresentedPrimaryKeys(_ representation: Any, _ mapping: DataStoreMapping, _ container: inout [ObjectIdentifier: Set<DataStoreObjectPrimaryKey>]) {
         if let representations = representation as? [DataStoreObject] {
             for object in representations {
-                 collectObjectPrimaryKeys(object, mapping, &container)
+                collectObjectPrimaryKeys(object, mapping, &container)
             }
+        } else if representation is NSNull {
+            // ignore
         } else if (representation is DataStoreObject) || (representation is NSNumber) || (representation is String) {
             collectObjectPrimaryKeys(representation as! NSObject, mapping, &container) // swiftlint:disable:this force_cast
         } else {
