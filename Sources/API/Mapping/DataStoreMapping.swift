@@ -99,10 +99,12 @@ public class DataStoreMapping: NSObject {
         return set
     }
     func flatten(inCollection collection: inout Set<DataStoreMapping>) {
-        collection.insert(self)
+        let (inserted, _) = collection.insert(self)
 
-        for relationship in relationships ?? [] where !relationship.isRecursive {
-            relationship.mapping?.flatten(inCollection: &collection)
+        if inserted {
+            for relationship in relationships ?? [] where !relationship.isRecursive {
+                relationship.mapping?.flatten(inCollection: &collection)
+            }
         }
     }
 
