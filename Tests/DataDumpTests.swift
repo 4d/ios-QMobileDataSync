@@ -54,7 +54,7 @@ class DataDumpTests: XCTestCase {
         }
         
         let test: () -> Void = {
-            let ready = self.dataSync.dump(to: directory, with: .background) {
+            let ready = self.dataSync.dump(to: directory, with: .background) { _ in
                 let children = directory.children()
                 XCTAssertFalse(children.isEmpty)
                 expectation.fulfill()
