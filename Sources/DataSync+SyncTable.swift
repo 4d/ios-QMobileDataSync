@@ -308,7 +308,7 @@ extension DataSync {
     /// Configure the record request
     func configureRecordsRequest(_ request: RecordsRequest, _ tableInfo: DataStoreTableInfo, _ table: Table) {
         /// Defined limit
-        request.limit(Prephirences.DataSync.Request.Page.limit)
+        request.limit(Prephirences.DataSync.Request.limit)
 
         // If a filter is defined by table in data store, use it
         if let filter = tableInfo.filter {

@@ -361,7 +361,6 @@ extension DataStoreTableInfo {
 
         for relationship in self.relationships {
             if let destinationTableInfo = relationship.destinationTable/*, destinationTableInfo.name == "Societe"*/ {
-                let destinationMapping = destinationTableInfo.mapping
                 if relationship.isToMany {
                     /*if let originalName = relationship.userInfo?["keyMapping"] as? String {
                      mapping.addToManyRelationshipMapping(destinationMapping, forProperty: relationship.name, keyPath: originalName)
@@ -372,6 +371,7 @@ extension DataStoreTableInfo {
                      relationShipFm.assignmentPolicy = FEMAssignmentPolicyCollectionMerge
                      }*/ // we must do not create relation recursively, or we must create mapping according to the request we do
                 } else {
+                    let destinationMapping = destinationTableInfo.mapping
                     if let originalName = relationship.userInfo?["keyMapping"] as? String {
                         mapping.addRelationshipMapping(destinationMapping, forProperty: relationship.name, keyPath: originalName)
                     } else {
@@ -398,9 +398,14 @@ extension DataStoreTableInfo {
 extension DataStoreTableInfoMapping {
 
     static var pool: [String: DataStoreTableInfoMapping] = [:]
+    static var lock = NSRecursiveLock() // lock concurrent access to pool
 
     static func mapping(for info: DataStoreTableInfo) -> DataStoreTableInfoMapping {
         let name = info.name
+        lock.lock()
+        defer {
+            lock.unlock()
+        }
         if let cached = pool[name] {
             return cached
         }

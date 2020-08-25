@@ -82,11 +82,6 @@ extension Prephirences {
         struct Request {
             static let instance =  ProxyPreferences(preferences: Prephirences.DataSync.instance, key: "request.")
             static let limit = instance["limit"] as? Int ?? 100000
-
-            struct Page {
-                static let instance =  ProxyPreferences(preferences: Prephirences.DataSync.Request.instance, key: "page.")
-                static let limit = instance["limit"] as? Int ?? 10000
-            }
         }
 
     }
