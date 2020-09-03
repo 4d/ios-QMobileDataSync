@@ -87,6 +87,7 @@ extension DataSync {
             // First get drom DeleteRecord table
             let configure: APIManager.ConfigureRecordsRequest? = { request in
                 request.filter("\(DeletedRecordKey.stamp) >= \(startStamp) AND \(DeletedRecordKey.stamp) <= \(endStamp)")  // synchronized interval
+                request.limit(Prephirences.DataSync.Request.deleteLimit)
             }
             let deletedRecordPageFuture: DeletedRecordFuture = self.apiManager.deletedRecordPage(configure: configure, callbackQueue: callbackQueue, progress: progress).map { page in
                 return page.records.compactMap { $0.deletedRecord }
@@ -102,6 +103,7 @@ extension DataSync {
             // then for all table with filters. in fact some records could now be out of filter scope.
             let configure: APIManager.ConfigureRecordsRequest? = { request in
                 request.filter("\(kGlobalStamp) >= \(startStamp) AND \(kGlobalStamp) <= \(endStamp)")  // synchronized interval
+                request.limit(Prephirences.DataSync.Request.deleteLimit)
             }
             futures += deletedRecordsDueToFilter(in: context, configure: configure)
         }
