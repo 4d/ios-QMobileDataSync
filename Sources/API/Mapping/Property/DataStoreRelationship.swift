@@ -2,7 +2,7 @@ import Foundation
 
 public class DataStoreRelationship: NSObject, DataStoreProperty {
     public var property: String
-    public var keyPath: String?
+    public var keyPath: String
     private var mappingRef: ObjectRef<DataStoreMapping>?
 
     public var mapping: DataStoreMapping? {
@@ -39,21 +39,21 @@ public class DataStoreRelationship: NSObject, DataStoreProperty {
     }
 
     // MARK: - Init
-    public required init(property: String, keyPath: String = "", mapping: DataStoreMapping) {
+    public required init(property: String, keyPath: String, mapping: DataStoreMapping, assignmentPolicy: DataStoreAssignmentPolicy? = nil, toMany: Bool) {
         self.property = property
-        super.init()
         self.keyPath = keyPath
+        super.init()
         self.mapping = mapping
-        self.assignmentPolicy = DataStoreAssignmentPolicy.assign
-    }
-
-    public convenience init(property: String, keyPath: String, mapping: DataStoreMapping, assignmentPolicy: DataStoreAssignmentPolicy) {
-        self.init(property: property, keyPath: keyPath, mapping: mapping)
-        self.assignmentPolicy = assignmentPolicy
+        self.toMany = toMany
+        if let assignmentPolicy = assignmentPolicy {
+            self.assignmentPolicy = assignmentPolicy
+        } else {
+            self.assignmentPolicy = .assign //  self.toMany ? .collectionReplace: .objectReplace
+        }
     }
 
     // MARK: - mapping
-    func setMapping(_ mapping: DataStoreMapping, forKeyPath keyPath: String?) {
+    func setMapping(_ mapping: DataStoreMapping, forKeyPath keyPath: String) {
         self.mapping = mapping
         self.keyPath = keyPath
     }
@@ -61,9 +61,9 @@ public class DataStoreRelationship: NSObject, DataStoreProperty {
     // MARK: - description
     public override var description: String {
         if isRecursive {
-            return "<\(NSStringFromClass(DataStoreRelationship.self)) \(self)>\n {\nproperty:\(property) keyPath:\(keyPath ?? "") toMany:\(toMany)\nrecursive}\n"
+            return "<\(NSStringFromClass(DataStoreRelationship.self)) \(self)>\n {\nproperty:\(property) keyPath:\(keyPath) toMany:\(toMany)\nrecursive}\n"
         } else {
-            return "<\(NSStringFromClass(DataStoreRelationship.self)) \(self)>\n {\nproperty:\(property) keyPath:\(keyPath ?? "") toMany:\(toMany)\n}\n"
+            return "<\(NSStringFromClass(DataStoreRelationship.self)) \(self)>\n {\nproperty:\(property) keyPath:\(keyPath) toMany:\(toMany)\n}\n"
         }
     }
 

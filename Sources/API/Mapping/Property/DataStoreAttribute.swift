@@ -1,15 +1,19 @@
 import Foundation
 
+/// A closure block to convert value (ex: string to date)
 public typealias DataStoreMapBlock = (Any?) -> Any?
 
+/// Represent an attribute for mapping.
 public class DataStoreAttribute: NSObject, DataStoreProperty {
-    private var map: DataStoreMapBlock?
-    private var reverseMap: DataStoreMapBlock?
-    var keyPath: String?
+
+    var keyPath: String
     var property: String
 
+    private var map: DataStoreMapBlock?
+    private var reverseMap: DataStoreMapBlock?
+
     // MARK: - Init
-    public required init(property: String, keyPath: String = "", map: DataStoreMapBlock? = nil, reverseMap: DataStoreMapBlock? = nil) {
+    public required init(property: String, keyPath: String, map: DataStoreMapBlock? = nil, reverseMap: DataStoreMapBlock? = nil) {
         assert(!property.isEmpty, "Invalid parameter: property name is empty")
 
         self.property = property
@@ -37,7 +41,7 @@ public class DataStoreAttribute: NSObject, DataStoreProperty {
 
     // MARK: - Description
     public override var description: String {
-        return "<DataStoreAttribute> property:\(property) keyPath:\(keyPath ?? "")"
+        return "<DataStoreAttribute> property:\(property) keyPath:\(keyPath)"
     }
 
 }

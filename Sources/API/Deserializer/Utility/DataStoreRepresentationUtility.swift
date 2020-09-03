@@ -41,8 +41,8 @@ class DataStoreRepresentationUtility {
 
     static func valueForAttribute(_ representation: Any?, _ attribute: DataStoreAttribute) -> Any? {
         var value = representation
-        if let keyPath = attribute.keyPath, let representation = representation as? NSObject {
-            value = representation.value(forKeyPath: keyPath)
+        if let representation = representation as? NSObject {
+            value = representation.value(forKeyPath: attribute.keyPath)
         }
         if let value = value {
             return attribute.mapValue(value)
