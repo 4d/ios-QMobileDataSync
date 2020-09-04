@@ -55,9 +55,12 @@ public class DataStoreManagedObjectTransaction: DataStoreObjectTransaction {
     }
 
     override public func assignmentContext(_ context: DataStoreRelationshipAssignmentContext, deletedObject object: DataStoreObject?) {
-        assert((object is NSManagedObject), "Wrong class")
-        if let object = object as? NSManagedObject {
-            self.context.delete(object)
+        if let object = object {
+            if let object = object as? NSManagedObject {
+                //self.context.delete(object)
+            } else if !(object is NSNull) {
+                assert((object is NSManagedObject), "Wrong class")
+            }
         }
     }
 }

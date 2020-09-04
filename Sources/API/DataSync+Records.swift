@@ -348,7 +348,7 @@ extension DataStoreTableInfo {
                         return string.dateFromISO8601
                     }
                     return  nil
-                }, reverseMap: nil/* not implement if not push*/)
+                }, reverseMap: nil/* not implemented if not pushing data*/)
             default:
                 if let originalName = field.userInfo?["keyMapping"] as? String {
                     mapping.addAttribute(withProperty: field.name, keyPath: originalName)
@@ -360,28 +360,14 @@ extension DataStoreTableInfo {
         mapping.addAttributes(fromArray: names)
 
         for relationship in self.relationships {
-            if let destinationTableInfo = relationship.destinationTable/*, destinationTableInfo.name == "Societe"*/ {
+            if let destinationTableInfo = relationship.destinationTable {
+                let keyPath = relationship.userInfo?["keyMapping"] as? String ?? relationship.name
+                let destinationMapping = destinationTableInfo.mapping
                 if relationship.isToMany {
-                    /*if let originalName = relationship.userInfo?["keyMapping"] as? String {
-                     mapping.addToManyRelationshipMapping(destinationMapping, forProperty: relationship.name, keyPath: originalName)
-                     } else {
-                     mapping.addToManyRelationshipMapping(destinationMapping, forProperty: relationship.name, keyPath: nil)
-                     }
-                     if let relationShipFm = mapping.relationship(forProperty: relationship.name) {
-                     relationShipFm.assignmentPolicy = FEMAssignmentPolicyCollectionMerge
-                     }*/ // we must do not create relation recursively, or we must create mapping according to the request we do
+                    // mapping.add(toManyRelationshipMapping: destinationMapping, forProperty: relationship.name, keyPath: keyPath)
+                    // we must do not create relation recursively, or we must create mapping according to the request we do
                 } else {
-                    let destinationMapping = destinationTableInfo.mapping
-                    if let originalName = relationship.userInfo?["keyMapping"] as? String {
-                        mapping.addRelationshipMapping(destinationMapping, forProperty: relationship.name, keyPath: originalName)
-                    } else {
-                        mapping.addRelationshipMapping(destinationMapping, forProperty: relationship.name, keyPath: relationship.name)
-                    }
-                    /*if let relationShipFm = mapping.relationship(forProperty: relationship.name) {
-                      //  relationShipFm.assignmentPolicy = FEMAssignmentPolicyObjectReplace
-                    } else {
-                        logger.error("Failed to add relationship \(relationship.name)")
-                    }*/
+                    mapping.addRelationshipMapping(destinationMapping, forProperty: relationship.name, keyPath: keyPath)
                 }
             } else {
                 logger.error("no info for relationship \(relationship.name)")

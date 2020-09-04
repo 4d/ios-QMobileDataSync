@@ -158,21 +158,21 @@ public class DataStoreMapping: NSObject {
     }
 
     public func addRelationshipMapping(_ mapping: DataStoreMapping, forProperty property: String, keyPath: String) {
-        add(DataStoreRelationship(property: property, keyPath: keyPath, mapping: mapping, toMany: false))
+        add(DataStoreRelationship(property: property, keyPath: keyPath, mapping: mapping, isToMany: false))
     }
 
     public func addRecursiveRelationshipMapping(forProperty property: String, keypath keyPath: String) {
-        add(DataStoreRelationship(property: property, keyPath: keyPath, mapping: self, toMany: false))
+        add(DataStoreRelationship(property: property, keyPath: keyPath, mapping: self, isToMany: false))
     }
 
     public func add(toManyRelationshipMapping mapping: DataStoreMapping, forProperty property: String, keyPath: String) {
-        let relationship = DataStoreRelationship(property: property, keyPath: keyPath, mapping: mapping, toMany: true)
+        let relationship = DataStoreRelationship(property: property, keyPath: keyPath, mapping: mapping, isToMany: true)
         add(relationship)
     }
 
     public func addRecursiveToManyRelationship(forProperty property: String, keypath keyPath: String?) {
-        let relationship = DataStoreRelationship(property: property, keyPath: keyPath ?? "", mapping: self, toMany: true)
-        relationship.toMany = true
+        let relationship = DataStoreRelationship(property: property, keyPath: keyPath ?? "", mapping: self, isToMany: true)
+        relationship.isToMany = true
         add(relationship)
     }
 }

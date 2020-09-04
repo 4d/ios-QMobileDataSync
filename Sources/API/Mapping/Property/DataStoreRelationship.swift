@@ -19,7 +19,7 @@ public class DataStoreRelationship: NSObject, DataStoreProperty {
         }
     }
 
-    public var toMany = false
+    public var isToMany = false
 
     weak var owner: DataStoreMapping? {
         didSet {
@@ -27,29 +27,37 @@ public class DataStoreRelationship: NSObject, DataStoreProperty {
         }
     }
     var `weak` = false
-    public var assignmentPolicy: DataStoreAssignmentPolicy? {
+
+    /*#if DEBUG
+    public var assignmentPolicy: DataStoreAssignmentPolicy
+    var assignmentPolicyClosure: DataStoreAssignmentPolicyClosure {
+        return self.assignmentPolicy.closure
+    }
+    #else*/
+    public var assignmentPolicy: DataStoreAssignmentPolicy {
         didSet {
-            assignmentPolicyClosure = self.assignmentPolicy?.closure
+            assignmentPolicyClosure = self.assignmentPolicy.closure
         }
     }
-    var assignmentPolicyClosure: DataStoreAssignmentPolicyClosure?
+    var assignmentPolicyClosure: DataStoreAssignmentPolicyClosure = DataStoreAssignmentPolicy.assign.closure
+   /* #endif*/
 
     public var isRecursive: Bool {
         return owner?.entityName == mapping?.entityName
     }
 
     // MARK: - Init
-    public required init(property: String, keyPath: String, mapping: DataStoreMapping, assignmentPolicy: DataStoreAssignmentPolicy? = nil, toMany: Bool) {
+    public required init(property: String, keyPath: String, mapping: DataStoreMapping, assignmentPolicy: DataStoreAssignmentPolicy? = nil, isToMany: Bool) {
         self.property = property
         self.keyPath = keyPath
-        super.init()
-        self.mapping = mapping
-        self.toMany = toMany
         if let assignmentPolicy = assignmentPolicy {
             self.assignmentPolicy = assignmentPolicy
         } else {
-            self.assignmentPolicy = .assign //  self.toMany ? .collectionReplace: .objectReplace
+            self.assignmentPolicy = isToMany ? .collectionReplace: .objectReplace
         }
+        super.init()
+        self.mapping = mapping
+        self.isToMany = isToMany
     }
 
     // MARK: - mapping
@@ -61,9 +69,9 @@ public class DataStoreRelationship: NSObject, DataStoreProperty {
     // MARK: - description
     public override var description: String {
         if isRecursive {
-            return "<\(NSStringFromClass(DataStoreRelationship.self)) \(self)>\n {\nproperty:\(property) keyPath:\(keyPath) toMany:\(toMany)\nrecursive}\n"
+            return "<\(NSStringFromClass(DataStoreRelationship.self)) \(self)>\n {\nproperty:\(property) keyPath:\(keyPath) toMany:\(isToMany)\nrecursive}\n"
         } else {
-            return "<\(NSStringFromClass(DataStoreRelationship.self)) \(self)>\n {\nproperty:\(property) keyPath:\(keyPath) toMany:\(toMany)\n}\n"
+            return "<\(NSStringFromClass(DataStoreRelationship.self)) \(self)>\n {\nproperty:\(property) keyPath:\(keyPath) toMany:\(isToMany)\n}\n"
         }
     }
 

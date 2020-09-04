@@ -59,9 +59,9 @@ public class DataStoreDeserializer: NSObject {
 
         if let root = root as? [AnyHashable: Any] {
             applyAttributes(toObject: object, representation: root, mapping: mapping, allocated: false)
-        }
-        if let root = root as? [AnyHashable: Any] {
             applyRelationships(toObject: object, representation: root, mapping: mapping)
+        } else {
+            logger.warning("Cannot found data representation for \(representation) and mapping.rootPath \(mapping.rootPath)")
         }
 
         commitTransaction()
@@ -110,11 +110,12 @@ public class DataStoreDeserializer: NSObject {
         for relationship in mapping.relationships ?? [] {
 
             guard let relationshipRepresentation = DataStoreRepresentationUtility.rootForKeyPath(representation, relationship.keyPath) else {
+                //logger.warning("Cannot found data representation for \(representation) and mapping.rootPath \(mapping.rootPath)")
                 continue
             }
 
             var targetValue: Any?
-            if relationship.toMany {
+            if relationship.isToMany {
                 if let relationshipRepresentation = relationshipRepresentation as? [DataStoreRepresentation], let relationshipMapping = relationship.mapping {
                     targetValue = _collection(
                         fromRepresentation: relationshipRepresentation,
@@ -143,10 +144,18 @@ public class DataStoreDeserializer: NSObject {
                 context.sourceRelationshipValue = object.value(forKey: relationship.property) as AnyObject
                 context.targetRelationshipValue = targetValue as AnyObject
 
-                let assignmentValue = relationship.assignmentPolicyClosure?(context)
-                object.setValue(assignmentValue, forKey: relationship.property)
-            } else if let targetValue = targetValue {
+                let assignmentValue = relationship.assignmentPolicyClosure(context)
+                //logger.debug("Setting \(assignmentValue) to \(object) for relation \(relationship.property)")
+
+                if let assignmentValue = assignmentValue, !(assignmentValue is NSNull) {
+                    object.setValue(assignmentValue, forKey: relationship.property)
+                } else {
+                    object.setNilValueForKey(relationship.property)
+                }
+            } else if let targetValue = targetValue, !(targetValue is NSNull) {
                 object.setValue(targetValue, forKeyPath: relationship.property)
+            } else {
+                object.setNilValueForKey(relationship.property)
             }
         }
     }
