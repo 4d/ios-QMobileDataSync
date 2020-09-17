@@ -112,7 +112,7 @@ extension NSManagedObject: RecordImportable {
         if has(key: newKey) {
             self.setValue(value, forKey: newKey)
         } else if !key.hasPrefix(RestKey.reserved) {
-            logger.verbose {"Skipped property \(key) for \(self.tableName) object. Not defined in model. You can add it" }
+            logger.verbose({"Skipped property \(key) for \(self.tableName) object. Not defined in model. You can add it" })
         }
     }
 
