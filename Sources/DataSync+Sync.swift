@@ -20,6 +20,21 @@ import QMobileDataStore
 // MARK: Sync
 extension DataSync {
 
+    fileprivate func makeCancellableCancelled(_ message: String = "dataSync.cancel",
+                                              on callbackQueue: DispatchQueue? = nil,
+                                              _ completionHandler: @escaping SyncCompletionHandler) -> Cancellable {
+        let cancellable = CancellableComposite(mode: .requested) // return value, a cancellable
+        cancellable.cancel()
+        if let callbackQueue = callbackQueue {
+            callbackQueue.async {
+                completionHandler(.failure(.cancel(message)))
+            }
+        } else {
+            completionHandler(.failure(.cancel(message)))
+        }
+        return cancellable
+    }
+
     /// Synchronize the data.
     public func sync(operation: DataSync.Operation = .sync,
                      in dataStoreContextType: DataStoreContextType = .background,
@@ -27,17 +42,21 @@ extension DataSync {
                      _ completionHandler: @escaping SyncCompletionHandler) -> Cancellable {
 
         if !cancelOrWait(operation: operation) {
-            let cancellable = CancellableComposite(mode: .requested) // return value, a cancellable
-            cancellable.cancel()
-            if let callbackQueue = callbackQueue {
-                callbackQueue.async {
-                    completionHandler(.failure(.cancel))
-                }
-            } else {
-                completionHandler(.failure(.cancel))
-            }
-            return cancellable
+            return makeCancellableCancelled(on: callbackQueue, completionHandler)
         }
+
+        if let webTestInfo = self.apiManager.webTestInfo {
+            if !webTestInfo.is4D {
+                logger.error("Not recognized as 4D server. see /4dwebtest")
+                return makeCancellableCancelled("dataSync.cancel.isNot4D", on: callbackQueue, completionHandler)
+            }
+            if let serverVersion = webTestInfo.version?.version {
+                if RecordsTarget.attributeInBody && serverVersion < SemVersion.V18R5 {
+                    logger.error("Server has version \(serverVersion). But a minimum of \( SemVersion.V18R5) is required")
+                    return makeCancellableCancelled("dataSync.cancel.minimumVersion", on: callbackQueue, completionHandler)
+                }
+            }
+        }// else maybe if not filled, wait? get it? (loadWebTestInfo)
 
         let callbackQueue = callbackQueue ?? self.defaultQueue
 
@@ -141,7 +160,7 @@ extension DataSync {
             // For each table get data from last global stamp
             let locked = cancellable.perform {
                 if cancellable.isCancelledUnlocked { // XXX no reentrance for lock
-                    completionHandler(.failure(.cancel))
+                    completionHandler(.failure(.cancel("")))
                 } else {
                     var tables = this.tables
                     if let orderBy = Prephirences.DataSync.tableOrder {
@@ -177,7 +196,7 @@ extension DataSync {
                             for table in tables {
                                 if process.isCancelled {
                                     logger.debug("Cancelling \(operation.description) before managing table \(table.name)")
-                                    completionHandler(.failure(.cancel))
+                                    completionHandler(.failure(.cancel("")))
                                     return
                                 }
                                 logger.debug("Start data \(operation.description) for table \(table.name)")
@@ -279,7 +298,7 @@ extension DataSync {
 
         let locked = cancellable.perform {
             if cancellable.isCancelledUnlocked {
-                completionHandler(.failure(.cancel))
+                completionHandler(.failure(.cancel("")))
             } else {
                 let callbackQueue: DispatchQueue = callbackQueue ?? contextType.queue
 
@@ -311,7 +330,7 @@ extension DataSync {
         return { result, processCompletion in
             let completionHandler: SyncCompletionHandler = self.wrapWithProcessCompletion(aCompletionHandler, processCompletion)
             if self.isCancelled {
-                completionHandler(.failure(.cancel))
+                completionHandler(.failure(.cancel("")))
                 processCompletion()
                 return
             }
@@ -402,7 +421,7 @@ extension DataSync {
         return { result, processCompletion in
             let completionHandler: SyncCompletionHandler = self.wrapWithProcessCompletion(aCompletionHandler, processCompletion)
             if self.isCancelled {
-                completionHandler(.failure(.cancel))
+                completionHandler(.failure(.cancel("")))
                 return
             }
             switch result {
@@ -427,7 +446,7 @@ extension DataSync {
                         return
                     }
                     if this.isCancelled {
-                        completionHandler(.failure(.cancel))
+                        completionHandler(.failure(.cancel("")))
                         return
                     }
 

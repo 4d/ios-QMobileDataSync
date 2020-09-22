@@ -21,7 +21,7 @@ public enum DataSyncError: Swift.Error {
     case delegateRequestStop
 
     /// Cancel requested
-    case cancel
+    case cancel(_ message: String)
 
     /// Data store is not ready to perform operation
     case dataStoreNotReady
@@ -138,8 +138,11 @@ extension DataSyncError: LocalizedError {
             return "dataSync.missingRemoteTables".localized
         case .missingRemoteTableAttributes:
             return "dataSync.missingRemoteTableAttributes".localized
-        case .cancel:
-            return "dataSync.cancel".localized
+        case .cancel(let message):
+            if message.isEmpty {
+                return "dataSync.cancel".localized
+            }
+            return message.localized
         case .dataCache:
             return "dataSync.cacheError".localized
         case .underlying:

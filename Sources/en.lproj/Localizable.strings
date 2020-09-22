@@ -38,6 +38,12 @@
 /* data sync cancelled */
 "dataSync.cancel" = "Data update cancelled.";
 
+/* data sync cancelled due to server */
+"dataSync.cancel.isNot4D" = "Data update cancelled.\n Not connected to a 4D Server.";
+
+/* data sync cancelled due to server */
+"dataSync.cancel.minimumVersion" = "Data update cancelled.\n The server need to be upgraded to work with mobile app.";
+
 /* file cache error */
 "dataSync.cacheError" = "Issue when storing data into device.";
 
