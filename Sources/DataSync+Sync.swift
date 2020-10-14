@@ -178,7 +178,7 @@ extension DataSync {
                                                                              operation: operation,
                                                                              callbackQueue: callbackQueue,
                                                                              context: context)
-                        _ = cancellable.appendUnlocked(requestCancellable)  // XXX no reentrance for lock
+                        cancellable.appendUnlocked(requestCancellable)  // XXX no reentrance for lock
                     } else {
                         // parallele
                         let paralleleLimiter: DispatchSemaphore?
@@ -208,7 +208,7 @@ extension DataSync {
                                                                         callbackQueue: callbackQueue,
                                                                         context: context,
                                                                         completionHandler: { paralleleLimiter?.signal() })
-                                _ = cancellable.appendUnlocked(requestCancellable)  // XXX no reentrance for lock
+                                cancellable.appendUnlocked(requestCancellable)  // XXX no reentrance for lock
                                 paralleleLimiter?.wait()
                             }
                         }
@@ -311,7 +311,7 @@ extension DataSync {
                                                               operation: operation,
                                                               callbackQueue: callbackQueue,
                                                               progress: progress)
-                    _ = cancellable.appendUnlocked(requestCancellable)
+                    cancellable.appendUnlocked(requestCancellable)
                 }
             }
         }
