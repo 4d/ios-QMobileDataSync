@@ -88,7 +88,6 @@ public class DataStoreDeserializer: NSObject {
     }
 
     func applyAttributes(toObject object: DataStoreObject, representation: [AnyHashable: Any], mapping: DataStoreMapping, allocated: Bool) {
-
         for attribute in mapping.attributes ?? [] {
             let newValue = DataStoreRepresentationUtility.valueForAttribute(representation, attribute)
             if newValue == nil {
@@ -97,14 +96,17 @@ public class DataStoreDeserializer: NSObject {
                 }
             } else if allocated && newValue != nil {
                 object.setValue(newValue, forKey: attribute.property)
-            } else if newValue != nil {
+            } else if newValue != nil, !(newValue is NSNull) {
                 //let oldValue = object.value(forKey: attribute.property)
-               // if oldValue != newValue && !(oldValue == newValue) { TODO SYNCHRO maybe there is an opti if not set (no sql request so how test equality? ObjectIdentifier?)
-                    object.setValue(newValue, forKey: attribute.property)
-               // }
+                // if oldValue != newValue && !(oldValue == newValue) { TODO SYNCHRO maybe there is an opti if not set (no sql request so how test equality? ObjectIdentifier?)
+                object.setValue(newValue, forKey: attribute.property)
+                // }
+            } else {
+                object.setNilValueForKey(attribute.property)
             }
         }
     }
+
     func applyRelationships(toObject object: DataStoreObject, representation: [AnyHashable: Any], mapping: DataStoreMapping) {
 
         for relationship in mapping.relationships ?? [] {
