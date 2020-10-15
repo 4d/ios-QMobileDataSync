@@ -90,20 +90,14 @@ public class DataStoreDeserializer: NSObject {
     func applyAttributes(toObject object: DataStoreObject, representation: [AnyHashable: Any], mapping: DataStoreMapping, allocated: Bool) {
         for attribute in mapping.attributes ?? [] {
             let newValue = DataStoreRepresentationUtility.valueForAttribute(representation, attribute)
-            if newValue == nil {
+            if newValue == nil || newValue is NSNull {
                 if !DataStoreRepresentationUtility.isScalar(object, attribute.property) {
-                    object.setValue(nil, forKey: attribute.property)
+                    object.setNilValueForKey(attribute.property)
                 }
-            } else if allocated && newValue != nil {
-                object.setValue(newValue, forKey: attribute.property)
-            } else if newValue != nil, !(newValue is NSNull) {
-                //let oldValue = object.value(forKey: attribute.property)
-                // if oldValue != newValue && !(oldValue == newValue) { TODO SYNCHRO maybe there is an opti if not set (no sql request so how test equality? ObjectIdentifier?)
-                object.setValue(newValue, forKey: attribute.property)
-                // }
             } else {
-                object.setNilValueForKey(attribute.property)
+                object.setValue(newValue, forKey: attribute.property)
             }
+            // OPTI: use allocated=false to check or not if old value is the same (maybe there is no diff)
         }
     }
 
