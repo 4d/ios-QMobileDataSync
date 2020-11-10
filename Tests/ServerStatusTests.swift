@@ -14,7 +14,7 @@ import XCTest
 import QMobileDataStore
 import QMobileAPI
 
-import BrightFutures
+import Combine
 
 class ServerStatusTest: XCTestCase {
     
@@ -88,7 +88,7 @@ class ServerStatusTest: XCTestCase {
         waitExpectation(timeout: timeout)
     }
     
-    func testStatusURLFirstCompleted() {
+  /*  func testStatusURLFirstCompleted() {
         let expectation = self.expectation()
         
         let strings = ["http://test", "http://127.0.0.1"]
@@ -129,7 +129,7 @@ class ServerStatusTest: XCTestCase {
         }
         
         waitExpectation(timeout: timeout * 5)
-    }
+    }*/
 
     
 }

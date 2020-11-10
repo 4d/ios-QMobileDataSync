@@ -61,7 +61,7 @@ public class DataStoreDeserializer: NSObject {
             applyAttributes(toObject: object, representation: root, mapping: mapping, allocated: false)
             applyRelationships(toObject: object, representation: root, mapping: mapping)
         } else {
-            logger.warning("Cannot found data representation for \(representation) and mapping.rootPath \(mapping.rootPath)")
+            logger.warning("Cannot found data representation for \(representation) and mapping.rootPath \(String(describing: mapping.rootPath))")
         }
 
         commitTransaction()

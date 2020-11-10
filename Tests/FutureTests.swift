@@ -14,7 +14,7 @@ import XCTest
 import QMobileDataStore
 import QMobileAPI
 
-import BrightFutures
+import Combine
 
 class FutureTest: XCTestCase {
     

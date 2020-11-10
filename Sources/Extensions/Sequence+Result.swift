@@ -7,54 +7,81 @@
 //
 
 import Foundation
-import BrightFutures
+
+public protocol ResultProtocol {
+    associatedtype Value
+    associatedtype Error: Swift.Error
+
+    init(value: Value)
+    init(error: Error)
+
+    var result: Result<Value, Error> { get }
+}
+
+extension Result: ResultProtocol {
+    /// Constructs a success wrapping a `value`.
+    public init(value: Success) {
+        self = .success(value)
+    }
+
+    /// Constructs a failure wrapping an `error`.
+    public init(error: Failure) {
+        self = .failure(error)
+    }
+
+    public var result: Result<Success, Failure> {
+        return self
+    }
+
+    public var value: Success? {
+        switch self {
+        case .success(let value): return value
+        case .failure: return nil
+        }
+    }
+
+    public var error: Failure? {
+        switch self {
+        case .success: return nil
+        case .failure(let error): return error
+        }
+    }
+
+}
+
+public extension ResultProtocol {
+
+    /// Case analysis for Result.
+    ///
+    /// Returns the value produced by applying `ifFailure` to `failure` Results, or `ifSuccess` to `success` Results.
+    func analysis<Result>(ifSuccess: (Value) -> Result, ifFailure: (Error) -> Result) -> Result {
+        switch self.result {
+        case .success(let value):
+            return ifSuccess(value)
+        case .failure(let error):
+            return ifFailure(error)
+        }
+    }
+
+}
 
 extension Sequence where Iterator.Element: ResultProtocol {
-
-    public typealias ResultSequence = Result<[Iterator.Element.Value], Iterator.Element.Error>
-
-    public var result: ResultSequence {
-        return reduce(Result(value: [])) { (res, elem) -> ResultSequence in
+    /// Turns a sequence of `Result<T>`'s into a Result with an array of T's (`Result<[T]>`)
+    /// If one of the results in the given sequence is a .failure, the returned result is a .failure with the
+    /// error from the first failed result from the sequence.
+    public func sequence() -> Result<[Iterator.Element.Value], Iterator.Element.Error> {
+        return reduce(.success([])) { (res, elem) -> Result<[Iterator.Element.Value], Iterator.Element.Error> in
             switch res {
             case .success(let resultSequence):
-                return elem.result.analysis(ifSuccess: {
+                return elem.analysis(ifSuccess: {
                     let newSeq = resultSequence + [$0]
-                    return Result(value: newSeq)
+                    return .success(newSeq)
                 }, ifFailure: {
-                    return Result(error: $0)
+                    return .failure($0)
                 })
             case .failure:
                 return res
             }
         }
     }
-
-    public var errors: [Iterator.Element.Error]? {
-        var errors: [Iterator.Element.Error] = []
-        for result in self {
-            if let error = result.result.error {
-                errors.append(error)
-            }
-        }
-        return errors.isEmpty ? nil : errors
-    }
-
-    public var values: [Iterator.Element.Value]? {
-        var values: [Iterator.Element.Value] = []
-        for result in self {
-            if let value = result.result.value {
-                values.append(value)
-            }
-        }
-        return values.isEmpty ? nil : values
-    }
-
-    public func dematerialize() throws -> [Iterator.Element.Value] {
-        return try self.result.get()
-    }
-
-    public func analysis(ifSuccess: ([Iterator.Element.Value]) -> ResultSequence, ifFailure: (Iterator.Element.Error) -> ResultSequence) -> ResultSequence {
-        return self.result.analysis(ifSuccess: ifSuccess, ifFailure: ifFailure)
-    }
-
 }

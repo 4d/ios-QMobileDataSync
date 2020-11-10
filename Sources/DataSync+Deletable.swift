@@ -7,12 +7,12 @@
 //
 
 import Foundation
+import Combine
 
 import Prephirences
 
 import Moya
 import FileKit
-import BrightFutures
 
 import QMobileAPI
 import QMobileDataStore
@@ -26,13 +26,13 @@ protocol DeletableRecord {
     /// Return the predicate to remove records.
     func predicate(table: Table) -> NSPredicate?
 }
-typealias DeletedRecordFuture = Future<[DeletableRecord], APIError>
+typealias DeletedRecordFuture = AnyPublisher<[DeletableRecord], APIError>
 extension DeletedRecord: DeletableRecord {
     func predicate(table: Table) -> NSPredicate? {
         return table.predicate(forDeletedRecord: self)
     }
 }
-extension Record: DeletableRecord {
+extension QMobileDataStore.Record: DeletableRecord {
     func predicate(table: Table) -> NSPredicate? {
         return table.predicate(for: self)
     }
@@ -68,9 +68,7 @@ extension DataSync {
 
     /// immediatly return the records that we do not want to persist.
     func pendingRecords(for context: DataStoreContext) -> DeletedRecordFuture {
-        let promize = Promise<[DeletableRecord], APIError>()
-        promize.success(context.pendingRecords)
-        return promize.future
+        return Just(context.pendingRecords).setFailureType(to: APIError.self).eraseToAnyPublisher()
     }
 
     /// Create futures of all record to remove according to operation type.
@@ -91,7 +89,7 @@ extension DataSync {
             }
             let deletedRecordPageFuture: DeletedRecordFuture = self.apiManager.deletedRecordPage(configure: configure, callbackQueue: callbackQueue, progress: progress).map { page in
                 return page.records.compactMap { $0.deletedRecord }
-            }
+            }.eraseToAnyPublisher()
             futures.append(deletedRecordPageFuture)
         }
 
@@ -108,7 +106,7 @@ extension DataSync {
             futures += deletedRecordsDueToFilter(in: context, configure: configure)
         }
         // Merge and flattenize all task result
-        return futures.sequence().flatMap { (list: [[DeletableRecord]]) -> Result<[DeletableRecord], APIError> in
+        return futures.sequence().result { (list: [[DeletableRecord]]) -> Result<[DeletableRecord], APIError> in
             return .success(list.flatMap { $0 })
         }
     }
@@ -119,8 +117,8 @@ extension DataSync {
         let tablesWithFilter = tablesInfoByTable.filter { $1.filter != nil }
 
         // Find the updated or created records. This records must not be deleted, because we get it with filter
-        let updatedRecords: [Record] = context.insertedRecords + context.updatedRecords
-        let updatedRecordsByTable: [String: [Record]] = updatedRecords.dictionaryBy { $0.tableName }
+        let updatedRecords: [QMobileDataStore.Record] = context.insertedRecords + context.updatedRecords
+        let updatedRecordsByTable: [String: [QMobileDataStore.Record]] = updatedRecords.dictionaryBy { $0.tableName }
 
         var futures: [DeletedRecordFuture] = []
         for (table, tableInfo) in tablesWithFilter {
@@ -129,7 +127,7 @@ extension DataSync {
                 continue
             }
             let tableName = table.name
-            let updatedRecords: [Record] = updatedRecordsByTable[tableName] ?? [] // maybe no one visible for this table
+            let updatedRecords: [QMobileDataStore.Record] = updatedRecordsByTable[tableName] ?? [] // maybe no one visible for this table
             let updatedRecordPrimaryKeys = updatedRecords.compactMap { $0.primaryKeyValue }
 
             // Make the request to get records
@@ -149,7 +147,7 @@ extension DataSync {
                     return DeletedRecord(primaryKey: "\(primaryKey)", tableNumber: nil, tableName: tableName, stamp: stamp)
                 }
                 return deletedRecords
-            }
+            }.eraseToAnyPublisher()
             futures.append(future)
         }
         return futures

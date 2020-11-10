@@ -12,7 +12,7 @@ import Prephirences
 
 import Moya
 import FileKit
-import BrightFutures
+import Combine
 
 import QMobileAPI
 import QMobileDataStore
@@ -22,7 +22,7 @@ extension DataSync {
 
     fileprivate func makeCancellableCancelled(_ message: String = "dataSync.cancel",
                                               on callbackQueue: DispatchQueue? = nil,
-                                              _ completionHandler: @escaping SyncCompletionHandler) -> Cancellable {
+                                              _ completionHandler: @escaping SyncCompletionHandler) -> Moya.Cancellable {
         let cancellable = CancellableComposite(mode: .requested) // return value, a cancellable
         cancellable.cancel()
         if let callbackQueue = callbackQueue {
@@ -39,7 +39,7 @@ extension DataSync {
     public func sync(operation: DataSync.Operation = .sync,
                      in dataStoreContextType: DataStoreContextType = .background,
                      on callbackQueue: DispatchQueue? = nil,
-                     _ completionHandler: @escaping SyncCompletionHandler) -> Cancellable {
+                     _ completionHandler: @escaping SyncCompletionHandler) -> Moya.Cancellable {
 
         if !cancelOrWait(operation: operation) {
             return makeCancellableCancelled(on: callbackQueue, completionHandler)
@@ -71,7 +71,7 @@ extension DataSync {
 
         future = future.flatMap { _ in
             return self.loadRemoteTable().asVoid()
-        }
+        }.eraseToAnyPublisher()
 
         // On succes launch the sync.
         future.onSuccess { [weak self] in
@@ -95,11 +95,11 @@ extension DataSync {
                               completionHandler: completionHandler)
             }
 
-        }
-        // on failure juste send the error
-        future.onFailure { error in
+        }.onFailure { error in  // on failure juste send the error
             completionHandler(.failure(error))
         }
+        .sink()
+        .store(in: &bag)
         return cancellable
     }
 
@@ -231,7 +231,7 @@ extension DataSync {
                                 in path: Path,
                                 operation: DataSync.Operation,
                                 callbackQueue: DispatchQueue? = nil,
-                                context: DataStoreContext) -> Cancellable {
+                                context: DataStoreContext) -> Moya.Cancellable {
         var tables = tables
 
         let cancellable = CancellableComposite()
@@ -327,7 +327,7 @@ extension DataSync {
                                        startStamp: TableStampStorage.Stamp,
                                        tempPath: Path,
                                        _ aCompletionHandler: @escaping SyncCompletionHandler) -> Process.CompletionHandler {
-        return { result, processCompletion in
+        return { result, process, processCompletion in
             let completionHandler: SyncCompletionHandler = self.wrapWithProcessCompletion(aCompletionHandler, processCompletion)
             if self.isCancelled {
                 completionHandler(.failure(.cancel("")))
@@ -336,8 +336,7 @@ extension DataSync {
             }
             switch result {
             case .success(let stamp):
-
-                self.syncProcessCompletionSuccess(in: context, operation: operation, startStamp: startStamp, endStamp: stamp, completionHandler)
+                self.syncProcessCompletionSuccess(in: context, operation: operation, startStamp: startStamp, endStamp: stamp, process: process, completionHandler)
             case .failure(let error):
                 if case .onCompletion = self.saveMode {
                     context.rollback()
@@ -352,8 +351,10 @@ extension DataSync {
                                       operation: DataSync.Operation,
                                       startStamp: TableStampStorage.Stamp,
                                       endStamp: TableStampStorage.Stamp,
+                                      process: Process,
                                       _ completionHandler: @escaping SyncCompletionHandler) {
         let future = self.syncDeletedRecods(in: context, operation: operation, startStamp: startStamp, endStamp: endStamp)
+
         future.onSuccess { deletedRecords in
             context.perform(wait: true) {
                 self.deleteRecords(deletedRecords, in: context)
@@ -376,7 +377,7 @@ extension DataSync {
                 }
             }
         }
-        future.onFailure { error in
+        .onFailure { error in
             context.perform(wait: true) {
                 if let restErrors = error.restErrors, restErrors.match(.entity_not_found) {
                     logger.error("The table \(DeletedRecordKey.entityName) do not exist. Deleted record will not be removed from this mobile application. Please update your struture")
@@ -407,6 +408,8 @@ extension DataSync {
                 }
             }
         }
+        .sink()
+        .store(in: &process.bag)
     }
 
     func wrapWithProcessCompletion(_ handler: @escaping SyncCompletionHandler, _ process: @escaping () -> Void) -> SyncCompletionHandler {
@@ -418,7 +421,7 @@ extension DataSync {
 
     // MARK: Reload Callback
     func reloadProcessCompletionCallBack(in contextType: DataStoreContextType, operation: DataSync.Operation, tempPath: Path, _ aCompletionHandler: @escaping SyncCompletionHandler) -> Process.CompletionHandler {
-        return { result, processCompletion in
+        return { result, process, processCompletion in
             let completionHandler: SyncCompletionHandler = self.wrapWithProcessCompletion(aCompletionHandler, processCompletion)
             if self.isCancelled {
                 completionHandler(.failure(.cancel("")))
@@ -472,10 +475,11 @@ extension DataSync {
                             } catch {
                                 completionHandler(.failure(DataSyncError.error(from: error)))
                             }
-                        }
-                        future.onFailure { error in
+                        }.onFailure { error in
                             completionHandler(.failure(DataSyncError.apiError(error)))
                         }
+                        .sink()
+                        .store(in: &process.bag)
                     } catch {
                         completionHandler(.failure(DataSyncError.error(from: DataStoreError.error(from: error))))
                     }

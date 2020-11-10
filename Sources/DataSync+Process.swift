@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Combine
 
 import QMobileAPI
 import Moya
@@ -22,7 +23,7 @@ extension DataSync {
         public typealias TableStatus = (Table, TableStampStorage.Stamp)
         public typealias TableResult = Result<TableStatus, ProcessError>
         public typealias TablePageResult = Result<PageInfo, ProcessError>
-        public typealias CompletionHandler = (Result<TableStampStorage.Stamp, ProcessError>, @escaping () -> Void) -> Void
+        public typealias CompletionHandler = (Result<TableStampStorage.Stamp, ProcessError>, Process, @escaping () -> Void) -> Void
 
         // list of table to sync
         let tables: [Table]
@@ -31,12 +32,14 @@ extension DataSync {
         // stamp
         var startStamp: TableStampStorage.Stamp
 
-        let cancellable: Cancellable?
+        let cancellable: Moya.Cancellable?
         let completionHandler: CompletionHandler
 
         var tablesResults: [String: TableResult] = [:]
 
-        init(tables: [Table], startStamp: TableStampStorage.Stamp, operation: DataSync.Operation, cancellable: Cancellable?, completionHandler: @escaping CompletionHandler) {
+        var bag = Set<AnyCancellable>()
+
+        init(tables: [Table], startStamp: TableStampStorage.Stamp, operation: DataSync.Operation, cancellable: Moya.Cancellable?, completionHandler: @escaping CompletionHandler) {
             self.tables = tables
             self.startStamp = startStamp
             self.operation = operation
@@ -103,6 +106,7 @@ extension DataSync.Process {
                 return tableStatus.filter { $0.1 < maxStamp}
             }
         } catch {
+
             // TODO according to errors, remove all added objects, or return an error for incomplete sync
             // String(data: (((error as! AnyError).error as! APIError).error as! MoyaError).response!.data, encoding: .utf8)
             self.complete(with: .mapOtherError(error))
@@ -111,7 +115,7 @@ extension DataSync.Process {
     }
 
     fileprivate func complete(with result: Result<TableStampStorage.Stamp, ProcessError>) {
-        self.completionHandler(result) {
+        self.completionHandler(result, self) {
             self.finalCompletion()
         }
     }
@@ -131,16 +135,16 @@ extension DataSync.Process {
 }
 
 // MARK: cancellable
-extension DataSync.Process: Cancellable {
+extension DataSync.Process: Moya.Cancellable {
     public func cancel() { cancellable?.cancel() }
     public var isCancelled: Bool { return cancellable?.isCancelled ?? true }
 }
 
-extension Result where Error: ErrorConvertible {
-    public static func mapOtherError(_ error: Swift.Error) -> Result<Value, Error> {
-        if let std = error as? Error {
+extension Result {
+    public static func mapOtherError<E: ErrorConvertible>(_ error: Swift.Error) -> Result<Success, E> {
+        if let std = error as? E {
             return .failure(std)
         }
-        return .failure(Error.error(from: error))
+        return .failure(E.error(from: error))
     }
 }

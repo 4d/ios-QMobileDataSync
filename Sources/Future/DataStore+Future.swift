@@ -7,8 +7,8 @@
 //
 
 import Foundation
+import Combine
 
-import BrightFutures
 import QMobileDataStore
 
 extension DataStore {
@@ -21,22 +21,22 @@ extension DataStore {
         if isLoaded {
             return Future<Void, DataStoreError>(result: .success(()))
         }
-        return Future { self.load(completionHandler: $0) }
+        return Future<Void, DataStoreError> { self.load(completionHandler: $0) }
     }
 
     /// Save the data store and return a Future
     public func save() -> Future<Void, DataStoreError> {
-        return Future { self.save(completionHandler: $0) }
+        return Future<Void, DataStoreError> { self.save(completionHandler: $0) }
     }
 
     /// Drop the data store and return a Future
     public func drop() -> Future<Void, DataStoreError> {
-        return Future { self.drop(completionHandler: $0) }
+        return Future<Void, DataStoreError> { self.drop(completionHandler: $0) }
     }
 
     /// Provide a context for performing data store operation
     public func perform(_ type: QMobileDataStore.DataStoreContextType, blockName: String? = nil) -> PerformFuture {
-        return Future { complete in
+        return PerformFuture { complete in
             let value = self.perform(type, wait: false, blockName: blockName) { context in
                 complete(.success(context))
             }
@@ -45,5 +45,4 @@ extension DataStore {
             }
         }
     }
-
 }

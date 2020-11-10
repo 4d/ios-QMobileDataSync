@@ -7,28 +7,28 @@
 //
 
 import Foundation
+import Combine
+
 import QMobileAPI
 
-import BrightFutures
 import Moya
 
 // Extension to use Future
-// CLEAN, make request cancellable, maybe using FutureContainer or ask BrightFutures to remove final keyword info Future
 public extension APIManager {
 
     /// Get server status
     func status(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<Status, APIError> {
-        return Future { _ = self.status(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
+        return Future<Status, APIError> { _ = self.status(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
     }
 
     /// Get server info
     func info(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<Info, APIError> {
-        return Future { _ = self.info(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
+        return Future<Info, APIError> { _ = self.info(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
     }
 
     /// Get server session info
     func sessionInfo(callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<[SessionInfo], APIError> {
-        return Future { _ = self.sessionInfo(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
+        return Future<[SessionInfo], APIError> { _ = self.sessionInfo(callbackQueue: callbackQueue, progress: progress, completionHandler: $0) }
     }
 
     /// Get server Progress Info
@@ -99,66 +99,66 @@ public extension APIManager {
 
 public extension APIManager {
 
-    static func status(for urls: [URL], callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<[URL: Result<Status, APIError>], Never> {
+    static func status(for urls: [URL], callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> AnyPublisher<[URL: Result<Status, APIError>], Never> {
         if urls.isEmpty {
-            return Future(value: [:])
+            return Future<[URL: Result<Status, APIError>], Never>(value: [:]).eraseToAnyPublisher()
         }
 
-        typealias FutureTuple = Future<(URL, Result<Status, APIError>), Never>
+        typealias FutureTuple = AnyPublisher<(URL, Result<Status, APIError>), Never>
         var sequence: [FutureTuple] = []
         for url in urls {
-            let resultified: Future<(Result<Status, APIError>), Never> = manager(for: url).status(callbackQueue: callbackQueue, progress: progress).resultify()
-            let future: FutureTuple = resultified.map { (url, $0) }
+            let resultified: AnyPublisher<(Result<Status, APIError>), Never> = manager(for: url).status(callbackQueue: callbackQueue, progress: progress).resultify()
+            let future: FutureTuple = resultified.map { (url, $0) }.eraseToAnyPublisher()
             sequence.append(future)
         }
-
-        return sequence.sequence().map { dict($0) }
+        return sequence.sequence().map { dict($0) }.eraseToAnyPublisher()
     }
 
-    static func firstStatus(for urls: [URL], callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<(URL, Status), APIError> {
+  /*  static func firstStatus(for urls: [URL], callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> AnyPublisher<(URL, Status), APIError> {
         if urls.isEmpty {
             assertionFailure("no url provided")
-            return Future(error: APIError.error(from: NSError(domain: "qmobile", code: 700))) // CLEAN, use a real APIError
+            return Future<(URL, Status), APIError>(error: APIError.error(from: NSError(domain: "qmobile", code: 700))).eraseToAnyPublisher() // CLEAN, use a real APIError
         }
 
-        typealias FutureFirst = Future<(URL, Status), APIError>
+        typealias FutureFirst = AnyPublisher<(URL, Status), APIError>
         var sequence: [FutureFirst] = []
         for url in urls {
             let statusFuture: Future<Status, APIError> = manager(for: url).status(callbackQueue: callbackQueue, progress: progress)
-            let future: FutureFirst = statusFuture.map { (url, $0) }
+            let future: FutureFirst = statusFuture.map { (url, $0) }.eraseToAnyPublisher()
             sequence.append(future)
         }
         return sequence.firstCompleted()
     }
 
-    static func firstStatusSuccess(for urls: [URL], callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> Future<(URL, Status), APIError> {
+    static func firstStatusSuccess(for urls: [URL], callbackQueue: DispatchQueue? = nil, progress: ProgressHandler? = nil) -> AnyPublisher<(URL, Status), APIError> {
         var urls = urls.slice // popable
 
         guard let firstURL: URL = urls.popFirst() else {
             assertionFailure("no url provided")
-            return Future(error: APIError.error(from: NSError(domain: "qmobile", code: 700))) // CLEAN, use a real APIError
+            return Future<(URL, Status), APIError>(error: APIError.error(from: NSError(domain: "qmobile", code: 700))).eraseToAnyPublisher() // CLEAN, use a real APIError
         }
 
-        typealias FutureFirst = Future<(URL, Status), APIError>
-        let future: FutureFirst = APIManager(url: firstURL).status(callbackQueue: callbackQueue, progress: progress).map { (firstURL, $0) }
+        typealias FutureFirst = AnyPublisher<(URL, Status), APIError>
+        let future: FutureFirst = APIManager(url: firstURL).status(callbackQueue: callbackQueue, progress: progress).map { (firstURL, $0) }.eraseToAnyPublisher()
         // this is sequential with recoverWith, we could do better //
         var current = future
         var currentURL: URL? = urls.popFirst()
         while currentURL != nil {
             if let url  = currentURL {
                 let recoverTask: ((APIError) -> FutureFirst) = { error -> FutureFirst in
-                    return manager(for: url).status(callbackQueue: callbackQueue, progress: progress).map { (url, $0) }
+                    return manager(for: url).status(callbackQueue: callbackQueue, progress: progress).map { (url, $0) }.eraseToAnyPublisher()
                 }
+                // CLEAN simplify code
                 if let callbackQueue = callbackQueue {
-                    current = current.recoverWith(context: callbackQueue.context, task: recoverTask)
+                    current = current.receive(on: callbackQueue).catch(recoverTask).eraseToAnyPublisher()
                 } else {
-                    current = current.recoverWith(task: recoverTask)
+                    current = current.catch(recoverTask).eraseToAnyPublisher()
                 }
             }
             currentURL = urls.popFirst()
         }
         return current
-    }
+    }*/
 
     private static func manager(for url: URL) -> APIManager {
         let apiManager = APIManager(url: url)

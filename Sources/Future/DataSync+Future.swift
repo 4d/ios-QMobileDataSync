@@ -7,8 +7,8 @@
 //
 
 import Foundation
-
-import BrightFutures
+import Combine
+import Moya
 
 import QMobileAPI
 import QMobileDataStore
@@ -19,19 +19,19 @@ extension DataSync {
         if !self.tables.isEmpty {
             return SyncTableFuture(result: .success(self.tables)) // cache
         }
-        return Future { self.loadTable(on: callbackQueue, $0) }
+        return SyncTableFuture { self.loadTable(on: callbackQueue, $0) }
     }
 
     public func loadRemoteTable(on callbackQueue: DispatchQueue? = nil) -> SyncTableFuture {
-        return Future { _ = self.loadRemoteTable(on: callbackQueue, $0) }
+        return SyncTableFuture { _ = self.loadRemoteTable(on: callbackQueue, $0) }
     }
 
     public func sync(in dataStoreContextType: DataStoreContextType = .background, on callbackQueue: DispatchQueue? = nil) -> Future<Void, DataSyncError> {
-        return Future { _ = self.sync(in: dataStoreContextType, on: callbackQueue, $0) }
+        return Future<Void, DataSyncError> { _ = self.sync(in: dataStoreContextType, on: callbackQueue, $0) }
     }
 
     public func drop(in dataStoreContextType: DataStoreContextType = .background, on callbackQueue: DispatchQueue? = nil) -> Future<Void, DataSyncError> {
-        return Future { _ = self.drop(in: dataStoreContextType, on: callbackQueue, $0) }
+        return Future<Void, DataSyncError> { _ = self.drop(in: dataStoreContextType, on: callbackQueue, $0) }
     }
 
 }

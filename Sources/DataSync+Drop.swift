@@ -40,9 +40,8 @@ extension DataSync {
 
         // Check if data store initialized.
         let future = initFuture(dataStoreContextType: dataStoreContextType, loadRecordsFromFiles: false, callbackQueue: callbackQueue)
-
-        // On succes launch the sync.
         future.onSuccess { [weak self] in
+            // On succes launch the sync.
             guard let this = self else { // memory issue, must retain the dataSync object somewhere
                 completionHandler(.failure(.retain))
                 return
@@ -72,11 +71,13 @@ extension DataSync {
                 completionHandler(.failure(.dataStoreNotReady))
             }
         }
-
-        // on failure juste send the error
-        future.onFailure { error in
+        .onFailure { error in
+            // on failure juste send the error
             completionHandler(.failure(error))
         }
+        .sink()
+        .store(in: &bag)
+        // TODO return the correct cancellable type (moya vs combine)
         return cancellable
     }
 

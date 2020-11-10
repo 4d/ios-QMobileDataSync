@@ -1,7 +1,6 @@
 git "https://gitlab-4d.private.4d.fr/qmobile/QMobileDataStore.git" "HEAD"
 git "https://gitlab-4d.private.4d.fr/qmobile/QMobileAPI.git" "HEAD"
 
-github "Thomvis/BrightFutures" # future/promize for task management
 github "nvzqz/FileKit" # file management
 
 # from dependencies

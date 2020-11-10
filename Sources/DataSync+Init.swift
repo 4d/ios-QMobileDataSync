@@ -9,7 +9,7 @@
 import Foundation
 
 import Prephirences
-import BrightFutures
+import Combine
 import Moya
 
 import QMobileDataStore
@@ -56,7 +56,7 @@ extension DataSync {
 
     public typealias SyncResult = Result<Void, DataSyncError>
     public typealias SyncCompletionHandler = (SyncResult) -> Void
-    public typealias SyncFuture = Future<Void, DataSyncError>
+    public typealias SyncFuture = AnyPublisher<Void, DataSyncError>
     public typealias SyncTableFuture = Future<[Table], DataSyncError>
 
     /// check data store loaded, and tables structures loaded
@@ -67,27 +67,26 @@ extension DataSync {
         // Load data store if necessary
         var sequence: [SyncFuture] = []
         if Prephirences.DataSync.firstSync && Prephirences.DataSync.dataStoreDrop {
-
             let dsLoad: SyncFuture = dataStore.drop().flatMap {
                 return self.dataStore.load()
                 }.mapError { dataStoreError in
                     logger.warning("Could not drop or load data store \(dataStoreError)")
                     return .dataStoreError(dataStoreError)
-            }
+                }.eraseToAnyPublisher()
             sequence.append(dsLoad)
 
         } else {
             let dsLoad: SyncFuture = dataStore.load().mapError { dataStoreError in
                 logger.warning("Could not load data store \(dataStoreError)")
                 return .dataStoreError(dataStoreError)
-            }
+            }.eraseToAnyPublisher()
             sequence.append(dsLoad)
         }
 
         // Load table if needed
         let loadTable: SyncTableFuture = self.loadTable(on: callbackQueue)
         /// check if there is table
-        let checkTable: SyncFuture = loadTable.flatMap { (tables: [Table]) -> SyncResult in
+        let checkTable: SyncFuture = loadTable.result { (tables: [Table]) -> SyncResult in
               return self.tables.isEmpty ? .failure(.noTables) : .success(())
         }
         sequence.append(checkTable)
@@ -112,7 +111,7 @@ extension DataSync {
     private func loadRecordsFromFileFuture(dataStoreContextType: DataStoreContextType, previous: SyncTableFuture) -> SyncFuture {
         return previous.flatMap { (tables: [Table]) -> SyncFuture in
 
-            return self.dataStore.perform(dataStoreContextType, blockName: "LoadEmbeddedData").flatMap { (dataStoreContext: DataStoreContext) -> Result<Void, DataStoreError> in
+            return self.dataStore.perform(dataStoreContextType, blockName: "LoadEmbeddedData").result { (dataStoreContext: DataStoreContext) -> Result<Void, DataStoreError> in
                 assert(dataStoreContext.type == dataStoreContextType)
 
                 logger.info("Load table data from embedded data files")
@@ -124,17 +123,17 @@ extension DataSync {
                 } catch {
                     return .failure(DataStoreError.error(from: error))
                 }
-                }.mapError { error in
+            }.mapError { (error: DataStoreError) -> DataSyncError in
                     logger.warning("Could not import records into data store \(error)")
                     return DataSyncError.dataStoreError(error)
-            }
-        }
+            }.eraseToAnyPublisher()
+        }.eraseToAnyPublisher()
     }
 
     private func deleteRecordsFuture(dataStoreContextType: DataStoreContextType, previous: SyncTableFuture) -> SyncFuture {
         return previous.flatMap { (tables: [Table]) -> SyncFuture in
 
-            return self.dataStore.perform(dataStoreContextType).flatMap { (dataStoreContext: DataStoreContext) -> Result<Void, DataStoreError> in
+            return self.dataStore.perform(dataStoreContextType).result { (dataStoreContext: DataStoreContext) -> Result<Void, DataStoreError> in
                 assert(dataStoreContext.type == dataStoreContextType)
                 // delete all table data
                 logger.info("Delete all tables data")
@@ -155,11 +154,11 @@ extension DataSync {
                     return .failure(DataStoreError.error(from: error))
                 }
 
-                }.mapError { dataStoreError in
-                    logger.warning("Could not delete records from data store \(dataStoreError)")
-                    return DataSyncError.dataStoreError(dataStoreError)
-            }
-        }
+            }.mapError { dataStoreError in
+                logger.warning("Could not delete records from data store \(dataStoreError)")
+                return DataSyncError.dataStoreError(dataStoreError)
+            }.eraseToAnyPublisher()
+        }.eraseToAnyPublisher()
     }
 
     /*public func loadTableDataFronmBundleFiles(dataStoreContextType: DataStoreContextType = .background, completionHandler:  @escaping (Result<Void, DataStoreError>) -> Void) -> Bool {

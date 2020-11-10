@@ -9,7 +9,7 @@
 import Foundation
 
 import Prephirences
-import BrightFutures
+import Combine
 import Moya
 import FileKit
 
@@ -55,7 +55,7 @@ extension DataSync {
                    callbackQueue: DispatchQueue? = nil,
                    progress: APIManager.ProgressHandler? = nil,
                    context: DataStoreContext,
-                   completionHandler: (() -> Void)? = nil) -> Cancellable {
+                   completionHandler: (() -> Void)? = nil) -> Moya.Cancellable {
         let cancellable = CancellableComposite()
         guard let tableInfo = self.tablesInfoByTable[table] else {
             assertionFailure("No table storage info for table \(table)")
@@ -73,7 +73,7 @@ extension DataSync {
             return cancellable
         }
 
-        let completion: ((Result<([Record], PageInfo), APIError>) -> Void) = { result in
+        let completion: ((Result<([QMobileDataStore.Record], PageInfo), APIError>) -> Void) = { result in
             switch result {
             case .success(let (_/*records*/, pageInfo)):
 
@@ -148,7 +148,7 @@ extension DataSync {
                       in path: Path,
                       operation: DataSync.Operation,
                       callbackQueue: DispatchQueue? = nil,
-                      progress: APIManager.ProgressHandler? = nil) -> Cancellable {
+                      progress: APIManager.ProgressHandler? = nil) -> Moya.Cancellable {
         let cancellable = CancellableComposite()
         guard let tableInfo = self.tablesInfoByTable[table] else {
             assertionFailure("No table storage info for table \(table)")
@@ -225,7 +225,7 @@ extension DataSync {
                 // notify for one table
                 self.dataSyncFailed(for: table, with: APIError.error(from: error), operation)
                 // notify process
-                _ = self.process?.completedAndCheck(for: table, with: .mapOtherError(error))
+                _ = self.process?.completedAndCheck(for: table, with: .failure(Process.ProcessError.error(from: error)))
             }
         }
 
