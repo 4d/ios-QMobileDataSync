@@ -50,21 +50,13 @@ class ServerStatusTest: XCTestCase {
         let expectation = self.expectation()
         
         let future = dataSync.apiManager.status()
-        future.onComplete { result in
+        _ = future.onComplete { result in
             expectation.fulfill()
-        }
+        }.sink()
         
         waitExpectation(timeout: timeout)
     }
-    
-    func testOneFutureStatusForced() {
-        
-        let future = dataSync.apiManager.status()
-        let resultStatus = future.forced(timeout)
-        
-        XCTAssertNotNil(resultStatus)
-    }
-    
+
     func testStatusURL() {
         let expectation = self.expectation()
     
@@ -74,7 +66,7 @@ class ServerStatusTest: XCTestCase {
         let future = APIManager.status(for: urls, callbackQueue: .background) { progress in
             print("\(progress)")
         }
-        future.onComplete(DispatchQueue.background.context) { result in
+        _ = future.receive(on: DispatchQueue.background).onComplete { result in
             
             switch result {
             case .success(let subResult):
@@ -83,7 +75,7 @@ class ServerStatusTest: XCTestCase {
                 XCTFail("Not error expected")
             }
             expectation.fulfill()
-        }
+        }.sink()
         
         waitExpectation(timeout: timeout)
     }

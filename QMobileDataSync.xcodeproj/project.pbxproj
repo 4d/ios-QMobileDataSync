@@ -17,7 +17,6 @@
 		4837277E1EB8A8DF0060B064 /* DataSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4837277D1EB8A8DF0060B064 /* DataSync.swift */; };
 		483727801EB8AD940060B064 /* Moya.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4837277F1EB8AD940060B064 /* Moya.framework */; };
 		483727841EB8ADAE0060B064 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483727831EB8ADAE0060B064 /* Alamofire.framework */; };
-		483D549E1F3320790061D1FE /* SequenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483D549D1F3320790061D1FE /* SequenceTests.swift */; };
 		483EF60F1EF925BB00C11B5E /* DataStoreIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483EF60E1EF925BB00C11B5E /* DataStoreIntegrationTests.swift */; };
 		4843784D1F471C02004C5101 /* DataSync+Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4843784C1F471C02004C5101 /* DataSync+Notification.swift */; };
 		484428F51EC99766008658B8 /* TableStampStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484428F41EC99766008658B8 /* TableStampStorage.swift */; };
@@ -63,7 +62,6 @@
 		485B273722E9DE6400185241 /* DataStoreFieldInfo+Attribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485B273622E9DE6400185241 /* DataStoreFieldInfo+Attribute.swift */; };
 		485B273A22E9DE8F00185241 /* DataStoreRelationInfo+Attribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485B273922E9DE8F00185241 /* DataStoreRelationInfo+Attribute.swift */; };
 		486081071F8CBAF500591942 /* DataStoreTableInfo+Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486081061F8CBAF500591942 /* DataStoreTableInfo+Table.swift */; };
-		4865B1AC1EC1BA3100085634 /* BrightFutures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4865B1AA1EC1BA3100085634 /* BrightFutures.framework */; };
 		486745002021B8050029924D /* NSManagedObject+Importable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486744FF2021B8050029924D /* NSManagedObject+Importable.swift */; };
 		486A22FB1F55B55C00B5A5E6 /* DataStoreContext+Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A22FA1F55B55C00B5A5E6 /* DataStoreContext+Queue.swift */; };
 		486A22FD1F55B68100B5A5E6 /* DataSync+SyncTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A22FC1F55B68100B5A5E6 /* DataSync+SyncTable.swift */; };
@@ -115,7 +113,6 @@
 		48DB1F7821ABEB1000B97E26 /* XCGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 482259D21F5EC4D600BB2A87 /* XCGLogger.framework */; };
 		48DB1F7A21ABEB1000B97E26 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483EF6171EF940F700C11B5E /* SwiftyJSON.framework */; };
 		48DB1F7B21ABEB1000B97E26 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483EF6121EF9401E00C11B5E /* Alamofire.framework */; };
-		48DB1F7C21ABEB1000B97E26 /* BrightFutures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483EF6131EF9401E00C11B5E /* BrightFutures.framework */; };
 		48DB1F7D21ABEB1000B97E26 /* Moya.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483EF6141EF9401E00C11B5E /* Moya.framework */; };
 		48DB1F7E21ABEB1000B97E26 /* Prephirences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483EF6151EF9401E00C11B5E /* Prephirences.framework */; };
 		48DB1F8021ABEBE700B97E26 /* FileKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 481BFB791F4F27FD007B77C8 /* FileKit.framework */; };
@@ -172,7 +169,6 @@
 		4837277D1EB8A8DF0060B064 /* DataSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSync.swift; sourceTree = "<group>"; };
 		4837277F1EB8AD940060B064 /* Moya.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Moya.framework; path = Carthage/Build/iOS/Moya.framework; sourceTree = "<group>"; };
 		483727831EB8ADAE0060B064 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
-		483D549D1F3320790061D1FE /* SequenceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequenceTests.swift; sourceTree = "<group>"; };
 		483EF60E1EF925BB00C11B5E /* DataStoreIntegrationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStoreIntegrationTests.swift; sourceTree = "<group>"; };
 		483EF6121EF9401E00C11B5E /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/Mac/Alamofire.framework; sourceTree = "<group>"; };
 		483EF6131EF9401E00C11B5E /* BrightFutures.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BrightFutures.framework; path = Carthage/Build/Mac/BrightFutures.framework; sourceTree = "<group>"; };
@@ -300,7 +296,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				48C55E9F1EB8A4A100F9ECAC /* QMobileDataSync.framework in Frameworks */,
-				4865B1AC1EC1BA3100085634 /* BrightFutures.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,7 +305,6 @@
 			files = (
 				48DB1F7721ABEB1000B97E26 /* ObjcExceptionBridging.framework in Frameworks */,
 				48DB1F7821ABEB1000B97E26 /* XCGLogger.framework in Frameworks */,
-				48DB1F7C21ABEB1000B97E26 /* BrightFutures.framework in Frameworks */,
 				48DB1F7A21ABEB1000B97E26 /* SwiftyJSON.framework in Frameworks */,
 				48DB1F7B21ABEB1000B97E26 /* Alamofire.framework in Frameworks */,
 				48DB1F7D21ABEB1000B97E26 /* Moya.framework in Frameworks */,
@@ -329,7 +323,6 @@
 			children = (
 				481EDC761F4C724500E97960 /* LocalizableTests.swift */,
 				4855548F1ECAEC85001EE365 /* TableStampStorageTests.swift */,
-				483D549D1F3320790061D1FE /* SequenceTests.swift */,
 				486B24781F56B23700706B92 /* FutureTests.swift */,
 			);
 			name = Simple;
@@ -911,7 +904,6 @@
 				"$(SRCROOT)/Carthage/Build/iOS/Moya.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/QMobileAPI.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/BrightFutures.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/FileKit.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/DeviceKit.framework",
 			);
@@ -1003,7 +995,6 @@
 				485554901ECAEC85001EE365 /* TableStampStorageTests.swift in Sources */,
 				486B24791F56B23700706B92 /* FutureTests.swift in Sources */,
 				485554EC1ECAF2E5001EE365 /* RemoteConfig.swift in Sources */,
-				483D549E1F3320790061D1FE /* SequenceTests.swift in Sources */,
 				485554F51ECB2B71001EE365 /* DataStoreTableStampStorageTests.swift in Sources */,
 				4811229E1F682888001EE34E /* DataDumpTests.swift in Sources */,
 				48FBBFB01F554C2100E920B6 /* ServerStatusTests.swift in Sources */,
