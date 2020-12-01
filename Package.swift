@@ -6,8 +6,8 @@ import PackageDescription
 let package = Package(
     name: "QMobileDataSync",
     platforms: [
-        .macOS(.v10_14),
-        .iOS(.v13)
+        .macOS(.v10_15),
+        .iOS(.v14)
     ],
     products: [
         .library(name: "QMobileDataSync", targets: ["QMobileDataSync"]),
@@ -16,7 +16,6 @@ let package = Package(
         .package(url: "https://gitlab-4d.private.4d.fr/qmobile/QMobileAPI.git", .revision("HEAD")),
         .package(url: "https://gitlab-4d.private.4d.fr/qmobile/QMobileDataStore.git", .revision("HEAD")),
 
-        .package(url: "https://github.com/Thomvis/BrightFutures.git", from: "8.0.1"),
         .package(url: "https://github.com/nvzqz/FileKit.git", from: "6.0.0"),
 
         .package(url: "https://github.com/DaveWoodCom/XCGLogger.git", from: "7.0.0"),
@@ -33,7 +32,6 @@ let package = Package(
             dependencies: [
                 "QMobileAPI",
                 "QMobileDataStore",
-                "BrightFutures",
                 "FileKit",
                 "XCGLogger",
                 "Alamofire",
