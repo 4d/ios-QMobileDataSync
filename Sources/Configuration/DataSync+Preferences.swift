@@ -72,7 +72,11 @@ extension Prephirences {
         /// Use newSync code, by default true
         public static var newSync: Bool {
             get {
+                #if os(macOS)
+                return instance["newSync"] as? Bool ?? false
+                #else
                 return instance["newSync"] as? Bool ?? true
+                #endif
             }
             set {
                 instance["newSync"] = newValue
