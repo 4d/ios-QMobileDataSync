@@ -463,17 +463,18 @@ extension DataSync {
 
                         let future = this.syncDeletedRecods(in: context, operation: operation, startStamp: 0, endStamp: stamp)
                         future.onSuccess { deletedRecords in
+                            context.perform(wait: true) {
+                                this.deleteRecords(deletedRecords, in: context)
 
-                            this.deleteRecords(deletedRecords, in: context)
+                                // finally flush the context.
+                                do {
+                                    try context.commit()
 
-                            // finally flush the context.
-                            do {
-                                try context.commit()
-
-                                // call success
-                                completionHandler(.success(()))
-                            } catch {
-                                completionHandler(.failure(DataSyncError.error(from: error)))
+                                    // call success
+                                    completionHandler(.success(()))
+                                } catch {
+                                    completionHandler(.failure(DataSyncError.error(from: error)))
+                                }
                             }
                         }.onFailure { error in
                             completionHandler(.failure(DataSyncError.apiError(error)))

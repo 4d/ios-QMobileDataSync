@@ -61,10 +61,10 @@ extension DataSync {
             }
             stampStorage.globalStamp = globalStamp
             logger.info("set global stamp \(stampStorage.globalStamp)")
-        }
 
-        // finally flush the context.
-        try context.commit()
+            // finally flush the context.
+            try context.commit()
+        }
 
         self.dataSyncDidLoad(tables)
     }
@@ -81,7 +81,9 @@ extension DataSync {
             assert(ImportableParser.tableName(for: json) == tableInfo.originalName) // file with wrong format and an another table, renamed?
 
             // Parse the records from json and create core data object in passed context.
-            let records = try table.parser.parseArray(json: json, with: DataSyncBuilder(table: table, tableInfo: tableInfo, context: context))
+            let builder = DataSyncBuilder(table: table, tableInfo: tableInfo, context: context)
+            // let records = try table.parser.parseArray(json: json, with: builder)
+            let records = try builder.parseArray(json: json)
             logger.info("\(records.count) records imported from '\(tableName)' file")
 
             try? cacheFile.deleteFile()
