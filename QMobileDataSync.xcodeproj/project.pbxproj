@@ -136,6 +136,8 @@
 		48FF5C5524E56E730099B94D /* DataStoreAssignmentPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FF5C4224E56E730099B94D /* DataStoreAssignmentPolicy.swift */; };
 		48FF5C5624E56E730099B94D /* ObjectRef.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FF5C4424E56E730099B94D /* ObjectRef.swift */; };
 		48FF5C5824E57CA70099B94D /* Dictionary+KeyPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FF5C5724E57CA70099B94D /* Dictionary+KeyPath.swift */; };
+		C4495C352599EB62003FC4B0 /* DataSync+SyncRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4495C342599EB62003FC4B0 /* DataSync+SyncRecord.swift */; };
+		C4495C362599EB62003FC4B0 /* DataSync+SyncRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4495C342599EB62003FC4B0 /* DataSync+SyncRecord.swift */; };
 		C5EFDC4922F1E4420094A0B4 /* CLIENTS(2).json in Resources */ = {isa = PBXBuildFile; fileRef = C5EFDC3E22F1E4410094A0B4 /* CLIENTS(2).json */; };
 		C5EFDC4B22F1E4420094A0B4 /* PRODUCTS.json in Resources */ = {isa = PBXBuildFile; fileRef = C5EFDC4022F1E4410094A0B4 /* PRODUCTS.json */; };
 		C5EFDC4D22F1E4420094A0B4 /* INVOICES.json in Resources */ = {isa = PBXBuildFile; fileRef = C5EFDC4222F1E4410094A0B4 /* INVOICES.json */; };
@@ -264,6 +266,7 @@
 		48FF5C4224E56E730099B94D /* DataStoreAssignmentPolicy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStoreAssignmentPolicy.swift; sourceTree = "<group>"; };
 		48FF5C4424E56E730099B94D /* ObjectRef.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectRef.swift; sourceTree = "<group>"; };
 		48FF5C5724E57CA70099B94D /* Dictionary+KeyPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+KeyPath.swift"; sourceTree = "<group>"; };
+		C4495C342599EB62003FC4B0 /* DataSync+SyncRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataSync+SyncRecord.swift"; sourceTree = "<group>"; };
 		C5EFDC3E22F1E4410094A0B4 /* CLIENTS(2).json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "CLIENTS(2).json"; sourceTree = "<group>"; };
 		C5EFDC4022F1E4410094A0B4 /* PRODUCTS.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PRODUCTS.json; sourceTree = "<group>"; };
 		C5EFDC4222F1E4410094A0B4 /* INVOICES.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = INVOICES.json; sourceTree = "<group>"; };
@@ -455,6 +458,7 @@
 				486A22FE1F55B69400B5A5E6 /* DataSync+Init.swift */,
 				484429001EC999A6008658B8 /* DataSync+Sync.swift */,
 				486A22FC1F55B68100B5A5E6 /* DataSync+SyncTable.swift */,
+				C4495C342599EB62003FC4B0 /* DataSync+SyncRecord.swift */,
 				4854D34B23EC6EA000C518B2 /* DataSync+Deletable.swift */,
 				484428FC1EC9995E008658B8 /* DataSync+Process.swift */,
 				489C15D91F3B42A5004844F3 /* DataSync+Cancellable.swift */,
@@ -975,6 +979,7 @@
 				48FF5C4A24E56E730099B94D /* DataStoreObjectCache+CoreData.swift in Sources */,
 				486081071F8CBAF500591942 /* DataStoreTableInfo+Table.swift in Sources */,
 				484428FD1EC9995E008658B8 /* DataSync+Process.swift in Sources */,
+				C4495C352599EB62003FC4B0 /* DataSync+SyncRecord.swift in Sources */,
 				4811229C1F682001001EE34E /* DataSync+Dump.swift in Sources */,
 				48FF5C4524E56E730099B94D /* DataStoreMapping.swift in Sources */,
 				48572BBB22144DEA005D1AFC /* Lockable.swift in Sources */,
@@ -1027,6 +1032,7 @@
 				48DB1F6D21ABEA8800B97E26 /* Array+Sync.swift in Sources */,
 				48572BC3221450FF005D1AFC /* Date+StartOfDay.swift in Sources */,
 				48DB1F6C21ABEA8800B97E26 /* NSManagedObject+Importable.swift in Sources */,
+				C4495C362599EB62003FC4B0 /* DataSync+SyncRecord.swift in Sources */,
 				48DB1F7021ABEA8800B97E26 /* DispatchQueue+Sync.swift in Sources */,
 				48DB1F5F21ABEA7B00B97E26 /* DataSync+Process.swift in Sources */,
 				48DB1F6321ABEA7B00B97E26 /* DataSyncDelegate.swift in Sources */,

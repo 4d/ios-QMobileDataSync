@@ -26,9 +26,11 @@ extension DataSync: Cancellable {
                 // wait
                 logger.warning("A \(process.operation.description) is in progress. The \(operation.description) will be cancelled.")
                 return false
-            case .sync:
+            case .sync, .record:
                 return goOn // just continue, let wait on serial queue
             }
+        case .record:
+            return goOn // just continue, let wait on serial queue
         }
     }
 

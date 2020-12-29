@@ -93,6 +93,13 @@ extension DataSync {
                               on: callbackQueue,
                               cancellable: cancellable,
                               completionHandler: completionHandler)
+            case .record(let tableName, let primaryKeyValue):
+                this.doSyncRecord(tableName: tableName,
+                                  primaryKeyValue: primaryKeyValue,
+                              in: dataStoreContextType,
+                              on: callbackQueue,
+                              cancellable: cancellable,
+                              completionHandler: completionHandler)
             }
 
         }.onFailure { error in  // on failure juste send the error
