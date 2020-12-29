@@ -23,12 +23,12 @@ import QMobileDataStore
 extension DataSync {
 
     // MARK: SyncRecord
-    func doSyncRecord(tableName: String, //swiftlint:disable:this function_body_length
-                              primaryKeyValue: Any,
-                              in contextType: DataStoreContextType = .background,
-                              on callbackQueue: DispatchQueue? = nil,
-                              cancellable: CancellableComposite,
-                              completionHandler: @escaping SyncCompletionHandler) {
+    func doSyncRecord(tableName: String,
+                      primaryKeyValue: Any,
+                      in contextType: DataStoreContextType = .background,
+                      on callbackQueue: DispatchQueue? = nil,
+                      cancellable: CancellableComposite,
+                      completionHandler: @escaping SyncCompletionHandler) {
         let operation: Operation = .record(tableName, primaryKeyValue)
         logger.info("Start data \(operation.description)")
         // Ask delegate if there is any reason to stop process
@@ -60,9 +60,10 @@ extension DataSync {
                 case .success(let importedRecord):
                     logger.info("Record \(tableName) with primary key \(primaryKeyValue) imported")
                     logger.verbose("\(importedRecord)")
-
+                    completionHandler(.success(()))
                 case .failure(let error):
                     logger.warning("Failed to import record \(tableName) with primary key \(primaryKeyValue): \(error)")
+                    completionHandler(.failure(.apiError(error)))
                 }
             }
             cancellable.append(cancellableRequest)
