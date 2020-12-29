@@ -27,10 +27,10 @@
 "dataSync.noTables.recover" = "Admistrator of application must create accessible data.";
 
 /* a recover message the tables defined in mobile app are not in 4D server */
-"dataSync.missingRemoteTables.recovery" = "Please update your app or contact service administrator.";
+"dataSync.missingRemoteTables.recovery" = "Please update your app \nor contact service administrator.";
 
 /* a recover message the tables defined in mobile app are not in 4D server */
-"dataSync.missingRemoteTableAttributes.recovery" = "Please update your app or contact service administrator.";
+"dataSync.missingRemoteTableAttributes.recovery" = "Please update your app \nor contact service administrator.";
 
 /* store for data is not yet ready to */
 "dataStore.notReady" = "Application is not ready.";
