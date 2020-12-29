@@ -23,15 +23,19 @@ extension DataSync {
         case sync
         /// Total.
         case reload
+        /// One record.
+        case record(String, Any)
 
         // use cache file before adding or updating records?
-        // temporary according to opeation, could be changed later (as option)
+        // temporary according to operation, could be changed later (as option)
         var useCache: Bool {
             switch self {
             case .sync:
                 return false
             case .reload:
                 return true
+            case .record:
+                return false
             }
         }
 
@@ -41,6 +45,8 @@ extension DataSync {
                 return "synchronization"
             case .reload:
                 return "reloading"
+            case .record(let tableName, let primaryKeyValue):
+                return "record(\(tableName), \(primaryKeyValue)) synchronization"
             }
         }
 
@@ -50,6 +56,8 @@ extension DataSync {
                 return "synchronized"
             case .reload:
                 return "reloaded"
+            case .record:
+                return "one record synchronized"
             }
         }
     }
