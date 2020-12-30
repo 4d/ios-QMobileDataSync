@@ -76,19 +76,23 @@ extension DataSync {
         }
     }
 
+    fileprivate var notificationObject: Any? {
+        return nil // self (if not singleton)
+    }
+
     func dataSyncWillLoad(_ tables: [Table]) {
-        Notification(name: .dataSyncWillLoad, object: self, userInfo: [NotificationUserInfoKey.tables: tables]).post()
+        Notification(name: .dataSyncWillLoad, object: notificationObject, userInfo: [NotificationUserInfoKey.tables: tables]).post()
         self.delegate?.willDataSyncWillLoad(tables: self.tables)
     }
 
     func dataSyncDidLoad(_ tables: [Table]) {
-        Notification(name: .dataSyncDidLoad, object: self, userInfo: [NotificationUserInfoKey.tables: tables]).post()
+        Notification(name: .dataSyncDidLoad, object: notificationObject, userInfo: [NotificationUserInfoKey.tables: tables]).post()
         self.delegate?.willDataSyncDidLoad(tables: self.tables)
     }
 
     func dataSyncWillBegin(_ operation: Operation, cancellable: Cancellable) {
         logger.debug("Data \(operation) will begin")
-        Notification(name: .dataSyncWillBegin, object: self, userInfo: [NotificationUserInfoKey.tables: self.tables,
+        Notification(name: .dataSyncWillBegin, object: notificationObject, userInfo: [NotificationUserInfoKey.tables: self.tables,
                                                                         NotificationUserInfoKey.operation: operation,
                                                                         NotificationUserInfoKey.cancellable: cancellable]).post()
         self.delegate?.willDataSyncWillBegin(tables: self.tables, operation: operation, cancellable: cancellable)
@@ -96,14 +100,14 @@ extension DataSync {
 
     func dataSyncDidBegin(_ operation: Operation) -> Bool {
         logger.debug("Data \(operation) did begin")
-        Notification(name: .dataSyncDidBegin, object: self, userInfo: [NotificationUserInfoKey.tables: self.tables,
+        Notification(name: .dataSyncDidBegin, object: notificationObject, userInfo: [NotificationUserInfoKey.tables: self.tables,
                                                                        NotificationUserInfoKey.operation: operation]).post()
         return self.delegate?.willDataSyncDidBegin(tables: self.tables, operation: operation) ?? false
     }
 
     func dataSyncBegin(for table: Table, _ operation: Operation) {
         logger.debug("Load records for \(table.name)")
-        Notification(name: .dataSyncForTableBegin, object: self, userInfo: [NotificationUserInfoKey.table: table,
+        Notification(name: .dataSyncForTableBegin, object: notificationObject, userInfo: [NotificationUserInfoKey.table: table,
                                                                             NotificationUserInfoKey.operation: operation]).post()
         self.delegate?.willDataSyncBegin(for: table, operation: operation)
     }
@@ -111,7 +115,7 @@ extension DataSync {
     func dataSyncEnd(for table: Table, with pageInfo: PageInfo, _ operation: Operation) {
         logger.debug("Receive page '\(pageInfo)' for table '\(table.name)'")
         self.delegate?.didDataSyncEnd(for: table, page: pageInfo, operation: operation)
-        Notification(name: .dataSyncForTableSuccess, object: self, userInfo: [NotificationUserInfoKey.table: table,
+        Notification(name: .dataSyncForTableSuccess, object: notificationObject, userInfo: [NotificationUserInfoKey.table: table,
                                                                               NotificationUserInfoKey.pageInfo: pageInfo,
                                                                               NotificationUserInfoKey.operation: operation]).post()
     }
@@ -127,7 +131,7 @@ extension DataSync {
         }
 
         let dataSyncError: DataSyncError = .apiError(error)
-        Notification(name: .dataSyncForTableFailed, object: self, userInfo: [NotificationUserInfoKey.table: table,
+        Notification(name: .dataSyncForTableFailed, object: notificationObject, userInfo: [NotificationUserInfoKey.table: table,
                                                                              NSUnderlyingErrorKey: dataSyncError,
                                                                              NotificationUserInfoKey.operation: operation]).post()
         self.delegate?.didDataSyncFailed(for: table, error: dataSyncError, operation: operation)

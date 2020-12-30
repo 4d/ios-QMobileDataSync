@@ -354,7 +354,7 @@ extension DataSync {
         }
     }
 
-    func syncProcessCompletionSuccess(in context: DataStoreContext,
+    func syncProcessCompletionSuccess(in context: DataStoreContext, //swiflint:disable:this function_parameter_count
                                       operation: DataSync.Operation,
                                       startStamp: TableStampStorage.Stamp,
                                       endStamp: TableStampStorage.Stamp,
