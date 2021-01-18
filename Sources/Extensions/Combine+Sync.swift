@@ -93,7 +93,12 @@ extension Publisher {
     public func onComplete(_ callback:  @escaping (Result<Output, Failure>) -> Void) -> OnPublisher<Self> {
         return OnPublisher(publisher: self).onComplete(callback)
     }
-
+    public func receiveOnForeground() -> AnyPublisher<Self.Output, Self.Failure> {
+        return receive(on: DispatchQueue.main).eraseToAnyPublisher()
+    }
+    public func receiveOnBackground() -> AnyPublisher<Self.Output, Self.Failure> {
+        return receive(on: DispatchQueue.background).eraseToAnyPublisher()
+    }
 }
 
 public class OnPublisher<P: Publisher> {
