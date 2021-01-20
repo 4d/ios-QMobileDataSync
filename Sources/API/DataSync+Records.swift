@@ -347,7 +347,7 @@ extension DataStoreTableInfo {
                         if field.simpleDate {
                             return string.simpleDate ?? string.dateFromISO8601 // could remove dateFromISO8601
                         }
-                        return string.dateFromISO8601
+                        return string.dateFromISO8601 ?? string.simpleDate
                     }
                     return  nil
                 }, reverseMap: nil/* not implemented if not pushing data*/)
