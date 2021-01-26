@@ -104,7 +104,7 @@ extension Publisher {
 public class OnPublisher<P: Publisher> {
 
     var publisher: P
-    var value: P.Output!
+    var value: P.Output?
     var success: ((P.Output) -> Void)?
     var failure: ((P.Failure) -> Void)?
     var complete: ((Result<P.Output, P.Failure>) -> Void)?
@@ -135,8 +135,14 @@ public class OnPublisher<P: Publisher> {
                 self.failure?(error)
                 self.complete?(.failure(error))
             case .finished:
-                self.success?(self.value) // check void isse
-                self.complete?(.success(self.value)) // check void isse
+                if let value = self.value {
+                    self.success?(value)
+                    self.complete?(.success(value))
+                } else {
+                    // do not receive value if void, try to cast but if nothing receive and finished...
+                    self.success?(() as! P.Output) // swiftlint:disable:this force_cast
+                    self.complete?(.success(() as! P.Output)) // swiftlint:disable:this force_cast
+                }
             }
         }, receiveValue: { value in
             assert(self.value==nil) // expect only one when using OnPublisher

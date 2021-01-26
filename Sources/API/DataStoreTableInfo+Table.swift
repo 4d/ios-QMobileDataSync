@@ -62,7 +62,7 @@ extension DataStoreTableInfo {
 
     // MARK: properties
 
-    var originalName: String {
+    public var originalName: String {
         return userInfo(.keyMapping) ?? self.name
     }
 
