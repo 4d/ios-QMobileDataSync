@@ -47,8 +47,7 @@
 		485554E51ECAEF68001EE365 /* resttable.json in Resources */ = {isa = PBXBuildFile; fileRef = 485554BD1ECAEF68001EE365 /* resttable.json */; };
 		485554EA1ECAF04A001EE365 /* Invoices.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 485554E81ECAF04A001EE365 /* Invoices.xcdatamodeld */; };
 		485554EC1ECAF2E5001EE365 /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485554EB1ECAF2E5001EE365 /* RemoteConfig.swift */; };
-		485554F01ECAFE35001EE365 /* DataStore+Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485554ED1ECAF853001EE365 /* DataStore+Future.swift */; };
-		485554F31ECB00D4001EE365 /* DataSync+Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485554F11ECB004C001EE365 /* DataSync+Future.swift */; };
+		485554F31ECB00D4001EE365 /* DataSync+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485554F11ECB004C001EE365 /* DataSync+Combine.swift */; };
 		485554F51ECB2B71001EE365 /* DataStoreTableStampStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485554F41ECB2B71001EE365 /* DataStoreTableStampStorageTests.swift */; };
 		48572BBB22144DEA005D1AFC /* Lockable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48572BBA22144DEA005D1AFC /* Lockable.swift */; };
 		48572BBD22145081005D1AFC /* Calendar+Zone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48572BBC22145081005D1AFC /* Calendar+Zone.swift */; };
@@ -67,7 +66,6 @@
 		486A22FD1F55B68100B5A5E6 /* DataSync+SyncTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A22FC1F55B68100B5A5E6 /* DataSync+SyncTable.swift */; };
 		486A22FF1F55B69400B5A5E6 /* DataSync+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A22FE1F55B69400B5A5E6 /* DataSync+Init.swift */; };
 		486A23011F55B74300B5A5E6 /* DispatchQueue+Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A23001F55B74300B5A5E6 /* DispatchQueue+Sync.swift */; };
-		486A23041F55BF9D00B5A5E6 /* Combine+Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A23031F55BF9D00B5A5E6 /* Combine+Sync.swift */; };
 		486B24791F56B23700706B92 /* FutureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486B24781F56B23700706B92 /* FutureTests.swift */; };
 		487F7FEA1F570C7D0064AF4B /* DataReloadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487F7FE91F570C7D0064AF4B /* DataReloadTests.swift */; };
 		489C15DA1F3B42A5004844F3 /* DataSync+Cancellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489C15D91F3B42A5004844F3 /* DataSync+Cancellable.swift */; };
@@ -104,10 +102,7 @@
 		48DB1F6E21ABEA8800B97E26 /* Sequence+Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484428FA1EC99922008658B8 /* Sequence+Result.swift */; };
 		48DB1F6F21ABEA8800B97E26 /* DataStoreContext+Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A22FA1F55B55C00B5A5E6 /* DataStoreContext+Queue.swift */; };
 		48DB1F7021ABEA8800B97E26 /* DispatchQueue+Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A23001F55B74300B5A5E6 /* DispatchQueue+Sync.swift */; };
-		48DB1F7121ABEA8800B97E26 /* Combine+Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486A23031F55BF9D00B5A5E6 /* Combine+Sync.swift */; };
-		48DB1F7221ABEA8D00B97E26 /* DataStore+Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485554ED1ECAF853001EE365 /* DataStore+Future.swift */; };
-		48DB1F7321ABEA8D00B97E26 /* DataSync+Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485554F11ECB004C001EE365 /* DataSync+Future.swift */; };
-		48DB1F7421ABEA8D00B97E26 /* API+Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FBBFAD1F554A4000E920B6 /* API+Future.swift */; };
+		48DB1F7321ABEA8D00B97E26 /* DataSync+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485554F11ECB004C001EE365 /* DataSync+Combine.swift */; };
 		48DB1F7521ABEA9000B97E26 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 481EDC7A1F4C72BF00E97960 /* Localizable.strings */; };
 		48DB1F7721ABEB1000B97E26 /* ObjcExceptionBridging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 482259D31F5EC4DF00BB2A87 /* ObjcExceptionBridging.framework */; };
 		48DB1F7821ABEB1000B97E26 /* XCGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 482259D21F5EC4D600BB2A87 /* XCGLogger.framework */; };
@@ -118,7 +113,6 @@
 		48DB1F8021ABEBE700B97E26 /* FileKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 481BFB791F4F27FD007B77C8 /* FileKit.framework */; };
 		48DB1F8221ABEC3A00B97E26 /* QMobileAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48DB1F8121ABEC3900B97E26 /* QMobileAPI.framework */; };
 		48DB1F8421ABECDE00B97E26 /* QMobileDataStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48DB1F8321ABECDE00B97E26 /* QMobileDataStore.framework */; };
-		48FBBFAE1F554A4000E920B6 /* API+Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FBBFAD1F554A4000E920B6 /* API+Future.swift */; };
 		48FBBFB01F554C2100E920B6 /* ServerStatusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FBBFAF1F554C2100E920B6 /* ServerStatusTests.swift */; };
 		48FF5C4524E56E730099B94D /* DataStoreMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FF5C2B24E56E730099B94D /* DataStoreMapping.swift */; };
 		48FF5C4624E56E730099B94D /* DataStoreRelationship.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FF5C2D24E56E730099B94D /* DataStoreRelationship.swift */; };
@@ -206,8 +200,7 @@
 		485554BD1ECAEF68001EE365 /* resttable.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = resttable.json; sourceTree = "<group>"; };
 		485554E91ECAF04A001EE365 /* Invoices.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Invoices.xcdatamodel; sourceTree = "<group>"; };
 		485554EB1ECAF2E5001EE365 /* RemoteConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteConfig.swift; sourceTree = "<group>"; };
-		485554ED1ECAF853001EE365 /* DataStore+Future.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataStore+Future.swift"; sourceTree = "<group>"; };
-		485554F11ECB004C001EE365 /* DataSync+Future.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Future.swift"; sourceTree = "<group>"; };
+		485554F11ECB004C001EE365 /* DataSync+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Combine.swift"; sourceTree = "<group>"; };
 		485554F41ECB2B71001EE365 /* DataStoreTableStampStorageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStoreTableStampStorageTests.swift; sourceTree = "<group>"; };
 		48572BBA22144DEA005D1AFC /* Lockable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lockable.swift; sourceTree = "<group>"; };
 		48572BBC22145081005D1AFC /* Calendar+Zone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Zone.swift"; sourceTree = "<group>"; };
@@ -224,7 +217,6 @@
 		486A22FC1F55B68100B5A5E6 /* DataSync+SyncTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+SyncTable.swift"; sourceTree = "<group>"; };
 		486A22FE1F55B69400B5A5E6 /* DataSync+Init.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Init.swift"; sourceTree = "<group>"; };
 		486A23001F55B74300B5A5E6 /* DispatchQueue+Sync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DispatchQueue+Sync.swift"; sourceTree = "<group>"; };
-		486A23031F55BF9D00B5A5E6 /* Combine+Sync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Combine+Sync.swift"; sourceTree = "<group>"; };
 		486B24781F56B23700706B92 /* FutureTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FutureTests.swift; sourceTree = "<group>"; };
 		487F7FE91F570C7D0064AF4B /* DataReloadTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataReloadTests.swift; sourceTree = "<group>"; };
 		489C15D91F3B42A5004844F3 /* DataSync+Cancellable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Cancellable.swift"; sourceTree = "<group>"; };
@@ -248,7 +240,6 @@
 		48DB1F8321ABECDE00B97E26 /* QMobileDataStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QMobileDataStore.framework; path = Carthage/Build/Mac/QMobileDataStore.framework; sourceTree = "<group>"; };
 		48EB167122F8633C006238B6 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		48EB167222F8643D006238B6 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		48FBBFAD1F554A4000E920B6 /* API+Future.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "API+Future.swift"; sourceTree = "<group>"; };
 		48FBBFAF1F554C2100E920B6 /* ServerStatusTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerStatusTests.swift; sourceTree = "<group>"; };
 		48FF5C2B24E56E730099B94D /* DataStoreMapping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStoreMapping.swift; sourceTree = "<group>"; };
 		48FF5C2D24E56E730099B94D /* DataStoreRelationship.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStoreRelationship.swift; sourceTree = "<group>"; };
@@ -463,6 +454,7 @@
 				484428FC1EC9995E008658B8 /* DataSync+Process.swift */,
 				489C15D91F3B42A5004844F3 /* DataSync+Cancellable.swift */,
 				484803841EBC76D70094D84C /* DataSync+Singleton.swift */,
+				485554F11ECB004C001EE365 /* DataSync+Combine.swift */,
 				484428F81EC998F0008658B8 /* DataSyncError.swift */,
 				484428F61EC998D0008658B8 /* DataSyncDelegate.swift */,
 				4843784C1F471C02004C5101 /* DataSync+Notification.swift */,
@@ -473,7 +465,6 @@
 				48FF5C4324E56E730099B94D /* Utility */,
 				48CD5F6724E682F7001D367F /* Extensions */,
 				48CD5F6824E68311001D367F /* API */,
-				48CD5F6924E68327001D367F /* Future */,
 				481EDC7A1F4C72BF00E97960 /* Localizable.strings */,
 			);
 			path = Sources;
@@ -533,7 +524,6 @@
 				484428FA1EC99922008658B8 /* Sequence+Result.swift */,
 				486A22FA1F55B55C00B5A5E6 /* DataStoreContext+Queue.swift */,
 				486A23001F55B74300B5A5E6 /* DispatchQueue+Sync.swift */,
-				486A23031F55BF9D00B5A5E6 /* Combine+Sync.swift */,
 				48572BBA22144DEA005D1AFC /* Lockable.swift */,
 				48572BBC22145081005D1AFC /* Calendar+Zone.swift */,
 				48572BBE22145093005D1AFC /* Date+StartOfDay.swift */,
@@ -556,16 +546,6 @@
 				485B273922E9DE8F00185241 /* DataStoreRelationInfo+Attribute.swift */,
 			);
 			path = API;
-			sourceTree = "<group>";
-		};
-		48CD5F6924E68327001D367F /* Future */ = {
-			isa = PBXGroup;
-			children = (
-				485554ED1ECAF853001EE365 /* DataStore+Future.swift */,
-				485554F11ECB004C001EE365 /* DataSync+Future.swift */,
-				48FBBFAD1F554A4000E920B6 /* API+Future.swift */,
-			);
-			path = Future;
 			sourceTree = "<group>";
 		};
 		48DB1F5321ABEA6B00B97E26 /* macOS */ = {
@@ -951,7 +931,6 @@
 				48FF5C4724E56E730099B94D /* DataStoreProperty.swift in Sources */,
 				48FF5C4624E56E730099B94D /* DataStoreRelationship.swift in Sources */,
 				484803851EBC76D70094D84C /* DataSync+Singleton.swift in Sources */,
-				485554F01ECAFE35001EE365 /* DataStore+Future.swift in Sources */,
 				48FF5C5824E57CA70099B94D /* Dictionary+KeyPath.swift in Sources */,
 				484803831EBC768E0094D84C /* DataSync+Preferences.swift in Sources */,
 				486A23011F55B74300B5A5E6 /* DispatchQueue+Sync.swift in Sources */,
@@ -972,10 +951,8 @@
 				48FF5C5524E56E730099B94D /* DataStoreAssignmentPolicy.swift in Sources */,
 				4843784D1F471C02004C5101 /* DataSync+Notification.swift in Sources */,
 				484803A51EBCB5C50094D84C /* DataSync+Records.swift in Sources */,
-				48FBBFAE1F554A4000E920B6 /* API+Future.swift in Sources */,
-				485554F31ECB00D4001EE365 /* DataSync+Future.swift in Sources */,
+				485554F31ECB00D4001EE365 /* DataSync+Combine.swift in Sources */,
 				489C15DA1F3B42A5004844F3 /* DataSync+Cancellable.swift in Sources */,
-				486A23041F55BF9D00B5A5E6 /* Combine+Sync.swift in Sources */,
 				48FF5C4A24E56E730099B94D /* DataStoreObjectCache+CoreData.swift in Sources */,
 				486081071F8CBAF500591942 /* DataStoreTableInfo+Table.swift in Sources */,
 				484428FD1EC9995E008658B8 /* DataSync+Process.swift in Sources */,
@@ -1015,14 +992,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				48DB1F7421ABEA8D00B97E26 /* API+Future.swift in Sources */,
 				48DB1F6121ABEA7B00B97E26 /* DataSync+Singleton.swift in Sources */,
-				48DB1F7121ABEA8800B97E26 /* Combine+Sync.swift in Sources */,
 				48DB1F6B21ABEA8300B97E26 /* DataSync+Preferences.swift in Sources */,
 				48DB1F5E21ABEA7B00B97E26 /* DataSync+SyncTable.swift in Sources */,
 				48DB1F6A21ABEA7F00B97E26 /* DataStoreTableInfo+Table.swift in Sources */,
 				48DB1F5C21ABEA7B00B97E26 /* DataSync+Sync.swift in Sources */,
-				48DB1F7321ABEA8D00B97E26 /* DataSync+Future.swift in Sources */,
+				48DB1F7321ABEA8D00B97E26 /* DataSync+Combine.swift in Sources */,
 				48DB1F5B21ABEA7B00B97E26 /* DataSync+Init.swift in Sources */,
 				48DB1F6F21ABEA8800B97E26 /* DataStoreContext+Queue.swift in Sources */,
 				48DB1F6921ABEA7F00B97E26 /* DataSync+Records.swift in Sources */,
@@ -1039,7 +1014,6 @@
 				48DB1F6021ABEA7B00B97E26 /* DataSync+Cancellable.swift in Sources */,
 				48DB1F6521ABEA7B00B97E26 /* DataSync+Cache.swift in Sources */,
 				48DB1F6821ABEA7F00B97E26 /* DataSync+Table.swift in Sources */,
-				48DB1F7221ABEA8D00B97E26 /* DataStore+Future.swift in Sources */,
 				48DB1F6421ABEA7B00B97E26 /* DataSync+Notification.swift in Sources */,
 				48572BC522145102005D1AFC /* Lockable.swift in Sources */,
 				48DB1F5A21ABEA7B00B97E26 /* DataSync.swift in Sources */,

@@ -8,7 +8,6 @@
 
 import Foundation
 import Combine
-import Moya
 
 import QMobileAPI
 import QMobileDataStore
@@ -17,13 +16,15 @@ extension DataSync {
 
     public func loadTable(on callbackQueue: DispatchQueue? = nil) -> SyncTableFuture {
         if !self.tables.isEmpty {
-            return SyncTableFuture(result: .success(self.tables)) // cache
+            return Just(self.tables)
+                .setFailureType(to: DataSyncError.self)
+                .eraseToAnyPublisher() // cache
         }
-        return SyncTableFuture { self.loadTable(on: callbackQueue, $0) }
+        return Future { self.loadTable(on: callbackQueue, $0) }.eraseToAnyPublisher()
     }
 
     public func loadRemoteTable(on callbackQueue: DispatchQueue? = nil) -> SyncTableFuture {
-        return SyncTableFuture { _ = self.loadRemoteTable(on: callbackQueue, $0) }
+        return Future { _ = self.loadRemoteTable(on: callbackQueue, $0) }.eraseToAnyPublisher()
     }
 
     public func sync(in dataStoreContextType: DataStoreContextType = .background, on callbackQueue: DispatchQueue? = nil) -> Future<Void, DataSyncError> {

@@ -65,7 +65,7 @@ extension DataSync {
     public typealias SyncResult = Result<Void, DataSyncError>
     public typealias SyncCompletionHandler = (SyncResult) -> Void
     public typealias SyncFuture = AnyPublisher<Void, DataSyncError>
-    public typealias SyncTableFuture = Future<[Table], DataSyncError>
+    public typealias SyncTableFuture = AnyPublisher<[Table], DataSyncError>
 
     /// check data store loaded, and tables structures loaded
     public func initFuture(dataStoreContextType: DataStoreContextType = .background,
