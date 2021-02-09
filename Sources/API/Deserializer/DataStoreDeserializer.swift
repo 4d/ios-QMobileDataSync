@@ -106,7 +106,7 @@ public class DataStoreDeserializer: NSObject {
         for relationship in mapping.relationships ?? [] {
 
             guard let relationshipRepresentation = DataStoreRepresentationUtility.rootForKeyPath(representation, relationship.keyPath) else {
-                //logger.warning("Cannot found data representation for \(representation) and mapping.rootPath \(mapping.rootPath)")
+                // logger.warning("Cannot found data representation for \(representation) and mapping.rootPath \(mapping.rootPath)")
                 continue
             }
 
@@ -141,7 +141,7 @@ public class DataStoreDeserializer: NSObject {
                 context.targetRelationshipValue = targetValue as AnyObject
 
                 let assignmentValue = relationship.assignmentPolicyClosure(context)
-                //logger.debug("Setting \(assignmentValue) to \(object) for relation \(relationship.property)")
+                // logger.debug("Setting \(assignmentValue) to \(object) for relation \(relationship.property)")
 
                 if let assignmentValue = assignmentValue, !(assignmentValue is NSNull) {
                     object.setValue(assignmentValue, forKey: relationship.property)

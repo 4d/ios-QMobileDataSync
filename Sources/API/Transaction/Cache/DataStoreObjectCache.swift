@@ -6,7 +6,7 @@ public typealias DataStoreObject = NSObject
 public typealias DataStoreObjectCacheSourceSequence = [DataStoreObject] //  NSFastEnumeration
 public typealias DataStoreObjectCacheSource = (DataStoreMapping) -> DataStoreObjectCacheSourceSequence?
 
-private var DataStoreObjectCacheSourceStub: DataStoreObjectCacheSource = { mapping in
+private var DataStoreObjectCacheSourceStub: DataStoreObjectCacheSource = { _ in
     return []
 }
 

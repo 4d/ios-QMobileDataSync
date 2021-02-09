@@ -13,7 +13,7 @@ import QMobileDataStore
 private enum DataStoreTableInfoUserInfoKey: String {
     // - Sync
 
-    ///Original name
+    /// Original name
     case keyMapping
     /// Information about primary key
     case primaryKey

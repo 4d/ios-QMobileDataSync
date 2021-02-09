@@ -57,8 +57,8 @@ public class DataSync {
     var saveMode: SaveMode = .onCompletion
 
     public enum SaveMode {
-        //case eachPage
-        //case byTable
+        // case eachPage
+        // case byTable
         case onCompletion
     }
 

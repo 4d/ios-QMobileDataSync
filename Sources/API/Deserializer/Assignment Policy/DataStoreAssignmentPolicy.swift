@@ -6,7 +6,7 @@ public enum DataStoreAssignmentPolicy {
     case collectionMerge
     case objectReplace
     case collectionReplace
-    //case custom(DataStoreAssignmentPolicyClosure) // need to implement Equatable if uncommented
+    // case custom(DataStoreAssignmentPolicyClosure) // need to implement Equatable if uncommented
 
     var closure: DataStoreAssignmentPolicyClosure {
         switch self {

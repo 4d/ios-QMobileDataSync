@@ -83,7 +83,7 @@ extension DataStoreMetadata {
             return self[TableStampStorageKey.globalStamp.rawValue] as? TableStampStorage.Stamp ?? defaultStamp
         }
         set {
-            //assert(newValue > 0)
+            // assert(newValue > 0)
             self[TableStampStorageKey.globalStamp.rawValue] = newValue
         }
     }

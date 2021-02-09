@@ -111,7 +111,7 @@ extension DataSync {
     }
 
     // MARK: Sync
-    private func doSync(operation: DataSync.Operation, //swiftlint:disable:this function_body_length
+    private func doSync(operation: DataSync.Operation, // swiftlint:disable:this function_body_length
                         in contextType: DataStoreContextType = .background,
                         on callbackQueue: DispatchQueue? = nil,
                         cancellable: CancellableComposite,
@@ -312,7 +312,7 @@ extension DataSync {
                 for table in self.tables {
                     logger.debug("Start data \(operation.description) for table \(table.name)")
 
-                    let progress: APIManager.ProgressHandler = { progress in }
+                    let progress: APIManager.ProgressHandler = { _ in }
                     let requestCancellable = self.reloadTable(table,
                                                               in: tempPath,
                                                               operation: operation,
@@ -354,7 +354,7 @@ extension DataSync {
         }
     }
 
-    func syncProcessCompletionSuccess(in context: DataStoreContext, //swiflint:disable:this function_parameter_count
+    func syncProcessCompletionSuccess(in context: DataStoreContext, // swiftlint:disable:this function_parameter_count
                                       operation: DataSync.Operation,
                                       startStamp: TableStampStorage.Stamp,
                                       endStamp: TableStampStorage.Stamp,

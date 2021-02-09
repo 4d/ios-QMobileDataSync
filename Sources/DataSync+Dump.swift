@@ -34,7 +34,7 @@ extension DataSync {
                 switch result {
                 case .success(let records):
                     dico["success"] = true
-                    //dico["table"] = table.dictionary
+                    // dico["table"] = table.dictionary
                     dico["records"] = records.map { (object: Record) -> [String: Any?] in
                         let keys = table.fields.map { $0.name }
                         var objectDico: [String: Any?] = object.dictionaryWithValues(forKeys: keys).compactMapValues { $0 }
@@ -50,7 +50,7 @@ extension DataSync {
 
                         for (relationName, relationInfo) in relationKeys {
                             guard let primaryKey = relationInfo.destinationTable?.primaryKey else {
-                                //relationDico[relationName] = nil
+                                // relationDico[relationName] = nil
                                 continue
                             }
                             if let record = relationDico[relationName] as? RecordBase {
@@ -58,7 +58,7 @@ extension DataSync {
                             } else if let records = relationDico[relationName] as? Set<RecordBase> {
                                 relationDico[relationName] = records.compactMap({ "\($0.value(forKeyPath: primaryKey) ?? "-")" })
                             } else {
-                                //relationDico[relationName] = nil
+                                // relationDico[relationName] = nil
                             }
                         }
 
@@ -106,7 +106,7 @@ extension DataSync {
                     let tableNames: [String] = context.tablesInfo.map { $0.name}
                     // let tableNames = results.filter({ $0["errors"] == nil }).compactMap({ $0["table"] as? [String: Any] }).compactMap({ $0["name"] as? String })
 
-                    //if tableNames.count == results.count {
+                    // if tableNames.count == results.count {
                     completion(.success(tableNames))
 
                 } else {
