@@ -885,7 +885,6 @@
 				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/QMobileAPI.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/FileKit.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/DeviceKit.framework",
 			);
 			outputPaths = (
 			);

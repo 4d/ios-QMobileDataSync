@@ -7,6 +7,5 @@ github "nvzqz/FileKit" # file management
 github "DaveWoodCom/XCGLogger"
 github "Moya/Moya"
 github "Alamofire/Alamofire"
-github "dennisweissmann/DeviceKit"
 github "phimage/Prephirences"
 github "SwiftyJSON/SwiftyJSON"

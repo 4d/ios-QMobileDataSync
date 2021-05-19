@@ -23,7 +23,6 @@ let package = Package(
         .package(url: "https://github.com/SwiftyJSON/SwiftyJSON.git", from: "5.0.0"),
         .package(url: "https://github.com/phimage/Prephirences.git", from: "5.1.0"),
 
-        .package(url: "https://github.com/phimage/DeviceKit.git", .branch("feature/macos")),
         .package(url: "https://github.com/Alamofire/Alamofire.git", .revision("5.0.0")),
         .package(url: "https://github.com/Moya/Moya.git", .revision("14.0.0")),
     ],
