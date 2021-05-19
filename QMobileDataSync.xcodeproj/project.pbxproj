@@ -13,7 +13,6 @@
 		481EDC731F4C568F00E97960 /* DataSync+Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481EDC721F4C568F00E97960 /* DataSync+Cache.swift */; };
 		481EDC771F4C724500E97960 /* LocalizableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481EDC761F4C724500E97960 /* LocalizableTests.swift */; };
 		481EDC781F4C72BF00E97960 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 481EDC7A1F4C72BF00E97960 /* Localizable.strings */; };
-		482259CE1F5EA3CD00BB2A87 /* DeviceKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 482259CD1F5EA3CD00BB2A87 /* DeviceKit.framework */; };
 		4837277E1EB8A8DF0060B064 /* DataSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4837277D1EB8A8DF0060B064 /* DataSync.swift */; };
 		483727801EB8AD940060B064 /* Moya.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4837277F1EB8AD940060B064 /* Moya.framework */; };
 		483727841EB8ADAE0060B064 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483727831EB8ADAE0060B064 /* Alamofire.framework */; };
@@ -159,7 +158,6 @@
 		481EDC721F4C568F00E97960 /* DataSync+Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSync+Cache.swift"; sourceTree = "<group>"; };
 		481EDC761F4C724500E97960 /* LocalizableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizableTests.swift; sourceTree = "<group>"; };
 		481EDC791F4C72BF00E97960 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		482259CD1F5EA3CD00BB2A87 /* DeviceKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DeviceKit.framework; path = Carthage/Build/iOS/DeviceKit.framework; sourceTree = "<group>"; };
 		482259D21F5EC4D600BB2A87 /* XCGLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCGLogger.framework; path = Carthage/Build/Mac/XCGLogger.framework; sourceTree = "<group>"; };
 		482259D31F5EC4DF00BB2A87 /* ObjcExceptionBridging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjcExceptionBridging.framework; path = Carthage/Build/Mac/ObjcExceptionBridging.framework; sourceTree = "<group>"; };
 		4837277D1EB8A8DF0060B064 /* DataSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSync.swift; sourceTree = "<group>"; };
@@ -275,7 +273,6 @@
 				48C55E941EB8A48300F9ECAC /* SwiftyJSON.framework in Frameworks */,
 				483727841EB8ADAE0060B064 /* Alamofire.framework in Frameworks */,
 				483727801EB8AD940060B064 /* Moya.framework in Frameworks */,
-				482259CE1F5EA3CD00BB2A87 /* DeviceKit.framework in Frameworks */,
 				48C55E901EB8A48300F9ECAC /* Prephirences.framework in Frameworks */,
 				481BFB781F4F1C1F007B77C8 /* FileKit.framework in Frameworks */,
 				48C55E921EB8A48300F9ECAC /* QMobileDataStore.framework in Frameworks */,
@@ -343,7 +340,6 @@
 		483EF6101EF93FB900C11B5E /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				482259CD1F5EA3CD00BB2A87 /* DeviceKit.framework */,
 				481BFB771F4F1C1F007B77C8 /* FileKit.framework */,
 				48C55E8B1EB8A48300F9ECAC /* QMobileDataStore.framework */,
 				48C55E8A1EB8A48300F9ECAC /* QMobileAPI.framework */,
