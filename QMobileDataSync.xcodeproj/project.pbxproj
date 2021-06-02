@@ -886,7 +886,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
+			shellScript = "carthagePath=$(which carthage)\nif [ -z \"$carthagePath\" ]; then\n    carthagePath=/usr/local/bin/carthage\nfi\n\"$carthagePath\" copy-frameworks\n";
 		};
 		48F4D39E1F444073007C7CB8 /* swiftlint autocorrect */ = {
 			isa = PBXShellScriptBuildPhase;
