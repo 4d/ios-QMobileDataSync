@@ -37,8 +37,7 @@ let package = Package(
                 "Alamofire",
                 "Moya",
                 "SwiftyJSON",
-                "Prephirences",
-                "DeviceKit"
+                "Prephirences"
             ],
             path: "Sources"),
         .testTarget(
