@@ -226,6 +226,25 @@ extension DataStoreContext {
     }
 }
 
+extension DataStore {
+    public func tableInfo(forOriginalName tableName: String) -> DataStoreTableInfo? {
+        for tableInfo in self.tablesInfo where tableInfo.originalName == tableName {
+            return tableInfo
+        }
+        return nil
+    }
+}
+
+
+extension DataStoreTableInfo {
+    public func fieldInfo(forOriginalName fieldName: String) -> DataStoreFieldInfo? {
+        for field in self.fields where field.originalName == fieldName {
+            return field
+        }
+        return nil
+    }
+}
+
 // MARK: JSON extensions
 extension Path {
     fileprivate var json: JSON? {
