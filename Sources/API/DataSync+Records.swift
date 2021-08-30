@@ -235,7 +235,6 @@ extension DataStore {
     }
 }
 
-
 extension DataStoreTableInfo {
     public func fieldInfo(forOriginalName fieldName: String) -> DataStoreFieldInfo? {
         for field in self.fields where field.originalName == fieldName {
