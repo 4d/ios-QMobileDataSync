@@ -58,6 +58,11 @@ extension DataSync {
                 case .success(let importedRecord):
                     logger.info("Record \(tableName) with primary key \(primaryKeyValue) imported")
                     logger.verbose("\(importedRecord)")
+                    do {
+                        try context.commit()
+                    } catch {
+                        logger.warning("Failed to commit record \(tableName) with primary key \(primaryKeyValue): \(error)")
+                    }
                     completionHandler(.success(()))
                 case .failure(let error):
                     logger.warning("Failed to import record \(tableName) with primary key \(primaryKeyValue): \(error)")
