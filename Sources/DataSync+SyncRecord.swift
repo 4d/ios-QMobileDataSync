@@ -60,10 +60,11 @@ extension DataSync {
                     logger.verbose("\(importedRecord)")
                     do {
                         try context.commit()
+                        completionHandler(.success(()))
                     } catch {
                         logger.warning("Failed to commit record \(tableName) with primary key \(primaryKeyValue): \(error)")
+                        completionHandler(.failure(.dataStoreError(DataStoreError.error(from: error))))
                     }
-                    completionHandler(.success(()))
                 case .failure(let error):
                     logger.warning("Failed to import record \(tableName) with primary key \(primaryKeyValue): \(error)")
                     completionHandler(.failure(.apiError(error)))
