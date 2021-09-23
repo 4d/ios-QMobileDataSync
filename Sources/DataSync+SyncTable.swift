@@ -305,15 +305,11 @@ extension DataSync {
         }
     }
 
-    /// Configure the record request
-    func configureRecordsRequest(_ request: RecordsRequest, _ tableInfo: DataStoreTableInfo, _ table: Table) {
-        /// Defined limit
-        request.limit(Prephirences.DataSync.Request.limit)
-
+    func configureRecordsRequestFilter(_ request: RecordsRequest, _ tableInfo: DataStoreTableInfo,  _ table: Table) {
         // If a filter is defined by table in data store, use it
         if let filter = tableInfo.filter {
             request.filter(filter)
-
+            
             /// Get user info to filter data
             if var params = APIManager.instance.authToken?.userInfo {
                 for (key, value) in params {
@@ -327,6 +323,14 @@ extension DataSync {
                 logger.debug("Filter query params \(params) for \(table.name) with filter \(filter)")
             }
         }
+    }
+
+    /// Configure the record request
+    func configureRecordsRequest(_ request: RecordsRequest, _ tableInfo: DataStoreTableInfo, _ table: Table) {
+        /// Defined limit
+        request.limit(Prephirences.DataSync.Request.limit)
+
+        configureRecordsRequestFilter(request, tableInfo, table)
 
         // custom limit by table
         if let limitString = tableInfo.limit, let limit = Int(limitString) {

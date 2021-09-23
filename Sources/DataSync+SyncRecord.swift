@@ -53,7 +53,11 @@ extension DataSync {
             }
             let initializer = DataSyncBuilder(table: table, tableInfo: tableInfo, context: context)
             let attributes = this.getAttributes(table)
-            let cancellableRequest = this.apiManager.loadRecord(table: table, key: "\(primaryKeyValue)", attributes: attributes, initializer: initializer, queue: callbackQueue) { result in
+            let configure: ((RecordsTargetType) -> Void) = { (request: RecordsTargetType) in
+                self?.configureRecordsRequestFilter(request, tableInfo, table)
+            }
+
+            let cancellableRequest = this.apiManager.loadRecord(table: table, key: "\(primaryKeyValue)", attributes: attributes, initializer: initializer, queue: callbackQueue, configure: configure) { result in
                 switch result {
                 case .success(let importedRecord):
                     logger.info("Record \(tableName) with primary key \(primaryKeyValue) imported")
