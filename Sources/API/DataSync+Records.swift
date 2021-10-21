@@ -317,6 +317,11 @@ extension Record: RecordImportable {
 extension Record {
     /// If in userinfo a primary key is defined, get the value for this key.
     open var primaryKeyValue: Any? {
+        // if primaryKey is original field name
+        if let fieldInfo = self.tableInfo.primaryKeyFieldInfo {
+            return self[fieldInfo.name]
+        }
+        // if primaryKey is already formatted
         guard let primaryKey = self.tableInfo.primaryKey else {
             return nil
         }
