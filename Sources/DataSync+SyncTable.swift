@@ -305,11 +305,11 @@ extension DataSync {
         }
     }
 
-    func configureRecordsRequestFilter(_ request: RecordsRequest, _ tableInfo: DataStoreTableInfo,  _ table: Table) {
+    func configureRecordsRequestFilter(_ request: RecordsRequest, _ tableInfo: DataStoreTableInfo, _ table: Table) {
         // If a filter is defined by table in data store, use it
         if let filter = tableInfo.filter {
             request.filter(filter)
-            
+
             /// Get user info to filter data
             if var params = APIManager.instance.authToken?.userInfo {
                 for (key, value) in params {

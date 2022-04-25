@@ -697,9 +697,9 @@
 			buildConfigurationList = 48C55E801EB8A09600F9ECAC /* Build configuration list for PBXNativeTarget "QMobileDataSync" */;
 			buildPhases = (
 				48F4D39E1F444073007C7CB8 /* swiftlint autocorrect */,
+				48C55E751EB8A09600F9ECAC /* Headers */,
 				48C55E731EB8A09600F9ECAC /* Sources */,
 				48C55E741EB8A09600F9ECAC /* Frameworks */,
-				48C55E751EB8A09600F9ECAC /* Headers */,
 				48C55E761EB8A09600F9ECAC /* Resources */,
 				483727891EB8AE5E0060B064 /* swiftlint */,
 			);
