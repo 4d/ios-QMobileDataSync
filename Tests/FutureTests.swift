@@ -20,7 +20,7 @@ class FutureTest: XCTestCase {
     
     var dataSync: DataSync!
     let timeout: TimeInterval = 8
-    
+    var bag: Any?
     override func setUp() {
         super.setUp()
         let bundle = Bundle(for: DataSyncTests.self)
@@ -44,28 +44,28 @@ class FutureTest: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
-    func _testOneFutureStatus() {
+
+    func testOneFutureStatus() {
         let expectation = self.expectation()
         
-        let future = dataSync.apiManager.status()
-        future.onComplete { result in
+        let future = dataSync.apiManager.status(callbackQueue: .background)
+        bag = future.onComplete { result in
             expectation.fulfill()
-        }
+        }.sink()
         
         waitExpectation(timeout: timeout)
     }
-    
+
     func testFutureResultify() {
         let expectation = self.expectation()
         
-        let future = dataSync.apiManager.status().resultify()
-        future.onComplete { result in
+        let future = dataSync.apiManager.status(callbackQueue: .background).resultify()
+        bag = future.onComplete { result in
             expectation.fulfill()
-        }
+        }.sink()
         
         waitExpectation(timeout: timeout)
     }
-    
+
 }
 
