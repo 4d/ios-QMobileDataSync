@@ -18,7 +18,8 @@ import Prephirences
 
 class DataStoreTableStampStorageTests: XCTestCase {
     
-    
+    var bag: Any?
+
     override func setUp() {
         super.setUp()
     
@@ -36,7 +37,7 @@ class DataStoreTableStampStorageTests: XCTestCase {
         let exp = self.expectation()
 
         let future = DataStoreFactory.dataStore.load()
-        future.onSuccess {
+        bag = future.onSuccess {
             guard let metadata = DataStoreFactory.dataStore.metadata else {
                 XCTFail("Metadata not available")
                 return
@@ -45,10 +46,9 @@ class DataStoreTableStampStorageTests: XCTestCase {
             self.testGetAndSetGlobalStamp(storage)
          
             exp.fulfill()
-        }
-        future.onFailure { error in
+        }.onFailure { error in
             XCTFail("\(error)")
-        }
+        }.sink()
         waitExpectation()
     }
     
@@ -59,6 +59,9 @@ class DataStoreTableStampStorageTests: XCTestCase {
         let newValue = 50
         storage.globalStamp = newValue
         XCTAssertEqual(storage.globalStamp, newValue)
+        
+        // clear
+        storage.globalStamp = defaultStamp
     }
 
     func testGetAndSetLastSync(_ storage: TableStampStorage) {

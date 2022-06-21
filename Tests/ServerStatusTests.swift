@@ -20,7 +20,8 @@ class ServerStatusTest: XCTestCase {
     
     var dataSync: DataSync!
     let timeout: TimeInterval = 20
-    
+    var bag: Any?
+
     override func setUp() {
         
         super.setUp()
@@ -66,7 +67,7 @@ class ServerStatusTest: XCTestCase {
         let future = APIManager.status(for: urls, callbackQueue: .background) { progress in
             print("\(progress)")
         }
-        _ = future.receive(on: DispatchQueue.background).onComplete { result in
+       bag = future.receive(on: DispatchQueue.background).onComplete { result in
             
             switch result {
             case .success(let subResult):

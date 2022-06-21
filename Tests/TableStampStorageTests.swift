@@ -41,6 +41,9 @@ class TableStampStorageTests: XCTestCase {
         let newValue = 50
         storage.globalStamp = newValue
         XCTAssertEqual(storage.globalStamp, newValue)
+ 
+        storage.globalStamp = defaultStamp
+        XCTAssertEqual(storage.globalStamp, defaultStamp)
     }
     
     
