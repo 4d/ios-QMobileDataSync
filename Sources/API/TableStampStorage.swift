@@ -116,7 +116,7 @@ struct PrephirencesTableStampStorage: TableStampStorage {
             return preferences[TableStampStorageKey.globalStamp.rawValue] as? TableStampStorage.Stamp ?? defaultStamp
         }
         set {
-            assert(newValue > 0)
+            assert(newValue >= 0, "global stamps must be positif or zero")
             preferences[TableStampStorageKey.globalStamp.rawValue] = newValue
         }
     }

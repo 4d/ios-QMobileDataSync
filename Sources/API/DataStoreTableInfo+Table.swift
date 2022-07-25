@@ -18,7 +18,7 @@ private enum DataStoreTableInfoUserInfoKey: String {
     /// Information about primary key
     case primaryKey
     /// If defined, only slave table (ie. used with relation only)
-    case slave
+    case slave // swiftlint:disable:this inclusive_language
     // has global stamp
     case globalStamp
 
@@ -114,11 +114,11 @@ extension DataStoreTableInfo {
         return nil
     }
 
-    var slave: String? {
+    var slave: String? { // swiftlint:disable:this inclusive_language
         return self.userInfo(.slave)
     }
 
-    var isSlave: Bool {
+    var isSlave: Bool { // swiftlint:disable:this inclusive_language
         return slave != nil
     }
 
