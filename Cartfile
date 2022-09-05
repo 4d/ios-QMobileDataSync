@@ -1,5 +1,5 @@
-git "https://gitlab-4d.private.4d.fr/qmobile/ios/QMobileDataStore.git" "HEAD"
-git "https://gitlab-4d.private.4d.fr/qmobile/ios/QMobileAPI.git" "HEAD"
+git "https://gitlab-4d.private.4d.fr/4d/qmobile/ios/QMobileDataStore.git" "HEAD"
+git "https://gitlab-4d.private.4d.fr/4d/qmobile/ios/QMobileAPI.git" "HEAD"
 
 github "nvzqz/FileKit" # file management
 

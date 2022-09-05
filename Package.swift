@@ -14,8 +14,8 @@ let package = Package(
         .library(name: "QMobileDataSync", targets: ["QMobileDataSync"]),
     ],
     dependencies: [
-        .package(url: "https://gitlab-4d.private.4d.fr/qmobile/ios/QMobileAPI.git", .revision("HEAD")),
-        .package(url: "https://gitlab-4d.private.4d.fr/qmobile/ios/QMobileDataStore.git", .revision("HEAD")),
+        .package(url: "https://gitlab-4d.private.4d.fr/4d/qmobile/ios/QMobileAPI.git", .revision("HEAD")),
+        .package(url: "https://gitlab-4d.private.4d.fr/4d/qmobile/ios/QMobileDataStore.git", .revision("HEAD")),
 
         .package(url: "https://github.com/nvzqz/FileKit.git", from: "6.0.0"),
 
