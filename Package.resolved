@@ -1,0 +1,95 @@
+{
+  "pins" : [
+    {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire.git",
+      "state" : {
+        "revision" : "78424be314842833c04bc3bef5b72e85fff99204",
+        "version" : "5.6.4"
+      }
+    },
+    {
+      "identity" : "filekit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nvzqz/FileKit.git",
+      "state" : {
+        "revision" : "9006d2888025fbe893c3c396327b2fe45a8c177b",
+        "version" : "6.1.0"
+      }
+    },
+    {
+      "identity" : "moya",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Moya/Moya.git",
+      "state" : {
+        "revision" : "c263811c1f3dbf002be9bd83107f7cdc38992b26",
+        "version" : "15.0.3"
+      }
+    },
+    {
+      "identity" : "prephirences",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/phimage/Prephirences.git",
+      "state" : {
+        "revision" : "333728f812c30e6e06519b06ed34cea75d9fc701",
+        "version" : "5.4.0"
+      }
+    },
+    {
+      "identity" : "qmobileapi",
+      "kind" : "remoteSourceControl",
+      "location" : "https://gitlab-4d.private.4d.fr/4d/qmobile/ios/QMobileAPI.git",
+      "state" : {
+        "branch" : "HEAD",
+        "revision" : "1b44ce531bd01784b59b82d6c105e0a29608d298"
+      }
+    },
+    {
+      "identity" : "qmobiledatastore",
+      "kind" : "remoteSourceControl",
+      "location" : "https://gitlab-4d.private.4d.fr/4d/qmobile/ios/QMobileDataStore.git",
+      "state" : {
+        "branch" : "HEAD",
+        "revision" : "cf961311116a7a34d167ccfaee98b7e7866a4cc7"
+      }
+    },
+    {
+      "identity" : "reactiveswift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ReactiveCocoa/ReactiveSwift.git",
+      "state" : {
+        "revision" : "c43bae3dac73fdd3cb906bd5a1914686ca71ed3c",
+        "version" : "6.7.0"
+      }
+    },
+    {
+      "identity" : "rxswift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ReactiveX/RxSwift.git",
+      "state" : {
+        "revision" : "b4307ba0b6425c0ba4178e138799946c3da594f8",
+        "version" : "6.5.0"
+      }
+    },
+    {
+      "identity" : "swiftyjson",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftyJSON/SwiftyJSON.git",
+      "state" : {
+        "revision" : "b3dcd7dbd0d488e1a7077cb33b00f2083e382f07",
+        "version" : "5.0.1"
+      }
+    },
+    {
+      "identity" : "xcglogger",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/DaveWoodCom/XCGLogger.git",
+      "state" : {
+        "revision" : "a9c4667b247928a29bdd41be2ec2c8d304215a54",
+        "version" : "7.0.1"
+      }
+    }
+  ],
+  "version" : 2
+}
