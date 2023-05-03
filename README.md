@@ -2,6 +2,8 @@
 
 This iOS framework synchronize the data from 4D database to the mobile database [QMobileDataStore](https://github.com/4d/ios-QMobileDataStore), by using [4D Rest API](https://developer.4d.com/docs/REST/gettingStarted) through [QMobileAPI](https://github.com/4d/ios-QMobileAPI)
 
+Part of [iOS SDK](https://github.com/4d/ios-sdk)
+
 ## How it work
 
 `DataSync` instance have some methods to synchronize (or reload) the data. 
