@@ -1,5 +1,5 @@
 github "4d/ios-QMobileDataStore" "HEAD"
-github "4d/ios-QMobileAPI "HEAD"
+github "4d/ios-QMobileAPI" "HEAD"
 
 github "nvzqz/FileKit" # file management
 
