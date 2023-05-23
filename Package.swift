@@ -14,8 +14,8 @@ let package = Package(
         .library(name: "QMobileDataSync", targets: ["QMobileDataSync"]),
     ],
     dependencies: [
-        .package(url: "https://gitlab-4d.private.4d.fr/4d/qmobile/ios/QMobileAPI.git", .revision("HEAD")),
-        .package(url: "https://gitlab-4d.private.4d.fr/4d/qmobile/ios/QMobileDataStore.git", .revision("HEAD")),
+        .package(url: "https://github.com/4d/ios-QMobileAPI.git", .revision("HEAD")),
+        .package(url: "https://github.com/4d/ios-QMobileDataStore.git", .revision("HEAD")),
 
         .package(url: "https://github.com/nvzqz/FileKit.git", from: "6.1.0"),
 
@@ -30,8 +30,8 @@ let package = Package(
         .target(
             name: "QMobileDataSync",
             dependencies: [
-                "QMobileAPI",
-                "QMobileDataStore",
+                .product(name: "QMobileAPI", package: "ios-QMobileAPI"),
+                .product(name: "QMobileDataStore", package: "ios-QMobileDataStore"),
                 "FileKit",
                 "XCGLogger",
                 "Alamofire",

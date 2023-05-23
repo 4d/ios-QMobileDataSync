@@ -19,6 +19,24 @@
       }
     },
     {
+      "identity" : "ios-qmobileapi",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/4d/ios-QMobileAPI.git",
+      "state" : {
+        "branch" : "HEAD",
+        "revision" : "89c5b8794ef838551bb65b9f761cf953d8b6781e"
+      }
+    },
+    {
+      "identity" : "ios-qmobiledatastore",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/4d/ios-QMobileDataStore.git",
+      "state" : {
+        "branch" : "HEAD",
+        "revision" : "6afaf001e78ec13f7f71795039d33440b2835238"
+      }
+    },
+    {
       "identity" : "moya",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Moya/Moya.git",
@@ -34,24 +52,6 @@
       "state" : {
         "revision" : "333728f812c30e6e06519b06ed34cea75d9fc701",
         "version" : "5.4.0"
-      }
-    },
-    {
-      "identity" : "qmobileapi",
-      "kind" : "remoteSourceControl",
-      "location" : "https://gitlab-4d.private.4d.fr/4d/qmobile/ios/QMobileAPI.git",
-      "state" : {
-        "branch" : "HEAD",
-        "revision" : "1b44ce531bd01784b59b82d6c105e0a29608d298"
-      }
-    },
-    {
-      "identity" : "qmobiledatastore",
-      "kind" : "remoteSourceControl",
-      "location" : "https://gitlab-4d.private.4d.fr/4d/qmobile/ios/QMobileDataStore.git",
-      "state" : {
-        "branch" : "HEAD",
-        "revision" : "cf961311116a7a34d167ccfaee98b7e7866a4cc7"
       }
     },
     {

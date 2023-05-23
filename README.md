@@ -12,10 +12,21 @@ Part of [iOS SDK](https://github.com/4d/ios-sdk)
 
 2/ Then at the end deleted records/entities are synchronized by getting data from table `__DeletedRecords`
 
-
 ## Dependencies
 
 | Name | License | Usefulness |
 |-|-|-|
 | [QMobileAPI](https://github.com/4d/ios-QMobileAPI) | [4D](https://github.com/4d/ios-QMobileAPI/blob/master/LICENSE.md) | Network api |
 | [QMobileDataStore](https://github.com/4d/ios-QMobileDataStore) | [4D](https://github.com/4d/ios-QMobileDataStore/blob/master/LICENSE.md) | Store data |
+
+## Build
+
+### Using Xcode project
+
+To download dependencies use `carthage checkout`
+
+then open workspace with Xcode and compile
+
+### Using swift package manager
+
+You can open [Package.swift](Package.swift) with Xcode and compile or launch standards command line for swift, see [build.sh](build.sh)

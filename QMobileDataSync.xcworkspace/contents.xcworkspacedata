@@ -8,10 +8,10 @@
       location = "container:"
       name = "QMobile">
       <FileRef
-         location = "group:Carthage/Checkouts/QMobileAPI/QMobileAPI.xcodeproj">
+         location = "group:Carthage/Checkouts/ios-QMobileAPI/QMobileAPI.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:Carthage/Checkouts/QMobileDataStore/QMobileDataStore.xcodeproj">
+         location = "group:Carthage/Checkouts/ios-QMobileDataStore/QMobileDataStore.xcodeproj">
       </FileRef>
    </Group>
    <Group
@@ -31,9 +31,6 @@
       </FileRef>
       <FileRef
          location = "group:Carthage/Checkouts/FileKit/FileKit.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:Carthage/Checkouts/BrightFutures/BrightFutures.xcodeproj">
       </FileRef>
       <FileRef
          location = "group:Carthage/Checkouts/Alamofire/Alamofire.xcodeproj">
