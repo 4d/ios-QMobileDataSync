@@ -265,10 +265,10 @@ extension DataSync {
                         }
                         if let filter = relationType.filter {
                             if let params = params {
-                                relationsInfo["__Query"]=[
+                                relationsInfo["__Query"] = [
                                     "queryString": filter,
                                     "settings": ["parameters": params]
-                                ]
+                                ] as [String : Any]
                             } else {
                                 relationsInfo["__Query"]=filter
                             }
