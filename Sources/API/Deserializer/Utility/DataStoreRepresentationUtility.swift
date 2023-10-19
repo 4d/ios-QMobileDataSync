@@ -120,7 +120,7 @@ class DataStoreRepresentationUtility {
         case "@\"NSDate\"":
             return false
         default:
-            logger.verbose("type \(type ?? "")")
+            // logger.verbose("type \(type ?? "")")
             return true
         }
     }
