@@ -363,7 +363,7 @@ extension DataSync {
         let future = self.syncDeletedRecods(in: context, operation: operation, startStamp: startStamp, endStamp: endStamp)
 
         future.onSuccess { deletedRecords in
-            context.perform(wait: true) {
+            context.perform(wait: false) {
                 self.deleteRecords(deletedRecords, in: context)
 
                 // store new stamp
