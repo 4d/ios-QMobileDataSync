@@ -38,13 +38,54 @@ extension QMobileDataStore.Record: DeletableRecord {
     }
 }
 
+extension Array {
+    func chunked(into size: Int) -> [[Element]] {
+        return stride(from: 0, to: count, by: size).map {
+            Array(self[$0 ..< Swift.min($0 + size, count)])
+        }
+    }
+}
+
 extension DataSync {
 
     // MARK: process completion callback
 
     /// Delete records defined by info provided by `DeletableRecord` objects.
     func deleteRecords(_ deletedRecords: [DeletableRecord], in context: DataStoreContext) {
-        for deletedRecord in deletedRecords {
+        if Prephirences.DataStore.bachDelete {
+            let deletedRecordsByTable: [String: [DeletableRecord]] = Dictionary(grouping: deletedRecords, by: { $0.tableName })
+
+            for (tableName, deletedRecordsOfTable) in deletedRecordsByTable {
+                guard let table = table(for: tableName), let tableInfo = self.tablesInfoByTable[table] else {
+                    logger.verbose("Unknown table \(tableName). Not managed table.")
+                    continue
+                }
+
+                let predicates = deletedRecordsOfTable.compactMap { $0.predicate(table: table) }
+                if predicates.isEmpty {
+                    logger.warning("Failed to delete \(deletedRecordsOfTable). Cannot get primary key and predicate to find it.")
+                    continue
+                }
+                for chunk in predicates.chunked(into: 100) {
+                    do {
+                        let predicate = NSCompoundPredicate(type: .or, subpredicates: Array(chunk))
+                        let result = try context.delete(in: tableInfo.name, matching: predicate)
+                        if result != chunk.count {
+                            if logger.isEnabledFor(level: .verbose) {
+                                logger.verbose("Record defined by \(chunk) has been deleted")
+                            }
+                        } else {
+                            logger.debug("Failed to delete some records: \(result) on \(chunk.count). Maybe already deleted.")
+                        }
+                    } catch {
+                        logger.warning("Failed to delete \(chunk). Maybe already deleted \(error)")
+                    }
+                }
+            }
+            return
+        }
+
+       for deletedRecord in deletedRecords {
             guard let table = table(for: deletedRecord.tableName), let tableInfo = self.tablesInfoByTable[table] else {
                 logger.verbose("Unknown record \(deletedRecord). Not managed table.")
                 continue
