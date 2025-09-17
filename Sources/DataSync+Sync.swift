@@ -361,7 +361,7 @@ extension DataSync {
                                       process: Process,
                                       _ completionHandler: @escaping SyncCompletionHandler) {
         let future = self.syncDeletedRecods(in: context, operation: operation, startStamp: startStamp, endStamp: endStamp)
-
+            .receive(on: self.defaultQueue)
         future.onSuccess { deletedRecords in
             context.perform(wait: false) {
                 self.deleteRecords(deletedRecords, in: context)
@@ -385,7 +385,7 @@ extension DataSync {
             }
         }
         .onFailure { error in
-            context.perform(wait: true) {
+            context.perform(wait: false) {
                 if let restErrors = error.restErrors, restErrors.match(.entity_not_found) {
                     logger.error("The table \(DeletedRecordKey.entityName) do not exist. Deleted record will not be removed from this mobile application. Please update your struture")
 
@@ -469,8 +469,9 @@ extension DataSync {
                         logger.debug("Load table data from cache data files success")
 
                         let future = this.syncDeletedRecods(in: context, operation: operation, startStamp: 0, endStamp: stamp)
+                            .receive(on: self.defaultQueue)
                         future.onSuccess { deletedRecords in
-                            context.perform(wait: true) {
+                            context.perform(wait: false) {
                                 this.deleteRecords(deletedRecords, in: context)
 
                                 // finally flush the context.
