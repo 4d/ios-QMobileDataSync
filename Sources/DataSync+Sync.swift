@@ -341,15 +341,17 @@ extension DataSync {
                 processCompletion()
                 return
             }
-            switch result {
-            case .success(let stamp):
-                self.syncProcessCompletionSuccess(in: context, operation: operation, startStamp: startStamp, endStamp: stamp, process: process, completionHandler)
-            case .failure(let error):
-                if case .onCompletion = self.saveMode {
-                    context.rollback()
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let stamp):
+                    self.syncProcessCompletionSuccess(in: context, operation: operation, startStamp: startStamp, endStamp: stamp, process: process, completionHandler)
+                case .failure(let error):
+                    if case .onCompletion = self.saveMode {
+                        context.rollback()
+                    }
+                    completionHandler(.failure(DataSyncError.apiError(error)))
+                    processCompletion()
                 }
-                completionHandler(.failure(DataSyncError.apiError(error)))
-                processCompletion()
             }
         }
     }
@@ -361,7 +363,7 @@ extension DataSync {
                                       process: Process,
                                       _ completionHandler: @escaping SyncCompletionHandler) {
         let future = self.syncDeletedRecods(in: context, operation: operation, startStamp: startStamp, endStamp: endStamp)
-            .receive(on: self.defaultQueue)
+         // .receive(on: self.defaultQueue)
         future.onSuccess { deletedRecords in
             context.perform(wait: false) {
                 self.deleteRecords(deletedRecords, in: context)
@@ -469,7 +471,7 @@ extension DataSync {
                         logger.debug("Load table data from cache data files success")
 
                         let future = this.syncDeletedRecods(in: context, operation: operation, startStamp: 0, endStamp: stamp)
-                            .receive(on: this.defaultQueue)
+                        // .receive(on: this.defaultQueue)
                         future.onSuccess { deletedRecords in
                             context.perform(wait: false) {
                                 this.deleteRecords(deletedRecords, in: context)
