@@ -469,7 +469,7 @@ extension DataSync {
                         logger.debug("Load table data from cache data files success")
 
                         let future = this.syncDeletedRecods(in: context, operation: operation, startStamp: 0, endStamp: stamp)
-                            .receive(on: self.defaultQueue)
+                            .receive(on: this.defaultQueue)
                         future.onSuccess { deletedRecords in
                             context.perform(wait: false) {
                                 this.deleteRecords(deletedRecords, in: context)
