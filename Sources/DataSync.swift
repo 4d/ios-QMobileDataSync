@@ -24,7 +24,7 @@ public class DataSync {
     /// Mobile data store
     public var dataStore: DataStore
 
-    public var defaultQueue: DispatchQueue? = DispatchQueue(label: "DataSync", attributes: .concurrent)
+    public var defaultQueue: DispatchQueue = DispatchQueue(label: "DataSync", attributes: .concurrent)
 
     public static var schedulerQueue: DispatchQueue = DispatchQueue(label: "DataSyncLauncher")
     var bag = Set<AnyCancellable>()
